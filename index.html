@@ -684,6 +684,18 @@
   .ecole-hero .eh-k { font-size:11px; font-weight:900; letter-spacing:.9px; text-transform:uppercase; color:var(--ec); }
   .ecole-hero h3 { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:28px; line-height:1.05; margin:8px 0 6px; text-transform:uppercase; position:relative; }
   .ecole-hero .eh-s { font-size:13px; color:#ffffffb0; position:relative; }
+
+  /* ================= v17 : carte plus propre ================= */
+  #compteurs { flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; margin-right:-12px; padding-right:12px;
+    -webkit-mask-image:linear-gradient(90deg,#000 88%,transparent); mask-image:linear-gradient(90deg,#000 88%,transparent); }
+  #compteurs::-webkit-scrollbar { display:none; }
+  #compteurs .pastille { flex:none; font-size:12.5px; padding:6px 11px; }
+  .leaflet-control-attribution { font-size:7.5px !important; opacity:.45; background:none !important; }
+  .cache-lbl { visibility:hidden !important; }
+  .repere span { opacity:.85; }
+  .nomrue span { font-size:10.5px; opacity:.8; }
+  body:not(.zoom-16) .ecole-nom.lycee { display:none; }
+  body:not(.zoom-proche) .ecole-nom.fac { display:none; }
 </style>
 </head>
 <body>
@@ -997,6 +1009,7 @@ function majNoms(){
     L.marker(ll, { interactive:false, keyboard:false, zIndexOffset:-2000, icon:L.divIcon({ className:'nomrue', iconSize:[0,0],
       html:'<span style="transform:translate(-50%,-50%) rotate('+n[3]+'deg);color:'+T.nom+';text-shadow:0 0 2px '+T.halo+',0 0 3px '+T.halo+',0 0 4px '+T.halo+'">'+esc(n[0])+'</span>' }) }).addTo(nomsCalque);
   }
+  desencombrerBientot();
 }
 carte.on('zoomend moveend', majNoms);
 
@@ -1023,8 +1036,8 @@ function majCouches(){
   document.querySelectorAll('.st-nom').forEach(function(el){ el.style.display = z >= 15 ? 'flex' : 'none'; });
   if (couches.sante) calqueSante.addTo(carte); else carte.removeLayer(calqueSante);
   if (couches.sante && z >= 16) calquePharma.addTo(carte); else carte.removeLayer(calquePharma);
-  if (calqueEcoles) { if (couches.ecoles && z >= 13) calqueEcoles.addTo(carte); else carte.removeLayer(calqueEcoles); }
-  document.body.classList.toggle('zoom-14', z >= 14);
+  if (calqueEcoles) { if (couches.ecoles && z >= 14) calqueEcoles.addTo(carte); else carte.removeLayer(calqueEcoles); }
+  document.body.classList.toggle('zoom-14', z >= 14); document.body.classList.toggle('zoom-16', z >= 16);
   if (planRendu) planRendu._update();
 }
 carte.on('zoomend', majCouches);
@@ -1111,6 +1124,7 @@ function pinHtml(type, extra){
 
 // ===================== AFFICHAGE DES DONNÉES =====================
 function visible(p){ var g=(TYPES[p.type]||TYPES.info).g; return filtre==='tout' || (filtre==='danger' ? g==='danger' : g!=='danger'); }
+function ageIcone(p){ var a = maintenant() - p.ts; return a > VIEUX_MIN*60000 ? 'v' : a < 3*60000 ? 'n' : 'm'; }
 function iconePour(p){
   var t = TYPES[p.type] || TYPES.info;
   var vieux = (maintenant() - p.ts) > VIEUX_MIN*60000, neuf = (maintenant() - p.ts) < 3*60000;
@@ -1140,7 +1154,7 @@ function appliquer(json){
     presents[p.id] = true;
     if (nouveau('p'+p.id) && !premierChargement) nouveaux++;
     var cle = p.id + '|' + p.ts + '|' + p.vehicules + '|' + filtre + '|' + (p.type==='info' ? p.note : '');
-    if (marqueurs[p.id] && marqueurs[p.id]._cle === cle) { marqueurs[p.id].setIcon(iconePour(p)); return; }
+    if (marqueurs[p.id] && marqueurs[p.id]._cle === cle) { if (marqueurs[p.id]._age !== ageIcone(p)) { marqueurs[p.id].setIcon(iconePour(p)); marqueurs[p.id]._age = ageIcone(p); } return; }
     if (marqueurs[p.id]) carte.removeLayer(marqueurs[p.id]);
     if (zones[p.id]) { carte.removeLayer(zones[p.id]); delete zones[p.id]; }
     if (!visible(p)) { delete marqueurs[p.id]; return; }
@@ -1148,13 +1162,13 @@ function appliquer(json){
       fillColor:'#ff3b4e', fillOpacity:.14, interactive:false }).addTo(carte);
     var m = L.marker([p.lat, p.lng], { icon:iconePour(p), zIndexOffset: (TYPES[p.type]||{}).g==='danger' ? 500 : 0 })
       .addTo(carte).on('click', function(){ ouvrirDetail(p.id); });
-    m._cle = cle; marqueurs[p.id] = m;
+    m._cle = cle; m._age = ageIcone(p); marqueurs[p.id] = m;
   });
   Object.keys(marqueurs).forEach(function(id){ if(!presents[id]){ carte.removeLayer(marqueurs[id]); delete marqueurs[id]; } });
   Object.keys(zones).forEach(function(id){ if(!presents[id] || !marqueurs[id]){ carte.removeLayer(zones[id]); delete zones[id]; } });
   if (nouveaux) { toast('Nouveau signalement sur la carte' + (nouveaux>1?' (' + nouveaux + ')':'')); sonAJouer = 'ding'; }
 
-  majEvenements();
+  majEvenements(); desencombrerBientot();
   // --- Tracés ---
   calqueTraces.clearLayers();
   etat.traces.forEach(function(t){ dessinerTrace(t, calqueTraces); });
@@ -1271,7 +1285,9 @@ function majHorloge(){
   $('maj').textContent = s < 25 ? 'LIVE' : (s<60 ? s+' S' : Math.floor(s/60)+' MIN');
   if (charger.echecs) majReseau(charger.enCours);
   if (s > 90) $('point-direct').classList.add('hs');
-  etat.points.forEach(function(p){ if(marqueurs[p.id]) marqueurs[p.id].setIcon(iconePour(p)); });
+  var change = false;
+  etat.points.forEach(function(p){ if (marqueurs[p.id] && marqueurs[p.id]._age !== ageIcone(p)) { marqueurs[p.id].setIcon(iconePour(p)); marqueurs[p.id]._age = ageIcone(p); change = true; } });
+  if (change) desencombrerBientot();
   majTicker();
 }
 function charger(){
@@ -2360,6 +2376,31 @@ function sauverMaintenance(){
 
 
 
+
+// ===================== V17 : désencombrement des étiquettes =====================
+// Après chaque mouvement, on cache les étiquettes qui se chevauchent (les plus utiles gardent la place)
+// et celles qui passent sous l'en-tête ou les boutons.
+var ORDRE_LBL = ['.evt-etiq', '.info-etiq', '.st-nom', '.ecole-nom.fac', '.ecole-nom.lycee', '.repere span', '.nomrue span'];
+function desencombrer(){
+  var pris = [];
+  document.querySelectorAll('#haut .barre > *, #ticker.vu, #compteurs .pastille, #flottants button, #onglets, .leaflet-marker-icon .pin, .evt-pin .ep-c, #carte .station, #carte .hosto').forEach(function(el){
+    var r = el.getBoundingClientRect(); if (r.width) pris.push(r); });
+  var H = window.innerHeight, W = window.innerWidth;
+  ORDRE_LBL.forEach(function(sel){
+    document.querySelectorAll('#carte ' + sel).forEach(function(el){
+      el.classList.remove('cache-lbl');
+      var r = el.getBoundingClientRect(); if (!r.width) return;
+      if (r.right < 0 || r.left > W || r.bottom < 0 || r.top > H) return;
+      if (r.left < 2 || r.right > W - 2) { el.classList.add('cache-lbl'); return; }
+      var m = 3, gene = pris.some(function(q){ return r.left < q.right + m && r.right > q.left - m && r.top < q.bottom + m && r.bottom > q.top - m; });
+      if (gene) el.classList.add('cache-lbl'); else pris.push(r);
+    });
+  });
+}
+var desencT = 0;
+function desencombrerBientot(){ clearTimeout(desencT); desencT = setTimeout(desencombrer, 300); }
+carte.on('moveend zoomend', desencombrerBientot);
+
 // ===================== V16 : LYCÉES ET FACS (bâtiments 2D) =====================
 // Données : ecoles.json (Overture Maps / OpenStreetMap). Chaque bâtiment est dessiné à plat avec un petit
 // « mur » décalé dessous pour donner du relief. Lycées en jaune, facs et écoles sup en violet.
@@ -2387,7 +2428,7 @@ function dessinerEcoles(){
     L.marker(e.c, { interactive:false, keyboard:false, pane:'markerPane', zIndexOffset:-300,
       icon:L.divIcon({ className:'', iconSize:[0,0], html:'<div class="ecole-nom '+e.k+'">'+esc(nomCourt(e.n))+'</div>' }) }).addTo(calqueEcoles);
   });
-  majCouches();
+  majCouches(); desencombrerBientot();
 }
 function ouvrirEcole(i){
   var e = ECOLES[i]; if (!e) return; var C = COUL_EC[e.k];
