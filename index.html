@@ -621,6 +621,56 @@
   .info-carte.vieille { filter:saturate(.5); }
   .info-modeles { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 2px; }
   .info-modeles button { background:#4f7cff1c; border:1px solid #4f7cff55; color:#cdd9ff; border-radius:14px; padding:6px 10px; font-size:12.5px; font-weight:600; }
+
+  /* ================= v15 : événements ================= */
+  .evt-pin { position:relative; width:46px; height:52px; }
+  .evt-pin .ep-c { position:absolute; left:0; top:0; width:46px; height:46px; border-radius:14px; background:#121217; border:2.5px solid var(--ec);
+    box-shadow:0 0 0 2px #fff, 0 6px 18px color-mix(in srgb, var(--ec) 60%, transparent); overflow:hidden; display:flex; flex-direction:column; align-items:center; }
+  .evt-pin .ep-m { width:100%; background:var(--ec); color:#000; font-size:8.5px; font-weight:900; text-align:center; letter-spacing:.4px; line-height:13px; text-transform:uppercase; white-space:nowrap; overflow:hidden; }
+  .evt-pin .ep-e { font-size:20px; line-height:30px; }
+  .evt-pin::after { content:""; position:absolute; left:17px; top:43px; border:6px solid transparent; border-top:8px solid var(--ec); }
+  .evt-pin.live .ep-c { animation:evt-live 1.6s ease-in-out infinite; }
+  @keyframes evt-live { 50% { box-shadow:0 0 0 2px #fff, 0 0 0 9px color-mix(in srgb, var(--ec) 35%, transparent), 0 6px 18px #0008; } }
+  .evt-pin .ep-live { position:absolute; top:-8px; right:-12px; background:#ff3b4e; color:#fff; font-size:8.5px; font-weight:900; padding:2px 5px; border-radius:6px; letter-spacing:.4px; box-shadow:0 2px 6px #0008; }
+  .evt-etiq { position:absolute; left:50px; top:6px; width:max-content; max-width:160px; font-size:12px; font-weight:800; color:#fff; text-shadow:0 1px 3px #000, 0 0 8px #000; line-height:1.2; pointer-events:none; }
+  body:not(.zoom-proche) .evt-etiq { display:none; }
+  .pastille.evt-chip { border-color:color-mix(in srgb, var(--ec) 60%, transparent) !important; color:#fff; }
+  .pastille.evt-chip b { color:var(--ec); font-weight:800; }
+  .evt-hero { position:relative; overflow:hidden; border-radius:24px; padding:20px 18px 18px; margin:0 0 12px;
+    background:linear-gradient(150deg, color-mix(in srgb, var(--ec) 55%, #121217), #121217 75%); border:1px solid color-mix(in srgb, var(--ec) 50%, transparent); }
+  .evt-hero::before { content:""; position:absolute; right:-40px; top:-40px; width:180px; height:180px; border-radius:50%; background:radial-gradient(circle, color-mix(in srgb, var(--ec) 50%, transparent), transparent 70%); }
+  .evt-hero > * { position:relative; }
+  .evt-hero .eh-top { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .evt-cat { font-size:11px; font-weight:900; letter-spacing:.9px; text-transform:uppercase; padding:5px 10px; border-radius:20px; background:#0006; color:#fff; }
+  .evt-etat { font-size:11px; font-weight:900; letter-spacing:.6px; padding:5px 10px; border-radius:20px; background:#ffffff1f; color:#fff; }
+  .evt-etat.live { background:#ff3b4e; animation:sp-live 1.4s infinite; }
+  .evt-hero .eh-e { font-size:54px; line-height:1; margin:14px 0 8px; filter:drop-shadow(0 6px 16px #0008); }
+  .evt-hero h3 { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:34px; line-height:1.02; margin:0 0 12px; text-transform:uppercase; }
+  .evt-infos { display:grid; gap:8px; }
+  .evt-infos > div { display:flex; align-items:center; gap:10px; background:#0005; border-radius:14px; padding:10px 12px; font-size:14.5px; font-weight:600; }
+  .evt-infos > div > span { font-size:18px; } .evt-infos small { display:block; color:#ffffffaa; font-weight:600; font-size:12px; }
+  .evt-compte { display:flex; gap:6px; margin-top:12px; }
+  .evt-compte div { flex:1; text-align:center; background:#0006; border-radius:12px; padding:8px 0; }
+  .evt-compte b { display:block; font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; } .evt-compte span { font-size:10px; font-weight:800; letter-spacing:.6px; color:#ffffffaa; text-transform:uppercase; }
+  .evt-desc { font-size:15px; line-height:1.5; color:#e6e6ea; background:var(--s2); border-radius:16px; padding:12px 14px; margin-bottom:12px; white-space:pre-wrap; }
+  .agenda-jour { font-size:11.5px; font-weight:900; letter-spacing:.9px; text-transform:uppercase; color:var(--doux); margin:14px 2px 6px; }
+  .agenda-jour:first-child { margin-top:4px; }
+  .evt-ligne { display:flex; align-items:stretch; gap:12px; width:100%; text-align:left; background:var(--s2); border-radius:18px; padding:10px; margin-bottom:8px; border:1px solid #ffffff0d; position:relative; overflow:hidden; }
+  .evt-ligne::before { content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--ec); }
+  .evt-ligne .el-d { flex:none; width:52px; border-radius:12px; background:color-mix(in srgb, var(--ec) 20%, #121217); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px 0; }
+  .evt-ligne .el-d b { font-size:19px; font-weight:800; line-height:1.1; } .evt-ligne .el-d span { font-size:10px; font-weight:900; color:var(--ec); text-transform:uppercase; letter-spacing:.5px; }
+  .evt-ligne .el-t { flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; }
+  .evt-ligne .el-t b { font-size:15.5px; line-height:1.25; } .evt-ligne .el-t small { color:var(--doux); font-size:12.5px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .evt-ligne .el-e { flex:none; font-size:26px; align-self:center; }
+  .evt-ligne.live { border-color:#ff3b4e88; } .evt-ligne.passe { opacity:.5; }
+  .evt-ligne .el-live { color:#ff6b78; font-weight:900; }
+  .evt-cats { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+  .evt-cats button { background:var(--s2); border:2px solid transparent; border-radius:14px; padding:9px 4px; font-size:12px; font-weight:700; color:#ddd; display:flex; flex-direction:column; align-items:center; gap:3px; }
+  .evt-cats button span { font-size:22px; }
+  .evt-cats button.sel { border-color:var(--ec); background:color-mix(in srgb, var(--ec) 18%, #1b1b21); color:#fff; }
+  .evt-heures { display:grid; grid-template-columns:1fr 1fr; gap:8px; } .evt-heures #ev-jour { grid-column:1 / -1; } .evt-heures label { font-size:11px; color:var(--doux); font-weight:700; display:block; margin-bottom:3px; }
+  .evt-heures input { width:100%; min-width:0; }
+  .evt-lieu-ok { display:flex; align-items:center; gap:8px; font-size:13px; color:#8ff0c2; font-weight:700; margin-top:6px; }
 </style>
 </head>
 <body>
@@ -1089,6 +1139,7 @@ function appliquer(json){
   Object.keys(zones).forEach(function(id){ if(!presents[id] || !marqueurs[id]){ carte.removeLayer(zones[id]); delete zones[id]; } });
   if (nouveaux) { toast('Nouveau signalement sur la carte' + (nouveaux>1?' (' + nouveaux + ')':'')); sonAJouer = 'ding'; }
 
+  majEvenements();
   // --- Tracés ---
   calqueTraces.clearLayers();
   etat.traces.forEach(function(t){ dessinerTrace(t, calqueTraces); });
@@ -1195,6 +1246,7 @@ function majCompteurs(){
   if (surs) c.push('<span class="pastille verre" onclick="ouvrirListe(\'sur\')" style="color:#8ff0c2"><i style="background:#16c784"></i>'+surs+' sûr'+(surs>1?'s':'')+'</span>');
   if (medics) c.push('<span class="pastille verre" onclick="ouvrirAutour()" style="color:#8ff0c2"><i style="background:#16c784"></i>'+medics+' medic'+(medics>1?'s':'')+'</span>');
   if (attente) c.push('<span class="pastille verre" onclick="ouvrirMedics()" style="color:#ff9aa5;border-color:#ff3b4e"><i style="background:#ff3b4e"></i>'+attente+' blessé'+(attente>1?'s':'')+' en attente</span>');
+  var pe = pastilleEvt(); if (pe) c.push(pe);
   if (filtre !== 'tout') c.push('<span class="pastille verre" style="color:#ff5caa">Filtre : '+(filtre==='danger'?'à éviter':'sûr')+'</span>');
   $('compteurs').innerHTML = c.join('');
 }
@@ -1290,7 +1342,7 @@ function dessinerInfos(rafraichir, focusId){
   if (rafraichir && enEdition()) return;
   var liste = messagesInfos().slice().sort(function(a,b){ return (b.epingle?1:0) - (a.epingle?1:0); });
   var h = entete('Infos', 'Tout ce qu\'il faut savoir, en direct.');
-  h += carteResume() + annoncesActives();
+  h += carteResume() + agendaInfos() + annoncesActives();
   h += '<div class="onglets-i"><button class="'+(ongletInfos==='messages'?'sel':'')+'" onclick="ongletInfos=\'messages\';dessinerInfos(true)">💬 Messages</button><button class="'+(ongletInfos==='fil'?'sel':'')+'" onclick="ongletInfos=\'fil\';dessinerInfos(true)">🕑 Fil d\'activité</button></div>';
   if (ongletInfos === 'fil') {
     var ev = evenementsFil();
@@ -1482,7 +1534,7 @@ var cible = null, brouillon = null;
 function modeAide(html){ $('aide').innerHTML = html; }
 function commencerPlacement(c){
   fermer(); cible = c; document.body.classList.add('placement');
-  var txt = { deplacer:'le nouvel emplacement du point', point:'l\'endroit à signaler', blesse:'l\'endroit où se trouve la personne blessée', position:'ta position actuelle' }[c];
+  var txt = { evt:'le lieu de l\'événement', deplacer:'le nouvel emplacement du point', point:'l\'endroit à signaler', blesse:'l\'endroit où se trouve la personne blessée', position:'ta position actuelle' }[c];
   modeAide('Déplace la carte pour mettre l\'épingle sur <b>'+txt+'</b>, puis « Ici ».' + (c!=='position' ? '<br><span style="color:#9b9ba8">Astuce : un appui long sur la carte marche aussi.</span>' : ''));
   $('barre-mode').innerHTML = '<button class="btn plein verre" onclick="annulerModes()">Annuler</button><button class="btn rose plein" onclick="placerIci()">'+ic('position')+'Ici</button>';
 }
@@ -1492,6 +1544,7 @@ function placerA(lat, lng){
   if (cible === 'point') { brouillon = { lat:lat, lng:lng, type:null, vehicules:1 }; formulaire(); }
   else if (cible === 'blesse') { brouillon = { lat:lat, lng:lng, gravite:'moyen', note:'' }; formulaireBlesse(); }
   else if (cible === 'deplacer' && aDeplacer) { serveur('modifierPoint', etat.mdp, aDeplacer, { lat:lat, lng:lng }).then(function(j){ appliquer(j); toast('Point déplacé'); }).catch(erreurEquipe); aDeplacer = null; }
+  else if (cible === 'evt' && brouillonEvt) { brouillonEvt.lat = lat; brouillonEvt.lng = lng; formulaireEvt(); }
   else if (cible === 'position') { partage.mode = 'manuel'; partage.lat = lat; partage.lng = lng; demarrerPartage(); }
 }
 carte.on('contextmenu', function(e){
@@ -2170,6 +2223,7 @@ function dessinerGestion(rafraichir){
   h += '</div>';
   // Outils
   h += '<label class="l">Outils</label>'
+    + '<div class="rangee" style="margin-top:0"><button class="btn plein" onclick="gererEvenements()">📅 Événements'+(evtsVisibles().length ? ' <b style="color:#ff8cc4">· '+evtsVisibles().length+'</b>' : '')+'</button></div>'
     + '<div class="rangee" style="margin-top:0"><button class="btn plein" onclick="ouvrirMaintenance()">🛠️ Maintenance'+(cfg.maintenance?' <b style="color:#ffae3b">· ON</b>':'')+'</button><button class="btn plein" onclick="ouvrirBilan()">📊 Bilan</button></div>'
     + '<div class="rangee"><button class="btn plein" onclick="ouvrirQR()">🔳 QR code</button><button class="btn plein" onclick="ouvrirReflexes()">🛡️ Réflexes</button></div>'
     + '<div class="rangee"><button class="btn plein" onclick="copierResume()">📋 Copier un résumé</button><button class="btn plein" onclick="partagerAppli()">'+ic('partage')+'Partager</button></div>'
@@ -2286,6 +2340,176 @@ function sauverMaintenance(){
     if (on && !(etat.config && etat.config.maintenance)) { toast('Ton serveur Google doit être mis à jour pour la maintenance (voir le message de Claude)'); return; }
     dessinerGestion(); toast(on ? 'Maintenance activée' : 'Carte de nouveau visible pour tous');
   }).catch(function(e){ if ($('mt-go')) { $('mt-go').disabled = false; $('mt-go').textContent = 'Enregistrer'; } erreurEquipe(e); });
+}
+
+
+// ===================== V15 : ÉVÉNEMENTS =====================
+// Stockés dans la config du serveur (champ "evenements", texte JSON). Pas d'expiration ni de confirmation :
+// un événement reste jusqu'à sa fin, puis disparaît tout seul.
+var CATS_EVT = {
+  manif:   { nom:'Manif',          e:'✊', c:'#ff5caa' },
+  rassemb: { nom:'Rassemblement',  e:'📣', c:'#ff9f1c' },
+  ag:      { nom:'AG / réunion',   e:'🗣️', c:'#4f7cff' },
+  action:  { nom:'Action',         e:'⚡', c:'#ff3b4e' },
+  fete:    { nom:'Soirée / concert', e:'🎉', c:'#a35cff' },
+  autre:   { nom:'Autre',          e:'📅', c:'#16c784' }
+};
+var JOURS_C = ['dim','lun','mar','mer','jeu','ven','sam'], MOIS_C = ['janv','févr','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'];
+var evtMarqueurs = {}, brouillonEvt = null, evtMinuteur = null;
+function evenements(){
+  var l = []; try { l = JSON.parse((etat.config||{}).evenements || '[]'); } catch(e){}
+  return (l || []).filter(function(v){ return v && v.id && v.debut; }).sort(function(a,b){ return a.debut - b.debut; });
+}
+function finEvt(v){ return v.fin || (v.debut + 3*3600000); }
+function etatEvt(v){ var n = maintenant(); return n > finEvt(v) ? 'passe' : n >= v.debut ? 'live' : 'avenir'; }
+function evtsVisibles(){ return evenements().filter(function(v){ return etatEvt(v) !== 'passe'; }); }
+function jourEvt(ts){ var d = new Date(ts), a = new Date(); a.setHours(0,0,0,0); var k = Math.round((new Date(ts).setHours(0,0,0,0) - a)/86400000);
+  return k === 0 ? 'Aujourd\'hui' : k === 1 ? 'Demain' : d.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' }).replace(/^./, function(c){ return c.toUpperCase(); }); }
+function heuresEvt(v){ return heure(v.debut) + (v.fin ? ' → ' + heure(v.fin) : ''); }
+function compteEvt(v){
+  var ms = v.debut - maintenant(); if (ms < 0) ms = 0;
+  var j = Math.floor(ms/86400000), h = Math.floor(ms%86400000/3600000), m = Math.floor(ms%3600000/60000), sc = Math.floor(ms%60000/1000);
+  return j ? [[j,'jours'],[h,'heures'],[m,'min']] : [[h,'heures'],[m,'min'],[sc,'sec']];
+}
+function iconeEvt(v){
+  var C = CATS_EVT[v.cat] || CATS_EVT.autre, d = new Date(v.debut), live = etatEvt(v) === 'live';
+  return L.divIcon({ className:'', iconSize:[46,52], iconAnchor:[23,54],
+    html:'<div class="evt-pin'+(live?' live':'')+'" style="--ec:'+C.c+'"><div class="ep-c"><div class="ep-m">'+(live ? 'live' : JOURS_C[d.getDay()]+' '+heure(v.debut))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div></div>'
+      + '<div class="evt-etiq">'+esc(v.titre)+'</div></div>' });
+}
+function majEvenements(){
+  var vus2 = {};
+  evtsVisibles().forEach(function(v){
+    if (v.lat === undefined || v.lat === null) return;
+    vus2[v.id] = 1;
+    var cle = JSON.stringify(v) + etatEvt(v);
+    if (evtMarqueurs[v.id] && evtMarqueurs[v.id]._cle === cle) return;
+    if (evtMarqueurs[v.id]) carte.removeLayer(evtMarqueurs[v.id]);
+    evtMarqueurs[v.id] = L.marker([v.lat, v.lng], { icon:iconeEvt(v), zIndexOffset:700 }).on('click', function(){ ouvrirEvt(v.id); }).addTo(carte);
+    evtMarqueurs[v.id]._cle = cle;
+  });
+  Object.keys(evtMarqueurs).forEach(function(id){ if (!vus2[id]) { carte.removeLayer(evtMarqueurs[id]); delete evtMarqueurs[id]; } });
+}
+function pastilleEvt(){
+  var l = evtsVisibles(); if (!l.length) return '';
+  var v = l[0], C = CATS_EVT[v.cat] || CATS_EVT.autre, live = etatEvt(v) === 'live';
+  if (!live && v.debut - maintenant() > 7*86400000) return '';
+  return '<span class="pastille verre evt-chip" style="--ec:'+C.c+'" onclick="ouvrirEvt(\''+v.id+'\')">'+esc(v.emoji||C.e)+' <b>'+(live ? 'EN COURS' : (jourEvt(v.debut) === 'Aujourd\'hui' ? heure(v.debut) : JOURS_C[new Date(v.debut).getDay()] + ' ' + heure(v.debut)))+'</b> '+esc(v.titre.length > 22 ? v.titre.slice(0,21)+'…' : v.titre)+(l.length > 1 ? ' <span style="opacity:.6">+'+(l.length-1)+'</span>' : '')+'</span>';
+}
+function ligneEvt(v, admin){
+  var C = CATS_EVT[v.cat] || CATS_EVT.autre, d = new Date(v.debut), st = etatEvt(v);
+  return '<button class="evt-ligne '+st+'" style="--ec:'+C.c+'" onclick="'+(admin ? 'editerEvt' : 'ouvrirEvt')+'(\''+v.id+'\')">'
+    + '<div class="el-d"><span>'+JOURS_C[d.getDay()]+'</span><b>'+d.getDate()+'</b><span>'+MOIS_C[d.getMonth()]+'</span></div>'
+    + '<div class="el-t"><b>'+esc(v.titre)+'</b><small>'+(st==='live' ? '<span class="el-live">● En cours</span> · ' : '')+heuresEvt(v)+(v.lieu ? ' · '+esc(v.lieu) : '')+'</small></div>'
+    + '<div class="el-e">'+(admin ? '✏️' : esc(v.emoji||C.e))+'</div></button>';
+}
+function listeAgenda(l, admin){
+  var h = '', jour = '';
+  l.forEach(function(v){ var j = jourEvt(v.debut); if (j !== jour) { jour = j; h += '<div class="agenda-jour">'+j+'</div>'; } h += ligneEvt(v, admin); });
+  return h;
+}
+function agendaInfos(){
+  var l = evtsVisibles(); if (!l.length) return '';
+  return '<label class="l">Événements</label>' + listeAgenda(l.slice(0,3), false)
+    + (l.length > 3 ? '<button class="btn plein" style="margin-bottom:8px" onclick="ouvrirAgenda()">Voir les '+l.length+' événements</button>' : '');
+}
+function ouvrirAgenda(){
+  var l = evtsVisibles();
+  ouvrir(entete('📅 Agenda', 'Les prochains rendez-vous de la lutte à Lyon.')
+    + (l.length ? listeAgenda(l, false) : '<div class="vide">Aucun événement prévu pour le moment.</div>'), 'agenda');
+}
+function ouvrirEvt(id){
+  var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
+  var C = CATS_EVT[v.cat] || CATS_EVT.autre, st = etatEvt(v);
+  var h = '<div class="entete-f" style="margin-bottom:6px"><div></div><button class="fermer" onclick="fermer()" aria-label="Fermer">'+ic('fermer')+'</button></div>'
+    + '<div class="evt-hero" style="--ec:'+C.c+'"><div class="eh-top"><span class="evt-cat">'+C.nom+'</span><span class="evt-etat'+(st==='live'?' live':'')+'">'+(st==='live' ? '● EN COURS' : st==='passe' ? 'TERMINÉ' : 'À VENIR')+'</span></div>'
+    + '<div class="eh-e">'+esc(v.emoji||C.e)+'</div><h3>'+esc(v.titre)+'</h3>'
+    + '<div class="evt-infos"><div><span>📅</span><div>'+jourEvt(v.debut)+'<small>'+heuresEvt(v)+'</small></div></div>'
+    + (v.lieu ? '<div><span>📍</span><div>'+esc(v.lieu)+'</div></div>' : '') + '</div>'
+    + (st === 'avenir' ? '<div class="evt-compte" id="evt-compte">'+htmlCompte(v)+'</div>' : '')
+    + '</div>'
+    + (v.texte ? '<div class="evt-desc">'+esc(v.texte)+'</div>' : '')
+    + '<div class="rangee">'
+    + (v.lat !== undefined && v.lat !== null ? '<button class="btn plein" onclick="fermer();carte.flyTo(['+v.lat+','+v.lng+'],16)">'+ic('carte')+'Sur la carte</button><a class="btn plein" target="_blank" href="https://maps.apple.com/?daddr='+v.lat+','+v.lng+'&dirflg=w">'+ic('fleche')+'Y aller</a>' : '')
+    + '</div><div class="rangee"><button class="btn rose plein" onclick="partagerEvt(\''+v.id+'\')">'+ic('partage')+'Partager l\'événement</button></div>'
+    + (estAdmin() ? '<div class="rangee"><button class="btn plein" onclick="editerEvt(\''+v.id+'\')">✏️ Modifier</button></div>' : '');
+  ouvrir(h, 'evt');
+  clearInterval(evtMinuteur);
+  if (st === 'avenir') evtMinuteur = setInterval(function(){ var el = $('evt-compte'); if (!el || $('feuille').dataset.vue !== 'evt') return clearInterval(evtMinuteur); el.innerHTML = htmlCompte(v); }, 1000);
+}
+function htmlCompte(v){ return compteEvt(v).map(function(x){ return '<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'; }).join(''); }
+function partagerEvt(id){
+  var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
+  var t = (v.emoji || (CATS_EVT[v.cat]||CATS_EVT.autre).e) + ' ' + v.titre + '\n📅 ' + jourEvt(v.debut) + ' · ' + heuresEvt(v) + (v.lieu ? '\n📍 ' + v.lieu : '') + (v.texte ? '\n\n' + v.texte : '') + '\n\nCarte en direct : ' + (urlAppli || '');
+  if (navigator.share) navigator.share({ text:t }).catch(function(){}); else { try { navigator.clipboard.writeText(t); toast('Copié'); } catch(e){} }
+}
+// ----- Admin -----
+function gererEvenements(){
+  var tous = evenements(), avenir = tous.filter(function(v){ return etatEvt(v) !== 'passe'; }), passes = tous.length - avenir.length;
+  ouvrir(entete('📅 Événements', 'Ils restent sur la carte et dans l\'agenda jusqu\'à leur fin, sans rien confirmer. Ensuite ils disparaissent tout seuls.')
+    + '<div class="rangee" style="margin-top:4px"><button class="btn rose plein" onclick="nouvelEvt()">'+ic('plus')+'Nouvel événement</button></div>'
+    + (avenir.length ? listeAgenda(avenir, true) : '<div class="vide" style="padding:14px">Aucun événement à venir.</div>')
+    + (passes ? '<div class="sous" style="margin-top:6px">'+passes+' événement'+(passes>1?'s':'')+' terminé'+(passes>1?'s':'')+', retiré'+(passes>1?'s':'')+' automatiquement au prochain enregistrement.</div>' : '')
+    + '<div class="rangee"><button class="btn plein" onclick="dessinerGestion()">Retour</button></div>', 'evt-gestion');
+}
+function isoJour(ts){ var d = new Date(ts); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function isoHeure(ts){ var d = new Date(ts); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+function nouvelEvt(){
+  var d = new Date(Date.now()+86400000); d.setHours(18,0,0,0);
+  brouillonEvt = { id:null, cat:'rassemb', emoji:'', titre:'', jour:isoJour(d), hDebut:'18:00', hFin:'', lieu:'', texte:'', lat:null, lng:null };
+  formulaireEvt();
+}
+function editerEvt(id){
+  var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
+  brouillonEvt = { id:v.id, cat:v.cat||'autre', emoji:v.emoji||'', titre:v.titre, jour:isoJour(v.debut), hDebut:isoHeure(v.debut), hFin:v.fin ? isoHeure(v.fin) : '', lieu:v.lieu||'', texte:v.texte||'', lat:v.lat, lng:v.lng };
+  formulaireEvt();
+}
+function lireFormEvt(){ if (!$('ev-titre')) return; var b = brouillonEvt;
+  b.titre = $('ev-titre').value; b.jour = $('ev-jour').value; b.hDebut = $('ev-deb').value; b.hFin = $('ev-fin').value; b.lieu = $('ev-lieu').value; b.texte = $('ev-txt').value; }
+function formulaireEvt(){
+  var b = brouillonEvt, C = CATS_EVT[b.cat] || CATS_EVT.autre;
+  var h = entete(b.id ? 'Modifier l\'événement' : 'Nouvel événement', 'Enregistré directement, visible par tout le monde.')
+    + '<label class="l">Type</label><div class="evt-cats">' + Object.keys(CATS_EVT).map(function(k){ var c = CATS_EVT[k];
+        return '<button class="'+(b.cat===k?'sel':'')+'" style="--ec:'+c.c+'" onclick="lireFormEvt();brouillonEvt.cat=\''+k+'\';formulaireEvt()"><span>'+c.e+'</span>'+c.nom+'</button>'; }).join('') + '</div>'
+    + '<label class="l">Nom de l\'événement</label><input id="ev-titre" maxlength="60" placeholder="ex : Rassemblement contre la loi" value="'+esc(b.titre)+'">'
+    + '<label class="l">Quand</label><div class="evt-heures"><input id="ev-jour" type="date" value="'+esc(b.jour)+'"><div><label>Début</label><input id="ev-deb" type="time" value="'+esc(b.hDebut)+'"></div><div><label>Fin (facultatif)</label><input id="ev-fin" type="time" value="'+esc(b.hFin)+'"></div></div>'
+    + '<div class="sous" style="margin:4px 0 0">Jour, début, fin (la fin est facultative : sinon il disparaît 3 h après le début).</div>'
+    + '<label class="l">Lieu</label><input id="ev-lieu" maxlength="60" placeholder="ex : Place Bellecour" value="'+esc(b.lieu)+'">'
+    + '<div class="rangee" style="margin-top:8px"><button class="btn plein" onclick="lireFormEvt();commencerPlacement(\'evt\')">'+ic('position')+(b.lat !== null && b.lat !== undefined ? 'Changer l\'endroit' : 'Placer sur la carte')+'</button>'
+    + (b.lat !== null && b.lat !== undefined ? '<button class="btn plein" onclick="lireFormEvt();brouillonEvt.lat=null;brouillonEvt.lng=null;formulaireEvt()">Retirer de la carte</button>' : '') + '</div>'
+    + (b.lat !== null && b.lat !== undefined ? '<div class="evt-lieu-ok">✓ Placé sur la carte</div>' : '')
+    + '<label class="l">Détails (facultatif)</label><textarea id="ev-txt" maxlength="400" placeholder="Ce qu\'il faut savoir : parcours, quoi ramener, contacts publics…">'+esc(b.texte)+'</textarea>'
+    + '<div class="rangee"><button class="btn plein" onclick="gererEvenements()">Retour</button><button class="btn rose plein" id="ev-go" onclick="sauverEvt()">'+(b.id ? 'Enregistrer' : 'Publier')+'</button></div>'
+    + (b.id ? '<div class="rangee"><button class="btn rouge plein" onclick="supprimerEvt(\''+b.id+'\')">Supprimer l\'événement</button></div>' : '');
+  if (['evt-form'].indexOf($('feuille').dataset.vue) >= 0) rafraichirFeuille(h); else ouvrir(h, 'evt-form');
+}
+function enregistrerEvts(liste, msg){
+  var n = maintenant();
+  liste = liste.filter(function(v){ return finEvt(v) > n - 86400000; }).slice(-40);
+  var txt = JSON.stringify(liste);
+  if (txt.length > 6500) return Promise.reject('Trop d\'événements, supprime-en quelques-uns');
+  return serveur('majConfig', etat.mdp, { evenements: txt }).then(function(j){
+    appliquer(j);
+    if ((etat.config || {}).evenements !== txt) { toast('Ton serveur Google doit être mis à jour pour les événements (voir le message de Claude)'); return; }
+    toast(msg); gererEvenements();
+  });
+}
+function sauverEvt(){
+  lireFormEvt(); var b = brouillonEvt;
+  if (!b.titre.trim()) { $('ev-titre').focus(); return toast('Donne un nom à l\'événement'); }
+  if (!b.jour || !b.hDebut) return toast('Choisis le jour et l\'heure');
+  var debut = new Date(b.jour + 'T' + b.hDebut).getTime(), fin = b.hFin ? new Date(b.jour + 'T' + b.hFin).getTime() : 0;
+  if (fin && fin <= debut) fin += 86400000;
+  var C = CATS_EVT[b.cat] || CATS_EVT.autre;
+  var v = { id: b.id || ('e' + Date.now().toString(36)), cat:b.cat, emoji:C.e, titre:b.titre.trim().slice(0,60), debut:debut, lieu:b.lieu.trim().slice(0,60), texte:b.texte.trim().slice(0,400) };
+  if (fin) v.fin = fin;
+  if (b.lat !== null && b.lat !== undefined) { v.lat = Math.round(b.lat*1e5)/1e5; v.lng = Math.round(b.lng*1e5)/1e5; }
+  var l = evenements().filter(function(x){ return x.id !== v.id; }); l.push(v);
+  $('ev-go').disabled = true; $('ev-go').textContent = '…';
+  enregistrerEvts(l, b.id ? 'Événement modifié' : 'Événement publié 🎉').catch(function(e){ if ($('ev-go')) { $('ev-go').disabled = false; $('ev-go').textContent = 'Réessayer'; } erreurEquipe(e); });
+}
+function supprimerEvt(id){
+  enregistrerEvts(evenements().filter(function(x){ return x.id !== id; }), 'Événement supprimé').catch(erreurEquipe);
 }
 
 // ----- QR code -----
