@@ -496,6 +496,43 @@
   input, textarea, select { border-radius:14px !important; }
   /* Toast */
   #toast { border-radius:20px !important; }
+
+  /* ================= v12 : en-tête en pastilles + barre du bas ancrée ================= */
+  #haut { padding:calc(var(--haut) + 6px) 12px 0; }
+  .barre.verre { background:none; border:0; box-shadow:none; -webkit-backdrop-filter:none; backdrop-filter:none; padding:0; gap:8px; }
+  #titre { flex:none; margin-right:auto; padding:0 16px 0 10px; height:44px; border-radius:22px; font-size:19px; pointer-events:auto;
+           background:rgba(14,14,19,.78); -webkit-backdrop-filter:blur(20px) saturate(1.8); backdrop-filter:blur(20px) saturate(1.8);
+           border:1px solid rgba(255,255,255,.1); box-shadow:0 8px 24px rgba(0,0,0,.45); }
+  #titre::before { width:30px; height:30px; border-radius:50%; background:var(--grad); -webkit-mask:none; mask:none; filter:none; box-shadow:0 0 12px #ff3d8b88;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23fff' d='M32 54C32 54 16 37 16 27a16 16 0 0 1 32 0C48 37 32 54 32 54zm0-21a6 6 0 1 0 0-12 6 6 0 0 0 0 12z'/%3E%3C/svg%3E"), var(--grad);
+    background-size:20px 20px, cover; background-position:center; background-repeat:no-repeat; }
+  #direct { height:32px; display:flex; align-items:center; border-radius:16px; box-shadow:0 6px 18px rgba(0,0,0,.4); }
+  #role-badge { height:32px; line-height:32px; padding:0 12px; border-radius:16px; font-size:10.5px; vertical-align:middle; }
+  #direct { padding:0 11px; background:rgba(14,14,19,.78); -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px); border:1px solid rgba(255,59,78,.35); color:#ff6b78; }
+  #btn-son { width:44px; height:44px; background:rgba(14,14,19,.78); -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,.1); box-shadow:0 8px 24px rgba(0,0,0,.45); }
+  /* Message épinglé / dernier message : carte compacte avec icône */
+  #ticker.vu { display:grid; grid-template-columns:38px 1fr; column-gap:11px; align-items:center; }
+  #ticker { margin-top:8px; padding:9px 12px 9px 9px; border-radius:18px; background:rgba(14,14,19,.8); }
+  #ticker::before { display:none; }
+  #tk-ic { grid-row:1 / span 2; width:38px; height:38px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:19px; background:rgba(79,124,255,.18); }
+  #ticker.epingle #tk-ic { background:rgba(255,92,170,.2); } #ticker.important #tk-ic { background:rgba(255,159,28,.2); } #ticker.urgent #tk-ic { background:rgba(255,59,78,.3); }
+  #ticker .t1 { font-size:10px; margin:0 0 1px; } #ticker .t2 { font-size:14px; line-height:1.3; -webkit-line-clamp:1; }
+  #ticker.epingle .t1 { color:#ff8cc4; } #ticker.important .t1 { color:#ffb85c; } #ticker.urgent .t1 { color:#ff8792; }
+  /* Barre du bas : ancrée en bas d'écran, bouton central surélevé */
+  #onglets { left:0; right:0; bottom:0; border-radius:26px 26px 0 0; padding:8px 10px calc(var(--bas) + 8px); gap:0;
+             background:rgba(12,12,17,.9); border:0; border-top:1px solid rgba(255,255,255,.09); box-shadow:0 -10px 30px rgba(0,0,0,.45); }
+  #onglets::after { content:""; position:absolute; left:0; right:0; top:100%; height:200px; background:rgba(12,12,17,.98); }
+  .onglet { padding:6px 2px 4px; border-radius:16px; color:#8e8e9c; font-size:10.5px; gap:4px; }
+  .onglet svg.ic { width:24px; height:24px; }
+  .onglet.fort, .onglet.fort.vert { background:none; box-shadow:none; color:#ff8cc4; }
+  .onglet.fort.vert { color:#3ee0a0; }
+  .onglet.fort svg.ic { width:58px; height:58px; padding:16px; margin:-30px 0 0; border-radius:50%; color:#fff; background:var(--grad);
+    border:4px solid #0c0c11; box-shadow:0 8px 22px #ff3d8b77, inset 0 1px 0 rgba(255,255,255,.35); }
+  .onglet.fort.vert svg.ic { background:linear-gradient(135deg,#1ee39a,#0fae6f); box-shadow:0 8px 22px #16c78477, inset 0 1px 0 rgba(255,255,255,.35); }
+  .onglet.fort:active svg.ic { transform:scale(.94); } .onglet.fort:active { background:none; transform:none; }
+  .onglet .badge { top:0; }
+  #flottants { bottom:calc(var(--bas) + 96px); }
+  #barre-mode { bottom:calc(var(--bas) + 12px); z-index:1100; }
 </style>
 </head>
 <body>
@@ -518,7 +555,7 @@
     <div id="direct"><span id="point-direct"></span><span id="maj">…</span></div>
     <button id="btn-son" onclick="basculerSon()" aria-label="Son"></button>
   </div>
-  <button id="ticker" class="verre" onclick="ouvrirInfos()"><div class="t1"><span id="tk-niv"></span><span id="tk-age"></span></div><div class="t2" id="tk-txt"></div></button>
+  <button id="ticker" class="verre" onclick="ouvrirInfos()"><span id="tk-ic">📌</span><div class="t1"><span id="tk-niv"></span><span id="tk-age"></span></div><div class="t2" id="tk-txt"></div></button>
   <div id="compteurs"></div>
 </div>
 
@@ -1050,6 +1087,7 @@ function majTicker(){
   $('tk-niv').textContent = (m.epingle && m !== urg ? '📌 Épinglé' : NIVEAUX[m.niveau]) + (publics.length>1 ? ' · ' + publics.length + ' messages' : '');
   $('tk-age').textContent = age(m.ts);
   $('tk-txt').textContent = m.texte;
+  $('tk-ic').textContent = (m === urg) ? '🚨' : m.epingle ? '📌' : m.niveau === 'important' ? '❗' : '💬';
 }
 function majCompteurs(){
   var police = 0, vehic = 0, nasses = 0, surs = 0;
