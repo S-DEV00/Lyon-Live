@@ -373,6 +373,7 @@
   .refl.rouge { border-color:#ff3b4e55; background:linear-gradient(160deg,#ff3b4e1c,var(--s2) 60%); }
   .refl.bleu { border-color:#4f7cff55; background:linear-gradient(160deg,#4f7cff1c,var(--s2) 60%); }
   .refl.vert { border-color:#16c78455; background:linear-gradient(160deg,#16c7841c,var(--s2) 60%); }
+  .grille-titre { font-size:12px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; color:var(--doux); margin:14px 2px 8px; }
   .langue { display:flex; gap:6px; background:#ffffff10; border-radius:14px; padding:4px; margin-bottom:12px; }
   .langue button { flex:1; border:0; border-radius:10px; padding:9px; font:inherit; font-weight:700; background:transparent; color:var(--doux); }
   .langue button.sel { background:var(--rose); color:#fff; }
@@ -576,12 +577,27 @@ var TYPES = {
   bloque:   { nom:'Rue bloquée',           g:'danger' },
   lacrymo:  { nom:'Gaz lacrymo',           g:'danger' },
   danger:   { nom:'Danger / groupe hostile', g:'danger' },
+  canon:    { nom:'Canon à eau',           g:'danger' },
+  civils:   { nom:'Policiers en civil',    g:'danger' },
+  interpel: { nom:'Interpellations',       g:'danger' },
+  drone:    { nom:'Drone / hélico',        g:'danger' },
+  feu:      { nom:'Feu / fumée',           g:'danger' },
+  metrofer: { nom:'Métro / tram fermé',    g:'danger' },
   medic:    { nom:'Poste medic',           g:'sur' },
   eau:      { nom:'Eau / sérum phy',       g:'sur' },
   rdv:      { nom:'Point de rendez-vous',  g:'sur' },
   sortie:   { nom:'Sortie sûre',           g:'sur' },
+  abri:     { nom:'Abri / lieu sûr',       g:'sur' },
+  legal:    { nom:'Legal team',            g:'sur' },
+  toilettes:{ nom:'Toilettes',             g:'sur' },
+  recharge: { nom:'Recharge téléphone',    g:'sur' },
+  bouffe:   { nom:'Ravitaillement',        g:'sur' },
+  pmr:      { nom:'Accès PMR / calme',     g:'sur' },
   sauvage:  { nom:'Manif sauvage',         g:'info', c:'orange' },
   tete:     { nom:'Tête de cortège',       g:'info' },
+  fin:      { nom:'Fin / dispersion',      g:'info' },
+  presse:   { nom:'Presse',                g:'info' },
+  musique:  { nom:'Sono / batucada',       g:'info' },
   info:     { nom:'Info',                  g:'info' }
 };
 var COULEURS_G = { danger:'#ff3b4e', sur:'#16c784', info:'#4f7cff' };
@@ -868,7 +884,8 @@ function serveur(fn){
   return req.then(function(r){ return r.json(); }, function(){ throw 'Hors ligne'; })
     .then(function(d){ if (!d || !d.ok) throw (d && d.e) || 'Erreur serveur'; return d.r; });
 }
-var EMOJI = { police:'🚓', controle:'👮', nasse:'🔒', bloque:'🚧', lacrymo:'💨', danger:'⚠️', medic:'⛑️', eau:'💧', rdv:'📍', sortie:'🚪', tete:'📣', sauvage:'⚡', info:'ℹ️', blesse:'🤕' };
+var EMOJI = { police:'🚓', controle:'👮', nasse:'🔒', bloque:'🚧', lacrymo:'💨', danger:'⚠️', medic:'⛑️', eau:'💧', rdv:'📍', sortie:'🚪', tete:'📣', sauvage:'⚡', info:'ℹ️', blesse:'🤕',
+  canon:'🚿', civils:'🕵️', interpel:'🚨', drone:'🚁', feu:'🔥', metrofer:'⛔', abri:'🏠', legal:'⚖️', toilettes:'🚻', recharge:'🔋', bouffe:'🥪', pmr:'♿', fin:'🏁', presse:'📷', musique:'🥁' };
 function emo(type){ return '<span class="emo">'+(EMOJI[type]||'ℹ️')+'</span>'; }
 function pinHtml(type, extra){
   var t = TYPES[type] || TYPES.info;
@@ -1270,7 +1287,7 @@ function quitterEquipe(){
   Object.keys(blessesM).forEach(function(id){ carte.removeLayer(blessesM[id]); }); blessesM = {};
   fermer(); dessinerOnglets(); charger();
 }
-function erreurEquipe(e){ toast(e); if (/mot de passe/i.test(e)) quitterEquipe(); }
+function erreurEquipe(e){ if (/Type inconnu/.test(e)) e = 'Nouveau type de point : ton serveur Google doit être mis à jour (voir le message de Claude)'; toast(e); if (/mot de passe/i.test(e)) quitterEquipe(); }
 function menuPlus(){
   ouvrir(entete(estAdmin() ? 'Admin' : 'Medic', etat.pseudo ? 'Connecté·e : '+esc(etat.pseudo) : 'Connecté·e')
     + '<div class="rangee"><button class="btn plein" onclick="ouvrirLegende()">'+ic('carte')+'Carte</button><button class="btn plein" onclick="ouvrirConseils()">'+ic('bouclier')+'Conseils</button></div>'
@@ -1311,10 +1328,15 @@ carte.on('contextmenu', function(e){
 // ----- Points -----
 function typesAutorises(){ return estAdmin() ? Object.keys(TYPES) : ['medic','eau']; }
 function formulaire(){
-  var h = entete('Nouveau point', 'Qu\'est-ce que tu signales ?') + '<div class="grille">';
-  typesAutorises().forEach(function(k){ var t=TYPES[k];
-    h += '<button class="choix'+(brouillon.type===k?' sel':'')+'" onclick="choisir(\''+k+'\')"><span class="pt" style="background:'+COULEURS_G[t.g]+'">'+emo(k)+'</span>'+esc(t.nom)+'</button>'; });
-  h += '</div>';
+  var h = entete('Nouveau point', 'Qu\'est-ce que tu signales ?'), aut = typesAutorises();
+  [['danger','🔴 À éviter'],['sur','🟢 Sûr / aide'],['info','🔵 Infos']].forEach(function(G){
+    var ks = aut.filter(function(k){ return TYPES[k].g === G[0]; }); if (!ks.length) return;
+    if (aut.length > 4) h += '<div class="grille-titre">'+G[1]+'</div>';
+    h += '<div class="grille">';
+    ks.forEach(function(k){ var t=TYPES[k];
+      h += '<button class="choix'+(brouillon.type===k?' sel':'')+'" onclick="choisir(\''+k+'\')"><span class="pt" style="background:'+COULEURS_G[t.g]+'">'+emo(k)+'</span>'+esc(t.nom)+'</button>'; });
+    h += '</div>';
+  });
   if (brouillon.type && TYPES[brouillon.type].vehicules)
     h += '<label class="l">Nombre de véhicules</label><div class="stepper"><button onclick="pasB(-1)">−</button><output id="vehB">'+brouillon.vehicules+'</output><button onclick="pasB(1)">+</button></div>';
   h += '<label class="l">Précision (facultatif)</label><textarea id="note" maxlength="200" placeholder="ex : 2 camions + une dizaine d\'agents">'+esc(brouillon.note||'')+'</textarea>'
@@ -1984,7 +2006,8 @@ var LANGUE = lireLS('langue10') || 'fr';
 var EN = { 'HORS LIGNE':'OFFLINE', 'Réseau saturé':'Network overloaded', 'Connexion difficile':'Weak connection', 'Dernières infos : ':'Last update: ', 'nouvel essai…':'retrying…', 'touche pour réessayer':'tap to retry',
   'Infos':'News', 'Carte':'Map', 'Autour':'Nearby', 'Conseils':'Tips', 'Équipe':'Team' };
 function tr(s){ return (LANGUE === 'en' && EN[s]) || s; }
-var TYPES_EN = { police:'Police / riot police', controle:'ID check / search', nasse:'Kettling risk', bloque:'Blocked street', lacrymo:'Tear gas', danger:'Danger / hostile group', medic:'Medic post', eau:'Water / saline', rdv:'Meeting point', sortie:'Safe exit', sauvage:'Wildcat march', tete:'Front of the march', info:'Info' };
+var TYPES_EN = { police:'Police / riot police', controle:'ID check / search', nasse:'Kettling risk', bloque:'Blocked street', lacrymo:'Tear gas', danger:'Danger / hostile group', medic:'Medic post', eau:'Water / saline', rdv:'Meeting point', sortie:'Safe exit', sauvage:'Wildcat march', tete:'Front of the march', info:'Info',
+  canon:'Water cannon', civils:'Plainclothes police', interpel:'Arrests', drone:'Drone / helicopter', feu:'Fire / smoke', metrofer:'Metro / tram closed', abri:'Shelter / safe place', legal:'Legal team', toilettes:'Toilets', recharge:'Phone charging', bouffe:'Food & drinks', pmr:'Accessible / quiet area', fin:'End / dispersal', presse:'Press', musique:'Sound system / drums' };
 var TRACES_EN = { cortege:'March route', repli:'Escape route', sauvage:'Wildcat march (route)', bloque:'Blocked / avoid' };
 var PHASES_EN = { avant:'Before the start', encours:'March in progress', pause:'March stopped', dispersion:'Dispersal', fin:'March over' };
 function appliquerLangue(){
