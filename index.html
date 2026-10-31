@@ -671,6 +671,19 @@
   .evt-heures { display:grid; grid-template-columns:1fr 1fr; gap:8px; } .evt-heures #ev-jour { grid-column:1 / -1; } .evt-heures label { font-size:11px; color:var(--doux); font-weight:700; display:block; margin-bottom:3px; }
   .evt-heures input { width:100%; min-width:0; }
   .evt-lieu-ok { display:flex; align-items:center; gap:8px; font-size:13px; color:#8ff0c2; font-weight:700; margin-top:6px; }
+
+  /* ================= v16 : lycées et facs en bâtiments 2D ================= */
+  .leaflet-ecoles-pane canvas { filter:drop-shadow(0 2px 3px rgba(0,0,0,.35)); }
+  .ecole-nom { position:absolute; transform:translate(-50%,-150%); white-space:nowrap; pointer-events:none; font-weight:800; font-size:11px; letter-spacing:.2px;
+    padding:2px 7px; border-radius:8px; font-size:10.5px; color:#1a1300; background:#ffcc33; box-shadow:0 2px 8px #0009; border:1px solid #fff6; }
+  .ecole-nom.fac { background:#b07cff; color:#fff; }
+  body:not(.zoom-proche) .ecole-nom.lycee { display:none; }
+  body.zoom-loin .ecole-nom.fac, body:not(.zoom-14) .ecole-nom.fac { display:none; }
+  .ecole-hero { border-radius:22px; padding:18px; margin-bottom:12px; position:relative; overflow:hidden; background:linear-gradient(150deg, color-mix(in srgb, var(--ec) 45%, #121217), #121217 80%); border:1px solid color-mix(in srgb, var(--ec) 55%, transparent); }
+  .ecole-hero svg { position:absolute; right:-8px; bottom:-10px; width:120px; height:120px; opacity:.22; }
+  .ecole-hero .eh-k { font-size:11px; font-weight:900; letter-spacing:.9px; text-transform:uppercase; color:var(--ec); }
+  .ecole-hero h3 { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:28px; line-height:1.05; margin:8px 0 6px; text-transform:uppercase; position:relative; }
+  .ecole-hero .eh-s { font-size:13px; color:#ffffffb0; position:relative; }
 </style>
 </head>
 <body>
@@ -819,7 +832,7 @@ var etat = { points:[], traces:[], messages:[], medics:[], blesses:[], decalage:
 if (!etat.mdp) etat.role = '';
 var vus = {}; try { vus = JSON.parse(lireLS('vus6') || '{}'); } catch(e){}
 var premierChargement = true, filtre = 'tout';
-var couches = { metro: lireLS('c_metro') !== '0', sante: lireLS('c_sante') !== '0' };
+var couches = { metro: lireLS('c_metro') !== '0', sante: lireLS('c_sante') !== '0', ecoles: lireLS('c_ecoles') !== '0' };
 var marqueurs = {}, zones = {}, bulles = {}, medicsM = {}, blessesM = {};
 function estAdmin(){ return etat.role === 'admin'; }
 function estMedic(){ return etat.role === 'medic'; }
@@ -1010,6 +1023,8 @@ function majCouches(){
   document.querySelectorAll('.st-nom').forEach(function(el){ el.style.display = z >= 15 ? 'flex' : 'none'; });
   if (couches.sante) calqueSante.addTo(carte); else carte.removeLayer(calqueSante);
   if (couches.sante && z >= 16) calquePharma.addTo(carte); else carte.removeLayer(calquePharma);
+  if (calqueEcoles) { if (couches.ecoles && z >= 13) calqueEcoles.addTo(carte); else carte.removeLayer(calqueEcoles); }
+  document.body.classList.toggle('zoom-14', z >= 14);
   if (planRendu) planRendu._update();
 }
 carte.on('zoomend', majCouches);
@@ -1381,6 +1396,7 @@ function ouvrirLegende(){
     + '</div><label class="l">Calques</label><div class="puces">'
     + '<button class="'+(couches.metro?'sel':'')+'" onclick="basculerCouche(\'metro\')">Métro</button>'
     + '<button class="'+(couches.sante?'sel':'')+'" onclick="basculerCouche(\'sante\')">Hôpitaux & pharmacies</button>'
+    + '<button class="'+(couches.ecoles?'sel':'')+'" onclick="basculerCouche(\'ecoles\')">Lycées & facs</button>'
     + '</div><label class="l">Fond de carte</label><div class="puces">'
     + Object.keys(FONDS).map(function(k){ return '<button class="'+(fondNom===k?'sel':'')+'" onclick="changerFond(\''+k+'\')">'+FONDS[k].nom+'</button>'; }).join('')
     + '</div><label class="l">Signalements</label>';
@@ -2342,6 +2358,54 @@ function sauverMaintenance(){
   }).catch(function(e){ if ($('mt-go')) { $('mt-go').disabled = false; $('mt-go').textContent = 'Enregistrer'; } erreurEquipe(e); });
 }
 
+
+
+// ===================== V16 : LYCÉES ET FACS (bâtiments 2D) =====================
+// Données : ecoles.json (Overture Maps / OpenStreetMap). Chaque bâtiment est dessiné à plat avec un petit
+// « mur » décalé dessous pour donner du relief. Lycées en jaune, facs et écoles sup en violet.
+var ECOLES = null, calqueEcoles = null;
+var COUL_EC = { lycee:{ toit:'#ffcc33', mur:'#9a7300', bord:'#fff2b8', nom:'Lycée' }, fac:{ toit:'#b07cff', mur:'#5a32a3', bord:'#e6d6ff', nom:'Université / école supérieure' } };
+function nomCourt(n){
+  return n.replace(/^Lycée (général|professionnel|polyvalent|technologique|des métiers)( (et|privé) (technologique|général))?( privé)?\s*/i, 'Lycée ')
+    .replace(/^Lycée privé /i, 'Lycée ').replace(/^Université Lumière - /, '').replace(/^Université Jean Moulin - /, '').replace(/ - Site /, ' · ').slice(0, 34);
+}
+function chargerEcoles(){
+  fetch('ecoles.json?v=1').then(function(r){ return r.json(); }).then(function(d){ ECOLES = d; dessinerEcoles(); }).catch(function(){});
+}
+function dessinerEcoles(){
+  if (!ECOLES || calqueEcoles) return;
+  var pane = carte.createPane('ecoles'); pane.style.zIndex = 350;
+  var rend = L.canvas({ pane:'ecoles', padding:.4 }), lab = L.layerGroup();
+  calqueEcoles = L.layerGroup();
+  var dy = -0.000028, dx = 0.000018;
+  ECOLES.forEach(function(e){ var C = COUL_EC[e.k];
+    e.z.forEach(function(z){ L.polygon(z, { renderer:rend, pane:'ecoles', color:C.toit, weight:1.5, dashArray:'5 5', opacity:.75, fillColor:C.toit, fillOpacity:.07, interactive:false }).addTo(calqueEcoles); }); });
+  ECOLES.forEach(function(e){ var C = COUL_EC[e.k];
+    e.b.forEach(function(b){ L.polygon(b.map(function(p){ return [p[0]+dy, p[1]+dx]; }), { renderer:rend, pane:'ecoles', stroke:false, fillColor:C.mur, fillOpacity:1, interactive:false }).addTo(calqueEcoles); }); });
+  ECOLES.forEach(function(e, i){ var C = COUL_EC[e.k];
+    e.b.forEach(function(b){ L.polygon(b, { renderer:rend, pane:'ecoles', color:C.bord, weight:1, opacity:.9, fillColor:C.toit, fillOpacity:1 }).on('click', function(){ ouvrirEcole(i); }).addTo(calqueEcoles); });
+    L.marker(e.c, { interactive:false, keyboard:false, pane:'markerPane', zIndexOffset:-300,
+      icon:L.divIcon({ className:'', iconSize:[0,0], html:'<div class="ecole-nom '+e.k+'">'+esc(nomCourt(e.n))+'</div>' }) }).addTo(calqueEcoles);
+  });
+  majCouches();
+}
+function ouvrirEcole(i){
+  var e = ECOLES[i]; if (!e) return; var C = COUL_EC[e.k];
+  var proches = etat.points.filter(function(p){ return carte.distance([p.lat,p.lng], e.c) < 300; });
+  var dang = proches.filter(function(p){ return (TYPES[p.type]||{}).g === 'danger'; });
+  var h = '<div class="entete-f" style="margin-bottom:6px"><div></div><button class="fermer" onclick="fermer()" aria-label="Fermer">'+ic('fermer')+'</button></div>'
+    + '<div class="ecole-hero" style="--ec:'+C.toit+'"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6M9 11h.01M15 11h.01"/></svg>'
+    + '<div class="eh-k">'+C.nom+'</div><h3>'+esc(e.n)+'</h3>'
+    + '<div class="eh-s">'+(dang.length ? '⚠️ '+dang.length+' signalement'+(dang.length>1?'s':'')+' à éviter à moins de 300 m' : '✓ Aucun signalement à éviter à moins de 300 m')+'</div></div>'
+    + '<div class="rangee"><a class="btn plein" target="_blank" href="https://maps.apple.com/?daddr='+e.c[0]+','+e.c[1]+'&dirflg=w">'+ic('fleche')+'Y aller à pied</a>'
+    + '<button class="btn plein" onclick="fermer();carte.flyTo(['+e.c[0]+','+e.c[1]+'],17)">'+ic('carte')+'Zoomer</button></div>'
+    + (estAdmin() ? '<div class="rangee"><button class="btn rose plein" onclick="evtDepuisEcole('+i+')">📅 Créer un événement ici</button></div>' : '');
+  ouvrir(h, 'ecole');
+}
+function evtDepuisEcole(i){ var e = ECOLES[i]; var d = new Date(Date.now()+86400000);
+  brouillonEvt = { id:null, cat:'action', emoji:'', titre:'Blocus ' + nomCourt(e.n).replace(/^Lycée /,''), jour:isoJour(d), hDebut:'07:30', hFin:'', lieu:nomCourt(e.n), texte:'', lat:e.c[0], lng:e.c[1] };
+  formulaireEvt(); }
+setTimeout(chargerEcoles, 1500);
 
 // ===================== V15 : ÉVÉNEMENTS =====================
 // Stockés dans la config du serveur (champ "evenements", texte JSON). Pas d'expiration ni de confirmation :
