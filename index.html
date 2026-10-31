@@ -907,6 +907,7 @@ function appliquer(json){
   var d = typeof json === 'string' ? JSON.parse(json) : json;
   etat.decalage = d.maintenant - Date.now();
   ['points','traces','messages','medics','blesses','popups'].forEach(function(k){ etat[k] = d[k] || []; });
+  etat.points.forEach(function(p){ var m = /^\[([a-z]+)\] ?/.exec(p.note || ''); if (m && TYPES[m[1]]) { p.type = m[1]; p.note = p.note.slice(m[0].length); } });
   etat.config = d.config || {};
   etat.derniereMaj = Date.now();
   majMaintenance(); noterJournal();
@@ -1349,7 +1350,14 @@ function pasB(n){ brouillon.vehicules=Math.max(0,Math.min(99,brouillon.vehicules
 function pas(n){ var o=$('veh'); o.textContent=Math.max(0,Math.min(99,(+o.textContent)+n)); }
 function publier(){
   brouillon.note = $('note').value; brouillon.par = etat.pseudo; $('pub').textContent='…'; $('pub').disabled = true;
-  serveur('ajouterPoint', etat.mdp, brouillon).then(function(j){ vus['p'+'_'] = 1; fermer(); var d=JSON.parse(j); d.points.forEach(function(p){ vus['p'+p.id]=1; }); appliquer(d); toast('Point publié'); })
+  // Si le serveur ne connaît pas encore ce type, on l'enregistre comme "danger"/"rdv"/"info" avec le vrai type caché dans la note.
+  var ANCIENS = ['police','controle','nasse','bloque','lacrymo','danger','medic','eau','rdv','sortie','tete','sauvage','info'];
+  var envoi = brouillon;
+  if (ANCIENS.indexOf(brouillon.type) < 0) {
+    var g = TYPES[brouillon.type].g;
+    envoi = Object.assign({}, brouillon, { type: g === 'danger' ? 'danger' : g === 'sur' ? 'rdv' : 'info', note: '[' + brouillon.type + '] ' + (brouillon.note || '') });
+  }
+  serveur('ajouterPoint', etat.mdp, envoi).then(function(j){ vus['p'+'_'] = 1; fermer(); var d=JSON.parse(j); d.points.forEach(function(p){ vus['p'+p.id]=1; }); appliquer(d); toast('Point publié'); })
     .catch(function(e){ $('pub').textContent='Publier'; $('pub').disabled=false; erreurEquipe(e); });
 }
 function confirmerPt(id){
