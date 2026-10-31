@@ -84,7 +84,8 @@
   #ticker.epingle::before { background:var(--rose); }
   #ticker.urgent { background:rgba(60,8,14,.88); } #ticker.urgent::before { background:var(--danger); }
   #ticker .t1 { font-size:10.5px; color:var(--doux); font-weight:800; letter-spacing:.6px; text-transform:uppercase; margin-bottom:3px; display:flex; justify-content:space-between; }
-  #ticker .t2 { font-size:15px; font-weight:600; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  #ticker .t2 { font-size:15px; font-weight:600; line-height:1.3; }
+  .info-etiq span { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
   #compteurs { margin-top:8px; display:flex; gap:6px; flex-wrap:wrap; pointer-events:auto; }
   .pastille { font-size:12px; font-weight:700; padding:6px 10px; border-radius:20px; display:flex; align-items:center; gap:6px; }
   .pastille i { width:8px; height:8px; border-radius:50%; display:inline-block; }
@@ -539,6 +540,87 @@
     background:linear-gradient(#0c0c11 0, #0c0c11 calc(var(--haut) - 2px), rgba(12,12,17,.55) calc(var(--haut) + 14px), transparent); }
   #onglets { background:#0c0c11; -webkit-backdrop-filter:none; backdrop-filter:none; }
   #onglets::after { background:#0c0c11; }
+
+  /* ================= v14 : maintenance, pop-ups, points info ================= */
+  #maint { background:#0a0a0e; padding:calc(var(--haut) + 20px) 22px calc(var(--bas) + 20px); overflow:auto; justify-content:flex-start; }
+  #maint::before { background:radial-gradient(circle at 50% 22%, #ffae3b30 0%, transparent 45%), radial-gradient(circle at 80% 90%, #ff5caa1c 0%, transparent 40%); }
+  #maint .m-boite { width:100%; max-width:380px; margin:auto; display:flex; flex-direction:column; align-items:center; }
+  .m-anim { position:relative; width:130px; height:130px; display:flex; align-items:center; justify-content:center; margin-bottom:6px; }
+  .m-anim i { position:absolute; inset:0; border-radius:50%; border:2px solid #ffae3b; opacity:0; animation:sp-onde 2.6s ease-out infinite; }
+  .m-anim i:nth-child(2){ animation-delay:.9s; } .m-anim i:nth-child(3){ animation-delay:1.8s; }
+  .m-anim .m-rond { width:92px; height:92px; border-radius:50%; background:linear-gradient(145deg,#ffb84d,#ff7a1c); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 12px 40px #ff8a1f66, inset 0 2px 0 #fff6; font-size:44px; }
+  .m-anim .m-rond span { display:inline-block; animation:m-tourne 7s linear infinite; }
+  .m-etat { display:inline-flex; align-items:center; gap:7px; padding:6px 12px; border-radius:20px; background:#ffae3b1f; border:1px solid #ffae3b55; color:#ffc46e;
+    font-size:11.5px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; }
+  .m-etat b { width:8px; height:8px; border-radius:50%; background:#ffae3b; animation:sp-live 1.4s infinite; box-shadow:0 0 0 0 #ffae3b; }
+  #maint h1 { font-size:50px; margin:14px 0 8px; }
+  #maint p { margin:0 0 16px; }
+  .m-compte { width:100%; background:#16161c; border:1px solid #ffffff14; border-radius:20px; padding:14px 16px; margin-bottom:12px; text-align:left; }
+  .m-compte .m-l1 { display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
+  .m-compte .m-l1 span { font-size:12px; color:var(--doux); font-weight:700; text-transform:uppercase; letter-spacing:.6px; }
+  .m-compte .m-l1 b { font-size:26px; font-weight:800; color:#fff; font-variant-numeric:tabular-nums; }
+  .m-compte .m-l2 { font-size:13px; color:#ffc46e; font-weight:700; margin-top:2px; }
+  .m-barre { height:8px; border-radius:6px; background:#ffffff12; overflow:hidden; margin-top:12px; position:relative; }
+  .m-barre i { position:absolute; left:0; top:0; bottom:0; border-radius:6px; background:linear-gradient(90deg,#ffae3b,#ff5caa); transition:width 1s linear; }
+  .m-barre.indet i { width:35%; animation:m-va 1.6s ease-in-out infinite; }
+  @keyframes m-va { 0% { left:-35%; } 100% { left:100%; } }
+  .m-verif { display:flex; align-items:center; justify-content:center; gap:8px; font-size:12.5px; color:var(--doux); margin:2px 0 16px; }
+  .m-verif b { width:7px; height:7px; border-radius:50%; background:#16c784; box-shadow:0 0 8px #16c784; }
+  #maint .m-boutons { max-width:none; }
+  .btn.m-retry { background:#ffffff10; border:1px solid #ffffff1f; }
+  .m-apercu-x { position:fixed; top:calc(var(--haut) + 12px); right:14px; z-index:4510; background:#ff5caa; color:#000; font-weight:800; font-size:13px; padding:9px 14px; border-radius:20px; }
+  .m-statut { display:flex; align-items:center; gap:12px; padding:14px; border-radius:18px; margin:4px 0 12px; background:#16c78418; border:1px solid #16c78455; }
+  .m-statut.on { background:#ffae3b1a; border-color:#ffae3b66; }
+  .m-statut .e { font-size:28px; } .m-statut b { display:block; font-size:16px; } .m-statut small { color:var(--doux); font-size:12.5px; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin:2px 0 8px; }
+  .chips button { background:var(--s2); border:1px solid var(--ligne); border-radius:16px; padding:7px 11px; font-size:13px; font-weight:600; color:#e6e6ea; }
+  .chips button:active { background:var(--s3); }
+  .bandeau-maint { display:none; align-items:center; gap:6px; }
+  body.maint-admin .bandeau-maint { display:flex; }
+  /* Pop-ups */
+  .pop-boite { position:relative; overflow:hidden auto; padding:0 0 18px; border-radius:30px; background:#121217; }
+  .pop-haut { position:relative; padding:22px 20px 14px; background:linear-gradient(180deg, color-mix(in srgb, var(--pc) 30%, transparent), transparent); }
+  .pop-haut::after { content:""; position:absolute; left:50%; top:-60px; width:220px; height:160px; transform:translateX(-50%); border-radius:50%;
+    background:radial-gradient(circle, color-mix(in srgb, var(--pc) 45%, transparent), transparent 70%); pointer-events:none; }
+  .pop-emo { position:relative; z-index:1; width:84px; height:84px; margin:12px auto 10px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:44px;
+    background:color-mix(in srgb, var(--pc) 22%, #121217); box-shadow:0 0 0 6px color-mix(in srgb, var(--pc) 12%, transparent), 0 10px 30px color-mix(in srgb, var(--pc) 40%, transparent); }
+  #popup.vu .pop-emo { animation:pop-saute .7s cubic-bezier(.2,1.6,.4,1) both .1s; }
+  @keyframes pop-saute { 0% { transform:scale(.3); opacity:0; } 100% { transform:none; opacity:1; } }
+  .pop-tag { position:relative; z-index:1; }
+  .pop-age { display:block; font-size:12px; color:var(--doux); margin-top:6px; position:relative; z-index:1; }
+  .pop-boite h3 { padding:0 20px; font-size:30px; }
+  .pop-txt, .pop-quand, .pop-liste { margin:8px 18px 0; }
+  .pop-btns { padding:0 18px; }
+  .pop-quand { display:flex; align-items:center; gap:12px; text-align:left; padding:12px 14px; border-radius:16px; background:color-mix(in srgb, var(--pc) 14%, #1b1b21); border:1px solid color-mix(in srgb, var(--pc) 40%, transparent); }
+  .pop-quand .q-ic { font-size:26px; } .pop-quand b { display:block; font-size:16px; } .pop-quand small { color:var(--pc); font-weight:800; font-size:13px; }
+  .pop-liste { text-align:left; background:var(--s2); border-radius:16px; padding:6px 14px; }
+  .pop-liste .pl-t { font-size:11px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; color:var(--doux); padding:8px 0 2px; }
+  .pop-liste div.li { display:flex; gap:10px; align-items:flex-start; padding:8px 0; font-size:15px; line-height:1.4; border-top:1px solid #ffffff0d; }
+  .pop-liste div.li:first-of-type { border-top:0; }
+  .pop-liste div.li i { font-style:normal; flex:none; width:22px; height:22px; border-radius:50%; background:var(--pc); color:#000; font-size:12px; font-weight:900; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .pop-btns .pop-ok { background:var(--pc) !important; border-color:var(--pc) !important; color:#000 !important; font-weight:800; }
+  .pop-boite.maj .pop-ok { background:linear-gradient(135deg,#ff5caa,#a35cff) !important; color:#fff !important; }
+  .pop-boite.maj .pop-haut { background:linear-gradient(160deg, #ff5caa55, #7a5cff33 60%, transparent); }
+  .pop-boite.maj .pop-emo { background:linear-gradient(145deg,#ff5caa,#a35cff); }
+  .pop-paillettes { position:absolute; inset:0; pointer-events:none; }
+  .pop-paillettes b { position:absolute; width:6px; height:6px; border-radius:50%; background:#fff; opacity:0; animation:paillette 2.4s ease-in-out infinite; }
+  @keyframes paillette { 0%,100% { opacity:0; transform:scale(.4); } 50% { opacity:.9; transform:scale(1); } }
+  /* Points info */
+  .pin.info { border-color:#4f7cff !important; box-shadow:0 0 0 2px #fff, 0 4px 14px #4f7cff88; }
+  .info-etiq { position:absolute; left:34px; top:-6px; max-width:170px; width:max-content; padding:6px 10px; border-radius:12px 12px 12px 4px; background:#1b2a55f0; color:#fff;
+    border:1px solid #4f7cff99; font-size:12.5px; font-weight:600; line-height:1.3; box-shadow:0 6px 16px #0008; pointer-events:none;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  body:not(.zoom-proche) .info-etiq { display:none; }
+  .info-carte { position:relative; overflow:hidden; border-radius:22px; padding:18px; margin:2px 0 12px; background:linear-gradient(150deg,#22356e,#152040 70%); border:1px solid #4f7cff66; }
+  .info-carte::after { content:"i"; position:absolute; right:-6px; top:-30px; font:italic 900 150px/1 Georgia,serif; color:#ffffff0d; }
+  .info-carte .ic-t { display:flex; align-items:center; gap:8px; font-size:11.5px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; color:#9db8ff; }
+  .info-carte .ic-x { font-size:19px; line-height:1.4; font-weight:700; margin:10px 0 12px; white-space:pre-wrap; position:relative; z-index:1; }
+  .info-carte .ic-m { display:flex; flex-wrap:wrap; gap:6px; position:relative; z-index:1; }
+  .info-carte .ic-m span { font-size:12px; font-weight:700; padding:5px 9px; border-radius:12px; background:#ffffff14; color:#dfe7ff; }
+  .info-carte.vieille { filter:saturate(.5); }
+  .info-modeles { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 2px; }
+  .info-modeles button { background:#4f7cff1c; border:1px solid #4f7cff55; color:#cdd9ff; border-radius:14px; padding:6px 10px; font-size:12.5px; font-weight:600; }
 </style>
 </head>
 <body>
@@ -586,7 +668,7 @@
 <div id="popup"></div>
 <div id="bienvenue"></div>
 <div id="maint"></div>
-<div class="bandeau-maint" onclick="ouvrirMaintenance()">🛠️ Maintenance activée · le public ne voit pas la carte</div>
+<div class="bandeau-maint" onclick="ouvrirMaintenance()">🛠️ <span id="bm-txt">Maintenance activée · le public ne voit pas la carte</span></div>
 <div id="reseau" onclick="charger()"><span class="r-ic">📶</span><div><b id="rs-t"></b><span id="rs-s"></span></div></div>
 
 <script>
@@ -920,7 +1002,8 @@ L.layerGroup(REPERES.map(function(r){
   return L.marker([r[1],r[2]], { interactive:false, keyboard:false, zIndexOffset:-1000,
     icon:L.divIcon({ className:'repere' + (r[3] ? ' grand' : ''), html:'<span>'+r[0]+'</span>', iconSize:[0,0] }) });
 })).addTo(carte);
-carte.on('zoomend', function(){ document.body.classList.toggle('zoom-loin', carte.getZoom() < 13); });
+carte.on('zoomend', function(){ document.body.classList.toggle('zoom-loin', carte.getZoom() < 13); document.body.classList.toggle('zoom-proche', carte.getZoom() >= 15); });
+document.body.classList.toggle('zoom-proche', carte.getZoom() >= 15);
 document.body.classList.toggle('zoom-loin', carte.getZoom() < 13);
 var calqueTraces = L.layerGroup().addTo(carte);
 
@@ -968,7 +1051,8 @@ function iconePour(p){
   var vieux = (maintenant() - p.ts) > VIEUX_MIN*60000, neuf = (maintenant() - p.ts) < 3*60000;
   var nb = (t.vehicules && p.vehicules) ? '<span class="nb">'+p.vehicules+'</span>' : '';
   return L.divIcon({ className:'', iconSize:[36,36], iconAnchor:[18,44],
-    html:'<div class="pin '+t.g+(t.c?' '+t.c:'')+(vieux?' vieux':'')+(neuf?' neuf':'')+'">'+emo(p.type)+nb+'</div>' });
+    html:'<div class="pin '+t.g+(t.c?' '+t.c:'')+(vieux?' vieux':'')+(neuf?' neuf':'')+'">'+emo(p.type)+nb+'</div>'
+      + (p.type === 'info' && p.note ? '<div class="info-etiq"><span>'+esc(p.note.length > 48 ? p.note.slice(0,46).replace(/\s+\S*$/,'') + '…' : p.note)+'</span></div>' : '') });
 }
 function nouveau(cle){ var n = !vus[cle]; vus[cle] = 1; return n; }
 
@@ -990,7 +1074,7 @@ function appliquer(json){
   etat.points.forEach(function(p){
     presents[p.id] = true;
     if (nouveau('p'+p.id) && !premierChargement) nouveaux++;
-    var cle = p.id + '|' + p.ts + '|' + p.vehicules + '|' + filtre;
+    var cle = p.id + '|' + p.ts + '|' + p.vehicules + '|' + filtre + '|' + (p.type==='info' ? p.note : '');
     if (marqueurs[p.id] && marqueurs[p.id]._cle === cle) { marqueurs[p.id].setIcon(iconePour(p)); return; }
     if (marqueurs[p.id]) carte.removeLayer(marqueurs[p.id]);
     if (zones[p.id]) { carte.removeLayer(zones[p.id]); delete zones[p.id]; }
@@ -1291,6 +1375,7 @@ function ouvrirDetail(id){
   if (document.body.classList.contains('trace')) return;
   var p = etat.points.filter(function(x){return x.id===id;})[0]; if(!p) return;
   var t = TYPES[p.type] || TYPES.info;
+  if (p.type === 'info') return ouvrirInfoPoint(p);
   var h = '<div style="display:flex;gap:12px;align-items:center;margin-bottom:6px">'+pinHtml(p.type)+'<div style="flex:1">'+entete(esc(t.nom), 'Signalé '+age(p.cree||p.ts)+(p.cree && p.ts!==p.cree ? ' · confirmé '+age(p.ts) : '')+(p.par?' · par '+esc(p.par):''))+'</div></div>';
   if (t.vehicules && p.vehicules) h += '<div class="detail-note"><b>'+p.vehicules+'</b> véhicule'+(p.vehicules>1?'s':'')+'</div>';
   if (p.note) h += '<div class="detail-note">'+esc(p.note)+'</div>';
@@ -1305,6 +1390,29 @@ function ouvrirDetail(id){
   }
   ouvrir(h, 'detail');
 }
+function ouvrirInfoPoint(p){
+  var vieux = (maintenant()-p.ts) > VIEUX_MIN*60000, d = '';
+  if (moi) { var m = carte.distance(moi.getLatLng(), [p.lat, p.lng]); d = '<span>🚶 '+txtDistance(m)+' · '+txtDuree(m, 5)+'</span>'; }
+  var h = '<div class="info-carte'+(vieux?' vieille':'')+'"><div class="ic-t">ℹ️ Info de l\'orga</div>'
+    + '<div class="ic-x">'+esc(p.note || 'Info sur cet endroit')+'</div>'
+    + '<div class="ic-m"><span>🕑 '+age(p.cree||p.ts)+'</span>'+(p.cree && p.ts!==p.cree ? '<span>✓ confirmée '+age(p.ts)+'</span>' : '')+d+(p.par?'<span>✍️ '+esc(p.par)+'</span>':'')+'</div></div>';
+  if (vieux) h += '<div class="sous">Info ancienne, la situation a pu changer.</div>';
+  h += '<div class="rangee"><a class="btn plein" target="_blank" href="https://maps.apple.com/?daddr='+p.lat+','+p.lng+'&dirflg=w">'+ic('fleche')+'Y aller à pied</a>'
+    + '<button class="btn plein" onclick="partagerInfo(\''+p.id+'\')">'+ic('partage')+'Partager</button></div>';
+  if (estAdmin()){
+    h += '<label class="l">Admin</label>'
+      + '<div class="rangee"><button class="btn rose plein" onclick="confirmerPt(\''+p.id+'\')">'+ic('check')+'Toujours vrai</button>'
+      + '<button class="btn rouge plein" onclick="supprimerPt(\''+p.id+'\')">Retirer</button></div>'
+      + '<div class="rangee"><button class="btn plein" onclick="modifierNote(\''+p.id+'\')">✏️ Modifier</button><button class="btn plein" onclick="deplacerPoint(\''+p.id+'\')">✋ Déplacer</button></div>';
+  }
+  ouvrir(h, 'detail');
+}
+function partagerInfo(id){
+  var p = etat.points.filter(function(x){ return x.id===id; })[0]; if (!p) return;
+  var t = 'ℹ️ ' + (p.note || 'Info') + '\n📍 https://maps.apple.com/?ll=' + p.lat + ',' + p.lng + '\n' + (urlAppli || '');
+  if (navigator.share) navigator.share({ text:t }).catch(function(){}); else { try { navigator.clipboard.writeText(t); toast('Copié'); } catch(e){} }
+}
+var MODELES_INFO = ['Toilettes ouvertes', 'Café accueillant, on peut se poser', 'Prise pour recharger', 'Point de ralliement de la fin', 'Passage piéton fermé', 'Fontaine à eau'];
 function ouvrirTrace(id){
   if (document.body.classList.contains('trace')) return;
   var t = etat.traces.filter(function(x){return x.id===id;})[0]; if(!t) return;
@@ -1446,7 +1554,10 @@ function formulaire(){
   });
   if (brouillon.type && TYPES[brouillon.type].vehicules)
     h += '<label class="l">Nombre de véhicules</label><div class="stepper"><button onclick="pasB(-1)">−</button><output id="vehB">'+brouillon.vehicules+'</output><button onclick="pasB(1)">+</button></div>';
-  h += '<label class="l">Précision (facultatif)</label><textarea id="note" maxlength="200" placeholder="ex : 2 camions + une dizaine d\'agents">'+esc(brouillon.note||'')+'</textarea>'
+  if (brouillon.type === 'info') h += '<label class="l">Ton info (obligatoire, visible sur la carte)</label><div class="info-modeles">' + MODELES_INFO.map(function(m){ return '<button onclick="$(\'note\').value=\''+m.replace(/'/g,"\\'")+'\'">'+esc(m)+'</button>'; }).join('') + '</div>'
+     + '<textarea id="note" maxlength="200" placeholder="ex : Toilettes ouvertes au café du coin">'+esc(brouillon.note||'')+'</textarea>';
+  else h += '<label class="l">Précision (facultatif)</label><textarea id="note" maxlength="200" placeholder="ex : 2 camions + une dizaine d\'agents">'+esc(brouillon.note||'')+'</textarea>';
+  h += ''
      + '<div class="sous" style="margin-top:8px">Pas de nom, pas de visage, pas d\'info perso sur qui que ce soit.</div>'
      + '<div class="rangee"><button class="btn plein" onclick="fermer()">Annuler</button><button id="pub" class="btn rose plein" onclick="publier()"'+(brouillon.type?'':' disabled')+'>Publier</button></div>';
   if ($('feuille').dataset.vue === 'form') rafraichirFeuille(h); else ouvrir(h, 'form');
@@ -1455,6 +1566,7 @@ function choisir(k){ brouillon.note = ($('note')||{}).value || brouillon.note; b
 function pasB(n){ brouillon.vehicules=Math.max(0,Math.min(99,brouillon.vehicules+n)); $('vehB').textContent=brouillon.vehicules; }
 function pas(n){ var o=$('veh'); o.textContent=Math.max(0,Math.min(99,(+o.textContent)+n)); }
 function publier(){
+  if (brouillon.type === 'info' && !$('note').value.trim()) { $('note').focus(); return toast('Écris l\'info à afficher'); }
   brouillon.note = $('note').value; brouillon.par = etat.pseudo; $('pub').textContent='…'; $('pub').disabled = true;
   // Si le serveur ne connaît pas encore ce type, on l'enregistre comme "danger"/"rdv"/"info" avec le vrai type caché dans la note.
   var ANCIENS = ['police','controle','nasse','bloque','lacrymo','danger','medic','eau','rdv','sortie','tete','sauvage','info'];
@@ -1907,16 +2019,46 @@ function popupSuivante(){
     if (p && !vus['o'+id]) { montrerPopup(p, false); return; }
   }
 }
+// Date d'une mise à jour cachée au début du texte : "[quand:2026-11-01T18:00] ..."
+function lirePop(p){
+  var t = p.texte || '', m = t.match(/^\[quand:([0-9T:\-]+)\]\s*/), q = 0;
+  if (m) { q = new Date(m[1]).getTime() || 0; t = t.slice(m[0].length); }
+  return { texte:t, quand:q };
+}
+function txtQuand(q){
+  var d = new Date(q), en = LANGUE==='en';
+  var j = d.toLocaleDateString(en ? 'en-GB' : 'fr-FR', { weekday:'long', day:'numeric', month:'long' });
+  return j.charAt(0).toUpperCase() + j.slice(1) + (en ? ' · ' : ' à ') + heure(q);
+}
+function txtDans(q){
+  var ms = q - Date.now(), en = LANGUE==='en'; if (ms <= 0) return en ? 'Now available' : 'C\'est maintenant !';
+  var mn = Math.round(ms/60000), h = Math.floor(mn/60), j = Math.floor(h/24);
+  if (j >= 1) return (en?'In ':'Dans ') + j + (en?' d ':' j ') + (h%24) + ' h';
+  if (h >= 1) return (en?'In ':'Dans ') + h + ' h ' + String(mn%60).padStart(2,'0');
+  return (en?'In ':'Dans ') + mn + ' min';
+}
 function htmlPopup(p, apercu){
-  var S = STYLES_POP[p.style] || STYLES_POP.info;
-  return '<div class="pop-boite" style="--pc:'+S.c+'">'
-    + '<div class="pop-tag">'+(p.cible==='equipe' ? 'Équipe · ' : '')+S.nom+(p.ts ? ' · '+heure(p.ts) : '')+'</div>'
+  var S = STYLES_POP[p.style] || STYLES_POP.info, L = lirePop(p), maj = p.style === 'maj';
+  var lignes = L.texte.split('\n').map(function(x){ return x.replace(/^\s*[-•*✓✅]\s*/, '').trim(); }).filter(Boolean);
+  var liste = (maj && lignes.length > 1) || (lignes.length > 2 && L.texte.split('\n').every(function(x){ return !x.trim() || /^\s*[-•*✓✅]/.test(x); }));
+  var corps = '';
+  if (L.texte) corps = liste
+    ? '<div class="pop-liste"><div class="pl-t">'+(maj ? (LANGUE==='en'?'What\'s new':'Au programme') : (LANGUE==='en'?'Details':'À retenir'))+'</div>'
+      + lignes.map(function(x, i){ return '<div class="li"><i>'+(maj ? '✓' : (i+1))+'</i><span>'+esc(x)+'</span></div>'; }).join('') + '</div>'
+    : '<div class="pop-txt">'+esc(L.texte).replace(/\n/g,'<br>')+'</div>';
+  var paillettes = maj ? '<div class="pop-paillettes">' + [[12,18,0],[82,14,.6],[24,62,1.2],[88,58,.3],[50,8,1.6],[70,40,.9]].map(function(v){ return '<b style="left:'+v[0]+'%;top:'+v[1]+'%;animation-delay:'+v[2]+'s"></b>'; }).join('') + '</div>' : '';
+  return '<div class="pop-boite'+(maj?' maj':'')+'" style="--pc:'+S.c+'">'
+    + '<div class="pop-haut">'+paillettes
+    + '<div class="pop-tag">'+(p.cible==='equipe' ? 'Équipe · ' : '')+(maj?'✨ ':'')+S.nom+'</div>'
     + '<div class="pop-emo">'+esc(p.emoji || S.e)+'</div>'
+    + (p.ts ? '<span class="pop-age">'+(LANGUE==='en'?'Posted ':'Publié ')+age(p.ts)+'</span>' : '')
+    + '</div>'
     + (p.titre ? '<h3 class="anton">'+esc(p.titre)+'</h3>' : '')
-    + (p.texte ? '<div class="pop-txt">'+esc(p.texte).replace(/\n/g,'<br>')+'</div>' : '')
+    + (L.quand ? '<div class="pop-quand"><span class="q-ic">📅</span><div><b>'+esc(txtQuand(L.quand))+'</b><small>'+txtDans(L.quand)+'</small></div></div>' : '')
+    + corps
     + '<div class="pop-btns">'
-    + (p.lat !== undefined && p.lat !== null ? '<button class="btn plein" onclick="fermerPopup(\''+(p.id||'')+'\',true)">'+ic('position')+'Voir sur la carte</button>' : '')
-    + '<button class="btn plein pop-ok" onclick="fermerPopup(\''+(p.id||'')+'\')">'+esc(p.bouton || (apercu ? 'Fermer l\'aperçu' : 'Compris'))+'</button>'
+    + (p.lat !== undefined && p.lat !== null && p.lat !== '' ? '<button class="btn plein" onclick="fermerPopup(\''+(p.id||'')+'\',true)">'+ic('position')+'Voir sur la carte</button>' : '')
+    + '<button class="btn plein pop-ok" onclick="fermerPopup(\''+(p.id||'')+'\')">'+esc(p.bouton || (apercu ? 'Fermer l\'aperçu' : (maj ? 'Super !' : 'Compris')))+'</button>'
     + '</div></div>';
 }
 function montrerPopup(p, apercu){
@@ -1936,11 +2078,14 @@ function revoirPopup(id){ var p = (etat.popups||[]).filter(function(x){ return x
 function formulairePopup(){
   var b = brouillonPop;
   var h = entete('Nouveau pop-up', 'Une fenêtre qui s\'ouvre sur le téléphone de tout le monde, même ceux qui arrivent après.')
+    + '<button class="prep5" onclick="modeleMaj()"><span>✨</span><div><b>Annoncer une mise à jour</b><small>Date, compte à rebours et liste des nouveautés</small></div></button>'
     + '<label class="l">Style</label><div class="segments">' + Object.keys(STYLES_POP).map(function(k){
         return '<button class="'+(b.style===k?'sel':'')+'" style="'+(b.style===k?'background:'+STYLES_POP[k].c+';color:#000':'')+'" onclick="majPop();brouillonPop.style=\''+k+'\';brouillonPop.emoji=STYLES_POP[\''+k+'\'].e;formulairePopup()">'+STYLES_POP[k].nom+'</button>'; }).join('') + '</div>'
     + '<label class="l">Emoji</label><div class="emo-choix">' + EMOJIS_POP.map(function(e){ return '<button class="'+(b.emoji===e?'sel':'')+'" onclick="majPop();brouillonPop.emoji=\''+e+'\';formulairePopup()">'+e+'</button>'; }).join('') + '</div>'
     + '<label class="l">Titre</label><input id="pop-titre" maxlength="60" placeholder="ex : Nouveau point de départ" value="'+esc(b.titre)+'">'
-    + '<label class="l">Message</label><textarea id="pop-texte" maxlength="600" placeholder="Ce que tout le monde doit savoir…">'+esc(b.texte)+'</textarea>'
+    + (b.style === 'maj' ? '<label class="l">Date et heure de la mise à jour (facultatif)</label><input id="pop-quand" type="datetime-local" value="'+esc(b.quand||'')+'">'
+        + '<div class="sous" style="margin:4px 0 0">Affiche la date et un compte à rebours dans le pop-up.</div>' : '')
+    + '<label class="l">Message</label><textarea id="pop-texte" maxlength="560" placeholder="'+(b.style==='maj' ? 'Une ligne = une nouveauté&#10;Nouveaux points sur la carte&#10;Carte plus grande' : 'Ce que tout le monde doit savoir…')+'">'+esc(b.texte)+'</textarea>'
     + '<label class="l">Texte du bouton (facultatif)</label><input id="pop-bouton" maxlength="30" placeholder="Compris" value="'+esc(b.bouton)+'">'
     + '<label class="l">Pour qui</label><div class="segments">'
     + '<button class="'+(b.cible==='tous'?'sel':'')+'" onclick="majPop();brouillonPop.cible=\'tous\';formulairePopup()">Tout le monde</button>'
@@ -1948,16 +2093,19 @@ function formulairePopup(){
     + '<label class="l">Reste visible</label><div class="segments">' + DUREES_POP.map(function(d){
         return '<button class="'+(b.heures===d[0]?'sel':'')+'" onclick="majPop();brouillonPop.heures='+d[0]+';formulairePopup()">'+d[1]+'</button>'; }).join('') + '</div>'
     + '<label class="interrupteur"><span>Lier à un endroit (centre de l\'écran)</span><input type="checkbox" '+(b.lier?'checked':'')+' onchange="brouillonPop.lier=this.checked"></label>'
-    + '<div class="rangee"><button class="btn plein" onclick="majPop();montrerPopup(brouillonPop,true)">'+ic('oeil')+'Aperçu</button>'
+    + '<div class="rangee"><button class="btn plein" onclick="majPop();montrerPopup(Object.assign({}, brouillonPop, { texte:(brouillonPop.style===\'maj\' && brouillonPop.quand ? \'[quand:\'+brouillonPop.quand+\'] \' : \'\') + brouillonPop.texte }),true)">'+ic('oeil')+'Aperçu</button>'
     + '<button id="pop-pub" class="btn rose plein" onclick="publierPop()">Publier</button></div>'
     + '<div class="sous" style="margin-top:10px">Les gens voient le pop-up une seule fois, avec un son. Il reste ensuite lisible dans Infos.</div>';
   if ($('feuille').dataset.vue === 'popup-form') rafraichirFeuille(h); else ouvrir(h, 'popup-form');
 }
-function majPop(){ if (!$('pop-titre')) return; brouillonPop.titre = $('pop-titre').value; brouillonPop.texte = $('pop-texte').value; brouillonPop.bouton = $('pop-bouton').value; }
+function modeleMaj(){ majPop(); var d = new Date(Date.now()+86400000); d.setHours(18,0,0,0);
+  var iso = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+'T18:00';
+  brouillonPop = Object.assign(brouillonPop, { style:'maj', emoji:'✨', titre:brouillonPop.titre || 'Prochaine mise à jour', quand:brouillonPop.quand || iso, bouton:brouillonPop.bouton || 'Super !', heures:12 }); formulairePopup(); }
+function majPop(){ if (!$('pop-titre')) return; if ($('pop-quand')) brouillonPop.quand = $('pop-quand').value; brouillonPop.titre = $('pop-titre').value; brouillonPop.texte = $('pop-texte').value; brouillonPop.bouton = $('pop-bouton').value; }
 function publierPop(){
   majPop();
   if (!brouillonPop.titre.trim() && !brouillonPop.texte.trim()) return toast('Écris un titre ou un message');
-  var p = { style:brouillonPop.style, emoji:brouillonPop.emoji, titre:brouillonPop.titre, texte:brouillonPop.texte, bouton:brouillonPop.bouton,
+  var p = { style:brouillonPop.style, emoji:brouillonPop.emoji, titre:brouillonPop.titre, texte:(brouillonPop.style==='maj' && brouillonPop.quand ? '[quand:'+brouillonPop.quand+'] ' : '') + brouillonPop.texte, bouton:brouillonPop.bouton,
             cible:brouillonPop.cible, heures:brouillonPop.heures, par:etat.pseudo };
   if (brouillonPop.lier) { var c = carte.getCenter(); p.lat = c.lat; p.lng = c.lng; }
   $('pop-pub').disabled = true; $('pop-pub').textContent = '…';
@@ -2008,7 +2156,7 @@ function dessinerGestion(rafraichir){
   h += '<div class="section" style="margin-top:18px"><div class="section-titre"><h3>Pop-ups actifs</h3><button class="btn petit rose" onclick="formulairePopup()">'+ic('plus')+'Nouveau</button></div>';
   if (!(etat.popups||[]).length) h += '<div class="vide" style="padding:12px">Aucun pop-up en ce moment.</div>';
   (etat.popups||[]).forEach(function(p){ var S = STYLES_POP[p.style]||STYLES_POP.info;
-    h += '<div class="ligne-eq"><span style="font-size:20px">'+esc(p.emoji||S.e)+'</span><span class="nm">'+esc(p.titre || p.texte.slice(0,40))+'</span><span class="ag">'+(p.cible==='equipe'?'équipe · ':'')+'jusqu\'à '+heure(p.fin)+'</span>'
+    h += '<div class="ligne-eq"><span style="font-size:20px">'+esc(p.emoji||S.e)+'</span><span class="nm">'+esc(p.titre || lirePop(p).texte.slice(0,40))+'</span><span class="ag">'+(p.cible==='equipe'?'équipe · ':'')+'jusqu\'à '+heure(p.fin)+'</span>'
       + '<button class="btn petit" onclick="revoirPopup(\''+p.id+'\')">'+ic('oeil')+'</button><button class="btn petit rouge" onclick="supprimerPop(\''+p.id+'\')">✕</button></div>'; });
   h += '</div>';
   // À vérifier
@@ -2033,37 +2181,111 @@ function dessinerGestion(rafraichir){
 }
 // ===================== V10 =====================
 // ----- Maintenance -----
+var maintVu = 0, maintCheck = 0, maintMinuteur = null, maintApercu = false;
+var MODELES_MAINT = [
+  ['🔄 Mise à jour', 'On met la carte à jour avec de nouvelles fonctions. Elle revient toute seule, pas besoin de recharger.'],
+  ['🔎 Vérif des infos', 'On vérifie les infos avant de les remettre sur la carte. Reste prudent·e et suis le cortège.'],
+  ['⏸ Pause', 'La carte est en pause pour le moment. Elle reviendra avant le prochain rendez-vous.'],
+  ['🏁 Fin de journée', 'La manif est terminée, merci à tout le monde. Rentrez en groupe et prenez soin de vous.']
+];
+// "22h30", "9h", "21:15" -> heure de retour (aujourd'hui, ou demain si déjà passée depuis plus d'1 h)
+function heureFin(txt){
+  var m = String(txt||'').match(/(\d{1,2})\s*[h:]\s*(\d{2})?/i); if (!m) return 0;
+  var d = new Date(); d.setHours(+m[1], +(m[2]||0), 0, 0);
+  if (d.getTime() < Date.now() - 3600000) d.setDate(d.getDate()+1);
+  return d.getTime();
+}
+function txtReste(ms){
+  if (ms <= 0) return LANGUE==='en' ? 'any minute now' : 'd\'une minute à l\'autre';
+  var s = Math.round(ms/1000), h = Math.floor(s/3600), m = Math.floor(s%3600/60), sec = s%60;
+  if (h) return h + ' h ' + String(m).padStart(2,'0');
+  return m + ' min ' + String(sec).padStart(2,'0');
+}
+function htmlMaint(cfg){
+  var en = LANGUE==='en', fin = heureFin(cfg.maintenanceFin);
+  return '<div class="m-boite"><div class="m-anim"><i></i><i></i><i></i><div class="m-rond"><span>⚙️</span></div></div>'
+    + '<div class="m-etat"><b></b>'+(en?'Maintenance in progress':'Maintenance en cours')+'</div>'
+    + '<h1>'+(en ? 'BE RIGHT <b>BACK</b>' : 'ON REVIENT <b>VITE</b>')+'</h1>'
+    + '<p>'+esc(cfg.maintenanceTexte || (en ? 'The map is being updated. It will come back by itself, no need to do anything.' : 'La carte est en maintenance. Elle reviendra toute seule, pas besoin de recharger.'))+'</p>'
+    + '<div class="m-compte">'
+    + (fin ? '<div class="m-l1"><span>'+(en?'Back in':'Retour dans')+'</span><b id="m-reste">'+txtReste(fin-Date.now())+'</b></div><div class="m-l2">⏱ '+(en?'Planned around ':'Prévu vers ')+esc(cfg.maintenanceFin)+'</div><div class="m-barre"><i id="m-prog"></i></div>'
+           : (cfg.maintenanceFin ? '<div class="m-l1"><span>'+(en?'Back':'Retour')+'</span><b style="font-size:20px">'+esc(cfg.maintenanceFin)+'</b></div>' : '<div class="m-l1"><span>'+(en?'Working on it':'On s\'en occupe')+'</span><b style="font-size:20px">…</b></div>')
+             + '<div class="m-barre indet"><i></i></div>')
+    + '</div>'
+    + '<div class="m-verif"><b></b><span id="m-verif">'+(en?'Checking automatically':'Vérification automatique')+'</span></div>'
+    + '<div class="m-boutons"><button class="btn plein m-retry" onclick="maintReessayer(this)">↻ '+(en?'Check now':'Vérifier maintenant')+'</button>'
+    + '<button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(en?'Safety tips':'Les bons réflexes')+'</button>'
+    + '<div class="appels" style="margin:0"><a href="tel:112">112<span>'+(en?'Emergency':'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div></div>'
+    + '<small>Lyon Live</small></div>';
+}
+function tickMaint(){
+  var el = $('maint'); if (!el.classList.contains('vu')) { clearInterval(maintMinuteur); maintMinuteur = null; return; }
+  var cfg = maintApercu ? lireApercuMaint() : (etat.config || {}), fin = heureFin(cfg.maintenanceFin), en = LANGUE==='en';
+  if (fin && $('m-reste')) {
+    $('m-reste').textContent = txtReste(fin - Date.now());
+    var debut = maintVu || Date.now(), tot = Math.max(60000, fin - debut);
+    $('m-prog').style.width = Math.max(4, Math.min(100, (Date.now()-debut)/tot*100)) + '%';
+  }
+  if ($('m-verif') && maintCheck) { var s = Math.round((Date.now()-maintCheck)/1000);
+    $('m-verif').textContent = (en ? 'Checked ' : 'Vérifié il y a ') + (s < 5 ? (en?'just now':'quelques secondes') : s + ' s' + (en?' ago':'')); }
+}
+function lancerTickMaint(){ tickMaint(); if (!maintMinuteur) maintMinuteur = setInterval(tickMaint, 1000); }
+function maintReessayer(b){ b.disabled = true; b.textContent = '…'; Promise.resolve(charger()).then(function(){}, function(){}).then(function(){ b.disabled = false; b.textContent = '↻ ' + (LANGUE==='en'?'Check now':'Vérifier maintenant'); if ($('maint').classList.contains('vu')) toast(LANGUE==='en'?'Still in maintenance':'Toujours en maintenance'); }); }
 function majMaintenance(){
   var cfg = etat.config || {}, on = !!cfg.maintenance;
+  maintCheck = Date.now();
   document.body.classList.toggle('maint-admin', on && estEquipe());
+  if ($('bm-txt')) $('bm-txt').textContent = 'Maintenance activée' + (cfg.maintenanceFin ? ' · retour ' + cfg.maintenanceFin : '') + ' · le public ne voit pas la carte';
+  if (maintApercu) return;
   var el = $('maint');
   if (on && !estEquipe()) {
-    el.innerHTML = '<div class="m-ic">🛠️</div><h1>'+(LANGUE==='en' ? 'BE RIGHT <b>BACK</b>' : 'ON REVIENT <b>VITE</b>')+'</h1>'
-      + '<p>'+esc(cfg.maintenanceTexte || (LANGUE==='en' ? 'The map is being updated. It will come back by itself, no need to do anything.' : 'La carte est en maintenance. Elle reviendra toute seule, pas besoin de recharger.'))+'</p>'
-      + (cfg.maintenanceFin ? '<div class="m-fin">⏱ '+(LANGUE==='en'?'Back around ':'Retour prévu vers ')+esc(cfg.maintenanceFin)+'</div>' : '')
-      + '<div class="m-boutons"><button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(LANGUE==='en'?'Safety tips':'Les bons réflexes')+'</button>'
-      + '<div class="appels" style="margin:0"><a href="tel:112">112<span>'+(LANGUE==='en'?'Emergency':'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div></div>'
-      + '<small>Lyon Live</small>';
-    el.classList.add('vu'); document.body.classList.add('maint-vu'); cacherSplash();
+    if (!maintVu) maintVu = Number(lireLS('maintVu')) || Date.now();
+    ecrireLS('maintVu', String(maintVu));
+    var h = htmlMaint(cfg);
+    if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
+    el.classList.add('vu'); document.body.classList.add('maint-vu'); cacherSplash(); lancerTickMaint();
     if ($('bienvenue').classList.contains('vu')) $('bienvenue').classList.remove('vu');
-  } else if (el.classList.contains('vu')) { el.classList.remove('vu'); document.body.classList.remove('maint-vu');
+  } else if (el.classList.contains('vu')) { el.classList.remove('vu'); el.dataset.h = ''; document.body.classList.remove('maint-vu');
+    maintVu = 0; ecrireLS('maintVu', '');
+    toast(LANGUE==='en' ? '✅ The map is back!' : '✅ La carte est de retour !'); try { jouer('message'); } catch(e){}
     if (!lireLS('bienvenue8') && !estEquipe()) setTimeout(montrerBienvenue, 300); }
+  else if (!on && lireLS('maintVu')) ecrireLS('maintVu', '');
+}
+function lireApercuMaint(){ var c = etat.config || {};
+  return { maintenanceTexte: $('mt-txt') ? $('mt-txt').value : c.maintenanceTexte, maintenanceFin: $('mt-fin') ? $('mt-fin').value : c.maintenanceFin }; }
+function apercuMaint(){
+  var el = $('maint'); maintApercu = true; maintVu = Date.now(); maintCheck = Date.now();
+  el.innerHTML = htmlMaint(lireApercuMaint()) + '<button class="m-apercu-x" onclick="fermerApercuMaint()">✕ Fermer l\'aperçu</button>';
+  el.dataset.h = ''; el.classList.add('vu'); lancerTickMaint();
+}
+function fermerApercuMaint(){ maintApercu = false; maintVu = 0; var el = $('maint'); el.classList.remove('vu'); el.innerHTML = ''; majMaintenance(); }
+function finDans(min){
+  var d = new Date(Date.now() + min*60000); d.setMinutes(Math.ceil(d.getMinutes()/5)*5);
+  $('mt-fin').value = d.getHours() + 'h' + String(d.getMinutes()).padStart(2,'0');
 }
 function ouvrirMaintenance(){
-  var cfg = etat.config || {};
+  var cfg = etat.config || {}, on = !!cfg.maintenance;
   ouvrir(entete('🛠️ Maintenance', 'Le public voit un écran « On revient vite » à la place de la carte. Les admins et les medics continuent de tout voir.')
-    + '<label class="interrupteur"><span><b>Maintenance activée</b></span><input id="mt-on" type="checkbox" '+(cfg.maintenance?'checked':'')+'></label>'
-    + '<div class="maint-form"><label class="l">Message pour le public (facultatif)</label><textarea id="mt-txt" maxlength="200" placeholder="La carte est en maintenance. Elle reviendra toute seule, pas besoin de recharger.">'+esc(cfg.maintenanceTexte||'')+'</textarea>'
-    + '<label class="l">Retour prévu (facultatif)</label><input id="mt-fin" maxlength="20" placeholder="ex : 9h30" value="'+esc(cfg.maintenanceFin||'')+'"></div>'
-    + '<div class="rangee"><button class="btn plein" onclick="dessinerGestion()">Retour</button><button class="btn rose plein" id="mt-go" onclick="sauverMaintenance()">Enregistrer</button></div>', 'gestion-maint');
+    + '<div class="m-statut'+(on?' on':'')+'"><span class="e">'+(on?'🛠️':'✅')+'</span><div><b>'+(on?'Maintenance en cours':'Carte visible par tout le monde')+'</b><small>'
+    + (on ? (cfg.maintenanceFin ? 'Retour prévu vers '+esc(cfg.maintenanceFin) : 'Pas d\'heure de retour') : 'Active la maintenance pour cacher la carte au public')+'</small></div></div>'
+    + '<label class="interrupteur"><span><b>Maintenance activée</b></span><input id="mt-on" type="checkbox" '+(on?'checked':'')+'></label>'
+    + '<div class="maint-form"><label class="l">Message pour le public</label>'
+    + '<div class="chips">' + MODELES_MAINT.map(function(m, i){ return '<button onclick="$(\'mt-txt\').value=MODELES_MAINT['+i+'][1]">'+m[0]+'</button>'; }).join('') + '</div>'
+    + '<textarea id="mt-txt" maxlength="200" placeholder="La carte est en maintenance. Elle reviendra toute seule, pas besoin de recharger.">'+esc(cfg.maintenanceTexte||'')+'</textarea>'
+    + '<label class="l">Retour prévu</label>'
+    + '<div class="chips"><button onclick="finDans(15)">+15 min</button><button onclick="finDans(30)">+30 min</button><button onclick="finDans(60)">+1 h</button><button onclick="finDans(120)">+2 h</button><button onclick="$(\'mt-fin\').value=\'\'">Sans heure</button></div>'
+    + '<input id="mt-fin" maxlength="20" placeholder="ex : 9h30 (compte à rebours automatique)" value="'+esc(cfg.maintenanceFin||'')+'"></div>'
+    + '<div class="rangee"><button class="btn plein" onclick="apercuMaint()">'+ic('oeil')+'Aperçu</button><button class="btn rose plein" id="mt-go" onclick="sauverMaintenance()">Enregistrer</button></div>'
+    + '<div class="rangee"><button class="btn plein" onclick="dessinerGestion()">Retour</button></div>'
+    + '<div class="sous" style="margin-top:8px">Quand tu coupes la maintenance, les gens voient « La carte est de retour » tout seuls, sans recharger.</div>', 'gestion-maint');
 }
 function sauverMaintenance(){
-  var on = $('mt-on').checked;
+  var on = $('mt-on').checked; $('mt-go').disabled = true; $('mt-go').textContent = '…';
   serveur('majConfig', etat.mdp, { maintenance:on, maintenanceTexte:$('mt-txt').value, maintenanceFin:$('mt-fin').value }).then(function(j){
     appliquer(j);
     if (on && !(etat.config && etat.config.maintenance)) { toast('Ton serveur Google doit être mis à jour pour la maintenance (voir le message de Claude)'); return; }
     dessinerGestion(); toast(on ? 'Maintenance activée' : 'Carte de nouveau visible pour tous');
-  }).catch(erreurEquipe);
+  }).catch(function(e){ if ($('mt-go')) { $('mt-go').disabled = false; $('mt-go').textContent = 'Enregistrer'; } erreurEquipe(e); });
 }
 
 // ----- QR code -----
@@ -2273,7 +2495,7 @@ function evenementsFil(){
     if (p.cree && p.ts - p.cree > 60000 && p.ts > lim) ev.push({ ts:p.ts, e:'<span class="fil-ic">✓</span>', t:TYPES[p.type].nom + ' confirmé', s:heure(p.ts), lat:p.lat, lng:p.lng }); });
   etat.traces.forEach(function(t){ var x = t.cree || t.ts; if (x > lim) ev.push({ ts:x, e:'<span class="fil-ic" style="color:'+(TRACES[t.type]||TRACES.cortege).couleur+'">〰️</span>', t:(TRACES[t.type]||TRACES.cortege).nom, s:(t.note ? t.note+' · ' : '') + heure(x), lat:t.coords[0][0], lng:t.coords[0][1] }); });
   messagesInfos().forEach(function(m){ if (m.ts > lim) ev.push({ ts:m.ts, e:'<span class="fil-ic">💬</span>', t:m.texte, s:NIVEAUX[m.niveau] + ' · ' + heure(m.ts), lat:m.lat, lng:m.lng }); });
-  (etat.popups||[]).forEach(function(p){ ev.push({ ts:p.ts, e:'<span class="fil-ic">'+esc(p.emoji||'📢')+'</span>', t:p.titre || p.texte, s:'Annonce · ' + heure(p.ts) }); });
+  (etat.popups||[]).forEach(function(p){ ev.push({ ts:p.ts, e:'<span class="fil-ic">'+esc(p.emoji||'📢')+'</span>', t:p.titre || lirePop(p).texte, s:'Annonce · ' + heure(p.ts) }); });
   return ev.sort(function(a,b){ return b.ts - a.ts; }).slice(0, 40);
 }
 function carteResume(){
@@ -2290,7 +2512,7 @@ function carteResume(){
 function annoncesActives(){
   var l = etat.popups || []; if (!l.length) return '';
   return '<label class="l">Annonces</label>' + l.map(function(p){ var S = STYLES_POP[p.style]||STYLES_POP.info;
-    return '<button class="annonce" style="--pc:'+S.c+'" onclick="revoirPopup(\''+p.id+'\')"><span>'+esc(p.emoji||S.e)+'</span><div><b>'+esc(p.titre || S.nom)+'</b><small>'+esc((p.texte||'').slice(0,90))+'</small></div></button>'; }).join('');
+    return '<button class="annonce" style="--pc:'+S.c+'" onclick="revoirPopup(\''+p.id+'\')"><span>'+esc(p.emoji||S.e)+'</span><div><b>'+esc(p.titre || S.nom)+'</b><small>'+esc(lirePop(p).texte.slice(0,90))+'</small></div></button>'; }).join('');
 }
 
 // ----- Accueil (premier lancement) -----
