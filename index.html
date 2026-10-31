@@ -533,6 +533,49 @@
   .onglet .badge { top:0; }
   #flottants { bottom:calc(var(--bas) + 96px); }
   #barre-mode { bottom:calc(var(--bas) + 12px); z-index:1100; }
+
+  /* ================= v13 : style « appli d'info » ================= */
+  #haut { padding:0; background:linear-gradient(#0b0b0f, #0b0b0f); box-shadow:0 6px 24px rgba(0,0,0,.5); pointer-events:auto; }
+  #haut .barre.verre { padding:calc(var(--haut) + 8px) 12px 8px; gap:8px; }
+  #titre { height:auto; padding:0; background:none; border:0; box-shadow:none; -webkit-backdrop-filter:none; backdrop-filter:none; font-size:24px; letter-spacing:1px; gap:0; }
+  #titre::before { display:none; }
+  #titre b { background:#e0182d; -webkit-background-clip:border-box; background-clip:border-box; color:#fff; padding:1px 7px 0; margin-left:7px; border-radius:4px; font-size:19px; line-height:1.15; }
+  #direct { display:none; }
+  #btn-son { width:38px; height:38px; background:#1b1b22; border:0; box-shadow:none; -webkit-backdrop-filter:none; backdrop-filter:none; }
+  #role-badge { height:24px; line-height:24px; border-radius:4px; padding:0 8px; font-size:10px; box-shadow:none; }
+  #bandeau { display:flex; align-items:stretch; width:100%; height:34px; background:#e0182d; color:#fff; overflow:hidden; text-align:left; }
+  #bandeau.urgent { background:#ff0f2f; animation:bd-clig 1.2s infinite; } @keyframes bd-clig { 50% { background:#a3001a; } }
+  #bandeau.hs { background:#3a3a44; }
+  .bd-live { flex:none; display:flex; align-items:center; gap:6px; padding:0 10px 0 12px; background:#fff; color:#e0182d; font-weight:900; font-size:11.5px; letter-spacing:.8px; position:relative; z-index:1;
+             clip-path:polygon(0 0, 100% 0, calc(100% - 9px) 100%, 0 100%); padding-right:18px; }
+  #bandeau.hs .bd-live { color:#3a3a44; }
+  .bd-live i { width:8px; height:8px; border-radius:50%; background:currentColor; animation:bd-pt 1.2s infinite; } @keyframes bd-pt { 50% { opacity:.25; } }
+  .bd-defile { flex:1; overflow:hidden; position:relative; display:flex; align-items:center; -webkit-mask-image:linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent); mask-image:linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent); }
+  #bd-piste { display:flex; white-space:nowrap; animation:bd-defile 30s linear infinite; font-weight:700; font-size:13.5px; }
+  #bd-piste > span { padding-right:40px; }
+  @keyframes bd-defile { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+  body.eco #bd-piste { animation:none; }
+  .bd-sep { margin:0 14px; font-size:8px; opacity:.7; vertical-align:middle; }
+  #ticker, #ticker.vu { display:none; }
+  #compteurs { padding:8px 10px 0; margin-top:0; position:absolute; left:0; right:0; top:100%; pointer-events:none; }
+  #compteurs .pastille { pointer-events:auto; }
+  .pastille.verre { background:rgba(11,11,15,.85); border-radius:6px; }
+  /* Barre du bas : onglets plats, icônes pleines, trait rouge sur l'onglet principal */
+  #onglets { border-radius:0; padding:0 4px var(--bas); background:#0b0b0f; border-top:1px solid #24242c; box-shadow:0 -6px 20px rgba(0,0,0,.4); }
+  #onglets::after { background:#0b0b0f; }
+  .onglet { border-radius:0; padding:10px 2px 8px; color:#8b8b97; font-size:10.5px; font-weight:700; letter-spacing:.3px; text-transform:uppercase; position:relative; }
+  .onglet svg.ic { width:24px; height:24px; fill:currentColor; fill-opacity:.18; }
+  .onglet:active { background:#16161c; transform:none; }
+  .onglet.fort, .onglet.fort.vert { color:#fff; background:none; }
+  .onglet.fort svg.ic, .onglet.fort.vert svg.ic { width:24px; height:24px; padding:0; margin:0; border:0; border-radius:0; background:none; box-shadow:none; color:#ff2d45; fill-opacity:.35; }
+  .onglet.fort.vert svg.ic { color:#1ee39a; }
+  .onglet.fort::before { content:""; position:absolute; top:-1px; left:22%; right:22%; height:3px; background:#e0182d; border-radius:0 0 3px 3px; }
+  .onglet.fort.vert::before { background:#16c784; }
+  .onglet .badge { top:5px; border-color:#0b0b0f; }
+  #flottants { bottom:calc(var(--bas) + 80px); }
+  #flottants .rond { border-radius:12px; background:rgba(11,11,15,.9); }
+  #aide { top:calc(var(--haut) + 104px); }
+  #toast { top:calc(var(--haut) + 104px) !important; }
 </style>
 </head>
 <body>
@@ -555,6 +598,7 @@
     <div id="direct"><span id="point-direct"></span><span id="maj">…</span></div>
     <button id="btn-son" onclick="basculerSon()" aria-label="Son"></button>
   </div>
+  <button id="bandeau" onclick="ouvrirInfos()"><span class="bd-live"><i></i><b id="bd-etat">EN DIRECT</b></span><div class="bd-defile"><div id="bd-piste"></div></div></button>
   <button id="ticker" class="verre" onclick="ouvrirInfos()"><span id="tk-ic">📌</span><div class="t1"><span id="tk-niv"></span><span id="tk-age"></span></div><div class="t2" id="tk-txt"></div></button>
   <div id="compteurs"></div>
 </div>
@@ -1077,7 +1121,7 @@ function majBadges(){
     b2.textContent = n2; b2.classList.toggle('vu', n2>0); }
   var b3 = $('badge-gestion'); if (b3) { var n3 = aVerifier().length; b3.textContent = n3; b3.classList.toggle('vu', n3>0); b3.style.background = '#ffae3b'; }
 }
-function majTicker(){
+function majTicker(){ setTimeout(majBandeau, 0);
   var publics = etat.messages.filter(function(m){ return m.canal === 'public'; });
   var urg = publics.filter(function(x){ return x.niveau==='urgent' && (maintenant()-x.ts) < 30*60000; })[0];
   var ep = publics.filter(function(x){ return x.epingle; })[0];
@@ -1088,6 +1132,30 @@ function majTicker(){
   $('tk-age').textContent = age(m.ts);
   $('tk-txt').textContent = m.texte;
   $('tk-ic').textContent = (m === urg) ? '🚨' : m.epingle ? '📌' : m.niveau === 'important' ? '❗' : '💬';
+}
+// Bandeau « EN DIRECT » qui défile (style appli d'info)
+function majBandeau(){
+  var b = $('bandeau'); if (!b) return;
+  var cfg = etat.config || {}, it = [];
+  var publics = etat.messages.filter(function(m){ return m.canal === 'public'; });
+  var urg = publics.filter(function(x){ return x.niveau==='urgent' && (maintenant()-x.ts) < 30*60000; })[0];
+  if (urg) it.push('🚨 ' + urg.texte);
+  publics.filter(function(m){ return m.epingle && m !== urg; }).forEach(function(m){ it.push('📌 ' + m.texte); });
+  publics.filter(function(m){ return !m.epingle && m !== urg && (maintenant()-m.ts) < 2*3600000; }).slice(0, 3).forEach(function(m){ it.push((m.niveau==='important'?'❗ ':'') + heure(m.ts) + ' · ' + m.texte); });
+  if (cfg.phase && PHASES[cfg.phase]) it.push(PHASES[cfg.phase].e + ' ' + PHASES[cfg.phase].nom);
+  if (cfg.rdvHeure || cfg.rdvTexte) it.push('📍 ' + (LANGUE==='en'?'Meeting point ':'RDV ') + (cfg.rdvHeure ? cfg.rdvHeure + ' · ' : '') + (cfg.rdvTexte||''));
+  var pol = etat.points.filter(function(p){ return p.type==='police'||p.type==='controle'; }).length;
+  if (pol) it.push('🚓 ' + pol + (LANGUE==='en' ? ' police reports on the map' : ' signalement' + (pol>1?'s':'') + ' police sur la carte'));
+  if (!it.length) it.push(LANGUE==='en' ? 'No news right now · stay safe, stay together' : 'Rien de neuf pour l\'instant · restez groupé·es, prenez soin de vous');
+  var txt = it.map(esc).join('<span class="bd-sep">●</span>');
+  if (b.dataset.txt !== txt) {
+    b.dataset.txt = txt;
+    var piste = $('bd-piste'); piste.innerHTML = '<span>' + txt + '</span><span>' + txt + '</span>';
+    var lg = piste.firstChild.offsetWidth || 600; piste.style.animationDuration = Math.max(12, lg / 45) + 's';
+  }
+  var hs = !!(charger.echecs && charger.echecs > 0);
+  b.classList.toggle('hs', hs); b.classList.toggle('urgent', !!urg);
+  $('bd-etat').textContent = hs ? (LANGUE==='en' ? 'OFFLINE' : 'HORS LIGNE') : (LANGUE==='en' ? 'LIVE' : 'EN DIRECT');
 }
 function majCompteurs(){
   var police = 0, vehic = 0, nasses = 0, surs = 0;
