@@ -294,7 +294,10 @@
   .emo-choix button { font-size:24px; background:var(--s2); border-radius:12px; padding:8px 0; border:2px solid transparent; }
   .emo-choix button.sel { border-color:var(--rose); background:#2a1020; }
   .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:10px 0 12px; }
-  .tuile-s { background:var(--s2); border-radius:16px; padding:12px 8px; text-align:left; border-left:4px solid var(--tc); color:var(--txt); }
+  .prep5{display:flex;align-items:center;gap:12px;width:100%;text-align:left;margin:14px 0 4px;padding:14px;border-radius:16px;border:1px solid #ff5caa66;background:linear-gradient(135deg,#ff5caa26,#4f7cff1f);color:inherit;font:inherit}
+.prep5>span{font-size:26px}.prep5 div{flex:1}.prep5 b{display:block;font-size:15px}.prep5 small{opacity:.75;font-size:12.5px}.prep5 svg{width:18px;height:18px;opacity:.7}
+.prep5-liste{display:flex;flex-direction:column;gap:10px;margin:8px 0 12px;font-size:14.5px;line-height:1.35}.prep5-liste div{background:#ffffff0d;border-radius:12px;padding:10px 12px}
+.tuile-s { background:var(--s2); border-radius:16px; padding:12px 8px; text-align:left; border-left:4px solid var(--tc); color:var(--txt); }
   .tuile-s b { display:block; font-size:26px; line-height:1; font-weight:800; }
   .tuile-s span { font-size:11.5px; color:var(--doux); font-weight:600; }
   .actions-r { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
@@ -1667,6 +1670,8 @@ function dessinerGestion(rafraichir){
     + '<button onclick="commencerPlacement(\'point\')"><span>📍</span>Point</button>'
     + '<button onclick="commencerTrace()"><span>〰️</span>Tracé</button>'
     + '</div>';
+  // Préparation 5 novembre
+  h += '<button class="prep5" onclick="prep5Demande()"><span>📣</span><div><b>Préparer la manif du jeudi 5 novembre</b><small>Rendez-vous, pop-up d\'annonce et parcours en 1 tap</small></div>'+ic('fleche')+'</button>';
   // Phase
   h += '<label class="l">État de la manif (visible par tous)</label><div class="phases">' + Object.keys(PHASES).map(function(k){
       return '<button class="'+(ph===k?'sel':'')+'" style="'+(ph===k?'border-color:'+PHASES[k].c+';background:'+PHASES[k].c+'22':'')+'" onclick="changerPhase(\''+k+'\')">'+PHASES[k].e+' '+PHASES[k].nom+'</button>'; }).join('') + '</div>';
@@ -1699,6 +1704,35 @@ function dessinerGestion(rafraichir){
     + '<div class="rangee"><button class="btn plein" onclick="quitterEquipe();toast(\'Déconnecté·e\')">Se déconnecter</button></div>'
     + '<div class="rangee"><button class="btn rouge plein" onclick="toutEffacerDemande()">Après la manif : tout effacer</button></div>';
   if (rafraichir || $('feuille').dataset.vue === 'gestion') rafraichirFeuille(h); else ouvrir(h, 'gestion');
+}
+// ===== Préréglage manif du 5 novembre =====
+var MANIF5 = {
+  rdv: { phase:'avant', rdvHeure:'Jeu. 5/11 · 10h30', rdvTexte:'Manufacture des Tabacs (3e) → place Bellecour', rdvLat:45.7490, rdvLng:4.8695 },
+  popup: { titre:'Manif jeudi 5 novembre', emoji:'📣', style:'important', cible:'tous', bouton:'Voir le départ', heures:12, lat:45.7490, lng:4.8695,
+    texte:'Grève et manif intersyndicale.\nDépart 10h30 de la Manufacture des Tabacs (Lyon 3e), arrivée place Bellecour (Lyon 2e).\nLe parcours exact peut changer : suis la carte en direct.\nViens accompagné·e, garde ton tel chargé, de l\'eau et du sérum phy. Urgence : 112.' },
+  trace: { type:'cortege', note:'Parcours indicatif 5/11 (Manufacture → Bellecour), à confirmer',
+    coords:[[45.7490,4.8695],[45.7532,4.8699],[45.7535,4.8600],[45.7537,4.8500],[45.7537,4.8437],[45.7553,4.8412],[45.7563,4.8370],[45.7578,4.8320]] }
+};
+function prep5Demande(){
+  ouvrir(entete('Manif du jeudi 5 novembre', 'Ce bouton remplit la carte pour tout le monde :')
+    + '<div class="prep5-liste"><div>📍 <b>Rendez-vous</b> : jeudi 5/11 · 10h30, Manufacture des Tabacs → Bellecour (reste affiché jusqu\'à ce que tu le changes)</div>'
+    + '<div>📣 <b>Pop-up d\'annonce</b> pour tout le monde (12 h)</div>'
+    + '<div>〰️ <b>Parcours indicatif</b> du cortège (6 h, à corriger si le vrai parcours est différent)</div></div>'
+    + '<p style="font-size:13px;opacity:.7;line-height:1.4">Le pop-up et le parcours s\'effacent tout seuls après quelques heures. Le plus simple : tape une fois maintenant, puis encore une fois le matin du 5. Pas de doublons, l\'ancien est remplacé.</p>'
+    + '<div class="rangee"><button class="btn plein" onclick="dessinerGestion()">Annuler</button><button class="btn rose plein" id="prep5-go" onclick="prep5()">Préparer</button></div>', 'gestion-prep');
+}
+function prep5(){
+  var b = $('prep5-go'); if (b) { b.disabled = true; b.textContent = 'En cours…'; }
+  var m = etat.mdp, nom = etat.pseudo || '';
+  var vieux = (etat.traces||[]).filter(function(t){ return /^Parcours indicatif 5\/11/.test(t.note||''); }).map(function(t){ return ['supprimerTrace', t.id]; })
+    .concat((etat.popups||[]).filter(function(p){ return p.titre === MANIF5.popup.titre; }).map(function(p){ return ['supprimerPopup', p.id]; }));
+  var ch = Promise.resolve();
+  vieux.forEach(function(v){ ch = ch.then(function(){ return serveur(v[0], m, v[1]); }); });
+  ch.then(function(){ return serveur('majConfig', m, MANIF5.rdv); })
+    .then(function(){ return serveur('ajouterTrace', m, Object.assign({ par:nom }, MANIF5.trace)); })
+    .then(function(){ return serveur('publierPopup', m, Object.assign({ par:nom }, MANIF5.popup)); })
+    .then(function(j){ appliquer(j); dessinerGestion(); toast('Manif du 5 novembre prête ✅'); jouer('ding'); })
+    .catch(function(e){ erreurEquipe(e); if (b) { b.disabled = false; b.textContent = 'Réessayer'; } });
 }
 function tuile(n, nom, c, action){ return '<button class="tuile-s" '+(action?'onclick="'+action+'"':'')+' style="--tc:'+c+'"><b>'+n+'</b><span>'+nom+'</span></button>'; }
 function changerPhase(k){
