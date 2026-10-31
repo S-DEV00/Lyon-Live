@@ -342,6 +342,42 @@
   .onglets-i button.sel { background:var(--s3); color:var(--txt); }
   #phase-chip { display:none; } #phase-chip.vu { display:inline-flex; }
   .msg.epingle { box-shadow:inset 0 0 0 2px var(--rose); }
+  /* ---------- v10 ---------- */
+  #maint { position:fixed; inset:0; bottom:auto; height:100vh; height:100lvh; z-index:4500; background:#09090b; display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px; }
+  #maint.vu { display:flex; }
+  body.maint-vu #feuille { z-index:4700; } body.maint-vu #voile { z-index:4600; }
+  #maint::before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 50% 35%, #ffae3b33 0%, transparent 50%); }
+  #maint > * { position:relative; }
+  #maint .m-ic { font-size:72px; animation:m-tourne 6s linear infinite; display:inline-block; }
+  @keyframes m-tourne { to { transform:rotate(360deg); } }
+  #maint h1 { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:46px; line-height:1; margin:18px 0 10px; }
+  #maint h1 b { font-weight:400; color:#ffae3b; }
+  #maint p { font-size:17px; line-height:1.45; color:#d9d9e0; max-width:340px; margin:0 0 14px; }
+  #maint .m-fin { display:inline-block; padding:8px 14px; border-radius:20px; background:#ffae3b22; color:#ffae3b; font-weight:800; font-size:14px; margin-bottom:22px; }
+  #maint .m-boutons { display:flex; flex-direction:column; gap:8px; width:100%; max-width:320px; }
+  #maint small { color:var(--doux); font-size:12px; margin-top:18px; }
+  .bandeau-maint { position:fixed; left:50%; transform:translateX(-50%); bottom:calc(var(--bas) + 96px); box-shadow:0 6px 20px #0008; z-index:1200; background:#ffae3b; color:#1a1000; font-weight:800; font-size:12.5px; padding:6px 12px; border-radius:20px; display:none; white-space:nowrap; }
+  body.maint-admin .bandeau-maint { display:block; }
+  #reseau { position:fixed; left:10px; right:10px; bottom:calc(var(--bas) + 92px); z-index:1250; display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:16px;
+    background:#2a1a00f2; border:1px solid #ffae3b66; color:#ffd9a0; font-size:13.5px; transform:translateY(20px); opacity:0; pointer-events:none; transition:.3s; }
+  #reseau.vu { transform:none; opacity:1; pointer-events:auto; }
+  #reseau b { color:#fff; display:block; font-size:14px; } #reseau div { flex:1; } #reseau .r-ic { font-size:22px; }
+  #reseau .r-ic.tourne { animation:m-tourne 1.2s linear infinite; }
+  .qr-boite { background:#fff; border-radius:24px; padding:18px; margin:6px auto 12px; width:min(78vw,300px); }
+  .qr-boite svg { width:100%; height:auto; display:block; }
+  .qr-url { text-align:center; font-weight:700; font-size:14px; color:#ff9ad0; word-break:break-all; margin-bottom:10px; }
+  .refl { border-radius:18px; padding:14px; margin-bottom:10px; background:var(--s2); border:1px solid var(--ligne); }
+  .refl h3 { margin:0 0 8px; font-size:17px; display:flex; align-items:center; gap:8px; } .refl h3 span { font-size:24px; }
+  .refl ul { margin:0; padding-left:18px; } .refl li { font-size:14.5px; line-height:1.45; margin-bottom:4px; color:#e2e2e8; }
+  .refl.rouge { border-color:#ff3b4e55; background:linear-gradient(160deg,#ff3b4e1c,var(--s2) 60%); }
+  .refl.bleu { border-color:#4f7cff55; background:linear-gradient(160deg,#4f7cff1c,var(--s2) 60%); }
+  .refl.vert { border-color:#16c78455; background:linear-gradient(160deg,#16c7841c,var(--s2) 60%); }
+  .langue { display:flex; gap:6px; background:#ffffff10; border-radius:14px; padding:4px; margin-bottom:12px; }
+  .langue button { flex:1; border:0; border-radius:10px; padding:9px; font:inherit; font-weight:700; background:transparent; color:var(--doux); }
+  .langue button.sel { background:var(--rose); color:#fff; }
+  .ac-langue { position:absolute !important; right:0; top:50%; margin-top:-15px; border:1px solid #ffffff26; background:#ffffff12; color:#fff; border-radius:20px; padding:6px 12px; font:inherit; font-weight:800; font-size:13px; }
+  .bilan { white-space:pre-wrap; font-family:ui-monospace,Menlo,monospace; font-size:12.5px; line-height:1.5; background:var(--s2); border-radius:14px; padding:12px; max-height:46vh; overflow:auto; border:1px solid var(--ligne); }
+  .maint-form textarea { width:100%; min-height:70px; }
   #bienvenue.accueil { padding:0; align-items:stretch; background:#09090b; -webkit-backdrop-filter:none; backdrop-filter:none; z-index:4000; }
   .ac { position:relative; width:100%; overflow:auto; padding:calc(var(--haut) + 22px) 20px 0; display:flex; flex-direction:column; }
   .ac::before { content:""; position:fixed; inset:0; pointer-events:none; background:radial-gradient(circle at 80% -5%, #ff5caa55 0%, transparent 45%), radial-gradient(circle at -10% 60%, #4f7cff2e 0%, transparent 45%); }
@@ -429,6 +465,9 @@
 <div id="proxi"></div>
 <div id="popup"></div>
 <div id="bienvenue"></div>
+<div id="maint"></div>
+<div class="bandeau-maint" onclick="ouvrirMaintenance()">🛠️ Maintenance activée · le public ne voit pas la carte</div>
+<div id="reseau" onclick="charger()"><span class="r-ic">📶</span><div><b id="rs-t"></b><span id="rs-s"></span></div></div>
 
 <script>
 // ===================== ICÔNES =====================
@@ -764,9 +803,10 @@ var API = (function(){
 function serveur(fn){
   var args = Array.prototype.slice.call(arguments,1);
   if (!API) return Promise.reject('Serveur non configuré');
-  var req = (fn === 'lireCarte')
-    ? fetch(API + '?fn=lireCarte&t=' + Date.now(), { redirect:'follow' })
-    : fetch(API, { method:'POST', redirect:'follow', headers:{ 'Content-Type':'text/plain;charset=utf-8' }, body: JSON.stringify({ fn:fn, args:args }) });
+  var ac = (typeof AbortController !== 'undefined') ? new AbortController() : null, minut = ac ? setTimeout(function(){ ac.abort(); }, fn === 'lireCarte' || fn === 'lireCarteEquipe' ? 15000 : 25000) : 0;
+  var req = (fn === 'lireCarte') ? fetch(API + '?fn=lireCarte&t=' + Date.now(), { redirect:'follow', signal: ac && ac.signal })
+    : fetch(API, { method:'POST', redirect:'follow', headers:{ 'Content-Type':'text/plain;charset=utf-8' }, body: JSON.stringify({ fn:fn, args:args }), signal: ac && ac.signal });
+  req.then(function(){ clearTimeout(minut); }, function(){ clearTimeout(minut); });
   return req.then(function(r){ return r.json(); }, function(){ throw 'Hors ligne'; })
     .then(function(d){ if (!d || !d.ok) throw (d && d.e) || 'Erreur serveur'; return d.r; });
 }
@@ -794,6 +834,7 @@ function appliquer(json){
   ['points','traces','messages','medics','blesses','popups'].forEach(function(k){ etat[k] = d[k] || []; });
   etat.config = d.config || {};
   etat.derniereMaj = Date.now();
+  majMaintenance(); noterJournal();
   sauverCache(d);
   $('point-direct').classList.remove('hs');
   var sonAJouer = null;
@@ -944,15 +985,20 @@ function majHorloge(){
   if (!etat.derniereMaj) return;
   var s = Math.round((Date.now()-etat.derniereMaj)/1000);
   $('maj').textContent = s < 25 ? 'LIVE' : (s<60 ? s+' S' : Math.floor(s/60)+' MIN');
+  if (charger.echecs) majReseau(charger.enCours);
   if (s > 90) $('point-direct').classList.add('hs');
   etat.points.forEach(function(p){ if(marqueurs[p.id]) marqueurs[p.id].setIcon(iconePour(p)); });
   majTicker();
 }
 function charger(){
   var p = estEquipe() ? serveur('lireCarteEquipe', etat.mdp) : serveur('lireCarte');
-  return p.then(function(j){ charger.horsLigne = false; appliquer(j); }).catch(function(e){
+  if (charger.enCours) return Promise.resolve(); charger.enCours = true; majReseau(true);
+  return p.then(function(j){ charger.enCours = false; charger.echecs = 0; charger.horsLigne = false; appliquer(j); majReseau(); }).catch(function(e){
+    charger.enCours = false;
     if (/mot de passe/i.test(e)) { quitterEquipe(); toast('Mot de passe changé, reconnecte-toi'); return; }
-    $('point-direct').classList.add('hs'); $('maj').textContent='HORS LIGNE'; cacherSplash();
+    charger.echecs = (charger.echecs || 0) + 1; majReseau();
+    if (!etat.derniereMaj) chargerCache();
+    $('point-direct').classList.add('hs'); $('maj').textContent=tr('HORS LIGNE'); cacherSplash();
     if (!charger.horsLigne && etat.derniereMaj) { charger.horsLigne = true; toast('Hors ligne : la carte garde les dernières infos (' + age(etat.derniereMaj) + ')'); }
   });
 }
@@ -1088,7 +1134,10 @@ function basculerCouche(k){ couches[k] = !couches[k]; ecrireLS('c_'+k, couches[k
 
 // ----- Conseils -----
 function ouvrirConseils(){
+  if (LANGUE === 'en') return ouvrirConseilsEN();
   ouvrir(entete('Conseils', 'À lire avant de partir.')
+    + '<div class="langue"><button class="sel">🇫🇷 Français</button><button onclick="changerLangue(\'en\')">🇬🇧 English</button></div>'
+    + '<div class="rangee" style="margin-top:0"><button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ Les bons réflexes</button><button class="btn plein" onclick="ouvrirQR()">🔳 QR code</button></div>'
     + '<div class="appels"><a href="tel:112">112<span>Urgences</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div>'
     + '<div class="rangee"><button class="btn plein" onclick="partagerAppli()">'+ic('partage')+'Partager l\'appli</button><button class="btn plein" onclick="ouvrirAutour()">'+ic('boussole')+'Autour de moi</button></div>'
     + '<label class="interrupteur"><span>🔠 Texte plus grand</span><input type="checkbox" '+(grand?'checked':'')+' onchange="basculerGrand(this.checked)"></label>'
@@ -1415,7 +1464,7 @@ function dessinerOnglets(){
                     + onglet('medic','Medics','ouvrirMedics()','','badge-medics') + onglet('reglages','Gestion','ouvrirGestion()','','badge-gestion');
   else if (estMedic()) o = onglet('medic','Medics','ouvrirMedics()','','badge-medics') + onglet('position', partage.actif ? 'Visible' : 'Position', partage.actif ? 'ouvrirMedics()' : 'partagerGPS()', partage.actif ? 'actif' : '')
                     + onglet('blesse','Blessé','commencerPlacement(\'blesse\')','fort vert') + onglet('infos','Infos','ouvrirInfos()','','badge-infos') + onglet('reglages','Plus','menuPlus()');
-  else o = onglet('infos','Infos','ouvrirInfos()','','badge-infos') + onglet('carte','Carte','ouvrirLegende()') + onglet('boussole','Autour','ouvrirAutour()','fort') + onglet('bouclier','Conseils','ouvrirConseils()') + onglet('cadenas','Équipe','ouvrirConnexion()');
+  else o = onglet('infos',tr('Infos'),'ouvrirInfos()','','badge-infos') + onglet('carte',tr('Carte'),'ouvrirLegende()') + onglet('boussole',tr('Autour'),'ouvrirAutour()','fort') + onglet('bouclier',tr('Conseils'),'ouvrirConseils()') + onglet('cadenas',tr('Équipe'),'ouvrirConnexion()');
   $('onglets').innerHTML = o;
   majBadges();
 }
@@ -1570,8 +1619,21 @@ function basculerEco(on){
 }
 function boucleChargement(){
   if (!document.hidden) charger();
-  setTimeout(boucleChargement, (eco ? 45 : RAFRAICHIR_S) * 1000);
+  // Réseau saturé : on réessaie plus vite (5 s, 8 s, 12 s…) au lieu d'attendre le tour suivant
+  var n = charger.echecs || 0, att = n ? Math.min(5 + n * 3, eco ? 45 : RAFRAICHIR_S) : (eco ? 45 : RAFRAICHIR_S);
+  setTimeout(boucleChargement, att * 1000);
 }
+function majReseau(essai){
+  var el = $('reseau'); if (!el) return;
+  var n = charger.echecs || 0;
+  if (n < 1) { el.classList.remove('vu'); return; }
+  var ageTxt = etat.derniereMaj ? ageCourt(etat.derniereMaj) : '';
+  $('rs-t').textContent = n >= 3 ? tr('Réseau saturé') : tr('Connexion difficile');
+  $('rs-s').textContent = (ageTxt ? tr('Dernières infos : ') + ageTxt + ' · ' : '') + (essai ? tr('nouvel essai…') : tr('touche pour réessayer'));
+  el.querySelector('.r-ic').className = 'r-ic' + (essai ? ' tourne' : ''); el.querySelector('.r-ic').textContent = essai ? '🔄' : '📶';
+  el.classList.add('vu');
+}
+function ageCourt(t){ var s = Math.round((Date.now()-t)/1000); if (s < 60) return LANGUE==='en' ? s+' s ago' : 'il y a '+s+' s'; var m = Math.floor(s/60); return LANGUE==='en' ? m+' min ago' : 'il y a '+m+' min'; }
 
 // ----- Partager le lien -----
 function partagerAppli(){
@@ -1740,13 +1802,158 @@ function dessinerGestion(rafraichir){
   h += '</div>';
   // Outils
   h += '<label class="l">Outils</label>'
-    + '<div class="rangee" style="margin-top:0"><button class="btn plein" onclick="copierResume()">📋 Copier un résumé</button><button class="btn plein" onclick="partagerAppli()">'+ic('partage')+'Partager</button></div>'
+    + '<div class="rangee" style="margin-top:0"><button class="btn plein" onclick="ouvrirMaintenance()">🛠️ Maintenance'+(cfg.maintenance?' <b style="color:#ffae3b">· ON</b>':'')+'</button><button class="btn plein" onclick="ouvrirBilan()">📊 Bilan</button></div>'
+    + '<div class="rangee"><button class="btn plein" onclick="ouvrirQR()">🔳 QR code</button><button class="btn plein" onclick="ouvrirReflexes()">🛡️ Réflexes</button></div>'
+    + '<div class="rangee"><button class="btn plein" onclick="copierResume()">📋 Copier un résumé</button><button class="btn plein" onclick="partagerAppli()">'+ic('partage')+'Partager</button></div>'
     + '<div class="rangee"><button class="btn plein" onclick="ouvrirLegende()">'+ic('carte')+'Carte</button><button class="btn plein" onclick="ouvrirAutour()">'+ic('boussole')+'Autour</button></div>'
     + '<label class="l">Pseudo</label><input id="pseudo2" maxlength="24" value="'+esc(etat.pseudo)+'" onchange="etat.pseudo=this.value.trim();ecrireLS(\'pseudo_equipe\',etat.pseudo)">'
     + '<div class="rangee"><button class="btn plein" onclick="quitterEquipe();toast(\'Déconnecté·e\')">Se déconnecter</button></div>'
     + '<div class="rangee"><button class="btn rouge plein" onclick="toutEffacerDemande()">Après la manif : tout effacer</button></div>';
   if (rafraichir || $('feuille').dataset.vue === 'gestion') rafraichirFeuille(h); else ouvrir(h, 'gestion');
 }
+// ===================== V10 =====================
+// ----- Maintenance -----
+function majMaintenance(){
+  var cfg = etat.config || {}, on = !!cfg.maintenance;
+  document.body.classList.toggle('maint-admin', on && estEquipe());
+  var el = $('maint');
+  if (on && !estEquipe()) {
+    el.innerHTML = '<div class="m-ic">🛠️</div><h1>'+(LANGUE==='en' ? 'BE RIGHT <b>BACK</b>' : 'ON REVIENT <b>VITE</b>')+'</h1>'
+      + '<p>'+esc(cfg.maintenanceTexte || (LANGUE==='en' ? 'The map is being updated. It will come back by itself, no need to do anything.' : 'La carte est en maintenance. Elle reviendra toute seule, pas besoin de recharger.'))+'</p>'
+      + (cfg.maintenanceFin ? '<div class="m-fin">⏱ '+(LANGUE==='en'?'Back around ':'Retour prévu vers ')+esc(cfg.maintenanceFin)+'</div>' : '')
+      + '<div class="m-boutons"><button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(LANGUE==='en'?'Safety tips':'Les bons réflexes')+'</button>'
+      + '<div class="appels" style="margin:0"><a href="tel:112">112<span>'+(LANGUE==='en'?'Emergency':'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div></div>'
+      + '<small>Lyon Live</small>';
+    el.classList.add('vu'); document.body.classList.add('maint-vu'); cacherSplash();
+    if ($('bienvenue').classList.contains('vu')) $('bienvenue').classList.remove('vu');
+  } else if (el.classList.contains('vu')) { el.classList.remove('vu'); document.body.classList.remove('maint-vu');
+    if (!lireLS('bienvenue8') && !estEquipe()) setTimeout(montrerBienvenue, 300); }
+}
+function ouvrirMaintenance(){
+  var cfg = etat.config || {};
+  ouvrir(entete('🛠️ Maintenance', 'Le public voit un écran « On revient vite » à la place de la carte. Les admins et les medics continuent de tout voir.')
+    + '<label class="interrupteur"><span><b>Maintenance activée</b></span><input id="mt-on" type="checkbox" '+(cfg.maintenance?'checked':'')+'></label>'
+    + '<div class="maint-form"><label class="l">Message pour le public (facultatif)</label><textarea id="mt-txt" maxlength="200" placeholder="La carte est en maintenance. Elle reviendra toute seule, pas besoin de recharger.">'+esc(cfg.maintenanceTexte||'')+'</textarea>'
+    + '<label class="l">Retour prévu (facultatif)</label><input id="mt-fin" maxlength="20" placeholder="ex : 9h30" value="'+esc(cfg.maintenanceFin||'')+'"></div>'
+    + '<div class="rangee"><button class="btn plein" onclick="dessinerGestion()">Retour</button><button class="btn rose plein" id="mt-go" onclick="sauverMaintenance()">Enregistrer</button></div>', 'gestion-maint');
+}
+function sauverMaintenance(){
+  var on = $('mt-on').checked;
+  serveur('majConfig', etat.mdp, { maintenance:on, maintenanceTexte:$('mt-txt').value, maintenanceFin:$('mt-fin').value }).then(function(j){
+    appliquer(j);
+    if (on && !(etat.config && etat.config.maintenance)) { toast('Ton serveur Google doit être mis à jour pour la maintenance (voir le message de Claude)'); return; }
+    dessinerGestion(); toast(on ? 'Maintenance activée' : 'Carte de nouveau visible pour tous');
+  }).catch(erreurEquipe);
+}
+
+// ----- QR code -----
+var QR_SVG = '<svg viewBox="0 0 31 31" shape-rendering="crispEdges"><path d="M1 1h1v1h-1zM2 1h1v1h-1zM3 1h1v1h-1zM4 1h1v1h-1zM5 1h1v1h-1zM6 1h1v1h-1zM7 1h1v1h-1zM9 1h1v1h-1zM10 1h1v1h-1zM13 1h1v1h-1zM15 1h1v1h-1zM16 1h1v1h-1zM17 1h1v1h-1zM19 1h1v1h-1zM21 1h1v1h-1zM23 1h1v1h-1zM24 1h1v1h-1zM25 1h1v1h-1zM26 1h1v1h-1zM27 1h1v1h-1zM28 1h1v1h-1zM29 1h1v1h-1zM1 2h1v1h-1zM7 2h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM11 2h1v1h-1zM12 2h1v1h-1zM13 2h1v1h-1zM17 2h1v1h-1zM18 2h1v1h-1zM20 2h1v1h-1zM21 2h1v1h-1zM23 2h1v1h-1zM29 2h1v1h-1zM1 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM5 3h1v1h-1zM7 3h1v1h-1zM9 3h1v1h-1zM19 3h1v1h-1zM23 3h1v1h-1zM25 3h1v1h-1zM26 3h1v1h-1zM27 3h1v1h-1zM29 3h1v1h-1zM1 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM7 4h1v1h-1zM10 4h1v1h-1zM11 4h1v1h-1zM13 4h1v1h-1zM16 4h1v1h-1zM17 4h1v1h-1zM18 4h1v1h-1zM21 4h1v1h-1zM23 4h1v1h-1zM25 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM29 4h1v1h-1zM1 5h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM7 5h1v1h-1zM9 5h1v1h-1zM10 5h1v1h-1zM11 5h1v1h-1zM13 5h1v1h-1zM15 5h1v1h-1zM19 5h1v1h-1zM20 5h1v1h-1zM23 5h1v1h-1zM25 5h1v1h-1zM26 5h1v1h-1zM27 5h1v1h-1zM29 5h1v1h-1zM1 6h1v1h-1zM7 6h1v1h-1zM11 6h1v1h-1zM13 6h1v1h-1zM18 6h1v1h-1zM19 6h1v1h-1zM21 6h1v1h-1zM23 6h1v1h-1zM29 6h1v1h-1zM1 7h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM9 7h1v1h-1zM11 7h1v1h-1zM13 7h1v1h-1zM15 7h1v1h-1zM17 7h1v1h-1zM19 7h1v1h-1zM21 7h1v1h-1zM23 7h1v1h-1zM24 7h1v1h-1zM25 7h1v1h-1zM26 7h1v1h-1zM27 7h1v1h-1zM28 7h1v1h-1zM29 7h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM17 8h1v1h-1zM20 8h1v1h-1zM1 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM6 9h1v1h-1zM7 9h1v1h-1zM8 9h1v1h-1zM9 9h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM14 9h1v1h-1zM16 9h1v1h-1zM17 9h1v1h-1zM18 9h1v1h-1zM20 9h1v1h-1zM21 9h1v1h-1zM22 9h1v1h-1zM25 9h1v1h-1zM27 9h1v1h-1zM28 9h1v1h-1zM29 9h1v1h-1zM3 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM13 10h1v1h-1zM14 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM19 10h1v1h-1zM20 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM25 10h1v1h-1zM27 10h1v1h-1zM28 10h1v1h-1zM4 11h1v1h-1zM5 11h1v1h-1zM7 11h1v1h-1zM8 11h1v1h-1zM11 11h1v1h-1zM14 11h1v1h-1zM16 11h1v1h-1zM21 11h1v1h-1zM25 11h1v1h-1zM27 11h1v1h-1zM1 12h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM5 12h1v1h-1zM8 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM14 12h1v1h-1zM16 12h1v1h-1zM18 12h1v1h-1zM25 12h1v1h-1zM26 12h1v1h-1zM29 12h1v1h-1zM3 13h1v1h-1zM4 13h1v1h-1zM6 13h1v1h-1zM7 13h1v1h-1zM8 13h1v1h-1zM11 13h1v1h-1zM12 13h1v1h-1zM14 13h1v1h-1zM16 13h1v1h-1zM19 13h1v1h-1zM21 13h1v1h-1zM22 13h1v1h-1zM23 13h1v1h-1zM24 13h1v1h-1zM29 13h1v1h-1zM1 14h1v1h-1zM2 14h1v1h-1zM3 14h1v1h-1zM4 14h1v1h-1zM5 14h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM10 14h1v1h-1zM11 14h1v1h-1zM12 14h1v1h-1zM13 14h1v1h-1zM14 14h1v1h-1zM15 14h1v1h-1zM16 14h1v1h-1zM17 14h1v1h-1zM18 14h1v1h-1zM19 14h1v1h-1zM22 14h1v1h-1zM23 14h1v1h-1zM24 14h1v1h-1zM25 14h1v1h-1zM26 14h1v1h-1zM27 14h1v1h-1zM28 14h1v1h-1zM29 14h1v1h-1zM2 15h1v1h-1zM5 15h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM8 15h1v1h-1zM10 15h1v1h-1zM14 15h1v1h-1zM16 15h1v1h-1zM18 15h1v1h-1zM20 15h1v1h-1zM22 15h1v1h-1zM23 15h1v1h-1zM25 15h1v1h-1zM27 15h1v1h-1zM29 15h1v1h-1zM4 16h1v1h-1zM6 16h1v1h-1zM12 16h1v1h-1zM17 16h1v1h-1zM23 16h1v1h-1zM24 16h1v1h-1zM25 16h1v1h-1zM27 16h1v1h-1zM29 16h1v1h-1zM1 17h1v1h-1zM3 17h1v1h-1zM7 17h1v1h-1zM8 17h1v1h-1zM9 17h1v1h-1zM12 17h1v1h-1zM13 17h1v1h-1zM15 17h1v1h-1zM18 17h1v1h-1zM22 17h1v1h-1zM24 17h1v1h-1zM26 17h1v1h-1zM1 18h1v1h-1zM2 18h1v1h-1zM4 18h1v1h-1zM5 18h1v1h-1zM6 18h1v1h-1zM9 18h1v1h-1zM11 18h1v1h-1zM14 18h1v1h-1zM15 18h1v1h-1zM16 18h1v1h-1zM19 18h1v1h-1zM20 18h1v1h-1zM21 18h1v1h-1zM22 18h1v1h-1zM25 18h1v1h-1zM27 18h1v1h-1zM28 18h1v1h-1zM1 19h1v1h-1zM2 19h1v1h-1zM3 19h1v1h-1zM4 19h1v1h-1zM5 19h1v1h-1zM7 19h1v1h-1zM10 19h1v1h-1zM16 19h1v1h-1zM17 19h1v1h-1zM18 19h1v1h-1zM20 19h1v1h-1zM22 19h1v1h-1zM23 19h1v1h-1zM25 19h1v1h-1zM26 19h1v1h-1zM29 19h1v1h-1zM1 20h1v1h-1zM2 20h1v1h-1zM5 20h1v1h-1zM11 20h1v1h-1zM15 20h1v1h-1zM17 20h1v1h-1zM19 20h1v1h-1zM20 20h1v1h-1zM21 20h1v1h-1zM24 20h1v1h-1zM26 20h1v1h-1zM27 20h1v1h-1zM1 21h1v1h-1zM2 21h1v1h-1zM5 21h1v1h-1zM7 21h1v1h-1zM8 21h1v1h-1zM9 21h1v1h-1zM11 21h1v1h-1zM12 21h1v1h-1zM14 21h1v1h-1zM15 21h1v1h-1zM17 21h1v1h-1zM18 21h1v1h-1zM21 21h1v1h-1zM22 21h1v1h-1zM23 21h1v1h-1zM24 21h1v1h-1zM25 21h1v1h-1zM26 21h1v1h-1zM27 21h1v1h-1zM28 21h1v1h-1zM9 22h1v1h-1zM10 22h1v1h-1zM11 22h1v1h-1zM12 22h1v1h-1zM13 22h1v1h-1zM15 22h1v1h-1zM18 22h1v1h-1zM21 22h1v1h-1zM25 22h1v1h-1zM26 22h1v1h-1zM1 23h1v1h-1zM2 23h1v1h-1zM3 23h1v1h-1zM4 23h1v1h-1zM5 23h1v1h-1zM6 23h1v1h-1zM7 23h1v1h-1zM9 23h1v1h-1zM10 23h1v1h-1zM12 23h1v1h-1zM15 23h1v1h-1zM16 23h1v1h-1zM17 23h1v1h-1zM18 23h1v1h-1zM19 23h1v1h-1zM20 23h1v1h-1zM21 23h1v1h-1zM23 23h1v1h-1zM25 23h1v1h-1zM26 23h1v1h-1zM1 24h1v1h-1zM7 24h1v1h-1zM9 24h1v1h-1zM11 24h1v1h-1zM12 24h1v1h-1zM13 24h1v1h-1zM15 24h1v1h-1zM18 24h1v1h-1zM20 24h1v1h-1zM21 24h1v1h-1zM25 24h1v1h-1zM29 24h1v1h-1zM1 25h1v1h-1zM3 25h1v1h-1zM4 25h1v1h-1zM5 25h1v1h-1zM7 25h1v1h-1zM9 25h1v1h-1zM10 25h1v1h-1zM13 25h1v1h-1zM14 25h1v1h-1zM15 25h1v1h-1zM17 25h1v1h-1zM20 25h1v1h-1zM21 25h1v1h-1zM22 25h1v1h-1zM23 25h1v1h-1zM24 25h1v1h-1zM25 25h1v1h-1zM26 25h1v1h-1zM29 25h1v1h-1zM1 26h1v1h-1zM3 26h1v1h-1zM4 26h1v1h-1zM5 26h1v1h-1zM7 26h1v1h-1zM9 26h1v1h-1zM11 26h1v1h-1zM12 26h1v1h-1zM16 26h1v1h-1zM18 26h1v1h-1zM19 26h1v1h-1zM29 26h1v1h-1zM1 27h1v1h-1zM3 27h1v1h-1zM4 27h1v1h-1zM5 27h1v1h-1zM7 27h1v1h-1zM11 27h1v1h-1zM12 27h1v1h-1zM13 27h1v1h-1zM14 27h1v1h-1zM15 27h1v1h-1zM16 27h1v1h-1zM17 27h1v1h-1zM18 27h1v1h-1zM22 27h1v1h-1zM25 27h1v1h-1zM27 27h1v1h-1zM28 27h1v1h-1zM29 27h1v1h-1zM1 28h1v1h-1zM7 28h1v1h-1zM13 28h1v1h-1zM14 28h1v1h-1zM16 28h1v1h-1zM22 28h1v1h-1zM24 28h1v1h-1zM26 28h1v1h-1zM27 28h1v1h-1zM29 28h1v1h-1zM1 29h1v1h-1zM2 29h1v1h-1zM3 29h1v1h-1zM4 29h1v1h-1zM5 29h1v1h-1zM6 29h1v1h-1zM7 29h1v1h-1zM9 29h1v1h-1zM10 29h1v1h-1zM13 29h1v1h-1zM14 29h1v1h-1zM15 29h1v1h-1zM20 29h1v1h-1zM21 29h1v1h-1zM22 29h1v1h-1zM23 29h1v1h-1zM24 29h1v1h-1zM25 29h1v1h-1zM26 29h1v1h-1z" fill="#09090b"/></svg>';
+function ouvrirQR(){
+  var en = LANGUE === 'en';
+  ouvrir(entete(en ? 'Share the map' : 'Partager la carte', en ? 'Show this screen: people scan it with their camera.' : 'Montre cet écran : les gens le scannent avec leur appareil photo.')
+    + '<div class="qr-boite">'+QR_SVG+'</div><div class="qr-url">'+esc((urlAppli||'').replace(/^https:\/\//,''))+'</div>'
+    + '<div class="rangee"><button class="btn rose plein" onclick="partagerAppli()">'+ic('partage')+(en?'Share link':'Envoyer le lien')+'</button></div>', 'qr');
+  try { if (screen.orientation) {} } catch(e){}
+}
+
+// ----- Réflexes -----
+function ouvrirReflexes(){
+  var en = LANGUE === 'en', R = en ? REFLEXES_EN : REFLEXES;
+  ouvrir(entete(en ? 'Safety tips' : 'Les bons réflexes', en ? 'Works without network. Read it before you go.' : 'Marche sans réseau. À lire avant de partir.')
+    + R.map(function(r){ return '<div class="refl '+r.c+'"><h3><span>'+r.e+'</span>'+r.t+'</h3><ul>'+r.l.map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ul></div>'; }).join('')
+    + '<div class="appels"><a href="tel:112">112<span>'+(en?'Emergency':'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div>', 'reflexes');
+}
+var REFLEXES = [
+  { e:'💨', t:'Gaz lacrymogène', c:'rouge', l:['Ne cours pas, ne panique pas : éloigne-toi calmement, dos au vent, vers un endroit dégagé.','Ne te frotte pas les yeux. Rince-les au sérum phy (ou à l\'eau), la tête penchée sur le côté.','Pas de lentilles de contact ce jour-là, préfère tes lunettes.','Aide quelqu\'un qui ne voit plus : prends-le par le bras et sors-le du nuage.'] },
+  { e:'🔒', t:'Risque de nasse', c:'rouge', l:['Regarde régulièrement la carte et repère 2 sorties sûres (points verts, tracés verts).','Si les rues se ferment autour de toi, sors tôt, par le côté, sans courir.','Si tu es bloqué·e : reste calme et groupé·e, pas de mouvement de foule, attends les consignes de sortie.','Prévoyez avec ton groupe un point de rendez-vous si vous êtes séparé·es.'] },
+  { e:'👮', t:'Contrôle d\'identité', c:'bleu', l:['Reste calme et poli·e, ne résiste pas physiquement.','Ta carte d\'identité suffit. Sans papiers, tu peux être retenu·e jusqu\'à 4 h pour vérification.','Tu peux noter le numéro RIO (matricule) de l\'agent, sur sa poitrine ou son épaule.','Une fouille de sac ou de palpation doit se faire dans un cadre précis : demande calmement pourquoi.'] },
+  { e:'⚖️', t:'Si tu es interpellé·e', c:'bleu', l:['Tu as le droit de ne rien dire, à part ton identité.','Demande un avocat (commis d\'office, c\'est gratuit), un médecin, et à prévenir un proche.','Ne signe rien que tu n\'as pas lu ou avec quoi tu n\'es pas d\'accord.','Garde sur toi, écrit sur papier, le numéro d\'un proche ou de la legal team.'] },
+  { e:'🏃', t:'Charge ou bousculade', c:'rouge', l:['Ne cours pas tête baissée : écarte-toi sur le côté, vers un mur ou une rue latérale.','Si tu tombes : relève-toi vite ou protège ta tête avec tes bras, en boule sur le côté.','Tiens la main de ton binôme, ne reviens pas chercher un objet tombé.'] },
+  { e:'⛑️', t:'Quelqu\'un est blessé', c:'vert', l:['Appelle le 112 (ou le 15). Par SMS si tu ne peux pas parler : 114.','Cherche les croix vertes ⛑️ sur la carte : ce sont les street medics.','Ne bouge pas une personne qui a mal au cou ou au dos, sauf danger immédiat.','Reste avec la personne et rassure-la jusqu\'à l\'arrivée des secours.'] },
+  { e:'🎒', t:'Dans ton sac', c:'vert', l:['Eau, sérum phy, quelque chose à manger, batterie externe chargée.','Un numéro d\'urgence écrit sur papier (si ton tel meurt).','Des vêtements qui couvrent, des chaussures pour marcher longtemps.','Rien d\'illégal, rien de dangereux.'] }
+];
+var REFLEXES_EN = [
+  { e:'💨', t:'Tear gas', c:'rouge', l:['Don\'t run or panic: walk away calmly, with the wind at your back, towards open space.','Don\'t rub your eyes. Rinse them with saline (or water), head tilted to the side.','No contact lenses that day, wear glasses.','Help someone who can\'t see: take their arm and lead them out of the cloud.'] },
+  { e:'🔒', t:'Risk of kettling', c:'rouge', l:['Check the map often and spot 2 safe exits (green points, green routes).','If streets are closing around you, leave early, from the side, without running.','If you are trapped: stay calm and together, no crowd surges, wait for exit instructions.','Agree on a meeting point with your group in case you get separated.'] },
+  { e:'👮', t:'ID check', c:'bleu', l:['Stay calm and polite, don\'t resist physically.','Your ID card or passport is enough. Without ID you can be held up to 4 hours for checks.','You can note the officer\'s RIO number (on the chest or shoulder).','Ask calmly why if your bag is searched.'] },
+  { e:'⚖️', t:'If you are arrested', c:'bleu', l:['You have the right to remain silent, apart from your identity.','Ask for a lawyer (free if appointed), a doctor, an interpreter and to inform a relative.','Don\'t sign anything you haven\'t read or don\'t agree with.','Keep a relative\'s or the legal team\'s number written on paper.'] },
+  { e:'🏃', t:'Police charge or crush', c:'rouge', l:['Don\'t run head down: move to the side, towards a wall or a side street.','If you fall: get up fast or protect your head with your arms, curled on your side.','Hold your buddy\'s hand, don\'t go back for a dropped item.'] },
+  { e:'⛑️', t:'Someone is injured', c:'vert', l:['Call 112 (or 15). By text if you can\'t speak: 114.','Look for green crosses ⛑️ on the map: they are street medics.','Don\'t move someone with neck or back pain, unless in immediate danger.','Stay with them and reassure them until help arrives.'] },
+  { e:'🎒', t:'In your bag', c:'vert', l:['Water, saline, a snack, a charged power bank.','An emergency number written on paper (in case your phone dies).','Covering clothes and good walking shoes.','Nothing illegal, nothing dangerous.'] }
+];
+
+// ----- Bilan (admin) : journal local sur le téléphone de l'admin, sans pseudos -----
+var journal = (function(){ try { return JSON.parse(lireLS('journal10') || 'null') || { pts:{}, msgs:{}, phases:[] }; } catch(e){ return { pts:{}, msgs:{}, phases:[] }; } })();
+function noterJournal(){
+  if (!estAdmin()) return;
+  var ch = false;
+  etat.points.forEach(function(p){ var k = journal.pts[p.id]; var v = p.vehicules || 0;
+    if (!k) { journal.pts[p.id] = [p.type, p.cree || p.ts, v]; ch = true; } else if (v > k[2]) { k[2] = v; ch = true; } });
+  etat.messages.forEach(function(m){ if (m.canal === 'public' && !journal.msgs[m.id]) { journal.msgs[m.id] = [m.ts, m.niveau, String(m.texte||'').slice(0,140)]; ch = true; } });
+  var ph = (etat.config||{}).phase, der = journal.phases[journal.phases.length-1];
+  if (ph && (!der || der[0] !== ph)) { journal.phases.push([ph, Date.now()]); ch = true; }
+  if (ch) try { ecrireLS('journal10', JSON.stringify(journal)); } catch(e){}
+}
+function texteBilan(){
+  var L = [], pts = Object.keys(journal.pts).map(function(k){ return journal.pts[k]; }), compte = {}, maxVeh = 0, debut = Infinity, fin = 0;
+  pts.forEach(function(p){ compte[p[0]] = (compte[p[0]]||0) + 1; if (p[0]==='police') maxVeh += p[2] || 0; debut = Math.min(debut, p[1]); fin = Math.max(fin, p[1]); });
+  var jour = new Date(isFinite(debut) ? debut : Date.now());
+  L.push('📊 BILAN LYON LIVE · ' + jour.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' }));
+  if (isFinite(debut)) L.push('🕐 Premier signalement ' + heure(debut) + ' · dernier ' + heure(fin));
+  if (journal.phases.length) { L.push(''); L.push('DÉROULÉ'); journal.phases.forEach(function(x){ var P = PHASES[x[0]]; if (P) L.push(heure(x[1]) + '  ' + P.e + ' ' + P.nom); }); }
+  L.push(''); L.push('SIGNALEMENTS (' + pts.length + ')');
+  Object.keys(TYPES).forEach(function(t){ if (compte[t]) L.push((EMOJI[t]||'•') + ' ' + TYPES[t].nom + ' : ' + compte[t]); });
+  if (maxVeh) L.push('🚓 Véhicules signalés au total : ' + maxVeh);
+  var msgs = Object.keys(journal.msgs).map(function(k){ return journal.msgs[k]; }).sort(function(a,b){ return a[0]-b[0]; });
+  if (msgs.length) { L.push(''); L.push('MESSAGES PUBLICS (' + msgs.length + ')'); msgs.forEach(function(m){ L.push(heure(m[0]) + (m[1]==='urgent'?' 🚨 ':m[1]==='important'?' ❗ ':' · ') + m[2]); }); }
+  L.push(''); L.push('Aucun pseudo, aucune position de personne dans ce bilan.');
+  return L.join('\n');
+}
+function ouvrirBilan(){
+  noterJournal();
+  var n = Object.keys(journal.pts).length + Object.keys(journal.msgs).length;
+  ouvrir(entete('📊 Bilan de la manif', 'Tout ce que la carte a vu depuis ton téléphone. Pratique pour un post, un compte rendu ou la legal team.')
+    + (n ? '<div class="bilan">'+esc(texteBilan())+'</div>' : '<div class="vide">Rien pour l\'instant. Le bilan se remplit tout seul pendant la manif tant que tu es connecté·e en admin.</div>')
+    + '<div class="rangee"><button class="btn plein" onclick="dessinerGestion()">Retour</button><button class="btn rose plein" onclick="copierBilan()">📋 Copier</button></div>'
+    + (n ? '<div class="rangee"><button class="btn rouge plein" onclick="viderBilan()">Vider le bilan (nouvelle manif)</button></div>' : ''), 'gestion-bilan');
+}
+function copierBilan(){ var t = texteBilan(); if (navigator.share && /iPhone|iPad/.test(navigator.userAgent)) { navigator.share({ text:t }).catch(function(){}); return; }
+  if (navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ toast('Bilan copié'); }).catch(function(){ toast('Copie impossible ici'); }); }
+function viderBilan(){ journal = { pts:{}, msgs:{}, phases:[] }; ecrireLS('journal10', null); ouvrirBilan(); toast('Bilan vidé'); }
+
+// ----- Langue FR / EN (espace public) -----
+var LANGUE = lireLS('langue10') || 'fr';
+var EN = { 'HORS LIGNE':'OFFLINE', 'Réseau saturé':'Network overloaded', 'Connexion difficile':'Weak connection', 'Dernières infos : ':'Last update: ', 'nouvel essai…':'retrying…', 'touche pour réessayer':'tap to retry',
+  'Infos':'News', 'Carte':'Map', 'Autour':'Nearby', 'Conseils':'Tips', 'Équipe':'Team' };
+function tr(s){ return (LANGUE === 'en' && EN[s]) || s; }
+var TYPES_EN = { police:'Police / riot police', controle:'ID check / search', nasse:'Kettling risk', bloque:'Blocked street', lacrymo:'Tear gas', danger:'Danger / hostile group', medic:'Medic post', eau:'Water / saline', rdv:'Meeting point', sortie:'Safe exit', sauvage:'Wildcat march', tete:'Front of the march', info:'Info' };
+var TRACES_EN = { cortege:'March route', repli:'Escape route', sauvage:'Wildcat march (route)', bloque:'Blocked / avoid' };
+var PHASES_EN = { avant:'Before the start', encours:'March in progress', pause:'March stopped', dispersion:'Dispersal', fin:'March over' };
+function appliquerLangue(){
+  if (LANGUE !== 'en' || estAdmin()) return;
+  Object.keys(TYPES_EN).forEach(function(k){ if (TYPES[k]) TYPES[k].nom = TYPES_EN[k]; });
+  Object.keys(TRACES_EN).forEach(function(k){ if (TRACES[k]) TRACES[k].nom = TRACES_EN[k]; });
+  Object.keys(PHASES_EN).forEach(function(k){ if (PHASES[k]) PHASES[k].nom = PHASES_EN[k]; });
+  document.documentElement.lang = 'en';
+}
+function changerLangue(l){ ecrireLS('langue10', l); location.reload(); }
+function ouvrirConseilsEN(){
+  ouvrir(entete('Tips', 'Read before you go.')
+    + '<div class="langue"><button onclick="changerLangue(\'fr\')">🇫🇷 Français</button><button class="sel">🇬🇧 English</button></div>'
+    + '<div class="rangee" style="margin-top:0"><button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ Safety tips</button><button class="btn plein" onclick="ouvrirQR()">🔳 QR code</button></div>'
+    + '<div class="appels"><a href="tel:112">112<span>Emergency</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div>'
+    + '<div class="rangee"><button class="btn plein" onclick="partagerAppli()">'+ic('partage')+'Share the app</button><button class="btn plein" onclick="ouvrirAutour()">'+ic('boussole')+'Nearby</button></div>'
+    + '<label class="interrupteur"><span>🔠 Bigger text</span><input type="checkbox" '+(grand?'checked':'')+' onchange="basculerGrand(this.checked)"></label>'
+    + '<label class="interrupteur"><span>'+ic('batterie')+' Battery saver<br><span style="font-size:12px;color:#9b9ba8">fewer updates, no animations</span></span><input type="checkbox" '+(eco?'checked':'')+' onchange="basculerEco(this.checked)"></label>'
+    + '<div class="carte-c"><h3>'+ic('alerte')+'Emergency</h3><b>112</b> emergency · <b>15</b> ambulance · <b>114</b> by text if you can\'t speak. Hospitals with ER = red <b>H</b> squares on the map.</div>'
+    + '<div class="carte-c"><h3>'+ic('carte')+'How to read the map</h3><b style="color:#ff6b7a">Red = avoid</b> (police, kettling, tear gas, blocked streets). <b style="color:#3ee0a0">Green = safe</b> (medics, water, exits, meeting points). A faded point is old info.</div>'
+    + '<div class="carte-c"><h3>'+ic('equipe')+'Stay together</h3>Never stay alone. Agree on a meeting point in case you get separated.</div>'
+    + '<div class="carte-c"><h3>'+ic('son')+'Sounds</h3>Tap the speaker at the top right to turn on alert sounds. Turn off silent mode and keep the app open.</div>'
+    + '<div class="carte-c"><h3>'+ic('oeil')+'Your privacy</h3>This map never knows where you are and doesn\'t identify you. “Nearby” and proximity alerts are computed on your phone.</div>'
+    + '<div class="carte-c"><h3>'+ic('carte')+'If the network drops</h3>Keep the app open: the Lyon map is built in and the latest info stays on screen. It updates by itself when the network is back.</div>'
+    + '<div class="rangee" style="margin-bottom:10px"><button class="btn plein" onclick="fermer();montrerBienvenue()">👋 See the intro again</button></div>', 'conseils');
+}
+
 // ===== Préréglage manif du 5 novembre =====
 var MANIF5 = {
   rdv: { phase:'avant', rdvHeure:'Jeu. 5/11 · 10h30', rdvTexte:'Manufacture des Tabacs (3e) → place Bellecour', rdvLat:45.7490, rdvLng:4.8695 },
@@ -1873,26 +2080,27 @@ var BIENVENUE = [
   { e:'🔔', t:'Reste prévenu·e', x:'Active les sons pour entendre les alertes. Coupe le mode silencieux et garde l\'appli ouverte. Ta position n\'est jamais envoyée.', fin:true }
 ];
 var pageB = 0;
-function montrerBienvenue(){ dessinerBienvenue(); $('bienvenue').classList.add('vu','accueil'); }
+function montrerBienvenue(){ if ($('maint').classList.contains('vu')) return; dessinerBienvenue(); $('bienvenue').classList.add('vu','accueil'); }
 function dessinerBienvenue(){
   var cfg = etat.config || {}, rdv = '';
   if (cfg.rdvHeure || cfg.rdvTexte) {
-    var m = /(\d{1,2})\/(\d{1,2})/.exec(cfg.rdvHeure||''), mois = ['janv','févr','mars','avril','mai','juin','juil','août','sept','oct','nov','déc'];
+    var m = /(\d{1,2})\/(\d{1,2})/.exec(cfg.rdvHeure||''), mois = LANGUE==='en' ? ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'] : ['janv','févr','mars','avril','mai','juin','juil','août','sept','oct','nov','déc'];
     var d = m ? '<div class="d"><small>'+mois[(+m[2]-1)%12]+'</small><b>'+(+m[1])+'</b></div>' : '<div class="d"><b>📍</b></div>';
-    rdv = '<div class="ac-rdv">'+d+'<div class="t"><small>Prochain rendez-vous</small><b>'+esc((cfg.rdvHeure ? cfg.rdvHeure + ' · ' : '') + (cfg.rdvTexte||''))+'</b></div></div>';
+    rdv = '<div class="ac-rdv">'+d+'<div class="t"><small>'+(LANGUE==='en'?'Next meeting point':'Prochain rendez-vous')+'</small><b>'+esc((cfg.rdvHeure ? cfg.rdvHeure + ' · ' : '') + (cfg.rdvTexte||''))+'</b></div></div>';
   }
+  var en = LANGUE === 'en';
   $('bienvenue').innerHTML = '<div class="ac">'
-    + '<div class="ac-haut"><svg viewBox="0 0 64 64"><path d="M32 60 C32 60 10 36 10 24 a22 22 0 0 1 44 0 C54 36 32 60 32 60z" fill="#ff5caa"/><circle cx="32" cy="24" r="9" fill="#09090b"/></svg>Lyon Live · en direct</div>'
-    + '<div><h1>LA MANIF,<br><b>EN DIRECT.</b></h1><p class="ac-sous">Où passer, où éviter, où trouver de l\'aide. La carte est mise à jour par l\'orga toutes les 15 secondes.</p></div>'
+    + '<div class="ac-haut"><svg viewBox="0 0 64 64"><path d="M32 60 C32 60 10 36 10 24 a22 22 0 0 1 44 0 C54 36 32 60 32 60z" fill="#ff5caa"/><circle cx="32" cy="24" r="9" fill="#09090b"/></svg>'+(en?'Lyon Live · live':'Lyon Live · en direct')+'<button class="ac-langue" onclick="changerLangue(\''+(en?'fr':'en')+'\')">'+(en?'🇫🇷 FR':'🇬🇧 EN')+'</button></div>'
+    + '<div><h1>'+(en ? 'THE MARCH,<br><b>LIVE.</b>' : 'LA MANIF,<br><b>EN DIRECT.</b>')+'</h1><p class="ac-sous">'+(en ? 'Where to go, what to avoid, where to find help. The organisers update the map every 15 seconds.' : 'Où passer, où éviter, où trouver de l\'aide. La carte est mise à jour par l\'orga toutes les 15 secondes.')+'</p></div>'
     + rdv
     + '<div class="ac-grille">'
-    +   '<div class="ac-c rouge"><div class="e">🚓💨</div><b>À éviter</b><span>Police, nasses, lacrymo, rues bloquées</span></div>'
-    +   '<div class="ac-c vert"><div class="e">⛑️💧</div><b>Sûr</b><span>Medics, eau, sorties, rendez-vous</span></div>'
-    +   '<div class="ac-c large"><div class="e">🧭</div><div><b>Autour de moi</b><span>Le danger, le medic et le métro le plus proche, avec la direction.</span></div></div>'
+    +   '<div class="ac-c rouge"><div class="e">🚓💨</div><b>'+(en?'Avoid':'À éviter')+'</b><span>'+(en?'Police, kettling, tear gas, blocked streets':'Police, nasses, lacrymo, rues bloquées')+'</span></div>'
+    +   '<div class="ac-c vert"><div class="e">⛑️💧</div><b>'+(en?'Safe':'Sûr')+'</b><span>'+(en?'Medics, water, exits, meeting points':'Medics, eau, sorties, rendez-vous')+'</span></div>'
+    +   '<div class="ac-c large" onclick="finBienvenue();ouvrirReflexes()"><div class="e">🛡️</div><div><b>'+(en?'Safety tips':'Les bons réflexes')+'</b><span>'+(en?'Tear gas, kettling, ID checks, your rights. Works offline.':'Lacrymo, nasse, contrôle, tes droits. Marche sans réseau.')+'</span></div></div>'
     + '</div>'
-    + '<div class="ac-prive">🔒<span>Ta position reste sur ton téléphone. Elle n\'est jamais envoyée.</span></div>'
-    + '<div class="ac-boutons"><button class="btn rose plein" onclick="debloquerSon();son.on=true;ecrireLS(\'son6\',\'1\');majBoutonSon();jouer(\'ding\');finBienvenue()">🔔 Entrer avec les alertes son</button>'
-    +   '<button class="btn plein bv-sans" onclick="finBienvenue()">Entrer sans le son</button></div>'
+    + '<div class="ac-prive">🔒<span>'+(en?'Your location stays on your phone. It is never sent.':'Ta position reste sur ton téléphone. Elle n\'est jamais envoyée.')+'</span></div>'
+    + '<div class="ac-boutons"><button class="btn rose plein" onclick="debloquerSon();son.on=true;ecrireLS(\'son6\',\'1\');majBoutonSon();jouer(\'ding\');finBienvenue()">🔔 '+(en?'Enter with alert sounds':'Entrer avec les alertes son')+'</button>'
+    +   '<button class="btn plein bv-sans" onclick="finBienvenue()">'+(en?'Enter without sound':'Entrer sans le son')+'</button></div>'
     + '</div>';
 }
 // Petite bulle discrète au lieu d'un plein écran : si le téléphone oublie (Safari efface parfois la mémoire de la page), ça ne gêne pas.
@@ -1941,6 +2149,7 @@ $('btn-autour').innerHTML = ic('boussole');
 if (eco) document.body.classList.add('eco');
 if (grand) document.body.classList.add('grand');
 if (!lireLS('bienvenue8') && !estEquipe()) (function att(n){ if ($('splash').style.display === 'none' || n > 40) montrerBienvenue(); else setTimeout(function(){ att(n+1); }, 150); })(0);
+appliquerLangue();
 majVeilleBadge();
 majBoutonSon();
 choisirFond(FONDS[lireLS('fond3')] ? lireLS('fond3') : 'lyon', true);
