@@ -29,7 +29,8 @@
   html,body { margin:0; height:100%; background:var(--noir); color:var(--txt); overflow:hidden;
               font-family:Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif; -webkit-user-select:none; user-select:none; -webkit-font-smoothing:antialiased; }
   input, textarea { -webkit-user-select:text; user-select:text; }
-  #carte { position:fixed; inset:0; background:#141418; }
+  #carte { position:fixed; inset:0; bottom:auto; height:100vh; height:100lvh; min-height:100%; background:#141418; }
+  html { background:#141418; min-height:calc(100% + env(safe-area-inset-bottom)); }
   .anton { font-family:Anton,Impact,sans-serif; letter-spacing:.5px; text-transform:uppercase; font-weight:400; }
   button { font:inherit; color:inherit; border:0; background:none; cursor:pointer; padding:0; }
   svg.ic { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex:none; }
