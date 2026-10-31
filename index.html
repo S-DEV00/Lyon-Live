@@ -36,15 +36,27 @@
   .verre { background:var(--verre); -webkit-backdrop-filter:blur(18px) saturate(1.4); backdrop-filter:blur(18px) saturate(1.4); border:1px solid rgba(255,255,255,.08); }
 
   /* ---------- Écran de démarrage ---------- */
-  #splash { position:fixed; inset:0; z-index:5000; background:radial-gradient(circle at 50% 38%, #2a0f1e 0%, #09090b 60%); display:flex; flex-direction:column;
-            align-items:center; justify-content:center; gap:14px; transition:opacity .5s; }
-  #splash.parti { opacity:0; pointer-events:none; }
-  #splash .logo { width:96px; height:96px; filter:drop-shadow(0 0 30px #ff5caa88); animation:flotte 2s ease-in-out infinite; }
-  @keyframes flotte { 50% { transform:translateY(-6px); } }
-  #splash h1 { margin:0; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:46px; letter-spacing:1px; }
-  #splash h1 b { color:var(--rose); font-weight:400; }
-  #splash .s { color:var(--doux); font-size:13px; font-weight:600; letter-spacing:2px; text-transform:uppercase; }
-  #splash .barre-ch { width:140px; height:3px; border-radius:2px; background:#ffffff1a; overflow:hidden; margin-top:10px; }
+  #splash { position:fixed; inset:0; z-index:5000; background:#09090b; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:opacity .5s, transform .5s; }
+  #splash.parti { opacity:0; transform:scale(1.06); pointer-events:none; }
+  #splash::before { content:""; position:absolute; inset:-20%; background:radial-gradient(circle at 50% 40%, #ff5caa40 0%, transparent 42%), radial-gradient(circle at 15% 90%, #4f7cff30 0%, transparent 40%), radial-gradient(circle at 90% 10%, #ff5caa22 0%, transparent 35%); animation:sp-respire 5s ease-in-out infinite; }
+  @keyframes sp-respire { 50% { transform:scale(1.08) rotate(3deg); } }
+  .sp-grille { position:absolute; inset:0; opacity:.22; background-image:linear-gradient(#ffffff14 1px, transparent 1px), linear-gradient(90deg, #ffffff14 1px, transparent 1px); background-size:34px 34px;
+    -webkit-mask-image:radial-gradient(circle at 50% 42%, #000 0%, transparent 70%); mask-image:radial-gradient(circle at 50% 42%, #000 0%, transparent 70%); transform:perspective(500px) rotateX(35deg) scale(1.6); transform-origin:50% 70%; }
+  .sp-centre { position:relative; display:flex; flex-direction:column; align-items:center; margin-top:-6vh; }
+  .sp-logo { position:relative; width:150px; height:150px; display:flex; align-items:center; justify-content:center; margin-bottom:10px; }
+  .sp-logo svg { width:78px; height:78px; position:relative; filter:drop-shadow(0 8px 24px #ff5caa99); animation:flotte 2.2s ease-in-out infinite; }
+  .sp-logo i { position:absolute; inset:0; border-radius:50%; border:2px solid #ff5caa; opacity:0; animation:sp-onde 2.4s ease-out infinite; }
+  .sp-logo i:nth-child(2) { animation-delay:.8s; } .sp-logo i:nth-child(3) { animation-delay:1.6s; }
+  @keyframes sp-onde { 0% { transform:scale(.3); opacity:.9; } 100% { transform:scale(1.25); opacity:0; } }
+  @keyframes flotte { 50% { transform:translateY(-7px); } }
+  #splash h1 { margin:0; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:76px; line-height:.92; letter-spacing:1px; text-align:center; display:flex; flex-direction:column; }
+  #splash h1 span { color:#fff; } #splash h1 b { font-weight:400; background:linear-gradient(90deg,#ff5caa,#ff9ad0,#ff5caa); background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:sp-brille 2.5s linear infinite; }
+  @keyframes sp-brille { to { background-position:-200% 0; } }
+  .sp-tag { margin-top:18px; display:flex; align-items:center; gap:8px; padding:8px 14px; border-radius:30px; background:#ffffff0f; border:1px solid #ffffff1a; color:#e6e6ea; font-size:12.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; }
+  .sp-pt { width:8px; height:8px; border-radius:50%; background:#ff3b4e; box-shadow:0 0 0 0 #ff3b4e; animation:sp-live 1.4s infinite; }
+  @keyframes sp-live { 70% { box-shadow:0 0 0 8px #ff3b4e00; } 100% { box-shadow:0 0 0 0 #ff3b4e00; } }
+  .sp-bas { position:absolute; bottom:calc(var(--bas) + 46px); display:flex; flex-direction:column; align-items:center; gap:10px; color:var(--doux); font-size:12px; }
+  #splash .barre-ch { width:160px; height:3px; border-radius:2px; background:#ffffff1a; overflow:hidden; }
   #splash .barre-ch i { display:block; height:100%; width:40%; background:var(--rose); border-radius:2px; animation:charge 1.1s ease-in-out infinite; }
   @keyframes charge { from { transform:translateX(-100%); } to { transform:translateX(260%); } }
 
@@ -327,6 +339,30 @@
   .onglets-i button.sel { background:var(--s3); color:var(--txt); }
   #phase-chip { display:none; } #phase-chip.vu { display:inline-flex; }
   .msg.epingle { box-shadow:inset 0 0 0 2px var(--rose); }
+  #bienvenue.accueil { padding:0; align-items:stretch; background:#09090b; -webkit-backdrop-filter:none; backdrop-filter:none; z-index:4000; }
+  .ac { position:relative; width:100%; overflow:auto; padding:calc(var(--haut) + 22px) 20px 0; display:flex; flex-direction:column; }
+  .ac::before { content:""; position:fixed; inset:0; pointer-events:none; background:radial-gradient(circle at 80% -5%, #ff5caa55 0%, transparent 45%), radial-gradient(circle at -10% 60%, #4f7cff2e 0%, transparent 45%); }
+  .ac > * { position:relative; }
+  .ac-haut { display:flex; align-items:center; gap:10px; color:var(--doux); font-size:12px; font-weight:800; letter-spacing:1.2px; text-transform:uppercase; }
+  .ac-haut svg { width:26px; height:26px; }
+  .ac h1 { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:clamp(44px,13.5vw,60px); line-height:.92; margin:16px 0 10px; }
+  .ac h1 b { font-weight:400; color:var(--rose); }
+  .ac .ac-sous { font-size:17px; line-height:1.4; color:#d9d9e0; margin:0 0 20px; }
+  .ac-rdv { display:flex; gap:14px; align-items:center; padding:16px; border-radius:22px; background:linear-gradient(135deg,#ff5caa,#c2337f); color:#fff; box-shadow:0 14px 40px #ff5caa44; margin-bottom:14px; }
+  .ac-rdv .d { flex:none; width:58px; height:62px; border-radius:14px; background:#fff; color:#09090b; display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1; }
+  .ac-rdv .d small { font-size:11px; font-weight:800; text-transform:uppercase; color:#c2337f; } .ac-rdv .d b { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:30px; }
+  .ac-rdv .t small { display:block; font-size:11.5px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; opacity:.85; } .ac-rdv .t b { display:block; font-size:17px; line-height:1.25; margin-top:3px; }
+  .ac-grille { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+  .ac-c { border-radius:20px; padding:14px; background:#16161b; border:1px solid #ffffff12; }
+  .ac-c .e { font-size:24px; letter-spacing:2px; } .ac-c b { display:block; font-size:16px; margin:8px 0 3px; } .ac-c span { font-size:13px; color:var(--doux); line-height:1.35; }
+  .ac-c.rouge { background:linear-gradient(160deg,#ff3b4e26,#16161b 70%); border-color:#ff3b4e44; } .ac-c.rouge b { color:#ff6b7a; }
+  .ac-c.vert { background:linear-gradient(160deg,#16c78426,#16161b 70%); border-color:#16c78444; } .ac-c.vert b { color:#3ee0a0; }
+  .ac-c.large { grid-column:1 / -1; display:flex; gap:12px; align-items:center; } .ac-c.large b { margin:0 0 2px; }
+  .ac-prive { display:flex; gap:10px; align-items:center; font-size:13.5px; color:#cfcfd6; padding:12px 14px; border-radius:16px; background:#ffffff0a; margin-bottom:18px; }
+  .ac-boutons { margin-top:auto; position:sticky !important; bottom:calc(-20px - var(--bas)); margin-left:-20px; margin-right:-20px; padding:22px 20px calc(var(--bas) + 14px); background:linear-gradient(transparent, #09090b 30%); display:flex; flex-direction:column; gap:6px; }
+  .ac-boutons .btn { width:100%; font-size:16.5px; padding:16px; } .ac-boutons .bv-sans { background:transparent !important; border-color:transparent !important; color:var(--doux) !important; padding:10px; font-size:15px; }
+  .ac > * { animation:ac-in .5s both; } .ac > *:nth-child(2) { animation-delay:.06s } .ac > *:nth-child(3) { animation-delay:.12s } .ac > *:nth-child(4) { animation-delay:.18s } .ac > *:nth-child(5) { animation-delay:.24s } .ac > *:nth-child(6) { animation-delay:.3s } .ac > *:nth-child(7) { animation-delay:.36s }
+  @keyframes ac-in { from { opacity:0; transform:translateY(14px); } }
   .bv-boite { width:100%; max-width:380px; text-align:center; }
   .bv-emo { font-size:64px; line-height:1.1; margin-bottom:12px; }
   .bv-boite h2 { font-size:32px; line-height:1.05; margin:0 0 10px; }
@@ -348,10 +384,13 @@
 </head>
 <body>
 <div id="splash">
-  <svg class="logo" viewBox="0 0 64 64"><path d="M32 60 C32 60 10 36 10 24 a22 22 0 0 1 44 0 C54 36 32 60 32 60z" fill="#ff5caa"/><circle cx="32" cy="24" r="9" fill="#09090b"/><circle cx="32" cy="24" r="4" fill="#ff5caa"/></svg>
-  <h1>LYON <b>LIVE</b></h1>
-  <div class="s">Manif · 5 novembre</div>
-  <div class="barre-ch"><i></i></div>
+  <div class="sp-grille"></div>
+  <div class="sp-centre">
+    <div class="sp-logo"><i></i><i></i><i></i><svg viewBox="0 0 64 64"><path d="M32 60 C32 60 10 36 10 24 a22 22 0 0 1 44 0 C54 36 32 60 32 60z" fill="#ff5caa"/><circle cx="32" cy="24" r="9" fill="#09090b"/><circle cx="32" cy="24" r="4" fill="#ff5caa"/></svg></div>
+    <h1><span>LYON</span><b>LIVE</b></h1>
+    <div class="sp-tag"><span class="sp-pt"></span>Carte en direct · Jeudi 5 novembre</div>
+  </div>
+  <div class="sp-bas"><div class="barre-ch"><i></i></div><small>Connexion à la carte…</small></div>
 </div>
 
 <div id="carte"></div>
@@ -1831,13 +1870,26 @@ var BIENVENUE = [
   { e:'🔔', t:'Reste prévenu·e', x:'Active les sons pour entendre les alertes. Coupe le mode silencieux et garde l\'appli ouverte. Ta position n\'est jamais envoyée.', fin:true }
 ];
 var pageB = 0;
-function montrerBienvenue(){ pageB = 0; dessinerBienvenue(); $('bienvenue').classList.add('vu'); }
+function montrerBienvenue(){ dessinerBienvenue(); $('bienvenue').classList.add('vu','accueil'); }
 function dessinerBienvenue(){
-  var p = BIENVENUE[pageB];
-  $('bienvenue').innerHTML = '<div class="bv-boite"><div class="bv-emo">'+p.e+'</div><h2 class="anton">'+p.t+'</h2><p>'+p.x+'</p>'
-    + '<div class="bv-points">' + BIENVENUE.map(function(_,i){ return '<i class="'+(i===pageB?'on':'')+'"></i>'; }).join('') + '</div>'
-    + (p.fin ? '<button class="btn rose plein" onclick="debloquerSon();son.on=true;ecrireLS(\'son6\',\'1\');majBoutonSon();jouer(\'ding\');finBienvenue()">🔔 Activer les sons et commencer</button><button class="btn plein bv-sans" onclick="finBienvenue()">Commencer sans le son</button>'
-             : '<button class="btn rose plein" onclick="pageB++;dessinerBienvenue()">Suivant</button><button class="btn plein bv-sans" onclick="finBienvenue()">Passer</button>')
+  var cfg = etat.config || {}, rdv = '';
+  if (cfg.rdvHeure || cfg.rdvTexte) {
+    var m = /(\d{1,2})\/(\d{1,2})/.exec(cfg.rdvHeure||''), mois = ['janv','févr','mars','avril','mai','juin','juil','août','sept','oct','nov','déc'];
+    var d = m ? '<div class="d"><small>'+mois[(+m[2]-1)%12]+'</small><b>'+(+m[1])+'</b></div>' : '<div class="d"><b>📍</b></div>';
+    rdv = '<div class="ac-rdv">'+d+'<div class="t"><small>Prochain rendez-vous</small><b>'+esc((cfg.rdvHeure ? cfg.rdvHeure + ' · ' : '') + (cfg.rdvTexte||''))+'</b></div></div>';
+  }
+  $('bienvenue').innerHTML = '<div class="ac">'
+    + '<div class="ac-haut"><svg viewBox="0 0 64 64"><path d="M32 60 C32 60 10 36 10 24 a22 22 0 0 1 44 0 C54 36 32 60 32 60z" fill="#ff5caa"/><circle cx="32" cy="24" r="9" fill="#09090b"/></svg>Lyon Live · en direct</div>'
+    + '<div><h1>LA MANIF,<br><b>EN DIRECT.</b></h1><p class="ac-sous">Où passer, où éviter, où trouver de l\'aide. La carte est mise à jour par l\'orga toutes les 15 secondes.</p></div>'
+    + rdv
+    + '<div class="ac-grille">'
+    +   '<div class="ac-c rouge"><div class="e">🚓💨</div><b>À éviter</b><span>Police, nasses, lacrymo, rues bloquées</span></div>'
+    +   '<div class="ac-c vert"><div class="e">⛑️💧</div><b>Sûr</b><span>Medics, eau, sorties, rendez-vous</span></div>'
+    +   '<div class="ac-c large"><div class="e">🧭</div><div><b>Autour de moi</b><span>Le danger, le medic et le métro le plus proche, avec la direction.</span></div></div>'
+    + '</div>'
+    + '<div class="ac-prive">🔒<span>Ta position reste sur ton téléphone. Elle n\'est jamais envoyée.</span></div>'
+    + '<div class="ac-boutons"><button class="btn rose plein" onclick="debloquerSon();son.on=true;ecrireLS(\'son6\',\'1\');majBoutonSon();jouer(\'ding\');finBienvenue()">🔔 Entrer avec les alertes son</button>'
+    +   '<button class="btn plein bv-sans" onclick="finBienvenue()">Entrer sans le son</button></div>'
     + '</div>';
 }
 // Petite bulle discrète au lieu d'un plein écran : si le téléphone oublie (Safari efface parfois la mémoire de la page), ça ne gêne pas.
@@ -1853,7 +1905,7 @@ function fermerBulleB(memoriser){
   el.classList.remove('vu'); setTimeout(function(){ el.remove(); }, 400);
   if (memoriser) ecrireLS('bienvenue8', '1');
 }
-function finBienvenue(){ $('bienvenue').classList.remove('vu'); ecrireLS('bienvenue8','1'); setTimeout(verifierPopups, 400); }
+function finBienvenue(){ var b = $('bienvenue'); b.classList.remove('vu'); setTimeout(function(){ b.classList.remove('accueil'); }, 300); ecrireLS('bienvenue8','1'); setTimeout(verifierPopups, 400); }
 
 // ----- Confort : texte plus grand -----
 function basculerGrand(on){ grand = on; ecrireLS('grand8', on ? '1' : null); document.body.classList.toggle('grand', on); }
@@ -1885,7 +1937,7 @@ document.querySelectorAll('#flottants .rond')[1].innerHTML = ic('cible');
 $('btn-autour').innerHTML = ic('boussole');
 if (eco) document.body.classList.add('eco');
 if (grand) document.body.classList.add('grand');
-if (!lireLS('bienvenue8') && !estEquipe()) setTimeout(proposerBienvenue, 2500);
+if (!lireLS('bienvenue8') && !estEquipe()) (function att(n){ if ($('splash').style.display === 'none' || n > 40) montrerBienvenue(); else setTimeout(function(){ att(n+1); }, 150); })(0);
 majVeilleBadge();
 majBoutonSon();
 choisirFond(FONDS[lireLS('fond3')] ? lireLS('fond3') : 'lyon', true);
