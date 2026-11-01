@@ -989,6 +989,23 @@
   body.leger .halo-fete .hf-l, body.leger .halo-fete .hf-o, body.leger .cc-notes, body.leger .scene-svg .sc-fx { display:none !important; }
   body.leger .leaflet-pane *, body.leger .leaflet-pane *::before, body.leger .leaflet-pane *::after { animation-duration:0s !important; animation-iteration-count:1 !important; }
   body.leger .verre, body.leger #onglets, body.leger #rapide button { -webkit-backdrop-filter:none !important; backdrop-filter:none !important; background-color:#16161cf2 !important; }
+
+  /* V26 : fiche événement */
+  .cal-mini { flex:none; width:38px; height:40px; border-radius:9px; overflow:hidden; background:#fff; display:flex; flex-direction:column; align-items:center; box-shadow:0 2px 6px #0006; }
+  .cal-mini i { font-style:normal; display:block; width:100%; background:#ff3b4e; color:#fff; font-size:9px; font-weight:900; text-align:center; line-height:13px; text-transform:uppercase; letter-spacing:.4px; }
+  .cal-mini b { color:#111; font-size:19px; line-height:26px; font-weight:800; }
+  .evt-hero h3.long { font-size:30px; }
+  .evt-hero.blocus h3.long { font-size:34px; }
+  .evt-hero.blocus .eh-e { font-size:46px; margin:10px 0 6px; }
+  .evt-hero.blocus .evt-infos > div { padding:9px 12px; }
+  .evt-hero.blocus .evt-compte div { background:#000a; border-color:#ffd23f55; }
+  .evt-hero.blocus .evt-compte b { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:30px; letter-spacing:1px; text-shadow:0 0 14px #ff9f1c88; }
+  .evt-alent { margin:0 0 10px; padding:11px 13px; border-radius:14px; font-size:13.5px; line-height:1.4; background:#ff3b4e1a; border:1px solid #ff3b4e55; color:#ffd0d4; }
+  .evt-alent.ok { background:#16c7841a; border-color:#16c78455; color:#b9f3da; font-weight:700; }
+  .bl-conseils { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin:0 0 10px; }
+  .bl-conseils div { background:#ffd23f12; border:1px solid #ffd23f33; border-radius:14px; padding:10px 6px; text-align:center; font-size:20px; line-height:1.1; }
+  .bl-conseils b { display:block; font-size:11.5px; color:#ffd23f; margin-top:5px; }
+  .bl-conseils span { display:block; font-size:10.5px; color:#ffffff99; font-weight:600; margin-top:2px; }
 </style>
 </head>
 <body>
@@ -2644,7 +2661,7 @@ function dessinerGestion(rafraichir){
     + tuile((etat.popups||[]).length, 'pop-ups', '#ff5caa', '')
     + tuile(messagesInfos().length, 'messages', '#9a9aa5', 'ouvrirInfos()')
     + '</div>';
-  h += '<button class="prep5" style="margin:4px 0 4px;border-color:#ffd23f88;background:linear-gradient(135deg,#ffd23f22,#ff5caa22)" onclick="gererEvenements()"><span>📅</span><div><b>Événements, blocus, concerts</b><small>'+(nEvt ? nEvt+' à venir · ' : '')+'Créer ou modifier</small></div>'+ic('fleche')+'</button>';
+  h += '<button class="prep5" style="margin:4px 0 4px;border-color:#ffd23f88;background:linear-gradient(135deg,#ffd23f22,#ff5caa22)" onclick="gererEvenements()"><span>🗓️</span><div><b>Événements, blocus, concerts</b><small>'+(nEvt ? nEvt+' à venir · ' : '')+'Créer ou modifier</small></div>'+ic('fleche')+'</button>';
   if (Date.now() < new Date(2026, 10, 5, 20).getTime())
     h += '<button class="prep5" onclick="prep5Demande()"><span>📣</span><div><b>Préparer la manif du jeudi 5 novembre</b><small>Rendez-vous, pop-up d\'annonce et parcours en 1 tap</small></div>'+ic('fleche')+'</button>';
   h += '<div class="g-titre">Rendez-vous</div>';
@@ -2669,7 +2686,7 @@ function dessinerGestion(rafraichir){
   h += '</div>';
   // Outils
   h += '<div class="g-titre">Outils</div><div class="outils-g">'
-    + '<button onclick="gererEvenements()"><span>📅</span>Événements'+(nEvt ? '<em>'+nEvt+'</em>' : '')+'</button>'
+    + '<button onclick="gererEvenements()"><span>🗓️</span>Événements'+(nEvt ? '<em>'+nEvt+'</em>' : '')+'</button>'
     + '<button onclick="ouvrirMaintenance()"><span>🛠️</span>Maintenance'+(cfg.maintenance ? '<em style="background:#ffae3b">ON</em>' : '')+'</button>'
     + '<button onclick="ouvrirBilan()"><span>📊</span>Bilan</button>'
     + '<button onclick="ouvrirQR()"><span>🔳</span>QR code</button>'
@@ -2883,7 +2900,7 @@ function ouvrirEcole(i){
     + '<div class="eh-s">'+(dang.length ? '⚠️ '+dang.length+' signalement'+(dang.length>1?'s':'')+' à éviter à moins de 300 m' : '✓ Aucun signalement à éviter à moins de 300 m')+'</div></div>'
     + '<div class="rangee"><a class="btn plein" target="_blank" href="https://maps.apple.com/?daddr='+e.c[0]+','+e.c[1]+'&dirflg=w">'+ic('fleche')+'Y aller à pied</a>'
     + '<button class="btn plein" onclick="fermer();carte.flyTo(['+e.c[0]+','+e.c[1]+'],17)">'+ic('carte')+'Zoomer</button></div>'
-    + (estAdmin() ? '<div class="rangee"><button class="btn rose plein" onclick="evtDepuisEcole('+i+')">📅 Créer un événement ici</button></div>' : '');
+    + (estAdmin() ? '<div class="rangee"><button class="btn rose plein" onclick="evtDepuisEcole('+i+')">🗓️ Créer un événement ici</button></div>' : '');
   ouvrir(h, 'ecole');
 }
 function evtDepuisEcole(i){ var e = ECOLES[i]; var d = new Date(Date.now()+86400000);
@@ -2992,7 +3009,7 @@ var CATS_EVT = {
   ag:      { nom:'AG / réunion',   e:'🗣️', c:'#4f7cff' },
   action:  { nom:'Action',         e:'⚡', c:'#ff3b4e' },
   fete:    { nom:'Soirée / concert', e:'🎉', c:'#a35cff' },
-  autre:   { nom:'Autre',          e:'📅', c:'#16c784' }
+  autre:   { nom:'Autre',          e:'🗓️', c:'#16c784' }
 };
 var JOURS_C = ['dim','lun','mar','mer','jeu','ven','sam'], MOIS_C = ['janv','févr','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'];
 var evtMarqueurs = {}, brouillonEvt = null, evtMinuteur = null;
@@ -3083,25 +3100,27 @@ function agendaInfos(){
 }
 function ouvrirAgenda(){
   var l = evtsVisibles();
-  ouvrir(entete('📅 Agenda', 'Les prochains rendez-vous de la lutte à Lyon.')
+  ouvrir(entete('🗓️ Agenda', 'Les prochains rendez-vous de la lutte à Lyon.')
     + (l.length ? listeAgenda(l, false) : '<div class="vide">Aucun événement prévu pour le moment.</div>'), 'agenda');
 }
 function ouvrirEvt(id){
   var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, st = etatEvt(v);
   var h = '<div class="entete-f" style="margin-bottom:6px"><div></div><button class="fermer" onclick="fermer()" aria-label="Fermer">'+ic('fermer')+'</button></div>'
-    + '<div class="evt-hero'+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':'')+'" style="--ec:'+C.c+'">'+(v.cat==='fete' ? decorConcert() : v.cat==='blocus' ? decorBlocus() : v.cat==='rassemb' ? decorRasso() : '')+'<div class="eh-top"><span class="evt-cat">'+C.nom+'</span><span class="evt-etat'+(st==='live'?' live':'')+'">'+(st==='live' ? '● EN COURS' : st==='passe' ? 'TERMINÉ' : 'À VENIR')+'</span></div>'
-    + '<div class="eh-e">'+esc(v.emoji||C.e)+'</div><h3>'+esc(v.titre)+'</h3>'
-    + '<div class="evt-infos"><div><span>📅</span><div>'+jourEvt(v.debut)+'<small>'+heuresEvt(v)+'</small></div></div>'
-    + (v.lieu ? '<div><span>📍</span><div>'+esc(v.lieu)+'</div></div>' : '') + '</div>'
+    + '<div class="evt-hero'+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':'')+'" style="--ec:'+C.c+'">'+(v.cat==='fete' ? decorConcert() : v.cat==='blocus' ? decorBlocus(v) : v.cat==='rassemb' ? decorRasso() : '')+'<div class="eh-top"><span class="evt-cat">'+C.nom+'</span><span class="evt-etat'+(st==='live'?' live':'')+'">'+(st==='live' ? '● EN COURS' : st==='passe' ? 'TERMINÉ' : 'À VENIR')+'</span></div>'
+    + '<div class="eh-e">'+esc(v.emoji||C.e)+'</div><h3'+(v.titre.length > 26 ? ' class="long"' : '')+'>'+esc(v.titre)+'</h3>'
+    + '<div class="evt-infos"><div>'+calMini(v.debut)+'<div>'+jourEvt(v.debut)+'<small>'+heuresEvt(v)+'</small></div></div>'
+    + (v.lieu ? '<div><span>📍</span><div>'+esc(v.lieu)+infoDistance(v)+'</div></div>' : '') + '</div>'
     + (v.cat === 'fete' ? '<div class="cc-grand-eq">' + Array.apply(null, Array(18)).map(function(_, k){ return '<i style="animation-duration:'+(.4+((k*37)%9)/14).toFixed(2)+'s;animation-delay:-'+((k*13)%7/10)+'s"></i>'; }).join('') + '</div>' : '')
     + (st === 'avenir' ? '<div class="evt-compte" id="evt-compte">'+htmlCompte(v)+'</div>' : '')
     + '</div>'
     + (v.cat === 'fete' || v.cat === 'blocus' ? '<button class="btn plein cc-son'+(v.cat==='blocus'?' bl':'')+'" id="cc-son" onclick="basculerConcert(\''+(v.cat==='blocus'?'blocus':'concert')+'.mp3\')">🔊 Écouter le son</button>' : '')
     + (v.texte ? '<div class="evt-desc">'+esc(v.texte)+'</div>' : '')
+    + alentoursEvt(v)
+    + (v.cat === 'blocus' ? '<div class="bl-conseils"><div>👥<b>Reste en groupe</b><span>et repère une sortie</span></div><div>🙈<b>Pas de visages</b><span>sur les photos et vidéos</span></div><div>🔋<b>Batterie chargée</b><span>et le 112 en tête</span></div></div>' : '')
     + '<div class="rangee">'
     + (v.lat !== undefined && v.lat !== null ? '<button class="btn plein" onclick="fermer();carte.flyTo(['+v.lat+','+v.lng+'],16)">'+ic('carte')+'Sur la carte</button><a class="btn plein" target="_blank" href="https://maps.apple.com/?daddr='+v.lat+','+v.lng+'&dirflg=w">'+ic('fleche')+'Y aller</a>' : '')
-    + '</div><div class="rangee"><button class="btn rose plein" onclick="partagerEvt(\''+v.id+'\')">'+ic('partage')+'Partager l\'événement</button></div>'
+    + '</div><div class="rangee"><button class="btn plein" onclick="calendrierEvt(\''+v.id+'\')">🗓️ Agenda</button><button class="btn rose plein" onclick="partagerEvt(\''+v.id+'\')">'+ic('partage')+'Partager</button></div>'
     + (estAdmin() ? '<div class="rangee"><button class="btn plein" onclick="editerEvt(\''+v.id+'\')">✏️ Modifier</button></div>' : '');
   ouvrir(h, 'evt');
   if (v.cat === 'fete') { if (son.on) lancerConcert('concert.mp3'); } else if (v.cat === 'blocus') { if (son.on) lancerConcert('blocus.mp3'); }
@@ -3135,9 +3154,10 @@ function decorRasso(){
     h += '<span class="rs-p" style="--dx:'+Math.round(Math.cos(a)*r)+'px;--dy:'+Math.round(Math.sin(a)*r*.8)+'px;animation-delay:-'+((k*0.37)%3.2).toFixed(2)+'s"></span>'; }
   return h + '</div>';
 }
-function decorBlocus(){
-  var t = ''; for (var k = 0; k < 8; k++) t += '<span>ON BLOQUE TOUT<i></i></span>';
-  return '<div class="bl-faisceau g"></div><div class="bl-faisceau d"></div><div class="bl-ruban haut"><div>'+t+t+'</div></div><div class="bl-ruban bas"><div>'+t+t+'</div></div>';
+function decorBlocus(v){
+  var nom = v ? String(v.lieu || v.titre || '').replace(/^(Blocus|Lycée|Lycee)\s+/i, '').replace(/^(général|professionnel|polyvalent)\s+/i, '').toUpperCase().slice(0, 28) : '';
+  var t = '', t2 = ''; for (var k = 0; k < 8; k++) { t += '<span>ON BLOQUE TOUT<i></i></span>'; t2 += '<span>'+(nom ? esc(nom) + ' EN BLOCUS' : 'ON BLOQUE TOUT')+'<i></i></span>'; }
+  return '<div class="bl-faisceau g"></div><div class="bl-faisceau d"></div><div class="bl-ruban haut"><div>'+t+t+'</div></div><div class="bl-ruban bas"><div>'+t2+t2+'</div></div>';
 }
 function decorConcert(){
   var cols = ['#ff2bd6','#00e0ff','#ffe600','#39ff88','#7a5cff'], c = '';
@@ -3145,15 +3165,42 @@ function decorConcert(){
   return '<div class="cc-faisceaux"><i></i><i></i><i></i></div><div class="cc-flash"></div><div class="cc-confettis">'+c+'</div>';
 }
 function htmlCompte(v){ return compteEvt(v).map(function(x){ return '<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'; }).join(''); }
+
+// Petite icône calendrier avec la vraie date (l'emoji 📅 affiche toujours "17 juillet" sur iPhone)
+function calMini(ts){ var d = new Date(ts); return '<span class="cal-mini"><i>'+MOIS_C[d.getMonth()].replace('.', '')+'</i><b>'+d.getDate()+'</b></span>'; }
+function infoDistance(v){
+  if (!moi || v.lat === undefined || v.lat === null) return '';
+  var m = carte.distance(moi.getLatLng(), [v.lat, v.lng]); return '<small>🚶 '+txtDistance(m)+' · '+txtDuree(m, 5)+' à pied</small>';
+}
+function alentoursEvt(v){
+  if (v.lat === undefined || v.lat === null) return '';
+  var dang = etat.points.filter(function(p){ return (TYPES[p.type]||{}).g === 'danger' && carte.distance([p.lat,p.lng], [v.lat, v.lng]) < 400; });
+  if (!dang.length) return '<div class="evt-alent ok">✓ Aucun signalement à éviter autour (400 m)</div>';
+  return '<div class="evt-alent">⚠️ <b>'+dang.length+' signalement'+(dang.length>1?'s':'')+' à éviter</b> autour : '
+    + dang.slice(0,4).map(function(p){ return (EMOJI[p.type]||'') + ' ' + esc(nomCourtType(p.type)); }).join(' · ') + '</div>';
+}
+function calendrierEvt(id){
+  var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
+  function f(ts){ return new Date(ts).toISOString().replace(/[-:]/g, '').replace(/\.\d+/, ''); }
+  function e(t){ return String(t||'').replace(/([\\;,])/g, '\\$1').replace(/\n/g, '\\n'); }
+  var deb = v.journee ? new Date(v.debut) : null;
+  var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Lyon Live//FR','BEGIN:VEVENT','UID:'+v.id+'@lyonlive','DTSTAMP:'+f(Date.now()),
+    v.journee ? 'DTSTART;VALUE=DATE:'+isoJour(deb).replace(/-/g,'') : 'DTSTART:'+f(v.debut),
+    v.journee ? 'DTEND;VALUE=DATE:'+isoJour(new Date(v.debut + 86400000)).replace(/-/g,'') : 'DTEND:'+f(finEvt(v)),
+    'SUMMARY:'+e(v.titre), v.lieu ? 'LOCATION:'+e(v.lieu) : '', 'DESCRIPTION:'+e((v.texte ? v.texte + '\n\n' : '') + 'Carte en direct : ' + (urlAppli||'')),
+    'BEGIN:VALARM','TRIGGER:-PT30M','ACTION:DISPLAY','DESCRIPTION:'+e(v.titre),'END:VALARM','END:VEVENT','END:VCALENDAR'].filter(Boolean).join('\r\n');
+  var a = document.createElement('a'); a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics); a.download = 'evenement.ics';
+  document.body.appendChild(a); a.click(); a.remove(); toast('Rappel 30 min avant inclus');
+}
 function partagerEvt(id){
   var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
-  var t = (v.emoji || (CATS_EVT[v.cat]||CATS_EVT.autre).e) + ' ' + v.titre + '\n📅 ' + jourEvt(v.debut) + ' · ' + heuresEvt(v) + (v.lieu ? '\n📍 ' + v.lieu : '') + (v.texte ? '\n\n' + v.texte : '') + '\n\nCarte en direct : ' + (urlAppli || '');
+  var t = (v.emoji || (CATS_EVT[v.cat]||CATS_EVT.autre).e) + ' ' + v.titre + '\n🗓️ ' + jourEvt(v.debut) + ' · ' + heuresEvt(v) + (v.lieu ? '\n📍 ' + v.lieu : '') + (v.texte ? '\n\n' + v.texte : '') + '\n\nCarte en direct : ' + (urlAppli || '');
   if (navigator.share) navigator.share({ text:t }).catch(function(){}); else { try { navigator.clipboard.writeText(t); toast('Copié'); } catch(e){} }
 }
 // ----- Admin -----
 function gererEvenements(){
   var tous = evenements(), avenir = tous.filter(function(v){ return etatEvt(v) !== 'passe'; }), passes = tous.length - avenir.length;
-  ouvrir(entete('📅 Événements', 'Ils restent sur la carte et dans l\'agenda jusqu\'à leur fin, sans rien confirmer. Ensuite ils disparaissent tout seuls.')
+  ouvrir(entete('🗓️ Événements', 'Ils restent sur la carte et dans l\'agenda jusqu\'à leur fin, sans rien confirmer. Ensuite ils disparaissent tout seuls.')
     + '<div class="rangee" style="margin-top:4px"><button class="btn rose plein" onclick="nouvelEvt()">'+ic('plus')+'Nouvel événement</button></div>'
     + suggestionsEvt()
     + (avenir.length ? listeAgenda(avenir, true) : '<div class="vide" style="padding:14px">Aucun événement à venir.</div>')
