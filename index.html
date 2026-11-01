@@ -1121,6 +1121,90 @@
   .evt-ligne.sauvage::before { width:5px; background:repeating-linear-gradient(180deg,#ff8a1f 0 8px,#ffd23f 8px 16px); }
   .pastille.evt-chip.sauvage { border-color:#ff8a1f !important; box-shadow:0 0 12px #ff8a1f55; } .pastille.evt-chip.sauvage b { color:#ffb15c; }
   .sv-buts button.sel { box-shadow:0 0 0 2px #ff8a1f; }
+  /* ================= v33 : présentation (stories) ================= */
+  .ob { position:relative; width:100%; height:100%; display:flex; flex-direction:column; overflow:hidden; }
+  .ob::before { content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at 85% -5%, #ff5caa50 0%, transparent 45%), radial-gradient(circle at -10% 70%, #4f7cff2a 0%, transparent 45%); }
+  .ob.s-evt::before { background:radial-gradient(circle at 85% -5%, #ff8a1f44 0%, transparent 45%), radial-gradient(circle at -10% 70%, #a35cff33 0%, transparent 45%); }
+  .ob.s-secu::before { background:radial-gradient(circle at 85% -5%, #16c78440 0%, transparent 45%), radial-gradient(circle at -10% 70%, #4f7cff2a 0%, transparent 45%); }
+  .ob > * { position:relative; }
+  .ob-haut { padding:calc(var(--haut) + 10px) 18px 0; }
+  .ob-prog { display:flex; gap:5px; } .ob-prog i { flex:1; height:4px; border-radius:3px; background:#ffffff22; overflow:hidden; position:relative; }
+  .ob-prog i.fait { background:#ff5caa; } .ob-prog i.en::after { content:""; position:absolute; inset:0; background:#ff5caa; transform-origin:left; animation:ob-prog .5s ease-out both; }
+  @keyframes ob-prog { from { transform:scaleX(0); } }
+  .ob-barre-h { display:flex; align-items:center; gap:8px; margin-top:12px; }
+  .ob-logo { display:flex; align-items:center; gap:7px; font-family:Anton,Impact,sans-serif; font-size:18px; letter-spacing:.5px; margin-right:auto; } .ob-logo b { font-weight:400; color:#ff5caa; } .ob-logo svg { width:22px; height:22px; }
+  .ob-l, .ob-passer { border:1px solid #ffffff26; background:#ffffff12; color:#fff; border-radius:20px; padding:6px 12px; font:inherit; font-weight:800; font-size:13px; }
+  .ob-passer { color:#cfcfd6; }
+  .ob-corps { flex:1; overflow:auto; padding:16px 20px 10px; -webkit-overflow-scrolling:touch; }
+  .ob-corps.av > * { animation:ob-av .4s both; } .ob-corps.ar > * { animation:ob-ar .4s both; }
+  .ob-corps > *:nth-child(2) { animation-delay:.05s !important; } .ob-corps > *:nth-child(3) { animation-delay:.1s !important; } .ob-corps > *:nth-child(4) { animation-delay:.15s !important; } .ob-corps > *:nth-child(5) { animation-delay:.2s !important; } .ob-corps > *:nth-child(6) { animation-delay:.25s !important; }
+  @keyframes ob-av { from { opacity:0; transform:translateX(40px); } } @keyframes ob-ar { from { opacity:0; transform:translateX(-40px); } }
+  .ob-num { font-size:12px; font-weight:900; letter-spacing:1.2px; color:#ff8cc4; margin-bottom:6px; }
+  .ob-corps h2 { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:32px; line-height:1; margin:0 0 14px; text-transform:uppercase; }
+  .ob-corps h1 { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:clamp(46px,14vw,62px); line-height:.92; margin:18px 0 10px; } .ob-corps h1 b { font-weight:400; color:#ff5caa; }
+  .ob-sous { font-size:17px; line-height:1.42; color:#d9d9e0; margin:0 0 14px; }
+  .ob-bas { padding:10px 20px calc(var(--bas) + 14px); display:flex; flex-direction:column; gap:8px; background:linear-gradient(transparent, #09090b 35%); }
+  .ob-bas .btn { width:100%; font-size:17px; padding:16px; } .ob-bas .ob-ret { background:transparent !important; border-color:transparent !important; color:var(--doux); padding:8px; font-size:15px; }
+  .ob-duree { text-align:center; font-size:13px; color:var(--doux); padding:8px; }
+  /* écran 1 : mini carte animée */
+  .ob-carte { position:relative; height:190px; border-radius:24px; overflow:hidden; background:#121218; border:1px solid #ffffff14; box-shadow:0 18px 50px #0008; }
+  .ob-carte svg { position:absolute; inset:0; width:100%; height:100%; }
+  .ob-riv { fill:none; stroke:#1d3a66; stroke-width:16; stroke-linecap:round; } .ob-riv.b { stroke-width:12; }
+  .ob-rues path { fill:none; stroke:#ffffff26; stroke-width:3; }
+  .ob-cortege { fill:none; stroke:#ff5caa; stroke-width:5; stroke-dasharray:12 8; stroke-linecap:round; animation:ob-flux 1.2s linear infinite; filter:drop-shadow(0 0 6px #ff5caa); }
+  @keyframes ob-flux { to { stroke-dashoffset:-40; } }
+  .ob-p { position:absolute; transform:translate(-50%,-100%); animation:ob-pop .5s cubic-bezier(.3,1.6,.5,1) both; }
+  @keyframes ob-pop { from { opacity:0; transform:translate(-50%,-60%) scale(.3); } }
+  .ob-moi { position:absolute; width:16px; height:16px; margin:-8px; border-radius:50%; background:#4f7cff; border:3px solid #fff; box-shadow:0 0 0 0 #4f7cff88; animation:ob-moi 1.8s infinite; }
+  @keyframes ob-moi { 70% { box-shadow:0 0 0 16px #4f7cff00; } 100% { box-shadow:0 0 0 0 #4f7cff00; } }
+  .ob-pin { display:inline-block; } .ob-pin .pin { width:32px; height:32px; }
+  .ob-sv { display:inline-block; width:40px; height:40px; position:relative; } .ob-sv .sv-pin { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%) scale(.72); }
+  .ob-p .ob-sv { transform:translateY(20px); }
+  .ob-rdv { display:flex; gap:12px; align-items:center; padding:14px; border-radius:20px; background:linear-gradient(135deg,#ff5caa,#c2337f); box-shadow:0 14px 40px #ff5caa44; margin-bottom:10px; }
+  .ob-rdv > span { font-size:26px; } .ob-rdv small { display:block; font-size:11px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; opacity:.85; } .ob-rdv b { display:block; font-size:16px; line-height:1.25; margin-top:2px; }
+  .ob-chip { display:inline-block; padding:8px 13px; border-radius:20px; background:#ffffff12; border:1px solid #ffffff1f; font-size:14px; font-weight:700; }
+  /* écran 2 : lire la carte */
+  .ob-ligne { border-radius:20px; padding:14px; margin-bottom:10px; background:#16161b; border:1px solid #ffffff12; }
+  .ob-ligne .ob-pins { display:flex; gap:8px; align-items:center; margin-bottom:8px; min-height:42px; }
+  .ob-ligne b { display:block; font-size:18px; } .ob-ligne span { font-size:14px; color:var(--doux); }
+  .ob-ligne.rouge { background:linear-gradient(160deg,#ff3b4e22,#16161b 70%); border-color:#ff3b4e44; } .ob-ligne.rouge b { color:#ff6b7a; }
+  .ob-ligne.vert { background:linear-gradient(160deg,#16c78422,#16161b 70%); border-color:#16c78444; } .ob-ligne.vert b { color:#3ee0a0; }
+  .ob-ligne.orange { background:linear-gradient(160deg,#ff8a1f22,#16161b 70%); border-color:#ff8a1f44; } .ob-ligne.orange b { color:#ffb15c; }
+  .ob-astuces { display:grid; gap:6px; font-size:14px; color:#cfcfd6; } .ob-astuces div { padding:10px 12px; border-radius:14px; background:#ffffff0a; }
+  /* écran 3 : événements */
+  .ob-evts { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+  .ob-ev { border-radius:20px; padding:14px 12px; min-height:110px; position:relative; overflow:hidden; }
+  .ob-ev span { font-size:30px; display:block; } .ob-ev b { display:block; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:21px; text-transform:uppercase; margin-top:6px; line-height:1; } .ob-ev small { font-size:12.5px; opacity:.8; font-weight:600; }
+  .ob-ev.bl { background:#16130a; box-shadow:inset 0 0 0 2px #ffd23f; } .ob-ev.bl b { color:#ffd23f; }
+  .ob-ev.bl::after { content:""; position:absolute; left:0; right:0; bottom:0; height:8px; background:repeating-linear-gradient(-45deg,#ffd23f 0 8px,#16130a 8px 16px); }
+  .ob-ev.sv { background:#120803; box-shadow:inset 0 0 0 2px #ff8a1f, 0 0 20px #ff8a1f33; } .ob-ev.sv b { color:#ffd23f; text-shadow:2px 2px 0 #c2410c; } .ob-ev.sv span { animation:sv-tremble .5s linear infinite; display:inline-block; }
+  .ob-ev.rs { background:#140d05; box-shadow:inset 0 0 0 2px #ff9f1c; } .ob-ev.rs b { color:#ffb85c; }
+  .ob-ev.cc { background:#0b0612; box-shadow:inset 0 0 0 2px #ff2bd6, 0 0 20px #ff2bd633; } .ob-ev.cc b { background:var(--neon); background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:cc-fond 3s linear infinite; }
+  .ob-liste div { display:flex; gap:12px; align-items:center; padding:11px 12px; border-radius:14px; background:#ffffff0a; margin-bottom:6px; font-size:15px; } .ob-liste i { font-style:normal; font-size:20px; flex:none; }
+  /* écran 4 : boutons */
+  .ob-barre { display:grid; gap:7px; margin-bottom:14px; }
+  .ob-tab { display:grid; grid-template-columns:40px 1fr; grid-template-rows:auto auto; column-gap:12px; align-items:center; padding:10px 12px; border-radius:16px; background:#16161b; border:1px solid #ffffff12; animation:ob-av .4s both; }
+  .ob-tab svg.ic { grid-row:1 / span 2; width:40px; height:40px; padding:9px; border-radius:12px; background:#ffffff10; color:#e8e8ee; }
+  .ob-tab.fort svg.ic { background:var(--grad); color:#fff; border-radius:50%; box-shadow:0 6px 16px #ff3d8b55; }
+  .ob-tab b { font-size:15.5px; } .ob-tab small { font-size:13px; color:var(--doux); }
+  .ob-flot { display:grid; gap:6px; } .ob-flot > div { display:flex; gap:12px; align-items:center; font-size:14px; color:#cfcfd6; }
+  .ob-rond { flex:none; width:40px; height:40px; border-radius:50%; background:rgba(16,16,22,.9); border:1px solid #ffffff1c; display:flex; align-items:center; justify-content:center; font-family:Anton,Impact,sans-serif; font-size:14px; color:#fff; }
+  .ob-rond svg.ic { width:19px; height:19px; }
+  /* écran 5 : sécurité */
+  .ob-secu { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
+  .ob-secu > div { border-radius:20px; padding:14px 12px; background:#16161b; border:1px solid #ffffff12; }
+  .ob-secu span { font-size:26px; } .ob-secu b { display:block; font-size:15px; margin:8px 0 3px; line-height:1.2; } .ob-secu small { font-size:12.5px; color:var(--doux); line-height:1.35; display:block; }
+  .ob-secu > div:first-child { grid-column:1 / -1; background:linear-gradient(160deg,#16c78422,#16161b 70%); border-color:#16c78444; } .ob-secu > div:first-child b { color:#3ee0a0; font-size:17px; }
+  .ob-ajout { display:flex; gap:10px; align-items:center; padding:12px 14px; border-radius:16px; background:#4f7cff1c; border:1px solid #4f7cff44; font-size:14px; line-height:1.35; }
+  /* écran 6 : alertes */
+  .ob-cloche { font-size:68px; text-align:center; margin:4px 0 12px; animation:ob-cloche 2.2s ease-in-out infinite; transform-origin:50% 10%; }
+  @keyframes ob-cloche { 0%,60%,100% { transform:rotate(0); } 65% { transform:rotate(16deg); } 72% { transform:rotate(-14deg); } 79% { transform:rotate(10deg); } 86% { transform:rotate(-6deg); } }
+  .ob-opt { display:flex; gap:12px; align-items:center; padding:14px; border-radius:18px; background:#16161b; border:1px solid #ffffff14; margin-bottom:10px; }
+  .ob-opt > div { flex:1; } .ob-opt b { display:block; font-size:16px; } .ob-opt small { display:block; font-size:13px; color:var(--doux); margin-top:3px; line-height:1.35; }
+  .ob-opt input { width:50px; height:30px; flex:none; -webkit-appearance:none; appearance:none; border-radius:16px; background:#3a3a44; position:relative; transition:background .2s; margin:0; }
+  .ob-opt input::after { content:""; position:absolute; left:3px; top:3px; width:24px; height:24px; border-radius:50%; background:#fff; transition:transform .2s; box-shadow:0 2px 4px #0006; }
+  .ob-opt input:checked { background:#16c784; } .ob-opt input:checked::after { transform:translateX(20px); }
+  .ob-note { font-size:13px; color:var(--doux); text-align:center; line-height:1.4; padding:0 6px; }
 </style>
 </head>
 <body>
@@ -2913,7 +2997,7 @@ function majMaintenance(){
   } else if (el.classList.contains('vu')) { el.classList.remove('vu'); el.dataset.h = ''; document.body.classList.remove('maint-vu');
     maintVu = 0; ecrireLS('maintVu', '');
     toast(LANGUE==='en' ? '✅ The map is back!' : '✅ La carte est de retour !'); try { jouer('message'); } catch(e){}
-    if (!lireLS('bienvenue8') && !estEquipe()) setTimeout(montrerBienvenue, 300); }
+    if (!lireLS('bienvenue9') && !estEquipe()) setTimeout(montrerBienvenue, 300); }
   else if (!on && lireLS('maintVu')) ecrireLS('maintVu', '');
 }
 function lireApercuMaint(){ var c = etat.config || {};
@@ -3879,28 +3963,80 @@ var BIENVENUE = [
   { e:'🔔', t:'Reste prévenu·e', x:'Active les sons pour entendre les alertes. Coupe le mode silencieux et garde l\'appli ouverte. Ta position n\'est jamais envoyée.', fin:true }
 ];
 var pageB = 0;
-function montrerBienvenue(){ if ($('maint').classList.contains('vu')) return; dessinerBienvenue(); $('bienvenue').classList.add('vu','accueil'); }
+function montrerBienvenue(){ if ($('maint').classList.contains('vu')) return; pageB = 0; dessinerBienvenue(); $('bienvenue').classList.add('vu','accueil'); }
+// ===== v33 : présentation façon "stories" (6 écrans, swipe ou boutons) =====
+function txB(fr, en){ return LANGUE === 'en' ? en : fr; }
+function mockPin(type){ return '<span class="ob-pin">'+pinHtml(type)+'</span>'; }
+function svMini(){ return '<span class="ob-sv"><span class="sv-pin"><span class="sv-onde"></span><span class="sv-anneau"></span><span class="sv-c"><span>⚡</span></span></span></span>'; }
+function ecransB(){
+  var cfg = etat.config || {}, rdv = '', nE = 0;
+  try { nE = evtsVisibles().length; } catch(e){}
+  if (cfg.rdvHeure || cfg.rdvTexte) rdv = '<div class="ob-rdv"><span>📍</span><div><small>'+txB('Prochain rendez-vous','Next meeting point')+'</small><b>'+esc((cfg.rdvHeure ? cfg.rdvHeure + ' · ' : '') + (cfg.rdvTexte||''))+'</b></div></div>';
+  var std = window.navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+  return [
+    { k:'hero', html:
+        '<div class="ob-carte"><svg viewBox="0 0 300 190" preserveAspectRatio="xMidYMid slice"><path class="ob-riv" d="M-10 40 C60 60 80 120 40 200"/><path class="ob-riv b" d="M170 -10 C150 60 200 120 180 200"/>'
+      + '<g class="ob-rues"><path d="M0 80H300M0 140H300M90 0V190M240 0V190M0 20L300 170M120 190L300 30"/></g><path class="ob-cortege" d="M20 160 C80 130 120 110 160 100 S250 70 290 50"/></svg>'
+      + '<i class="ob-p" style="left:62%;top:30%">'+mockPin('police')+'</i><i class="ob-p" style="left:28%;top:52%;animation-delay:.5s">'+mockPin('medic')+'</i><i class="ob-p" style="left:80%;top:62%;animation-delay:.9s">'+mockPin('eau')+'</i>'
+      + '<i class="ob-p" style="left:46%;top:58%;animation-delay:1.3s">'+svMini()+'</i><i class="ob-moi" style="left:16%;top:76%"></i></div>'
+      + '<h1>'+txB('LA MANIF,<br><b>EN DIRECT.</b>','THE MARCH,<br><b>LIVE.</b>')+'</h1>'
+      + '<p class="ob-sous">'+txB('Où passer, quoi éviter, où trouver de l’aide. L’orga met la carte à jour en direct, toutes les 15 secondes.','Where to go, what to avoid, where to find help. Organisers update the map live, every 15 seconds.')+'</p>'
+      + rdv + (nE ? '<div class="ob-chip">🗓️ '+nE+' '+txB('événement'+(nE>1?'s':'')+' à venir','upcoming event'+(nE>1?'s':''))+'</div>' : '') },
+    { k:'carte', titre:txB('Lis la carte en 3 secondes','Read the map in 3 seconds'), html:
+        '<div class="ob-ligne rouge"><div class="ob-pins">'+['police','controle','nasse','lacrymo','bloque'].map(mockPin).join('')+'</div><b>'+txB('Rouge = à éviter','Red = avoid')+'</b><span>'+txB('Police, contrôles, nasses, lacrymo, rues bloquées','Police, ID checks, kettling, tear gas, blocked streets')+'</span></div>'
+      + '<div class="ob-ligne vert"><div class="ob-pins">'+['medic','eau','sortie','rdv'].map(mockPin).join('')+'</div><b>'+txB('Vert = sûr','Green = safe')+'</b><span>'+txB('Medics, eau, sorties sûres, rendez-vous','Medics, water, safe exits, meeting points')+'</span></div>'
+      + '<div class="ob-ligne orange"><div class="ob-pins">'+svMini()+mockPin('info')+'</div><b>'+txB('Ça bouge','On the move')+'</b><span>'+txB('Manif sauvage en direct, infos de l’orga','Wildcat march live, organiser notes')+'</span></div>'
+      + '<div class="ob-astuces"><div>👆 '+txB('Touche un point pour voir les détails','Tap a pin for details')+'</div><div>🌫️ '+txB('Un point pâle = info de plus de 45 min','A faded pin = info older than 45 min')+'</div></div>' },
+    { k:'evt', titre:txB('Ne rate aucun rendez-vous','Never miss a meetup'), html:
+        '<div class="ob-evts"><div class="ob-ev bl"><span>🚧</span><b>Blocus</b><small>'+txB('Lycées et facs bloqués','Schools on blockade')+'</small></div>'
+      + '<div class="ob-ev sv"><span>⚡</span><b>'+txB('Manif sauvage','Wildcat march')+'</b><small>'+txB('Avec son objectif','With its goal')+'</small></div>'
+      + '<div class="ob-ev rs"><span>📣</span><b>'+txB('Rassemblement','Rally')+'</b><small>'+txB('Où et à quelle heure','Where and when')+'</small></div>'
+      + '<div class="ob-ev cc"><span>🎉</span><b>'+txB('Soirée / concert','Party / concert')+'</b><small>'+txB('Soutien, fête, son','Benefit, party, music')+'</small></div></div>'
+      + '<div class="ob-liste"><div><i>⏱️</i><span>'+txB('Compte à rebours sur chaque fiche','Countdown on each event')+'</span></div><div><i>🗓️</i><span>'+txB('Ajout en 1 touche à ton calendrier','One tap to add it to your calendar')+'</span></div><div><i>📍</i><span>'+txB('Tout est dans <b>Infos</b> › Agenda','Everything is in <b>Infos</b> › Agenda')+'</span></div></div>' },
+    { k:'outils', titre:txB('Tes boutons','Your buttons'), html:
+        '<div class="ob-barre">'
+      + [['infos',txB('Infos','Infos'),txB('Messages de l’orga, agenda','Organiser messages, agenda')],['carte',txB('Carte','Map'),txB('Légende et calques','Legend and layers')],['boussole',txB('Autour','Nearby'),txB('Le plus proche de toi','Closest to you')],['bouclier',txB('Conseils','Tips'),txB('Bons réflexes, sans réseau','Safety tips, offline')],['cadenas',txB('Équipe','Team'),txB('Pour l’orga et les medics','Organisers and medics')]]
+          .map(function(x, i){ return '<div class="ob-tab'+(i===2?' fort':'')+'" style="animation-delay:'+(i*.08)+'s">'+ic(x[0])+'<b>'+x[1]+'</b><small>'+x[2]+'</small></div>'; }).join('')
+      + '</div><div class="ob-flot"><div><span class="ob-rond">3D</span><span>'+txB('Bâtiments en relief, lycées modélisés','3D buildings, modelled schools')+'</span></div><div><span class="ob-rond">'+ic('maison')+'</span><span>'+txB('Revenir sur Lyon','Back to Lyon')+'</span></div><div><span class="ob-rond">'+ic('cible')+'</span><span>'+txB('Te placer sur la carte','Show where you are')+'</span></div></div>' },
+    { k:'secu', titre:txB('Ta sécurité d’abord','Your safety first'), html:
+        '<div class="ob-secu"><div><span>🔒</span><b>'+txB('Ta position reste chez toi','Your location stays with you')+'</b><small>'+txB('Elle n’est jamais envoyée. Pas de compte, pas de nom.','It is never sent. No account, no name.')+'</small></div>'
+      + '<div><span>📵</span><b>'+txB('Marche sans réseau','Works without signal')+'</b><small>'+txB('Le plan de Lyon est dans l’appli. Garde-la ouverte.','The Lyon map is inside the app. Keep it open.')+'</small></div>'
+      + '<div><span>🙈</span><b>'+txB('Pas de visages','No faces')+'</b><small>'+txB('Floute les gens sur tes photos et vidéos.','Blur people in your photos and videos.')+'</small></div>'
+      + '<div><span>🆘</span><b>'+txB('Urgence : 112','Emergency: 112')+'</b><small>'+txB('15 pour le SAMU, 114 par SMS. Dans Conseils.','15 for ambulance, 114 by text. In Tips.')+'</small></div></div>'
+      + (std ? '' : '<div class="ob-ajout">📲 <span>'+txB('Ajoute l’appli à ton écran d’accueil : touche <b>Partager</b> puis <b>Sur l’écran d’accueil</b>.','Add the app to your home screen: tap <b>Share</b> then <b>Add to Home Screen</b>.')+'</span></div>') },
+    { k:'alertes', titre:txB('Reste prévenu·e','Stay alerted'), html:
+        '<div class="ob-cloche">🔔</div>'
+      + '<label class="ob-opt"><div><b>'+txB('Sons d’alerte','Alert sounds')+'</b><small>'+txB('Un son à chaque nouveau signalement ou message urgent','A sound for each new report or urgent message')+'</small></div><input type="checkbox" id="ob-son" '+(son.on?'checked':'')+'></label>'
+      + '<label class="ob-opt"><div><b>'+txB('Alerte danger à 200 m','Danger alert within 200 m')+'</b><small>'+txB('Ton téléphone vibre si un danger est proche. Calculé sur ton téléphone, rien n’est envoyé.','Your phone buzzes if danger is near. Computed on your phone, nothing is sent.')+'</small></div><input type="checkbox" id="ob-veille" '+(veille.on?'checked':'')+'></label>'
+      + '<div class="ob-note">'+txB('Coupe le mode silencieux de l’iPhone pour entendre les sons. Tu pourras tout revoir dans Conseils.','Turn off silent mode to hear sounds. You can replay this tour from Tips.')+'</div>', fin:true }
+  ];
+}
 function dessinerBienvenue(){
-  var cfg = etat.config || {}, rdv = '';
-  if (cfg.rdvHeure || cfg.rdvTexte) {
-    var m = /(\d{1,2})\/(\d{1,2})/.exec(cfg.rdvHeure||''), mois = LANGUE==='en' ? ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'] : ['janv','févr','mars','avril','mai','juin','juil','août','sept','oct','nov','déc'];
-    var d = m ? '<div class="d"><small>'+mois[(+m[2]-1)%12]+'</small><b>'+(+m[1])+'</b></div>' : '<div class="d"><b>📍</b></div>';
-    rdv = '<div class="ac-rdv">'+d+'<div class="t"><small>'+(LANGUE==='en'?'Next meeting point':'Prochain rendez-vous')+'</small><b>'+esc((cfg.rdvHeure ? cfg.rdvHeure + ' · ' : '') + (cfg.rdvTexte||''))+'</b></div></div>';
-  }
-  var en = LANGUE === 'en';
-  $('bienvenue').innerHTML = '<div class="ac">'
-    + '<div class="ac-haut"><svg viewBox="0 0 64 64"><path d="M32 60 C32 60 10 36 10 24 a22 22 0 0 1 44 0 C54 36 32 60 32 60z" fill="#ff5caa"/><circle cx="32" cy="24" r="9" fill="#09090b"/></svg>'+(en?'Lyon Live · live':'Lyon Live · en direct')+'<button class="ac-langue" onclick="changerLangue(\''+(en?'fr':'en')+'\')">'+(en?'🇫🇷 FR':'🇬🇧 EN')+'</button></div>'
-    + '<div><h1>'+(en ? 'THE MARCH,<br><b>LIVE.</b>' : 'LA MANIF,<br><b>EN DIRECT.</b>')+'</h1><p class="ac-sous">'+(en ? 'Where to go, what to avoid, where to find help. The organisers update the map every 15 seconds.' : 'Où passer, où éviter, où trouver de l\'aide. La carte est mise à jour par l\'orga toutes les 15 secondes.')+'</p></div>'
-    + rdv
-    + '<div class="ac-grille">'
-    +   '<div class="ac-c rouge"><div class="e">🚓💨</div><b>'+(en?'Avoid':'À éviter')+'</b><span>'+(en?'Police, kettling, tear gas, blocked streets':'Police, nasses, lacrymo, rues bloquées')+'</span></div>'
-    +   '<div class="ac-c vert"><div class="e">⛑️💧</div><b>'+(en?'Safe':'Sûr')+'</b><span>'+(en?'Medics, water, exits, meeting points':'Medics, eau, sorties, rendez-vous')+'</span></div>'
-    +   '<div class="ac-c large" onclick="finBienvenue();ouvrirReflexes()"><div class="e">🛡️</div><div><b>'+(en?'Safety tips':'Les bons réflexes')+'</b><span>'+(en?'Tear gas, kettling, ID checks, your rights. Works offline.':'Lacrymo, nasse, contrôle, tes droits. Marche sans réseau.')+'</span></div></div>'
-    + '</div>'
-    + '<div class="ac-prive">🔒<span>'+(en?'Your location stays on your phone. It is never sent.':'Ta position reste sur ton téléphone. Elle n\'est jamais envoyée.')+'</span></div>'
-    + '<div class="ac-boutons"><button class="btn rose plein" onclick="debloquerSon();son.on=true;ecrireLS(\'son6\',\'1\');majBoutonSon();jouer(\'ding\');finBienvenue()">🔔 '+(en?'Enter with alert sounds':'Entrer avec les alertes son')+'</button>'
-    +   '<button class="btn plein bv-sans" onclick="finBienvenue()">'+(en?'Enter without sound':'Entrer sans le son')+'</button></div>'
+  var E = ecransB(); pageB = Math.max(0, Math.min(pageB, E.length - 1));
+  var e = E[pageB], en = LANGUE === 'en';
+  $('bienvenue').innerHTML = '<div class="ob s-'+e.k+'">'
+    + '<div class="ob-haut"><div class="ob-prog">'+E.map(function(_, i){ return '<i class="'+(i < pageB ? 'fait' : i === pageB ? 'en' : '')+'" onclick="allerB('+i+')"></i>'; }).join('')+'</div>'
+    + '<div class="ob-barre-h"><span class="ob-logo"><svg viewBox="0 0 64 64"><path d="M32 60 C32 60 10 36 10 24 a22 22 0 0 1 44 0 C54 36 32 60 32 60z" fill="#ff5caa"/><circle cx="32" cy="24" r="9" fill="#09090b"/></svg>LYON <b>LIVE</b></span>'
+    + '<button class="ob-l" onclick="changerLangue(\''+(en?'fr':'en')+'\')">'+(en?'🇫🇷 FR':'🇬🇧 EN')+'</button>'
+    + (e.fin ? '' : '<button class="ob-passer" onclick="allerB('+(E.length-1)+')">'+txB('Passer','Skip')+'</button>')+'</div></div>'
+    + '<div class="ob-corps" id="ob-corps">'+(e.titre ? '<div class="ob-num">'+(pageB)+' / '+(E.length-1)+'</div><h2>'+e.titre+'</h2>' : '')+e.html+'</div>'
+    + '<div class="ob-bas">'+(e.fin
+        ? '<button class="btn rose plein" onclick="terminerB()">'+txB('Entrer sur la carte','Open the map')+' →</button>'
+        : '<button class="btn rose plein" onclick="allerB('+(pageB+1)+')">'+(pageB === 0 ? txB('C’est parti','Let’s go') : txB('Suivant','Next'))+' →</button>')
+    + (pageB > 0 ? '<button class="btn plein ob-ret" onclick="allerB('+(pageB-1)+')">← '+txB('Retour','Back')+'</button>' : '<div class="ob-duree">'+txB('Présentation en 30 secondes','30-second tour')+'</div>')+'</div>'
     + '</div>';
+  var c = $('ob-corps'), x0 = null, y0 = 0;
+  c.addEventListener('touchstart', function(ev){ x0 = ev.touches[0].clientX; y0 = ev.touches[0].clientY; }, { passive:true });
+  c.addEventListener('touchend', function(ev){ if (x0 === null) return; var dx = ev.changedTouches[0].clientX - x0, dy = ev.changedTouches[0].clientY - y0; x0 = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) allerB(pageB + (dx < 0 ? 1 : -1)); }, { passive:true });
+}
+function allerB(i){ var n = ecransB().length; if (i < 0 || i >= n) return; var sens = i > pageB ? 'av' : 'ar'; pageB = i; dessinerBienvenue(); var c = $('ob-corps'); if (c) c.classList.add(sens); }
+function terminerB(){
+  var s = $('ob-son'), v = $('ob-veille');
+  if (s && s.checked) { debloquerSon(); son.on = true; ecrireLS('son6','1'); majBoutonSon(); try { jouer('ding'); } catch(e){} }
+  else if (s) { son.on = false; ecrireLS('son6','0'); majBoutonSon(); }
+  if (v && v.checked !== veille.on) basculerVeille(v.checked);
+  pageB = 0; finBienvenue();
 }
 // Petite bulle discrète au lieu d'un plein écran : si le téléphone oublie (Safari efface parfois la mémoire de la page), ça ne gêne pas.
 function proposerBienvenue(){
@@ -3913,9 +4049,9 @@ function proposerBienvenue(){
 function fermerBulleB(memoriser){
   clearTimeout(fermerBulleB.t); var el = $('bv-bulle'); if (!el) return;
   el.classList.remove('vu'); setTimeout(function(){ el.remove(); }, 400);
-  if (memoriser) ecrireLS('bienvenue8', '1');
+  if (memoriser) ecrireLS('bienvenue9', '1');
 }
-function finBienvenue(){ var b = $('bienvenue'); b.classList.remove('vu'); setTimeout(function(){ b.classList.remove('accueil'); }, 300); ecrireLS('bienvenue8','1'); setTimeout(verifierPopups, 400); }
+function finBienvenue(){ var b = $('bienvenue'); b.classList.remove('vu'); setTimeout(function(){ b.classList.remove('accueil'); }, 300); ecrireLS('bienvenue9','1'); setTimeout(verifierPopups, 400); }
 
 // ----- Confort : texte plus grand -----
 function basculerGrand(on){ grand = on; ecrireLS('grand8', on ? '1' : null); document.body.classList.toggle('grand', on); }
@@ -3947,7 +4083,7 @@ document.querySelectorAll('#flottants .rond:not(#btn-3d)')[1].innerHTML = ic('ci
 $('btn-autour').innerHTML = ic('boussole');
 if (eco) document.body.classList.add('eco');
 if (grand) document.body.classList.add('grand');
-if (!lireLS('bienvenue8') && !estEquipe()) (function att(n){ if ($('splash').style.display === 'none' || n > 40) montrerBienvenue(); else setTimeout(function(){ att(n+1); }, 150); })(0);
+if (!lireLS('bienvenue9') && !estEquipe()) (function att(n){ if ($('splash').style.display === 'none' || n > 40) montrerBienvenue(); else setTimeout(function(){ att(n+1); }, 150); })(0);
 appliquerLangue();
 majVeilleBadge();
 majBoutonSon();
