@@ -668,6 +668,7 @@
   .evt-cats button { background:var(--s2); border:2px solid transparent; border-radius:14px; padding:9px 4px; font-size:12px; font-weight:700; color:#ddd; display:flex; flex-direction:column; align-items:center; gap:3px; }
   .evt-cats button span { font-size:22px; }
   .evt-cats button.sel { border-color:var(--ec); background:color-mix(in srgb, var(--ec) 18%, #1b1b21); color:#fff; }
+  .evt-heures.journee > div { display:none; }
   .evt-heures { display:grid; grid-template-columns:1fr 1fr; gap:8px; } .evt-heures #ev-jour { grid-column:1 / -1; } .evt-heures label { font-size:11px; color:var(--doux); font-weight:700; display:block; margin-bottom:3px; }
   .evt-heures input { width:100%; min-width:0; }
   .evt-lieu-ok { display:flex; align-items:center; gap:8px; font-size:13px; color:#8ff0c2; font-weight:700; margin-top:6px; }
@@ -696,6 +697,64 @@
   .nomrue span { font-size:10.5px; opacity:.8; }
   body:not(.zoom-16) .ecole-nom.lycee { display:none; }
   body:not(.zoom-proche) .ecole-nom.fac { display:none; }
+
+  /* ================= v18 : concerts / soirées qui envoient ================= */
+  @keyframes cc-teinte { to { filter:hue-rotate(360deg); } }
+  @keyframes cc-tourne { to { transform:rotate(360deg); } }
+  @keyframes cc-eq { 0%,100% { transform:scaleY(.25); } 50% { transform:scaleY(1); } }
+  @keyframes cc-boum { 0%,100% { transform:scale(1); } 12% { transform:scale(1.18); } 30% { transform:scale(.96); } }
+  @keyframes cc-onde { 0% { transform:scale(.6); opacity:.9; } 100% { transform:scale(2.1); opacity:0; } }
+  @keyframes cc-note { 0% { transform:translate(0,0) rotate(-10deg); opacity:0; } 15% { opacity:1; } 100% { transform:translate(var(--nx),-46px) rotate(20deg); opacity:0; } }
+  @keyframes cc-fond { 0% { background-position:0% 50%; } 100% { background-position:200% 50%; } }
+  @keyframes cc-faisceau { 0%,100% { transform:rotate(-28deg); } 50% { transform:rotate(28deg); } }
+  @keyframes cc-flash { 0%,100% { opacity:.0; } 8% { opacity:.35; } 16% { opacity:0; } }
+  :root { --neon:linear-gradient(90deg,#ff2bd6,#7a5cff,#00e0ff,#39ff88,#ffe600,#ff2bd6); }
+  /* Épingle sur la carte */
+  .evt-pin.concert { width:52px; height:58px; }
+  .evt-pin.concert .ep-c { width:52px; height:52px; border:0; background:#0b0612; box-shadow:0 0 18px #ff2bd6aa, 0 0 36px #7a5cff66; overflow:visible; animation:cc-boum .9s ease-in-out infinite; }
+  .evt-pin.concert .ep-c::before { content:""; position:absolute; inset:-3px; border-radius:16px; padding:3px; background:conic-gradient(#ff2bd6,#7a5cff,#00e0ff,#39ff88,#ffe600,#ff2bd6);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; animation:cc-teinte 2s linear infinite; }
+  .evt-pin.concert .ep-c::after { content:""; position:absolute; inset:-6px; border-radius:20px; border:2px solid #ff2bd6; animation:cc-onde 1.8s ease-out infinite; pointer-events:none; }
+  .evt-pin.concert .ep-m { background:var(--neon); background-size:200% 100%; animation:cc-fond 2s linear infinite; color:#000; border-radius:13px 13px 0 0; }
+  .evt-pin.concert .ep-e { line-height:22px; font-size:18px; }
+  .evt-pin.concert::after { left:20px; top:49px; border-top-color:#ff2bd6; }
+  .cc-eq { display:flex; align-items:flex-end; gap:2px; height:12px; }
+  .cc-eq i { width:4px; height:100%; border-radius:2px; background:linear-gradient(#ffe600,#ff2bd6); transform-origin:bottom; animation:cc-eq .7s ease-in-out infinite; }
+  .cc-eq i:nth-child(2) { animation-duration:.5s; animation-delay:.1s; background:linear-gradient(#39ff88,#00e0ff); }
+  .cc-eq i:nth-child(3) { animation-duration:.8s; animation-delay:.2s; background:linear-gradient(#00e0ff,#7a5cff); }
+  .cc-eq i:nth-child(4) { animation-duration:.6s; animation-delay:.05s; }
+  .cc-eq i:nth-child(5) { animation-duration:.9s; animation-delay:.3s; background:linear-gradient(#ff2bd6,#7a5cff); }
+  .cc-notes b { position:absolute; left:50%; top:4px; font-size:14px; color:#fff; text-shadow:0 0 8px #ff2bd6; opacity:0; animation:cc-note 2.4s ease-out infinite; pointer-events:none; }
+  .cc-notes b:nth-child(2) { --nx:18px; animation-delay:.8s; color:#00e0ff; } .cc-notes b:nth-child(1) { --nx:-18px; } .cc-notes b:nth-child(3) { --nx:4px; animation-delay:1.6s; color:#ffe600; }
+  .evt-pin.concert .evt-etiq { left:58px; background:var(--neon); background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:none; animation:cc-fond 3s linear infinite; filter:drop-shadow(0 1px 2px #000); }
+  /* Fiche */
+  .evt-hero.concert { background:#0b0612; border:0; padding-bottom:22px; box-shadow:0 0 0 2px #ff2bd6, 0 0 40px #ff2bd655, 0 0 80px #7a5cff44; animation:cc-teinte 6s linear infinite; }
+  .evt-hero.concert::before { inset:0; width:auto; height:auto; right:0; top:0; border-radius:0;
+    background:radial-gradient(circle at 20% 0%, #ff2bd688, transparent 45%), radial-gradient(circle at 85% 10%, #00e0ff77, transparent 45%), radial-gradient(circle at 50% 120%, #7a5cff99, transparent 55%); }
+  .cc-faisceaux { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+  .cc-faisceaux i { position:absolute; bottom:-10px; width:70px; height:340px; transform-origin:50% 100%; filter:blur(6px); opacity:.45;
+    background:linear-gradient(0deg, transparent, var(--fc) 30%, transparent); animation:cc-faisceau 3.2s ease-in-out infinite; }
+  .cc-faisceaux i:nth-child(1) { left:8%; --fc:#ff2bd6; } .cc-faisceaux i:nth-child(2) { left:42%; --fc:#00e0ff; animation-delay:-1.1s; animation-duration:2.6s; }
+  .cc-faisceaux i:nth-child(3) { right:6%; --fc:#ffe600; animation-delay:-2s; }
+  .cc-flash { position:absolute; inset:0; background:#fff; mix-blend-mode:overlay; animation:cc-flash 1.8s infinite; pointer-events:none; }
+  .evt-hero.concert .eh-e { animation:cc-boum .9s ease-in-out infinite; display:inline-block; filter:drop-shadow(0 0 18px #ff2bd6); }
+  .evt-hero.concert h3 { font-size:40px; background:var(--neon); background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:cc-fond 2.5s linear infinite;
+    filter:drop-shadow(0 0 10px #ff2bd688); }
+  .evt-hero.concert .evt-cat { background:var(--neon); background-size:200% 100%; animation:cc-fond 2s linear infinite; color:#000; }
+  .evt-hero.concert .evt-infos > div, .evt-hero.concert .evt-compte div { background:#ffffff10; border:1px solid #ffffff1c; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
+  .evt-hero.concert .evt-compte b { text-shadow:0 0 12px #00e0ff; }
+  .cc-grand-eq { position:relative; display:flex; align-items:flex-end; justify-content:center; gap:4px; height:46px; margin:16px 0 0; }
+  .cc-grand-eq i { flex:1; max-width:10px; height:100%; border-radius:3px; transform-origin:bottom; background:linear-gradient(#fff,#ff2bd6 30%,#7a5cff 70%,#00e0ff); animation:cc-eq .6s ease-in-out infinite; box-shadow:0 0 8px #ff2bd688; }
+  .cc-confettis { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+  .cc-confettis b { position:absolute; top:-10px; width:6px; height:10px; border-radius:2px; animation:cc-tombe linear infinite; }
+  @keyframes cc-tombe { to { transform:translateY(420px) rotate(540deg); } }
+  /* Agenda */
+  .evt-ligne.concert { background:#120a1c; border-color:#ff2bd655; box-shadow:0 0 18px #ff2bd622; }
+  .evt-ligne.concert::before { width:5px; background:var(--neon); background-size:100% 200%; animation:cc-fond 2s linear infinite; }
+  .evt-ligne.concert .el-d { background:linear-gradient(160deg,#ff2bd633,#7a5cff33); }
+  .evt-ligne.concert .el-t b { background:var(--neon); background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:cc-fond 3s linear infinite; }
+  .pastille.evt-chip.concert { border-color:#ff2bd6 !important; box-shadow:0 0 14px #ff2bd666; }
+  .pastille.evt-chip.concert b { background:var(--neon); background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:cc-fond 2s linear infinite; }
 </style>
 </head>
 <body>
@@ -869,6 +928,9 @@ function note(f, debut, duree, type, vol){
   g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || .25, t + .015); g.gain.exponentialRampToValueAtTime(0.0001, t + duree);
   o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + duree + .05);
 }
+function kick(debut){ var c = son.ctx, t = c.currentTime + debut, o = c.createOscillator(), g = c.createGain();
+  o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(42, t + .22);
+  g.gain.setValueAtTime(.9, t); g.gain.exponentialRampToValueAtTime(.001, t + .3); o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + .32); }
 function jouer(nom){
   if (!son.on || !son.ctx) return;
   try {
@@ -876,6 +938,7 @@ function jouer(nom){
     if (nom === 'ding') { note(880,0,.18); note(1320,.12,.32); }
     else if (nom === 'message') { note(660,0,.14); note(990,.1,.14); note(1320,.2,.3); }
     else if (nom === 'alerte') { for (var i=0;i<6;i++) note(i%2 ? 740 : 988, i*.28, .26, 'square', .18); }
+    else if (nom === 'concert') { for (var b=0;b<4;b++) { kick(b*.32); note(b%2 ? 1568 : 1318, b*.32+.16, .08, 'square', .06); } note(523,1.3,.18,'triangle',.18); note(659,1.42,.18,'triangle',.18); note(784,1.54,.35,'triangle',.2); }
     else if (nom === 'medic') { for (var j=0;j<3;j++) { note(1046,j*.42,.16,'triangle',.3); note(784,j*.42+.18,.18,'triangle',.3); } }
   } catch(e){}
 }
@@ -2470,7 +2533,7 @@ function etatEvt(v){ var n = maintenant(); return n > finEvt(v) ? 'passe' : n >=
 function evtsVisibles(){ return evenements().filter(function(v){ return etatEvt(v) !== 'passe'; }); }
 function jourEvt(ts){ var d = new Date(ts), a = new Date(); a.setHours(0,0,0,0); var k = Math.round((new Date(ts).setHours(0,0,0,0) - a)/86400000);
   return k === 0 ? 'Aujourd\'hui' : k === 1 ? 'Demain' : d.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' }).replace(/^./, function(c){ return c.toUpperCase(); }); }
-function heuresEvt(v){ return heure(v.debut) + (v.fin ? ' → ' + heure(v.fin) : ''); }
+function heuresEvt(v){ return v.journee ? 'Toute la journée' : heure(v.debut) + (v.fin ? ' → ' + heure(v.fin) : ''); }
 function compteEvt(v){
   var ms = v.debut - maintenant(); if (ms < 0) ms = 0;
   var j = Math.floor(ms/86400000), h = Math.floor(ms%86400000/3600000), m = Math.floor(ms%3600000/60000), sc = Math.floor(ms%60000/1000);
@@ -2478,8 +2541,10 @@ function compteEvt(v){
 }
 function iconeEvt(v){
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, d = new Date(v.debut), live = etatEvt(v) === 'live';
-  return L.divIcon({ className:'', iconSize:[46,52], iconAnchor:[23,54],
-    html:'<div class="evt-pin'+(live?' live':'')+'" style="--ec:'+C.c+'"><div class="ep-c"><div class="ep-m">'+(live ? 'live' : JOURS_C[d.getDay()]+' '+heure(v.debut))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div></div>'
+  return L.divIcon({ className:'', iconSize: v.cat === 'fete' ? [52,58] : [46,52], iconAnchor: v.cat === 'fete' ? [26,60] : [23,54],
+    html: v.cat === 'fete'
+      ? '<div class="evt-pin concert'+(live?' live':'')+'" style="--ec:'+C.c+'"><div class="cc-notes"><b>♪</b><b>♫</b><b>♪</b></div><div class="ep-c"><div class="ep-m">'+(live ? '● live' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div><div class="cc-eq"><i></i><i></i><i></i><i></i><i></i></div></div>'
+      : '<div class="evt-pin'+(live?' live':'')+'" style="--ec:'+C.c+'"><div class="ep-c"><div class="ep-m">'+(live ? 'live' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div></div>'
       + '<div class="evt-etiq">'+esc(v.titre)+'</div></div>' });
 }
 function majEvenements(){
@@ -2499,11 +2564,11 @@ function pastilleEvt(){
   var l = evtsVisibles(); if (!l.length) return '';
   var v = l[0], C = CATS_EVT[v.cat] || CATS_EVT.autre, live = etatEvt(v) === 'live';
   if (!live && v.debut - maintenant() > 7*86400000) return '';
-  return '<span class="pastille verre evt-chip" style="--ec:'+C.c+'" onclick="ouvrirEvt(\''+v.id+'\')">'+esc(v.emoji||C.e)+' <b>'+(live ? 'EN COURS' : (jourEvt(v.debut) === 'Aujourd\'hui' ? heure(v.debut) : JOURS_C[new Date(v.debut).getDay()] + ' ' + heure(v.debut)))+'</b> '+esc(v.titre.length > 22 ? v.titre.slice(0,21)+'…' : v.titre)+(l.length > 1 ? ' <span style="opacity:.6">+'+(l.length-1)+'</span>' : '')+'</span>';
+  return '<span class="pastille verre evt-chip'+(v.cat==='fete'?' concert':'')+'" style="--ec:'+C.c+'" onclick="ouvrirEvt(\''+v.id+'\')">'+esc(v.emoji||C.e)+' <b>'+(live ? 'EN COURS' : (jourEvt(v.debut) === 'Aujourd\'hui' ? (v.journee ? 'auj.' : heure(v.debut)) : JOURS_C[new Date(v.debut).getDay()] + ' ' + (v.journee ? new Date(v.debut).getDate()+'/'+(new Date(v.debut).getMonth()+1) : heure(v.debut))))+'</b> '+esc(v.titre.length > 22 ? v.titre.slice(0,21)+'…' : v.titre)+(l.length > 1 ? ' <span style="opacity:.6">+'+(l.length-1)+'</span>' : '')+'</span>';
 }
 function ligneEvt(v, admin){
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, d = new Date(v.debut), st = etatEvt(v);
-  return '<button class="evt-ligne '+st+'" style="--ec:'+C.c+'" onclick="'+(admin ? 'editerEvt' : 'ouvrirEvt')+'(\''+v.id+'\')">'
+  return '<button class="evt-ligne '+st+(v.cat==='fete'?' concert':'')+'" style="--ec:'+C.c+'" onclick="'+(admin ? 'editerEvt' : 'ouvrirEvt')+'(\''+v.id+'\')">'
     + '<div class="el-d"><span>'+JOURS_C[d.getDay()]+'</span><b>'+d.getDate()+'</b><span>'+MOIS_C[d.getMonth()]+'</span></div>'
     + '<div class="el-t"><b>'+esc(v.titre)+'</b><small>'+(st==='live' ? '<span class="el-live">● En cours</span> · ' : '')+heuresEvt(v)+(v.lieu ? ' · '+esc(v.lieu) : '')+'</small></div>'
     + '<div class="el-e">'+(admin ? '✏️' : esc(v.emoji||C.e))+'</div></button>';
@@ -2527,10 +2592,11 @@ function ouvrirEvt(id){
   var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, st = etatEvt(v);
   var h = '<div class="entete-f" style="margin-bottom:6px"><div></div><button class="fermer" onclick="fermer()" aria-label="Fermer">'+ic('fermer')+'</button></div>'
-    + '<div class="evt-hero" style="--ec:'+C.c+'"><div class="eh-top"><span class="evt-cat">'+C.nom+'</span><span class="evt-etat'+(st==='live'?' live':'')+'">'+(st==='live' ? '● EN COURS' : st==='passe' ? 'TERMINÉ' : 'À VENIR')+'</span></div>'
+    + '<div class="evt-hero'+(v.cat==='fete'?' concert':'')+'" style="--ec:'+C.c+'">'+(v.cat==='fete' ? decorConcert() : '')+'<div class="eh-top"><span class="evt-cat">'+C.nom+'</span><span class="evt-etat'+(st==='live'?' live':'')+'">'+(st==='live' ? '● EN COURS' : st==='passe' ? 'TERMINÉ' : 'À VENIR')+'</span></div>'
     + '<div class="eh-e">'+esc(v.emoji||C.e)+'</div><h3>'+esc(v.titre)+'</h3>'
     + '<div class="evt-infos"><div><span>📅</span><div>'+jourEvt(v.debut)+'<small>'+heuresEvt(v)+'</small></div></div>'
     + (v.lieu ? '<div><span>📍</span><div>'+esc(v.lieu)+'</div></div>' : '') + '</div>'
+    + (v.cat === 'fete' ? '<div class="cc-grand-eq">' + Array.apply(null, Array(18)).map(function(_, k){ return '<i style="animation-duration:'+(.4+((k*37)%9)/14).toFixed(2)+'s;animation-delay:-'+((k*13)%7/10)+'s"></i>'; }).join('') + '</div>' : '')
     + (st === 'avenir' ? '<div class="evt-compte" id="evt-compte">'+htmlCompte(v)+'</div>' : '')
     + '</div>'
     + (v.texte ? '<div class="evt-desc">'+esc(v.texte)+'</div>' : '')
@@ -2539,8 +2605,15 @@ function ouvrirEvt(id){
     + '</div><div class="rangee"><button class="btn rose plein" onclick="partagerEvt(\''+v.id+'\')">'+ic('partage')+'Partager l\'événement</button></div>'
     + (estAdmin() ? '<div class="rangee"><button class="btn plein" onclick="editerEvt(\''+v.id+'\')">✏️ Modifier</button></div>' : '');
   ouvrir(h, 'evt');
+  if (v.cat === 'fete') jouer('concert');
   clearInterval(evtMinuteur);
   if (st === 'avenir') evtMinuteur = setInterval(function(){ var el = $('evt-compte'); if (!el || $('feuille').dataset.vue !== 'evt') return clearInterval(evtMinuteur); el.innerHTML = htmlCompte(v); }, 1000);
+}
+
+function decorConcert(){
+  var cols = ['#ff2bd6','#00e0ff','#ffe600','#39ff88','#7a5cff'], c = '';
+  for (var k = 0; k < 22; k++) c += '<b style="left:'+((k*47)%100)+'%;background:'+cols[k%5]+';animation-duration:'+(2.2+(k%5)*.5)+'s;animation-delay:-'+((k*7)%30/10)+'s"></b>';
+  return '<div class="cc-faisceaux"><i></i><i></i><i></i></div><div class="cc-flash"></div><div class="cc-confettis">'+c+'</div>';
 }
 function htmlCompte(v){ return compteEvt(v).map(function(x){ return '<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'; }).join(''); }
 function partagerEvt(id){
@@ -2553,10 +2626,25 @@ function gererEvenements(){
   var tous = evenements(), avenir = tous.filter(function(v){ return etatEvt(v) !== 'passe'; }), passes = tous.length - avenir.length;
   ouvrir(entete('📅 Événements', 'Ils restent sur la carte et dans l\'agenda jusqu\'à leur fin, sans rien confirmer. Ensuite ils disparaissent tout seuls.')
     + '<div class="rangee" style="margin-top:4px"><button class="btn rose plein" onclick="nouvelEvt()">'+ic('plus')+'Nouvel événement</button></div>'
+    + suggestionsEvt()
     + (avenir.length ? listeAgenda(avenir, true) : '<div class="vide" style="padding:14px">Aucun événement à venir.</div>')
     + (passes ? '<div class="sous" style="margin-top:6px">'+passes+' événement'+(passes>1?'s':'')+' terminé'+(passes>1?'s':'')+', retiré'+(passes>1?'s':'')+' automatiquement au prochain enregistrement.</div>' : '')
     + '<div class="rangee"><button class="btn plein" onclick="dessinerGestion()">Retour</button></div>', 'evt-gestion');
 }
+
+// Événements préparés à l'avance : un appui ouvre le formulaire déjà rempli
+var SUGG_EVT = [
+  { cle:'rasso-p2a-0211', jusqua:new Date('2026-11-03T00:00').getTime(), cat:'rassemb', titre:'Rassemblement Lyon 2 Porte des Alpes', jour:'2026-11-02', journee:true,
+    lieu:'Campus Porte des Alpes, Bron', lat:45.72251, lng:4.91662, texte:'Rassemblement toute la journée sur le campus Porte des Alpes (Lyon 2, Bron). Tram T2 arrêt Europe – Université.' }
+];
+function suggestionsEvt(){
+  var deja = evenements().map(function(v){ return v.titre; });
+  return SUGG_EVT.filter(function(x){ return Date.now() < x.jusqua && deja.indexOf(x.titre) < 0; }).map(function(x, i){
+    return '<button class="prep5" onclick="utiliserSugg('+SUGG_EVT.indexOf(x)+')"><span>📣</span><div><b>'+esc(x.titre)+'</b><small>Lun. 2 novembre · toute la journée · prêt à publier</small></div></button>'; }).join('');
+}
+function utiliserSugg(i){ var x = SUGG_EVT[i];
+  brouillonEvt = { id:null, cat:x.cat, emoji:'', titre:x.titre, jour:x.jour, hDebut:'08:00', hFin:'', journee:x.journee, lieu:x.lieu, texte:x.texte, lat:x.lat, lng:x.lng };
+  formulaireEvt(); }
 function isoJour(ts){ var d = new Date(ts); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function isoHeure(ts){ var d = new Date(ts); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
 function nouvelEvt(){
@@ -2566,18 +2654,18 @@ function nouvelEvt(){
 }
 function editerEvt(id){
   var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
-  brouillonEvt = { id:v.id, cat:v.cat||'autre', emoji:v.emoji||'', titre:v.titre, jour:isoJour(v.debut), hDebut:isoHeure(v.debut), hFin:v.fin ? isoHeure(v.fin) : '', lieu:v.lieu||'', texte:v.texte||'', lat:v.lat, lng:v.lng };
+  brouillonEvt = { id:v.id, cat:v.cat||'autre', emoji:v.emoji||'', titre:v.titre, jour:isoJour(v.debut), hDebut:isoHeure(v.debut), hFin:v.fin ? isoHeure(v.fin) : '', journee:!!v.journee, lieu:v.lieu||'', texte:v.texte||'', lat:v.lat, lng:v.lng };
   formulaireEvt();
 }
 function lireFormEvt(){ if (!$('ev-titre')) return; var b = brouillonEvt;
-  b.titre = $('ev-titre').value; b.jour = $('ev-jour').value; b.hDebut = $('ev-deb').value; b.hFin = $('ev-fin').value; b.lieu = $('ev-lieu').value; b.texte = $('ev-txt').value; }
+  b.titre = $('ev-titre').value; b.jour = $('ev-jour').value; b.hDebut = $('ev-deb').value || b.hDebut; b.hFin = $('ev-fin').value; b.lieu = $('ev-lieu').value; b.texte = $('ev-txt').value; }
 function formulaireEvt(){
   var b = brouillonEvt, C = CATS_EVT[b.cat] || CATS_EVT.autre;
   var h = entete(b.id ? 'Modifier l\'événement' : 'Nouvel événement', 'Enregistré directement, visible par tout le monde.')
     + '<label class="l">Type</label><div class="evt-cats">' + Object.keys(CATS_EVT).map(function(k){ var c = CATS_EVT[k];
         return '<button class="'+(b.cat===k?'sel':'')+'" style="--ec:'+c.c+'" onclick="lireFormEvt();brouillonEvt.cat=\''+k+'\';formulaireEvt()"><span>'+c.e+'</span>'+c.nom+'</button>'; }).join('') + '</div>'
     + '<label class="l">Nom de l\'événement</label><input id="ev-titre" maxlength="60" placeholder="ex : Rassemblement contre la loi" value="'+esc(b.titre)+'">'
-    + '<label class="l">Quand</label><div class="evt-heures"><input id="ev-jour" type="date" value="'+esc(b.jour)+'"><div><label>Début</label><input id="ev-deb" type="time" value="'+esc(b.hDebut)+'"></div><div><label>Fin (facultatif)</label><input id="ev-fin" type="time" value="'+esc(b.hFin)+'"></div></div>'
+    + '<label class="l">Quand</label><label class="interrupteur" style="margin:0 0 8px"><span>Toute la journée</span><input type="checkbox" '+(b.journee?'checked':'')+' onchange="lireFormEvt();brouillonEvt.journee=this.checked;formulaireEvt()"></label><div class="evt-heures'+(b.journee?' journee':'')+'"><input id="ev-jour" type="date" value="'+esc(b.jour)+'"><div><label>Début</label><input id="ev-deb" type="time" value="'+esc(b.hDebut)+'"></div><div><label>Fin (facultatif)</label><input id="ev-fin" type="time" value="'+esc(b.hFin)+'"></div></div>'
     + '<div class="sous" style="margin:4px 0 0">Jour, début, fin (la fin est facultative : sinon il disparaît 3 h après le début).</div>'
     + '<label class="l">Lieu</label><input id="ev-lieu" maxlength="60" placeholder="ex : Place Bellecour" value="'+esc(b.lieu)+'">'
     + '<div class="rangee" style="margin-top:8px"><button class="btn plein" onclick="lireFormEvt();commencerPlacement(\'evt\')">'+ic('position')+(b.lat !== null && b.lat !== undefined ? 'Changer l\'endroit' : 'Placer sur la carte')+'</button>'
@@ -2602,12 +2690,13 @@ function enregistrerEvts(liste, msg){
 function sauverEvt(){
   lireFormEvt(); var b = brouillonEvt;
   if (!b.titre.trim()) { $('ev-titre').focus(); return toast('Donne un nom à l\'événement'); }
-  if (!b.jour || !b.hDebut) return toast('Choisis le jour et l\'heure');
-  var debut = new Date(b.jour + 'T' + b.hDebut).getTime(), fin = b.hFin ? new Date(b.jour + 'T' + b.hFin).getTime() : 0;
+  if (!b.jour || (!b.hDebut && !b.journee)) return toast('Choisis le jour et l\'heure');
+  var debut = new Date(b.jour + 'T' + (b.journee ? '00:00' : b.hDebut)).getTime(), fin = b.journee ? new Date(b.jour + 'T23:59').getTime() : (b.hFin ? new Date(b.jour + 'T' + b.hFin).getTime() : 0);
   if (fin && fin <= debut) fin += 86400000;
   var C = CATS_EVT[b.cat] || CATS_EVT.autre;
   var v = { id: b.id || ('e' + Date.now().toString(36)), cat:b.cat, emoji:C.e, titre:b.titre.trim().slice(0,60), debut:debut, lieu:b.lieu.trim().slice(0,60), texte:b.texte.trim().slice(0,400) };
   if (fin) v.fin = fin;
+  if (b.journee) v.journee = 1;
   if (b.lat !== null && b.lat !== undefined) { v.lat = Math.round(b.lat*1e5)/1e5; v.lng = Math.round(b.lng*1e5)/1e5; }
   var l = evenements().filter(function(x){ return x.id !== v.id; }); l.push(v);
   $('ev-go').disabled = true; $('ev-go').textContent = '…';
