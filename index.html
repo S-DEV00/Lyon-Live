@@ -1062,6 +1062,46 @@
   body.public #btn-autour { display:none; }
   #btn-autour.veille-on { color:var(--rose); }
   body.leger #flottants { -webkit-backdrop-filter:none !important; backdrop-filter:none !important; background:#16161cf2 !important; }
+  /* ================= v31 : manif sauvage qui envoie ================= */
+  @keyframes sv-tremble { 0%,100% { transform:translate(0,0) rotate(0); } 20% { transform:translate(-1px,1px) rotate(-6deg); } 40% { transform:translate(1px,-1px) rotate(5deg); } 60% { transform:translate(-1px,0) rotate(-3deg); } 80% { transform:translate(1px,1px) rotate(4deg); } }
+  @keyframes sv-tourne { to { transform:rotate(360deg); } }
+  @keyframes sv-onde { 0% { transform:scale(.5); opacity:.9; } 100% { transform:scale(2.6); opacity:0; } }
+  @keyframes sv-eclair { 0%,86%,100% { opacity:0; } 88% { opacity:1; } 90% { opacity:.2; } 93% { opacity:.9; } }
+  @keyframes sv-pas { 0% { transform:translate(-14px,10px) rotate(70deg); opacity:0; } 20% { opacity:1; } 100% { transform:translate(22px,-14px) rotate(70deg); opacity:0; } }
+  @keyframes sv-clign { 50% { background:#ffd23f; color:#000; } }
+  .sv-pin { position:relative; width:58px; height:58px; }
+  .sv-pin .sv-onde { position:absolute; inset:9px; border-radius:50%; border:2.5px solid #ff8a1f; animation:sv-onde 1.6s ease-out infinite; will-change:transform,opacity; }
+  .sv-pin .sv-onde.b { animation-delay:.8s; border-color:#ffd23f; }
+  .sv-pin .sv-anneau { position:absolute; inset:4px; border-radius:50%; background:conic-gradient(#ffd23f 0 12%, transparent 12% 25%, #ff8a1f 25% 37%, transparent 37% 50%, #ffd23f 50% 62%, transparent 62% 75%, #ff3b1f 75% 87%, transparent 87%);
+    -webkit-mask:radial-gradient(circle, transparent 60%, #000 61%); mask:radial-gradient(circle, transparent 60%, #000 61%); animation:sv-tourne 2.2s linear infinite; }
+  .sv-pin .sv-c { position:absolute; inset:10px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:23px;
+    background:radial-gradient(circle at 35% 30%, #3a2210, #16161c 70%); border:2.5px solid #ff8a1f; box-shadow:0 0 16px #ff8a1fcc, 0 4px 10px #0009; }
+  .sv-pin .sv-c span { animation:sv-tremble .5s linear infinite; display:inline-block; filter:drop-shadow(0 0 6px #fff8); }
+  .sv-pin .sv-eclair { position:absolute; inset:10px; border-radius:50%; background:#fff; animation:sv-eclair 2.6s infinite; pointer-events:none; }
+  .sv-pin .sv-etiq { position:absolute; left:50%; top:-13px; transform:translateX(-50%); font-family:Anton,Impact,sans-serif; font-size:10.5px; letter-spacing:1px; padding:1px 6px 0; border-radius:6px;
+    background:#16161c; color:#ffd23f; border:1.5px solid #ff8a1f; white-space:nowrap; animation:sv-clign 1s steps(1) infinite; box-shadow:0 2px 6px #0009; }
+  .sv-pin .sv-pas { position:absolute; left:50%; top:50%; font-size:12px; margin:-6px 0 0 -6px; animation:sv-pas 1.4s linear infinite; pointer-events:none; }
+  .sv-pin .sv-pas.b { animation-delay:.7s; margin-left:-12px; }
+  .sv-pin.vieux { opacity:.55; filter:saturate(.35); }
+  .sv-pin.vieux .sv-onde, .sv-pin.vieux .sv-eclair, .sv-pin.vieux .sv-pas, .sv-pin.vieux .sv-c span, .sv-pin.vieux .sv-anneau, .sv-pin.vieux .sv-etiq { animation:none; }
+  .sv-pin.vieux .sv-onde, .sv-pin.vieux .sv-pas { display:none; }
+  body.bouge .sv-pin *, body.fiche-ouverte .sv-pin *, body.leger .sv-pin * { animation-play-state:paused !important; }
+  /* Fiche */
+  .sv-hero { position:relative; overflow:hidden; border-radius:24px; padding:44px 18px 46px; margin:0 0 12px; background:#120803;
+    box-shadow:0 0 0 2px #ff8a1f, 0 0 36px #ff6a0055; }
+  .sv-hero::before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 80% 10%, #ff8a1f66, transparent 50%), radial-gradient(circle at 10% 100%, #ffd23f33, transparent 55%); }
+  .sv-hero > * { position:relative; }
+  .sv-hero .sv-flash { position:absolute; inset:0; background:radial-gradient(circle at 70% 30%, #fff, transparent 60%); opacity:0; animation:sv-eclair 3s infinite; pointer-events:none; }
+  .sv-hero .sv-big { font-size:58px; line-height:1; display:inline-block; animation:sv-tremble .5s linear infinite; filter:drop-shadow(0 0 18px #ff8a1f); margin:4px 0 6px; }
+  .sv-hero h3 { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:44px; line-height:1; margin:0 0 6px; color:#ffd23f; text-transform:uppercase;
+    text-shadow:3px 3px 0 #c2410c, 0 0 22px #ff8a1f88; }
+  .sv-hero .sv-age { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:800; background:#ffffff14; border:1px solid #ff8a1f55; border-radius:20px; padding:6px 11px; }
+  .sv-hero .sv-age i { width:8px; height:8px; border-radius:50%; background:#ff3b4e; box-shadow:0 0 8px #ff3b4e; animation:sp-live 1.4s infinite; }
+  .sv-ruban { position:absolute; left:-10px; right:-10px; height:26px; overflow:hidden; display:flex; align-items:center; z-index:1; box-shadow:0 3px 10px #0008; }
+  .sv-ruban.haut { top:8px; transform:rotate(-2deg); background:#ff8a1f; } .sv-ruban.bas { bottom:8px; transform:rotate(1.5deg); background:#16161c; border-top:2px solid #ffd23f; border-bottom:2px solid #ffd23f; }
+  .sv-ruban div { display:flex; white-space:nowrap; animation:bl-defile 8s linear infinite; } .sv-ruban.bas div { animation-direction:reverse; }
+  .sv-ruban span { font-family:Anton,Impact,sans-serif; font-size:15px; letter-spacing:1.5px; color:#000; padding:0 12px; } .sv-ruban.bas span { color:#ffd23f; }
+  .bl-conseils.sv div { background:#ff8a1f12; border-color:#ff8a1f44; } .bl-conseils.sv b { color:#ffb15c; }
 </style>
 </head>
 <body>
@@ -1255,6 +1295,7 @@ function jouer(nom){
     else if (nom === 'message') { note(660,0,.14); note(990,.1,.14); note(1320,.2,.3); }
     else if (nom === 'alerte') { for (var i=0;i<6;i++) note(i%2 ? 740 : 988, i*.28, .26, 'square', .18); }
     else if (nom === 'blocus') { [0,.25,.5,.62,.74].forEach(function(t){ clap(t); }); [1.1,1.35,1.6,1.72,1.84].forEach(function(t){ clap(t); }); }
+    else if (nom === 'sauvage') { for (var b=0;b<6;b++) kick(b*.14 + (b>2 ? .14 : 0)); note(880,.95,.12,'square',.07); note(1175,1.08,.22,'square',.07); }
     else if (nom === 'concert') { for (var b=0;b<4;b++) { kick(b*.32); note(b%2 ? 1568 : 1318, b*.32+.16, .08, 'square', .06); } note(523,1.3,.18,'triangle',.18); note(659,1.42,.18,'triangle',.18); note(784,1.54,.35,'triangle',.2); }
     else if (nom === 'medic') { for (var j=0;j<3;j++) { note(1046,j*.42,.16,'triangle',.3); note(784,j*.42+.18,.18,'triangle',.3); } }
   } catch(e){}
@@ -1525,6 +1566,8 @@ function iconePour(p){
   var t = TYPES[p.type] || TYPES.info;
   var vieux = (maintenant() - p.ts) > VIEUX_MIN*60000, neuf = (maintenant() - p.ts) < 3*60000;
   var nb = (t.vehicules && p.vehicules) ? '<span class="nb">'+p.vehicules+'</span>' : '';
+  if (p.type === 'sauvage') return L.divIcon({ className:'', iconSize:[58,58], iconAnchor:[29,29],
+    html:'<div class="sv-pin'+(vieux?' vieux':'')+'"><div class="sv-onde"></div><div class="sv-onde b"></div><div class="sv-anneau"></div><div class="sv-c"><span>⚡</span></div><div class="sv-eclair"></div><div class="sv-etiq">SAUVAGE</div></div>' });
   return L.divIcon({ className:'', iconSize:[36,36], iconAnchor:[18,44],
     html:'<div class="pin '+t.g+(t.c?' '+t.c:'')+(vieux?' vieux':'')+(neuf?' neuf':'')+'">'+emo(p.type)+nb+'</div>'
       + (p.type === 'info' && p.note ? '<div class="info-etiq"><span>'+esc(p.note.length > 48 ? p.note.slice(0,46).replace(/\s+\S*$/,'') + '…' : p.note)+'</span></div>' : '') });
@@ -1871,6 +1914,7 @@ function ouvrirDetail(id){
   var p = etat.points.filter(function(x){return x.id===id;})[0]; if(!p) return;
   var t = TYPES[p.type] || TYPES.info;
   if (p.type === 'info') return ouvrirInfoPoint(p);
+  if (p.type === 'sauvage') return ouvrirSauvage(p);
   var h = '<div style="display:flex;gap:12px;align-items:center;margin-bottom:6px">'+pinHtml(p.type)+'<div style="flex:1">'+entete(esc(t.nom), 'Signalé '+age(p.cree||p.ts)+(p.cree && p.ts!==p.cree ? ' · confirmé '+age(p.ts) : '')+(p.par?' · par '+esc(p.par):''))+'</div></div>';
   if (t.vehicules && p.vehicules) h += '<div class="detail-note"><b>'+p.vehicules+'</b> véhicule'+(p.vehicules>1?'s':'')+'</div>';
   if (p.note) h += '<div class="detail-note">'+esc(p.note)+'</div>';
@@ -1882,6 +1926,24 @@ function ouvrirDetail(id){
       + actionsAdmin(p.id, 'Toujours là', 'Plus là');
   }
   ouvrir(h, 'detail');
+}
+// Fiche manif sauvage : même esprit que les fiches concert / blocus
+function ouvrirSauvage(p){
+  var t1 = '', t2 = ''; for (var k = 0; k < 8; k++) { t1 += '<span>MANIF SAUVAGE ⚡</span>'; t2 += '<span>ÇA BOUGE · RESTE GROUPÉ·E ·</span>'; }
+  var vieux = (maintenant()-p.ts) > VIEUX_MIN*60000;
+  var h = '<div class="entete-f" style="margin-bottom:6px"><div></div><button class="fermer" onclick="fermer()" aria-label="Fermer">'+ic('fermer')+'</button></div>'
+    + '<div class="sv-hero"><div class="sv-flash"></div><div class="sv-ruban haut"><div>'+t1+t1+'</div></div><div class="sv-ruban bas"><div>'+t2+t2+'</div></div>'
+    + '<div class="sv-big">⚡</div><h3>Manif sauvage</h3>'
+    + '<div class="sv-age"><i></i>Vue '+age(p.ts)+(p.cree && p.ts!==p.cree ? ' · signalée '+age(p.cree) : '')+'</div>'
+    + (moi ? '<div class="sv-age" style="margin-left:6px">🚶 '+txtDistance(carte.distance(moi.getLatLng(), [p.lat, p.lng]))+'</div>' : '')
+    + '</div>';
+  if (p.note) h += '<div class="evt-desc" style="border:1px solid #ff8a1f55;background:#1a0f06"><b style="display:block;font-size:10.5px;letter-spacing:1px;color:#ffb15c;margin-bottom:4px">📣 INFO</b>'+esc(p.note)+'</div>';
+  if (vieux) h += '<div class="sous">Info ancienne : le cortège a sûrement bougé.</div>';
+  h += '<div class="bl-conseils sv"><div>👥<b>Reste groupé·e</b><span>ne pars jamais seul·e</span></div><div>🚪<b>Repère les sorties</b><span>rues de côté, métro</span></div><div>🙈<b>Pas de visages</b><span>sur les photos et vidéos</span></div></div>';
+  h += '<div class="rangee"><button class="btn plein" onclick="fermer();carte.flyTo(['+p.lat+','+p.lng+'],17)">'+ic('carte')+'Sur la carte</button><a class="btn plein" target="_blank" href="https://maps.apple.com/?ll='+p.lat+','+p.lng+'&q='+encodeURIComponent('Manif sauvage')+'">Ouvrir dans Plans</a></div>';
+  if (estAdmin()) h += '<label class="l">Admin</label>' + actionsAdmin(p.id, 'Toujours là', 'Plus là');
+  ouvrir(h, 'detail');
+  if (son.on) jouer('sauvage');
 }
 function ouvrirInfoPoint(p){
   var vieux = (maintenant()-p.ts) > VIEUX_MIN*60000, d = '';
