@@ -1,8 +1,8 @@
 // Lyon Live : cache pour ouvrir vite et marcher sans réseau.
 // Page et config : réseau d'abord (toujours la dernière version), cache si le réseau rame (> 4 s) ou est coupé.
-// Fichiers lourds (Leaflet, lycées, sons, icônes) : servis depuis le cache, mis à jour en arrière-plan.
-var V = 'll-2583fc1a4c';
-var LOURDS = /\/(leaflet\.js|leaflet\.css|ecoles\.json|batiments\.txt|concert\.mp3|blocus\.mp3|icone-\d+\.png|manifest\.json)(\?.*)?$/;
+// Fichiers lourds (plan de Lyon, Leaflet, lycées, sons, icônes) : servis depuis le cache, mis à jour en arrière-plan.
+var V = 'll-v35-icones';
+var LOURDS = /\/(plan\.js|leaflet\.js|leaflet\.css|ecoles\.json|batiments\.txt|concert\.mp3|blocus\.mp3|icone-\d+\.png|manifest\.json)(\?.*)?$/;
 self.addEventListener('install', function(e){ self.skipWaiting(); });
 self.addEventListener('activate', function(e){
   e.waitUntil(caches.keys().then(function(ks){ return Promise.all(ks.filter(function(k){ return k !== V; }).map(function(k){ return caches.delete(k); })); }).then(function(){ return self.clients.claim(); }));
