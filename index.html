@@ -1034,6 +1034,34 @@
   /* V27 : vue 3D */
   #btn-3d { font-family:Anton,Impact,sans-serif; font-size:17px; letter-spacing:.5px; color:#fff; }
   body.vue3d #btn-3d { background:linear-gradient(135deg,#ff5caa,#a35cff) !important; border-color:transparent; box-shadow:0 0 16px #ff5caa88; }
+  /* ================= v30 : barre du bas flottante + boutons carte groupés ================= */
+  #onglets { left:12px; right:12px; bottom:max(10px, calc(var(--bas) - 4px)); border-radius:30px; padding:6px 6px; gap:0;
+             background:rgba(16,16,22,.86); -webkit-backdrop-filter:blur(22px) saturate(1.6); backdrop-filter:blur(22px) saturate(1.6);
+             border:1px solid rgba(255,255,255,.1); box-shadow:0 12px 34px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.06); }
+  #onglets::after { display:none; }
+  .onglet { padding:7px 2px 6px; border-radius:22px; color:#8e8e9c; font-size:10px; font-weight:800; gap:3px; letter-spacing:.3px; }
+  .onglet svg.ic { width:23px; height:23px; }
+  .onglet.sel { color:#fff; background:rgba(255,92,170,.14); }
+  .onglet.sel svg.ic { color:#ff8cc4; }
+  .onglet.fort svg.ic { width:56px; height:56px; padding:16px; margin:-28px 0 0; border:4px solid rgba(16,16,22,1);
+    box-shadow:0 8px 22px #ff3d8b77, 0 0 0 1px rgba(255,255,255,.1), inset 0 1px 0 rgba(255,255,255,.35); }
+  .onglet.fort span:not(.badge) { margin-top:-1px; }
+  .onglet.fort.veille-on svg.ic { box-shadow:0 0 0 3px #ff5caa, 0 0 22px #ff3d8bcc; }
+  #flottants { right:12px; bottom:calc(max(10px, calc(var(--bas) - 4px)) + 86px); gap:0; padding:4px; border-radius:28px;
+               background:rgba(16,16,22,.86); -webkit-backdrop-filter:blur(22px) saturate(1.6); backdrop-filter:blur(22px) saturate(1.6);
+               border:1px solid rgba(255,255,255,.1); box-shadow:0 12px 30px rgba(0,0,0,.5); }
+  body.est-admin #flottants { bottom:calc(max(10px, calc(var(--bas) - 4px)) + 140px); }
+  #rapide { bottom:calc(max(10px, calc(var(--bas) - 4px)) + 76px); }
+  #flottants .rond { width:46px; height:46px; border-radius:50%; background:none !important; border:0 !important; box-shadow:none !important;
+                     -webkit-backdrop-filter:none; backdrop-filter:none; position:relative; color:#e8e8ee; }
+  #flottants .rond + .rond::before { content:""; position:absolute; top:-1px; left:11px; right:11px; height:1px; background:rgba(255,255,255,.1); }
+  #flottants .rond:active { background:rgba(255,255,255,.08) !important; }
+  #btn-3d { font-size:16px; }
+  body.vue3d #btn-3d { background:linear-gradient(135deg,#ff5caa,#a35cff) !important; box-shadow:0 0 14px #ff5caa88 !important; }
+  body.vue3d #btn-3d + .rond::before { display:none; }
+  body.public #btn-autour { display:none; }
+  #btn-autour.veille-on { color:var(--rose); }
+  body.leger #flottants { -webkit-backdrop-filter:none !important; backdrop-filter:none !important; background:#16161cf2 !important; }
 </style>
 </head>
 <body>
@@ -1107,6 +1135,7 @@ var IC = {
   blesse:'<path d="M3 12h4l2.5-6 4.5 12 2.5-6H21"/>',
   croix:'<path d="M9 2h6v7h7v6h-7v7H9v-7H2V9h7z"/>',
   fleche:'<path d="M3 11l18-8-8 18-2-8z"/>',
+  maison:'<path d="M4 11l8-6.5 8 6.5"/><path d="M6 9.5V19a1 1 0 0 0 1 1h3.5v-5h3v5H17a1 1 0 0 0 1-1V9.5"/>',
   cible:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>',
   infos:'<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12.5h5"/>',
   carte:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
@@ -2340,6 +2369,7 @@ function dessinerOnglets(){
                     + onglet('blesse','Blessé','commencerPlacement(\'blesse\')','fort vert') + onglet('infos','Infos','ouvrirInfos()','','badge-infos') + onglet('reglages','Plus','menuPlus()');
   else o = onglet('infos',tr('Infos'),'ouvrirInfos()','','badge-infos') + onglet('carte',tr('Carte'),'ouvrirLegende()') + onglet('boussole',tr('Autour'),'ouvrirAutour()','fort') + onglet('bouclier',tr('Conseils'),'ouvrirConseils()') + onglet('cadenas',tr('Équipe'),'ouvrirConnexion()');
   $('onglets').innerHTML = o;
+  document.body.classList.toggle('public', !estEquipe()); majVeilleBadge();
   document.body.classList.toggle('est-admin', estAdmin()); if (estAdmin()) dessinerRapide();
   majBadges();
 }
@@ -2471,7 +2501,7 @@ function verifierVeille(){
   clearTimeout(fermerProxi.t); fermerProxi.t = setTimeout(fermerProxi, 20000);
 }
 function fermerProxi(){ $('proxi').classList.remove('vu'); }
-function majVeilleBadge(){ var b = $('btn-autour'); if (b) b.classList.toggle('veille-on', veille.on); }
+function majVeilleBadge(){ if (typeof veille === 'undefined' || !veille) return; var b = $('btn-autour'); if (b) b.classList.toggle('veille-on', veille.on); var f = document.querySelector('#onglets .onglet.fort'); if (f && !estEquipe()) f.classList.toggle('veille-on', veille.on); }
 
 // ----- Hors ligne : on garde la dernière carte publique sur le téléphone -----
 function sauverCache(d){
@@ -3807,7 +3837,7 @@ function etaler(){
 carte.on('zoomend', function(){ setTimeout(etaler, 50); });
 
 // ===================== DÉMARRAGE =====================
-document.querySelectorAll('#flottants .rond:not(#btn-3d)')[0].innerHTML = ic('fleche');
+document.querySelectorAll('#flottants .rond:not(#btn-3d)')[0].innerHTML = ic('maison');
 document.querySelectorAll('#flottants .rond:not(#btn-3d)')[1].innerHTML = ic('cible');
 $('btn-autour').innerHTML = ic('boussole');
 if (eco) document.body.classList.add('eco');
