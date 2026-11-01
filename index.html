@@ -1671,6 +1671,26 @@
   .bs-res button { display:flex; align-items:center; gap:8px; width:100%; text-align:left; padding:10px 12px; margin-top:6px; border-radius:12px; background:var(--s1); border:1px dashed #ffd23f66; color:var(--txt); font-size:14px; }
   .bs-res button b { color:#ffd23f; }
   .bs-nv { font-style:normal; font-size:9.5px; font-weight:900; letter-spacing:.6px; padding:2px 6px; border-radius:6px; background:#ffd23f; color:#1a1408; vertical-align:2px; margin-left:4px; }
+
+  /* ================= v44 : fiche blocus ================= */
+  .bl-bloc { background:linear-gradient(160deg,#1c190c,#141209); border:1px solid #ffd23f33; border-radius:18px; padding:13px 14px; margin-top:12px; }
+  .bl-st { font-size:12px; font-weight:900; letter-spacing:.9px; text-transform:uppercase; color:#ffd23f; margin-bottom:9px; }
+  .bl-metro { display:flex; align-items:center; gap:5px; padding:8px 0; border-top:1px solid #ffffff0f; }
+  .bl-metro:first-of-type { border-top:0; padding-top:2px; }
+  .bl-metro .ligne-badge { width:24px; height:24px; font-size:12.5px; flex:none; box-shadow:0 2px 6px #0006; }
+  .bl-metro b { flex:1; font-size:15px; margin-left:5px; } .bl-metro span { color:#e9dca6; font-size:12.5px; font-weight:800; white-space:nowrap; }
+  .bl-gros { display:flex; align-items:center; gap:13px; margin:2px 0 11px; }
+  .bl-gros b { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:58px; line-height:.9; color:#ffd23f; text-shadow:0 0 24px #ffd23f66; min-width:46px; font-variant-numeric:tabular-nums; }
+  .bl-gros span { font-size:14.5px; font-weight:800; line-height:1.25; color:#fff; } .bl-gros small { display:block; font-size:12px; font-weight:600; color:#ffffff99; margin-top:2px; }
+  .bl-chips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:11px; }
+  .bl-chips button { padding:7px 11px; border-radius:14px; background:#ffd23f17; border:1px solid #ffd23f55; color:#ffe9a0; font-size:13px; font-weight:700; transition:transform .15s; }
+  .bl-chips button:active { transform:scale(.94); }
+  .bl-chips button.ici { background:#ffd23f; border-color:#ffd23f; color:#1a1408; box-shadow:0 0 14px #ffd23f66; }
+  .bl-chips button.live::before { content:""; display:inline-block; width:7px; height:7px; border-radius:50%; background:#ff3b30; margin-right:5px; vertical-align:1px; box-shadow:0 0 6px #ff3b30; }
+  .bl-mvt .btn { background:#ffd23f1a; border-color:#ffd23f55; color:#ffe9a0; }
+  .bl-conseils.bl6 { margin-top:2px; }
+  .btn.bl-affiche-b { border:4px solid transparent; color:#1a1408; font-weight:900;
+    background:linear-gradient(#ffd23f, #ffd23f) padding-box, repeating-linear-gradient(-45deg, #1a1608 0 8px, #ffd23f 8px 16px) border-box; box-shadow:0 6px 20px #ffd23f33; }
 </style>
 </head>
 <body>
@@ -4296,12 +4316,14 @@ function ouvrirEvt(id){
     + alentoursEvt(v)
     + (v.cat === 'fete' ? '<div class="bl-conseils cc"><div>🎧<b>Tes oreilles</b><span>bouchons, loin des enceintes</span></div><div>💧<b>Bois de l’eau</b><span>et garde un œil sur tes potes</span></div><div>🚶<b>Rentre à plusieurs</b><span>prévois ton retour</span></div></div>' : '')
     + (v.cat === 'sauvage' ? conseilsSv(v) : '')
-    + (v.cat === 'blocus' ? '<div class="bl-conseils"><div>👥<b>Reste en groupe</b><span>et repère une sortie</span></div><div>🙈<b>Pas de visages</b><span>sur les photos et vidéos</span></div><div>🔋<b>Batterie chargée</b><span>et le 112 en tête</span></div></div>' : '')
+    + (v.cat === 'blocus' ? blocBlocus(v) : '')
     + '<div class="rangee">'
     + (v.lat !== undefined && v.lat !== null ? '<button class="btn plein" onclick="fermer();carte.flyTo(['+v.lat+','+v.lng+'],16)">'+ic('carte')+'Sur la carte</button><a class="btn plein" target="_blank" href="https://maps.apple.com/?daddr='+v.lat+','+v.lng+'&dirflg=w">'+ic('fleche')+'Y aller</a>' : '')
     + '</div><div class="rangee"><button class="btn plein" onclick="calendrierEvt(\''+v.id+'\')">🗓️ Agenda</button><button class="btn rose plein" onclick="partagerEvt(\''+v.id+'\')">'+ic('partage')+'Partager</button></div>'
+    + (v.cat === 'blocus' ? '<div class="rangee"><button class="btn plein bl-affiche-b" onclick="afficheBlocus(\''+v.id+'\')">📸 Affiche story « BLOCUS »</button></div>' : '')
     + (estAdmin() ? '<div class="rangee"><button class="btn plein" onclick="editerEvt(\''+v.id+'\')">✏️ Modifier</button></div>' : '');
   ouvrir(h, 'evt');
+  if (v.cat === 'blocus') compterBlocus();
   if (v.cat === 'sauvage' && son.on) jouer('sauvage');
   if (v.cat === 'fete') { if (son.on) lancerConcert('concert.mp3'); } else if (v.cat === 'blocus') { if (son.on) lancerConcert('blocus.mp3'); }
   clearInterval(evtMinuteur);
@@ -4923,6 +4945,105 @@ setTimeout(cacherSplash, 5000);
 setTimeout(boucleChargement, (eco ? 45 : RAFRAICHIR_S) * 1000);
 setInterval(majHorloge, 5000);
 document.addEventListener('visibilitychange', function(){ if (!document.hidden) charger(); });
+// ===================== V44 : FICHE BLOCUS =====================
+// Métro le plus proche, l'ampleur du mouvement ce jour-là, réflexes blocus, affiche story à partager.
+function stationsProches(lat, lng, n){
+  return (PLAN.stations || []).map(function(s){ return { s:s, d:carte.distance([lat, lng], [s.la, s.lo]) }; }).sort(function(a, b){ return a.d - b.d; }).slice(0, n || 2);
+}
+function blocsJour(v){ return evenements().filter(function(x){ return x.cat === 'blocus' && isoJour(x.debut) === isoJour(v.debut) && etatEvt(x) !== 'passe'; }); }
+function quandTxt(ts){ var j = jourEvt(ts); return j === 'Aujourd\'hui' ? 'aujourd\'hui' : j === 'Demain' ? 'demain' : j.toLowerCase(); }
+function blocBlocus(v){
+  var h = '', aGeo = v.lat !== undefined && v.lat !== null;
+  if (aGeo) {
+    var st = stationsProches(v.lat, v.lng, 2).filter(function(o){ return o.d < 1600; });
+    if (st.length) h += '<div class="bl-bloc"><div class="bl-st">🚇 Pour y aller</div>' + st.map(function(o){
+      return '<div class="bl-metro">' + o.s.l.map(function(l){ return '<span class="ligne-badge" style="background:'+(LIGNES[l] || '#999')+'">'+l+'</span>'; }).join('')
+        + '<b>' + esc(o.s.n) + '</b><span>🚶 ' + Math.max(1, Math.round(o.d / 75)) + ' min</span></div>'; }).join('') + '</div>';
+  }
+  var l = blocsJour(v);
+  if (l.length > 1) {
+    if (aGeo) l.sort(function(a, b){ return (a.lat === undefined ? 1e9 : carte.distance([v.lat, v.lng], [a.lat, a.lng])) - (b.lat === undefined ? 1e9 : carte.distance([v.lat, v.lng], [b.lat, b.lng])); });
+    h += '<div class="bl-bloc bl-mvt"><div class="bl-st">🚧 Le mouvement</div>'
+      + '<div class="bl-gros"><b id="bl-n" data-n="'+l.length+'">'+l.length+'</b><span>lycées bloqués '+esc(quandTxt(v.debut))+'<small>Tu n\'es pas seul·e. Du plus proche au plus loin :</small></span></div>'
+      + '<div class="bl-chips">' + l.map(function(x){ return '<button class="'+(x.id === v.id ? 'ici' : '')+(etatEvt(x) === 'live' ? ' live' : '')+'" onclick="ouvrirEvt(\''+x.id+'\')">'+esc(String(x.titre).replace(/^Blocus\s+/i, ''))+'</button>'; }).join('') + '</div>'
+      + '<div class="rangee" style="margin-top:0"><button class="btn plein" onclick="voirBlocusJour(\''+v.id+'\')">🗺️ Sur la carte</button><button class="btn plein" onclick="copierBlocusJour(\''+v.id+'\')">📋 Copier la liste</button></div></div>';
+  }
+  h += '<div class="bl-st" style="margin:14px 0 9px">🛡️ Les réflexes blocus</div><div class="bl-conseils bl6">'
+    + [['🕊️','Reste pacifique','ni violence ni casse'], ['🔥','Pas de feu','poubelles en feu = danger'], ['👥','Reste en groupe','et repère une sortie'],
+       ['🙈','Pas de visages','sur les photos et vidéos'], ['🚓','Si la police arrive','reste calme, ne cours pas'], ['🔋','Batterie chargée','et le 112 en tête']]
+      .map(function(c){ return '<div>'+c[0]+'<b>'+c[1]+'</b><span>'+c[2]+'</span></div>'; }).join('') + '</div>';
+  return h;
+}
+// le grand chiffre du mouvement compte jusqu'au total à l'ouverture
+function compterBlocus(){
+  var el = $('bl-n'); if (!el || document.body.classList.contains('eco')) return;
+  var n = +el.dataset.n, k = 0, t = setInterval(function(){ k++; if (!$('bl-n')) return clearInterval(t); el.textContent = Math.min(n, Math.round(n * k / 14)); if (k >= 14) clearInterval(t); }, 45);
+}
+function voirBlocusJour(id){
+  var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
+  var l = blocsJour(v).filter(function(x){ return x.lat !== undefined && x.lat !== null; }); if (!l.length) return;
+  fermer(); carte.flyToBounds(L.latLngBounds(l.map(function(x){ return [x.lat, x.lng]; })), { padding:[80, 80], maxZoom:15, duration:1.2 });
+  toast('🚧 ' + l.length + ' lycées bloqués ' + quandTxt(v.debut));
+}
+// la liste du jour, prête à coller dans un groupe
+function copierBlocusJour(id){
+  var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
+  var l = blocsJour(v).sort(function(a, b){ return String(a.titre).localeCompare(String(b.titre)); });
+  var t = '🚧 BLOCUS ' + jourEvt(v.debut).toUpperCase() + ' · ' + l.length + ' lycées\n' + l.map(function(x){ return '• ' + String(x.titre).replace(/^Blocus\s+/i, '') + ' · ' + heure(x.debut); }).join('\n')
+    + '\n\nEn direct sur Traboule : ' + (urlAppli || '');
+  if (navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ toast('Liste copiée (' + l.length + ' lycées)'); }, function(){ toast('Copie impossible'); });
+  else if (navigator.share) navigator.share({ text:t }).catch(function(){});
+}
+function imgSvg(svg, t){ return new Promise(function(ok){ var i = new Image(); i.onload = function(){ ok(i); }; i.onerror = function(){ ok(null); };
+  i.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="'+t+'" height="'+t+'" ')); }); }
+// Affiche story « BLOCUS » (1080×1920) à partager sur Insta / dans les groupes
+function afficheBlocus(id){
+  var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
+  toast('Création de ton affiche…');
+  var W = 1080, H = 1920, cv = document.createElement('canvas'); cv.width = W; cv.height = H; var x = cv.getContext('2d'), A = 'Anton, Impact, sans-serif', J = '#ffd23f';
+  var nom = String(v.titre).replace(/^Blocus\s+/i, '').toUpperCase(), autres = blocsJour(v).length - 1;
+  var polices = (document.fonts && document.fonts.load) ? Promise.all([document.fonts.load('120px Anton'), document.fonts.load('800 40px Inter')]).catch(function(){}) : Promise.resolve();
+  Promise.all([polices, imgSvg(logoTraboule('ab'), 300), imgSvg(QR_SVG, 620)]).then(function(r){
+    var logo = r[1], qr = r[2];
+    var g = x.createRadialGradient(W/2, 820, 60, W/2, 900, 1300); g.addColorStop(0, '#3a3006'); g.addColorStop(.5, '#151208'); g.addColorStop(1, '#090806');
+    x.fillStyle = g; x.fillRect(0, 0, W, H);
+    // rubans de chantier
+    function ruban(y, ang, texte){
+      x.save(); x.translate(W/2, y); x.rotate(ang); x.fillStyle = J; x.fillRect(-W, -55, W*2, 110);
+      x.fillStyle = '#16130a'; for (var s = -W; s < W; s += 70) { x.beginPath(); x.moveTo(s, -55); x.lineTo(s + 34, -55); x.lineTo(s - 6, 55); x.lineTo(s - 40, 55); x.closePath(); x.fill(); }
+      x.fillStyle = J; x.fillRect(-W, -34, W*2, 68); x.fillStyle = '#16130a'; x.font = '400 50px ' + A; x.textAlign = 'center'; x.textBaseline = 'middle';
+      var t = ''; for (var k = 0; k < 6; k++) t += texte + '   •   '; x.fillText(t, 0, 2); x.restore(); }
+    ruban(150, -.07, 'ON BLOQUE TOUT'); ruban(1420, .06, nom.length > 18 ? 'BLOCUS' : nom + ' EN BLOCUS');
+    x.textAlign = 'center'; x.textBaseline = 'alphabetic';
+    x.font = '170px "Apple Color Emoji","Noto Color Emoji",sans-serif'; x.fillText('🚧', W/2, 470);
+    x.save(); x.shadowColor = J; x.shadowBlur = 60; x.fillStyle = J; x.font = '400 280px ' + A; x.fillText('BLOCUS', W/2, 790); x.restore();
+    var fs = nom.length > 16 ? 96 : nom.length > 11 ? 120 : 150; x.fillStyle = '#fff'; x.font = '400 ' + fs + 'px ' + A; x.fillText(nom, W/2, 790 + fs + 30);
+    x.fillStyle = 'rgba(0,0,0,.4)'; rond(x, 120, 1060, W - 240, 170, 36); x.fill(); x.strokeStyle = 'rgba(255,210,63,.45)'; x.lineWidth = 3; rond(x, 120, 1060, W - 240, 170, 36); x.stroke();
+    var j = jourEvt(v.debut); x.fillStyle = J; x.font = '400 78px ' + A; x.fillText((j === 'Aujourd\'hui' ? 'AUJOURD\'HUI' : j === 'Demain' ? 'DEMAIN' : j.replace(/ \d{4}$/, '').toUpperCase()) + ' · ' + heure(v.debut).toUpperCase(), W/2, 1140);
+    x.fillStyle = '#efe6c4'; x.font = '800 40px Inter, sans-serif'; x.fillText(autres > 0 ? '+ ' + autres + ' autre' + (autres > 1 ? 's' : '') + ' lycée' + (autres > 1 ? 's' : '') + ' en blocus' : 'Rejoins le mouvement', W/2, 1200);
+    x.fillStyle = '#fff'; rond(x, 120, 1580, 260, 260, 30); x.fill(); if (qr) x.drawImage(qr, 140, 1600, 220, 220);
+    if (logo) x.drawImage(logo, 410, 1590, 74, 74);
+    x.textAlign = 'left'; x.fillStyle = '#fff'; x.font = '400 56px ' + A; x.fillText('TRABOULE', 500, 1645);
+    x.fillStyle = '#efe6c4'; x.font = '800 40px Inter, sans-serif'; x.fillText('Suis le blocus en direct', 410, 1730);
+    x.fillStyle = '#b9ad86'; x.font = '600 32px Inter, sans-serif'; x.fillText((urlAppli || '').replace(/^https?:\/\//, '').replace(/\/$/, ''), 410, 1785);
+    var texte = '🚧 BLOCUS ' + String(v.titre).replace(/^Blocus\s+/i, '') + ' · ' + j + ' ' + heure(v.debut) + (autres > 0 ? ' (+ ' + autres + ' lycées)' : '') + '\nSuis-le en direct : ' + (urlAppli || '');
+    cv.toBlob(function(b){ montrerAffiche(b, 'traboule-blocus.jpg', texte, 'ouvrirEvt(\'' + v.id + '\')'); }, 'image/jpeg', .9);
+  });
+}
+var affiche = null;
+function montrerAffiche(blob, nomFichier, texte, retour){
+  affiche = { blob:blob, nom:nomFichier, texte:texte };
+  ouvrir(entete('📸 Ton affiche', 'À poster en story ou dans tes groupes.')
+    + '<div class="j5-affiche"><img src="'+URL.createObjectURL(blob)+'" alt="Affiche"></div>'
+    + '<div class="rangee"><button class="btn plein" onclick="'+retour+'">Retour</button><button class="btn rose plein" onclick="partagerAffiche()">'+ic('partage')+'Partager</button></div>'
+    + '<div class="sous" style="margin-top:8px">Sur iPhone, tu peux aussi appuyer longtemps sur l\'image puis « Enregistrer dans Photos ».</div>', 'affiche');
+}
+function partagerAffiche(){
+  if (!affiche) return;
+  try { var f = new File([affiche.blob], affiche.nom, { type:'image/jpeg' });
+    if (navigator.canShare && navigator.canShare({ files:[f] })) { navigator.share({ files:[f], text:affiche.texte }).catch(function(){}); return; } } catch(e){}
+  var a = document.createElement('a'); a.href = URL.createObjectURL(affiche.blob); a.download = affiche.nom; document.body.appendChild(a); a.click(); a.remove(); toast('Affiche enregistrée');
+}
 // ===================== V43 : BLOCUS EN SÉRIE =====================
 // Plusieurs lycées d'un coup, même jour, même heure. Liste préparée pour lundi 2 novembre (à compléter).
 var BLOCUS_PRET = { v:2, jour:'2026-11-02', hDebut:'07:30', hFin:'', noms:['Lycée général et technologique Édouard Herriot','Lycée Juliette Récamier','Lycée Docteur Charles Mérieux',
