@@ -1376,7 +1376,9 @@ function majCouches(){
   document.querySelectorAll('.st-nom').forEach(function(el){ el.style.display = z >= 15 ? 'flex' : 'none'; });
   if (couches.sante) calqueSante.addTo(carte); else carte.removeLayer(calqueSante);
   if (couches.sante && z >= 16) calquePharma.addTo(carte); else carte.removeLayer(calquePharma);
-  if (calqueEcoles) { if (couches.ecoles && z >= 14) calqueEcoles.addTo(carte); else carte.removeLayer(calqueEcoles); }
+  if (calqueEcoles) { var e3 = typeof vue3D !== 'undefined' && vue3D && BATS && z >= 15;
+    if (couches.ecoles && z >= 14 && !e3) calqueEcoles.addTo(carte); else carte.removeLayer(calqueEcoles);
+    if (couches.ecoles && z >= 14) calqueEcolesNoms.addTo(carte); else carte.removeLayer(calqueEcolesNoms); }
   if (typeof calqueScenes !== 'undefined' && calqueScenes) { if (couches.scenes && z >= 13) calqueScenes.addTo(carte); else carte.removeLayer(calqueScenes); }
   document.body.classList.toggle('zoom-14', z >= 14); document.body.classList.toggle('zoom-16', z >= 16);
   if (planRendu) planRendu._update();
@@ -2904,12 +2906,20 @@ var Rendu3D = L.Canvas.extend({
     var tx = -b.min.x + off.x, ty = -b.min.y + off.y;
     var m = 60 / k, vx0 = (b.min.x - off.x)/k - m, vy0 = (b.min.y - off.y)/k - m, vx1 = (b.min.x + sz.x - off.x)/k + m, vy1 = (b.min.y + sz.y - off.y)/k + 4*m;
     var pxm = Math.pow(2, z) / (156543.03 * Math.cos(45.76*Math.PI/180)), f = pxm * 0.55; // pixels par mètre de hauteur
-    var vis = [];
-    BATS.forEach(function(c){ if (c.b[2] < vx0 || c.b[0] > vx1 || c.b[3] < vy0 || c.b[1] > vy1) return; c.l.forEach(function(o){ vis.push(o); }); });
+    var vis = [], EC = (couches.ecoles && ECOLES) ? preparerEcoles3D() : null;
+    BATS.forEach(function(c){ if (c.b[2] < vx0 || c.b[0] > vx1 || c.b[3] < vy0 || c.b[1] > vy1) return; c.l.forEach(function(o){ if (!(EC && o.ec)) vis.push(o); }); });
+    if (EC) {
+      // cours et terrains au sol
+      EC.zones.forEach(function(zn){ if (zn.b[2] < vx0 || zn.b[0] > vx1 || zn.b[3] < vy0 || zn.b[1] > vy1) return;
+        var p = zn.p, C2 = COUL_EC[zn.k]; ctx.beginPath(); for (var i = 0; i < p.length/2; i++) { var x = p[i*2]*k + tx, y = p[i*2+1]*k + ty; if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y); }
+        ctx.closePath(); ctx.fillStyle = zn.k === 'lycee' ? 'rgba(255,204,51,.10)' : 'rgba(176,124,255,.10)'; ctx.fill(); ctx.setLineDash([5,5]); ctx.strokeStyle = C2.toit; ctx.globalAlpha = .7; ctx.lineWidth = 1.5; ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1; });
+      EC.bats.forEach(function(o){ if (o.b[2] < vx0 || o.b[0] > vx1 || o.b[3] < vy0 || o.b[1] > vy1) return; vis.push(o); });
+    }
     vis.sort(function(a, b2){ return a.y - b2.y; });
     var C = COUL3D[themePlan] || COUL3D.sombre;
     ctx.lineJoin = 'round'; ctx.lineWidth = 1;
     vis.forEach(function(o){
+      if (o.ecole) return dessinerEcole3D(ctx, o, k, tx, ty, f, z);
       var p = o.p, n = p.length/2, d = o.h * f, i, ax, ay, bx, by;
       // murs : une couleur selon l'orientation de la façade
       for (i = 0; i < n; i++) {
@@ -2927,39 +2937,139 @@ var Rendu3D = L.Canvas.extend({
     ctx.restore();
   }
 });
+
+// ----- Lycées et facs en 3D : vrais bâtiments d'école (façade claire, rangées de fenêtres, toit, drapeau) -----
+var ECO3D = null;
+function preparerEcoles3D(){
+  if (ECO3D) return ECO3D;
+  var O = carte.project(origineLL, Z0);
+  function conv(ring){ var n = ring.length, p = new Float32Array(n*2), b = [1e9,1e9,-1e9,-1e9];
+    for (var i = 0; i < n; i++) { var q = carte.project(L.latLng(ring[i][0], ring[i][1]), Z0); var x = q.x - O.x, y = q.y - O.y; p[i*2] = x; p[i*2+1] = y;
+      if (x<b[0]) b[0]=x; if (x>b[2]) b[2]=x; if (y<b[1]) b[1]=y; if (y>b[3]) b[3]=y; }
+    var a = 0; for (i = 0; i < n; i++) { var j = (i+1)%n; a += p[i*2]*p[j*2+1] - p[j*2]*p[i*2+1]; }
+    return { p:p, b:b, sens: a > 0 ? 1 : -1 }; }
+  var bats = [], zones = [];
+  ECOLES.forEach(function(e, idx){
+    e.z.forEach(function(z){ var c = conv(z); c.k = e.k; zones.push(c); });
+    var grand = null;
+    e.b.forEach(function(r){ var c = conv(r); c.ecole = true; c.k = e.k; c.idx = idx; c.y = c.b[3]; c.h = e.k === 'fac' ? 16 : 13;
+      c.aire = (c.b[2]-c.b[0])*(c.b[3]-c.b[1]); if (!grand || c.aire > grand.aire) grand = c; bats.push(c); });
+    if (grand) grand.principal = true;
+  });
+  // on retire les bâtiments "ordinaires" qui doublonnent une école, et on reprend leur vraie hauteur
+  if (BATS) BATS.forEach(function(c){ c.l.forEach(function(o){
+    var p = o.p, cx = 0, cy = 0, n = p.length/2; for (var i = 0; i < n; i++) { cx += p[i*2]; cy += p[i*2+1]; } cx /= n; cy /= n;
+    for (var j = 0; j < bats.length; j++) { var e = bats[j];
+      if (cx > e.b[0] && cx < e.b[2] && cy > e.b[1] && cy < e.b[3] && dansPoly(e.p, cx, cy)) { o.ec = true; if (!e.hReel || o.h > e.h) { e.h = Math.max(7, Math.min(30, o.h)); e.hReel = 1; } break; } }
+  }); });
+  ECO3D = { bats:bats, zones:zones };
+  return ECO3D;
+}
+function dansPoly(p, x, y){ var dedans = false, n = p.length/2;
+  for (var i = 0, j = n-1; i < n; j = i++) { var xi = p[i*2], yi = p[i*2+1], xj = p[j*2], yj = p[j*2+1];
+    if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) dedans = !dedans; }
+  return dedans; }
+var STYLE_EC3D = {
+  lycee: { murs:['#7d7262','#c9bb9e','#efe3c6'], toit:'#3d3529', toit2:'#4a4032', bord:'#ffcc33', vitre:'#24324e', lum:'#ffd98a', bandeau:'#ffcc33', mot:'LYCÉE' },
+  fac:   { murs:['#686078','#a79cbc','#d9d0ea'], toit:'#352d47', toit2:'#40365a', bord:'#b07cff', vitre:'#232b48', lum:'#e2d4ff', bandeau:'#b07cff', mot:'UNIVERSITÉ' }
+};
+var HAUSSE_EC = 1.5; // les écoles sont un peu surélevées pour bien se voir
+function dessinerEcole3D(ctx, o, k, tx, ty, f, z){
+  var S = STYLE_EC3D[o.k] || STYLE_EC3D.lycee, p = o.p, n = p.length/2, d = o.h * f * HAUSSE_EC, i;
+  var etages = Math.max(2, Math.round(o.h / 3.4)), pxm = f / 0.55, fen = d > 9;
+  var murLong = null;
+  for (i = 0; i < n; i++) {
+    var j = (i+1) % n, ax = p[i*2]*k + tx, ay = p[i*2+1]*k + ty, bx = p[j*2]*k + tx, by = p[j*2+1]*k + ty;
+    var dx = bx - ax, dy = by - ay, L2 = Math.sqrt(dx*dx + dy*dy) || 1;
+    var face = (o.sens > 0 ? -dx : dx) > 0, sh = (dx/L2 + 1) / 2;
+    ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.lineTo(bx, by - d); ctx.lineTo(ax, ay - d); ctx.closePath();
+    ctx.fillStyle = face ? S.murs[sh > .5 ? 2 : 1] : S.murs[0]; ctx.fill();
+    if (!face) continue;
+    if (!murLong || L2 > murLong.L) murLong = { ax:ax, ay:ay, dx:dx, dy:dy, L:L2 };
+    // soubassement sombre + bandeau de couleur sous le toit
+    ctx.fillStyle = 'rgba(0,0,0,.22)'; ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.lineTo(bx, by - d*.1); ctx.lineTo(ax, ay - d*.1); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = S.bandeau; ctx.beginPath(); ctx.moveTo(ax, ay - d*.92); ctx.lineTo(bx, by - d*.92); ctx.lineTo(bx, by - d); ctx.lineTo(ax, ay - d); ctx.closePath(); ctx.fill();
+    // fenêtres : une rangée par étage, une fenêtre tous les ~3,5 m
+    if (fen && L2 > 6) {
+      var cols = Math.min(40, Math.max(1, Math.floor(L2 / (3.5 * pxm)))), et = Math.min(etages, Math.max(1, Math.floor(d / 5))), fw = .55 / cols, hh = .78 / et;
+      for (var e = 0; e < et; e++) for (var c = 0; c < cols; c++) {
+        var u0 = (c + .22) / cols, u1 = u0 + fw, v0 = .13 + e * hh + hh * .2, v1 = v0 + hh * .55;
+        ctx.fillStyle = ((o.idx * 7 + i * 13 + e * 5 + c * 3) % 7) === 0 ? S.lum : S.vitre;
+        ctx.beginPath(); ctx.moveTo(ax + dx*u0, ay + dy*u0 - d*v0); ctx.lineTo(ax + dx*u1, ay + dy*u1 - d*v0); ctx.lineTo(ax + dx*u1, ay + dy*u1 - d*v1); ctx.lineTo(ax + dx*u0, ay + dy*u0 - d*v1); ctx.closePath(); ctx.fill();
+      }
+    }
+  }
+  // grande porte d'entrée + enseigne sur la plus longue façade du bâtiment principal
+  if (o.principal && murLong && d > 12) {
+    var M = murLong, ux = M.dx / M.L, uy = M.dy / M.L, cx = M.ax + M.dx/2, cy = M.ay + M.dy/2;
+    var pw = Math.min(M.L * .18, 4.5 * pxm), ph = Math.min(d * .3, 3.2 * pxm * HAUSSE_EC);
+    ctx.fillStyle = '#16161c'; ctx.beginPath(); ctx.moveTo(cx - ux*pw/2, cy - uy*pw/2); ctx.lineTo(cx + ux*pw/2, cy + uy*pw/2); ctx.lineTo(cx + ux*pw/2, cy + uy*pw/2 - ph); ctx.lineTo(cx - ux*pw/2, cy - uy*pw/2 - ph); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = S.bandeau; ctx.lineWidth = 1.5; ctx.stroke(); ctx.lineWidth = 1;
+    if (d > 22 && M.L > 40) {
+      var fs = Math.min(14, Math.max(7, d * .16)), ey = cy - d * .62;
+      ctx.save(); ctx.translate(cx, ey + uy * 0); ctx.transform(1, uy/ (ux || 1), 0, 1, 0, 0);
+      ctx.font = '900 ' + fs + 'px Inter, -apple-system, sans-serif'; var tw = ctx.measureText(S.mot).width + fs;
+      ctx.fillStyle = S.bandeau; ctx.fillRect(-tw/2, -fs*.8, tw, fs*1.5); ctx.fillStyle = '#111'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(S.mot, 0, -fs*.05);
+      ctx.restore();
+    }
+  }
+  // toit plat sombre, acrotère de couleur, petites installations techniques
+  ctx.beginPath(); for (i = 0; i < n; i++) { var x = p[i*2]*k + tx, y = p[i*2+1]*k + ty - d; if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y); }
+  ctx.closePath(); ctx.fillStyle = S.toit; ctx.fill(); ctx.lineWidth = z >= 17 ? 3 : 2; ctx.strokeStyle = S.bord; ctx.stroke(); ctx.lineWidth = 1;
+  if (z >= 17 && o.aire * k * k > 2500) {
+    var bx0 = (o.b[0] + o.b[2]) / 2 * k + tx, by0 = (o.b[1] + o.b[3]) / 2 * k + ty - d, t = Math.max(4, 2.5 * pxm);
+    if (dansPoly(o.p, (o.b[0] + o.b[2]) / 2, (o.b[1] + o.b[3]) / 2)) { ctx.fillStyle = S.toit2; ctx.fillRect(bx0 - t, by0 - t*.6, t*2, t*1.2); ctx.fillStyle = '#5a5a66'; ctx.fillRect(bx0 - t*.8, by0 - t*.6 - t*.5, t*1.6, t*.5); }
+  }
+  // drapeau sur le bâtiment principal
+  if (o.principal && z >= 16) {
+    var mi = 0; for (i = 1; i < n; i++) if (p[i*2+1] > p[mi*2+1]) mi = i;
+    var fx = p[mi*2]*k + tx, fy = p[mi*2+1]*k + ty - d, mh = Math.max(12, 7 * f);
+    ctx.strokeStyle = '#e8e8ee'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(fx, fy); ctx.lineTo(fx, fy - mh); ctx.stroke(); ctx.lineWidth = 1;
+    var fw2 = mh * .6, fh = mh * .38, cs = ['#1f4bd8', '#ffffff', '#e8303c'];
+    for (var q = 0; q < 3; q++) { ctx.fillStyle = cs[q]; ctx.fillRect(fx + q*fw2/3, fy - mh, fw2/3 + .5, fh); }
+  }
+}
+// En 3D, toucher un bâtiment d'école ouvre sa fiche
+carte.on('click', function(e){
+  if (!vue3D || !ECO3D || carte.getZoom() < 15) return;
+  var O = carte.project(origineLL, Z0), q = carte.project(e.latlng, Z0), x = q.x - O.x, y = q.y - O.y;
+  var f = Math.pow(2, carte.getZoom()) / (156543.03 * Math.cos(45.76*Math.PI/180)) * .55, k = Math.pow(2, carte.getZoom() - Z0);
+  for (var i = ECO3D.bats.length - 1; i >= 0; i--) { var o = ECO3D.bats[i], dz = o.h * f * HAUSSE_EC / k;
+    if ((dansPoly(o.p, x, y) || dansPoly(o.p, x, y + dz)) ) return ouvrirEcole(o.idx); }
+});
 function basculer3D(force){
   vue3D = force === undefined ? !vue3D : force; ecrireLS('vue3d', vue3D ? '1' : null);
   document.body.classList.toggle('vue3d', vue3D); $('btn-3d').textContent = vue3D ? '2D' : '3D';
-  if (!vue3D) { if (calque3D) carte.removeLayer(calque3D); return; }
+  if (!vue3D) { if (calque3D) carte.removeLayer(calque3D); majCouches(); return; }
   if (force === undefined) toast(carte.getZoom() < 15 ? 'Vue 3D : zoome pour voir les bâtiments' : 'Vue 3D');
   if (BATS) return afficher3D();
   if (chargement3D) return; chargement3D = true;
-  fetch('batiments.txt?v=1').then(function(r){ return r.text(); }).then(function(t){ BATS = decoderBats(t); chargement3D = false; if (vue3D) afficher3D(); })
+  fetch('batiments.txt?v=1').then(function(r){ return r.text(); }).then(function(t){ BATS = decoderBats(t); ECO3D = null; chargement3D = false; if (vue3D) afficher3D(); majCouches(); })
     .catch(function(){ chargement3D = false; toast('Bâtiments indisponibles hors ligne'); basculer3D(false); });
 }
 function afficher3D(){
   if (!calque3D) { var pane = carte.getPane('bat3d') || carte.createPane('bat3d'); pane.style.zIndex = 330; pane.style.pointerEvents = 'none'; calque3D = new Rendu3D({ pane:'bat3d', padding:0.3 }); }
-  calque3D.addTo(carte);
+  calque3D.addTo(carte); majCouches();
 }
 if (lireLS('vue3d') === '1') setTimeout(function(){ basculer3D(true); }, 1200);
 
 // ===================== V16 : LYCÉES ET FACS (bâtiments 2D) =====================
 // Données : ecoles.json (Overture Maps / OpenStreetMap). Chaque bâtiment est dessiné à plat avec un petit
 // « mur » décalé dessous pour donner du relief. Lycées en jaune, facs et écoles sup en violet.
-var ECOLES = null, calqueEcoles = null;
+var ECOLES = null, calqueEcoles = null, calqueEcolesNoms = null;
 var COUL_EC = { lycee:{ toit:'#ffcc33', mur:'#9a7300', bord:'#fff2b8', nom:'Lycée' }, fac:{ toit:'#b07cff', mur:'#5a32a3', bord:'#e6d6ff', nom:'Université / école supérieure' } };
 function nomCourt(n){
   return n.replace(/^Lycée (général|professionnel|polyvalent|technologique|des métiers)( (et|privé) (technologique|général))?( privé)?\s*/i, 'Lycée ')
     .replace(/^Lycée privé /i, 'Lycée ').replace(/^Université Lumière - /, '').replace(/^Université Jean Moulin - /, '').replace(/ - Site /, ' · ').slice(0, 34);
 }
 function chargerEcoles(){
-  fetch('ecoles.json?v=2').then(function(r){ return r.json(); }).then(function(d){ ECOLES = d; dessinerEcoles(); }).catch(function(){});
+  fetch('ecoles.json?v=2').then(function(r){ return r.json(); }).then(function(d){ ECOLES = d; ECO3D = null; dessinerEcoles(); if (vue3D && calque3D && calque3D._map) calque3D._dessiner(); }).catch(function(){});
 }
 function dessinerEcoles(){
   if (!ECOLES || calqueEcoles) return;
   var pane = carte.createPane('ecoles'); pane.style.zIndex = 350;
   var rend = L.canvas({ pane:'ecoles', padding:.4 }), lab = L.layerGroup();
-  calqueEcoles = L.layerGroup();
+  calqueEcoles = L.layerGroup(); calqueEcolesNoms = L.layerGroup();
   var dy = -0.000028, dx = 0.000018;
   ECOLES.forEach(function(e){ var C = COUL_EC[e.k];
     e.z.forEach(function(z){ L.polygon(z, { renderer:rend, pane:'ecoles', color:C.toit, weight:1.5, dashArray:'5 5', opacity:.75, fillColor:C.toit, fillOpacity:.07, interactive:false }).addTo(calqueEcoles); }); });
@@ -2968,7 +3078,7 @@ function dessinerEcoles(){
   ECOLES.forEach(function(e, i){ var C = COUL_EC[e.k];
     e.b.forEach(function(b){ L.polygon(b, { renderer:rend, pane:'ecoles', color:C.bord, weight:1, opacity:.9, fillColor:C.toit, fillOpacity:1 }).on('click', function(){ ouvrirEcole(i); }).addTo(calqueEcoles); });
     L.marker(e.c, { interactive:false, keyboard:false, pane:'markerPane', zIndexOffset:-300,
-      icon:L.divIcon({ className:'', iconSize:[0,0], html:'<div class="ecole-nom '+e.k+'">'+esc(nomCourt(e.n))+'</div>' }) }).addTo(calqueEcoles);
+      icon:L.divIcon({ className:'', iconSize:[0,0], html:'<div class="ecole-nom '+e.k+'">'+esc(nomCourt(e.n))+'</div>' }) }).addTo(calqueEcolesNoms);
   });
   majCouches(); desencombrerBientot();
 }
