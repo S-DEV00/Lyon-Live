@@ -1693,6 +1693,32 @@
   .bl-conseils.bl6 { margin-top:2px; }
   .btn.bl-affiche-b { border:4px solid transparent; color:#1a1408; font-weight:900;
     background:linear-gradient(#ffd23f, #ffd23f) padding-box, repeating-linear-gradient(-45deg, #1a1608 0 8px, #ffd23f 8px 16px) border-box; box-shadow:0 6px 20px #ffd23f33; }
+
+  /* ================= v46 : démarrage — on traverse la traboule ================= */
+  /* habitués : tout est déjà en place, pas d'attente */
+  #splash.rapide h1 em, #splash.rapide .sp-slogan, #splash.rapide .sp-tag, #splash.rapide .sp-logo { animation-duration:.01s !important; animation-delay:0s !important; }
+  #splash.rapide .sp-plan path { animation-duration:.9s !important; animation-delay:0s !important; }
+  #sp-etape { font-weight:700; letter-spacing:.2px; }
+  #sp-etape.pret { color:#fff; font-size:13.5px; font-weight:800; padding:7px 14px; border-radius:20px; background:#ffffff12; border:1px solid #ffffff22; animation:sp-monte .35s ease-out both; }
+  /* la sortie : l'arche grandit jusqu'à nous engloutir */
+  #splash.traverse .sp-logo { animation:none !important; }
+  #splash.traverse .sp-logo svg { animation:none !important; transform:scale(30); filter:none; transition:transform .95s cubic-bezier(.75,0,.85,.25); will-change:transform; }
+  #splash.traverse .sp-logo i, #splash.traverse h1, #splash.traverse .sp-slogan, #splash.traverse .sp-tag, #splash.traverse .sp-bas, #splash.traverse .sp-pts, #splash.traverse .sp-radar {
+    opacity:0 !important; transition:opacity .22s ease-out; }
+  #splash.traverse h1 { transform:scale(1.25); transition:opacity .22s, transform .35s ease-in; }
+  #splash.traverse .sp-plan { transform:scale(1.9); opacity:0; transition:transform 1s cubic-bezier(.6,0,.8,.2), opacity .7s .15s; }
+  .sp-flash { position:absolute; inset:0; pointer-events:none; opacity:0; z-index:3;
+    background:radial-gradient(circle at 50% 42%, #fff6dc 0%, #ffd27a 22%, #ff8a2b 48%, rgba(255,106,31,0) 78%); }
+  #splash.traverse .sp-flash { animation:sp-eclat .8s cubic-bezier(.4,0,.2,1) .3s both; }
+  @keyframes sp-eclat { 0% { opacity:0; transform:scale(.4); } 38% { opacity:.82; transform:scale(1.1); } 100% { opacity:0; transform:scale(1.5); } }
+  #splash.parti { opacity:0; clip-path:none !important; transition:opacity .6s ease .1s !important; }
+  #splash.parti.simple { transition:opacity .35s ease !important; }
+  /* la carte, derrière, fait un léger mouvement de caméra en se posant */
+  #carte { transition:transform 1.3s cubic-bezier(.16,.84,.3,1); transform-origin:50% 42%; }
+  body.splash-la #carte { transform:scale(1.18); }
+  body.eco #carte, body.leger #carte { transition:none; transform:none; }
+  @media (prefers-reduced-motion: reduce) { #splash.traverse .sp-logo svg, #splash.traverse .sp-plan { transition:none !important; transform:none !important; }
+    .sp-flash { display:none; } body.splash-la #carte { transform:none; } }
 </style>
 </head>
 <body>
@@ -1719,6 +1745,7 @@
     <div class="sp-tag"><span class="sp-pt"></span><span id="sp-date">Carte en direct</span></div>
   </div>
   <div class="sp-bas"><div class="barre-ch"><i id="sp-prog"></i></div><small id="sp-etape">Connexion à la carte…</small></div>
+  <div class="sp-flash"></div>
 </div>
 
 <div id="carte"></div>
@@ -2235,7 +2262,7 @@ function nouveau(cle){ var n = !vus[cle]; vus[cle] = 1; return n; }
 function delaiVague(ll){
   var pt = carte.latLngToContainerPoint(ll), t = carte.getSize(), cx = t.x / 2, cy = t.y * .42;
   var r = Math.min(1, Math.sqrt(Math.pow(pt.x - cx, 2) + Math.pow(pt.y - cy, 2)) / Math.sqrt(cx * cx + Math.pow(t.y * .58, 2)));
-  return document.body.classList.contains('splash-la') ? 60 + (1 - r) * 520 : r * 500;
+  return 80 + r * 520;
 }
 
 function appliquer(json){
@@ -2424,15 +2451,40 @@ function charger(){
   });
 }
 var SPLASH_T0 = Date.now(); document.body.classList.add('splash-la');
+// Habitués : le logo et le nom sont là tout de suite (pas d'attente des lettres) ; la 1re fois, le grand show.
+var SPLASH_HABITUE = !!lireLS('bienvenue9');
+if (SPLASH_HABITUE && $('splash')) $('splash').classList.add('rapide');
+// Résumé en direct affiché juste avant d'entrer : on sait tout de suite ce qui se passe
+function resumeSplash(){
+  var en = LANGUE === 'en', pts = etat.points || [], dg = pts.filter(function(p){ return (TYPES[p.type] || {}).g === 'danger'; }).length;
+  var md = (etat.medics || []).filter(function(m){ return m.statut !== 'pause'; }).length, ev = (typeof evtsVisibles === 'function') ? evtsVisibles() : [];
+  var bl = ev.filter(function(v){ return v.cat === 'blocus'; }).length, l = [];
+  if (pts.length) l.push(pts.length + (en ? ' report' : ' signalement') + (pts.length > 1 ? 's' : '') + (dg ? ' (' + dg + (en ? ' to avoid' : ' à éviter') + ')' : ''));
+  if (md) l.push(md + ' medic' + (md > 1 ? 's' : ''));
+  if (bl) l.push(bl + ' blocus');
+  return l.length ? '✓ ' + l.join(' · ') : (en ? '✓ Nothing reported right now' : '✓ Rien de signalé pour l\'instant');
+}
 function cacherSplash(){ var s = $('splash'); if (!s || s.classList.contains('parti') || s._fin) return;
-  s._fin = 1; clearInterval(window._spEtapes); var p = $('sp-prog'); if (p) p.style.transform = 'scaleX(1)'; var e = $('sp-etape'); if (e) e.textContent = tr('C\'est parti !');
-  setTimeout(function(){ s.classList.add('parti'); document.body.classList.remove('splash-la'); setTimeout(function(){ s.style.display='none'; }, 700); }, Math.max(350, (lireLS('bienvenue9') ? 1200 : 2200) - (Date.now() - SPLASH_T0))); }
+  s._fin = 1; clearInterval(window._spEtapes); var p = $('sp-prog'); if (p) p.style.transform = 'scaleX(1)';
+  var e = $('sp-etape'); if (e) { e.style.opacity = 1; e.textContent = etat.derniereMaj ? resumeSplash() : tr('C\'est parti !'); e.classList.add('pret'); }
+  var attente = Math.max(etat.derniereMaj ? 700 : 250, (SPLASH_HABITUE ? 850 : 2100) - (Date.now() - SPLASH_T0));
+  if (document.body.classList.contains('eco') || document.body.classList.contains('leger')) {
+    return setTimeout(function(){ s.classList.add('parti', 'simple'); document.body.classList.remove('splash-la'); setTimeout(function(){ s.style.display = 'none'; }, 450); }, attente);
+  }
+  // On traverse la traboule : l'arche grandit, on passe dessous, éclat de lumière, la carte se pose
+  setTimeout(function(){
+    s.classList.add('traverse'); try { if (navigator.vibrate) navigator.vibrate(8); } catch(x){}
+    setTimeout(function(){ s.classList.add('parti'); }, 480);
+    setTimeout(function(){ document.body.classList.remove('splash-la'); }, 700);
+    setTimeout(function(){ s.style.display = 'none'; }, 1200);
+  }, attente);
+}
 (function(){
   var d = $('sp-date'); if (d) d.textContent = 'En direct · ' + new Date().toLocaleDateString(LANGUE === 'en' ? 'en-GB' : 'fr-FR', { weekday:'long', day:'numeric', month:'long' });
   var et = LANGUE === 'en' ? ['Connecting…','Loading the Lyon map…','Fetching live reports…','Almost there…'] : ['Connexion au serveur…','Chargement du plan de Lyon…','Récupération des signalements…','Presque prêt…'];
   var k = 0, pr = [.18,.42,.66,.86];
   function pas(){ var e = $('sp-etape'), p = $('sp-prog'); if (!e || k >= et.length) return; e.style.opacity = 0;
-    var t = et[k], v = pr[k]; k++; setTimeout(function(){ e.textContent = t; e.style.opacity = 1; if (p) p.style.transform = 'scaleX('+v+')'; }, 200); }
+    var t = et[k], v = pr[k]; k++; setTimeout(function(){ if ($('splash')._fin) return; e.textContent = t; e.style.opacity = 1; if (p) p.style.transform = 'scaleX('+v+')'; }, 200); }
   pas(); window._spEtapes = setInterval(pas, 600);
 })();
 
