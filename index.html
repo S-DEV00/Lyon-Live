@@ -2013,6 +2013,23 @@
   body.leger .tv-fond, body.eco .tv-fond { display:none; }
   @media (prefers-reduced-motion: reduce) { .tv-fond .sp-plan path { animation:none !important; stroke-dashoffset:0 !important; }
     .tv-lum, .tv-arche g.tv-roue, .tv-soud, .tv-e, .tv-arcs i, .tv-etiq b, .tv-pts { animation:none !important; } }
+
+  /* ================= v53 : étapes de la coupure ================= */
+  .cp-num { float:right; font-family:Inter,sans-serif; font-size:11px; font-weight:900; letter-spacing:.5px; padding:3px 8px; border-radius:10px; background:rgba(255,59,48,.2); color:#ffb3ae; margin-top:-2px; }
+  .cp-et.neuf { animation:cp-neuf .6s cubic-bezier(.2,1.3,.4,1) both; }
+  @keyframes cp-neuf { from { opacity:0; transform:translateX(-10px); } }
+  .cp-et.en { background:rgba(255,138,58,.08); border-radius:12px; margin:0 -8px; padding:6px 8px; }
+  .cp-et.fin i { background:transparent; border-style:dashed; font-size:12px; }
+  .cp-et.fin b { color:#cfe9dc; }
+  .cp-et:not(.ok):not(.en):not(.fin) b { color:#d9c2bd; } .cp-et:not(.ok):not(.en):not(.fin) i { font-size:13px; }
+  .et-adm { display:flex; flex-direction:column; gap:6px; }
+  .et-l { display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:14px; background:var(--s2); border:1px solid rgba(255,150,90,.1); }
+  .et-l .e { font-size:20px; width:26px; text-align:center; flex:none; } .et-l > div { flex:1; min-width:0; }
+  .et-l b { display:block; font-size:14px; } .et-l small { display:block; font-size:12px; color:var(--doux); }
+  .et-l.ok { opacity:.75; } .et-l.ok small { color:#3ee0a0; }
+  .et-l.saute { opacity:.4; } .et-l.saute b { text-decoration:line-through; }
+  .et-l.en { background:rgba(255,59,48,.12); border-color:rgba(255,59,48,.5); } .et-l.en small { color:#ff8a86; font-weight:700; }
+  .et-l .btn.petit { padding:8px 11px; flex:none; }
 </style>
 </head>
 <body>
@@ -3901,7 +3918,9 @@ function modeMaint(cfg){
   cfg = cfg || {};
   var t = String(cfg.maintenanceTexte || ''), m = /^\[mode:([a-z]+)\]\s*/.exec(t), k = m && MODES_MAINT[m[1]] ? m[1] : '';
   if (m) t = t.slice(m[0].length);
-  var o = { k:'aucune', texte:t, fin:String(cfg.maintenanceFin || '') };
+  var et = /^\[etapes:([0-9.,]*)\]\s*/.exec(t), etapes = [];
+  if (et) { t = t.slice(et[0].length); etapes = et[1].split(',').filter(Boolean).map(function(x){ var q = x.split('.'); return { i:+q[0], h:q[1] || '' }; }).filter(function(x){ return ETAPES_CP[x.i]; }); }
+  var o = { k:'aucune', texte:t, fin:String(cfg.maintenanceFin || ''), etapes:etapes };
   if (k && k !== 'aucune' && !MODES_MAINT[k].ecran) o.k = k;
   else if (cfg.maintenance) o.k = (k && MODES_MAINT[k].ecran) ? k : 'complet';
   return o;
@@ -3971,7 +3990,7 @@ function htmlMaint(o){
 }
 function tickMaint(){
   var el = $('maint'); if (!el.classList.contains('vu')) { clearInterval(maintMinuteur); maintMinuteur = null; return; }
-  if ($('cp-depuis')) $('cp-depuis').textContent = (LANGUE === 'en' ? 'for ' : 'depuis ') + dureeTxt(Date.now() - debutCoupure());
+  if ($('cp-depuis')) $('cp-depuis').textContent = (LANGUE === 'en' ? 'for ' : 'depuis ') + dureeTxt(Date.now() - debutEtape());
   if ($('tv-arcs')) majTravaux();
   var o = maintApercu ? lireApercuMaint() : modeMaint(etat.config), fin = heureFin(o.fin), en = LANGUE==='en';
   if (fin && $('m-reste')) {
@@ -4016,7 +4035,9 @@ function ouvrirInfoMaint(){
     + (o.k === 'verif' ? '<div class="sous">'+(en ? 'Reports are hidden while we check them. The map, metro and hospitals stay visible.' : 'Les signalements sont cachés le temps de les vérifier. Le plan, le métro et les hôpitaux restent visibles.')+'</div>' : '')
     + '<div class="rangee"><button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(en?'Safety tips':'Les bons réflexes')+'</button><button class="btn plein" onclick="fermer()">OK</button></div>', 'info-maint');
 }
-function txtAdminMaint(o){ var M = MODES_MAINT[o.k]; return o.k === 'aucune' ? '' : M.nom + (o.fin ? ' · retour ' + o.fin : '') + ' · ' + M.public; }
+function txtAdminMaint(o){ var M = MODES_MAINT[o.k]; if (o.k === 'aucune') return '';
+  var et = o.k === 'securite' && o.etapes && o.etapes.length ? ' · ' + ETAPES_CP[o.etapes[o.etapes.length - 1].i].t.toLowerCase() : '';
+  return M.nom + et + (o.fin ? ' · retour ' + o.fin : '') + ' · ' + M.public; }
 function majMaintenance(){
   var o = modeMaint(etat.config), M = MODES_MAINT[o.k], prec = majMaintenance.prec || 'aucune', en = LANGUE==='en';
   majMaintenance.prec = o.k;
@@ -4036,7 +4057,16 @@ function majMaintenance(){
     if (!maintVu) maintVu = Number(lireLS('maintVu')) || Date.now();
     ecrireLS('maintVu', String(maintVu));
     var h = htmlMaint(o);
-    if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
+    if (el.dataset.h !== h) {
+      if (o.k === 'securite' && el.dataset.mode === 'securite' && el.classList.contains('vu') && $('cp-etapes')) {
+        var avant = el.dataset.etape, maintenant2 = String((o.etapes || []).length ? o.etapes[o.etapes.length - 1].i : 0);
+        $('cp-etapes').innerHTML = htmlEtapesCp(o); if ($('cp-x')) $('cp-x').textContent = texteMaint(o);
+        if (avant !== undefined && avant !== maintenant2) { var E = ETAPES_CP[+maintenant2]; toast((en ? 'New step: ' : 'Nouvelle étape : ') + E.e + ' ' + (en ? E.tEn : E.t));
+          try { jouer('ding'); if (navigator.vibrate) navigator.vibrate(80); } catch(x){} }
+        el.dataset.etape = maintenant2;
+      } else { el.innerHTML = h; el.dataset.etape = String((o.etapes || []).length ? o.etapes[o.etapes.length - 1].i : 0); }
+      el.dataset.h = h;
+    }
     if (o.k === 'securite' && majMaintenance.vu && prec !== 'securite') { try { jouer('alerte'); if (navigator.vibrate) navigator.vibrate([400,150,400]); } catch(e){} }
     el.dataset.mode = o.k;
     el.classList.add('vu'); document.body.classList.add('maint-vu'); cacherSplash(); lancerTickMaint();
@@ -4072,6 +4102,7 @@ function dessinerMaint(){
   var h = entete('🛠️ Maintenance', 'Choisis ce que voit le public. Les admins et les medics voient toujours la carte normale.')
     + '<div class="m-statut'+(o.k !== 'aucune' ? ' on' : '')+'" style="--mc:'+A.c+'"><span class="e">'+A.e+'</span><div><b>'+(o.k === 'aucune' ? 'Carte visible par tout le monde' : 'En ce moment : ' + A.nom)+'</b><small>'
     + (o.k === 'aucune' ? 'Aucune maintenance en cours' : A.d + (o.fin ? ' · retour vers ' + esc(o.fin) : ''))+'</small></div></div>'
+    + (o.k === 'securite' ? htmlEtapesAdmin(o, true) : '')
     + '<label class="l">Mode</label><div class="m-modes">' + ORDRE_MAINT.map(function(k){ var X = MODES_MAINT[k];
         return '<button class="m-mode'+(b.k === k ? ' sel' : '')+(o.k === k ? ' live' : '')+'" style="--mc:'+X.c+'" onclick="choisirModeMaint(\''+k+'\')"><span class="e">'+X.e+'</span><b>'+X.nom+'</b><small>'+X.d+'</small></button>'; }).join('') + '</div>';
   if (b.k !== 'aucune') {
@@ -4082,6 +4113,7 @@ function dessinerMaint(){
       + '<label class="l">'+(b.k === 'fin' ? 'Prochaine carte en direct (facultatif)' : 'Retour prévu')+'</label>'
       + '<div class="chips"><button onclick="finDans(15)">+15 min</button><button onclick="finDans(30)">+30 min</button><button onclick="finDans(60)">+1 h</button><button onclick="finDans(120)">+2 h</button><button onclick="$(\'mt-fin\').value=\'\'">Sans heure</button></div>'
       + '<input id="mt-fin" maxlength="20" placeholder="ex : 9h30 (compte à rebours automatique)" value="'+esc(b.fin || '')+'"></div>';
+    if (b.k === 'securite' && o.k !== 'securite') h += htmlEtapesAdmin(o, false);
   }
   h += '<div class="rangee">' + (b.k !== 'aucune' ? '<button class="btn plein" onclick="apercuMaint()">'+ic('oeil')+'Aperçu</button>' : '')
     + '<button class="btn rose plein" id="mt-go" onclick="sauverMaintenance()">'+(b.k === o.k && b.k === 'aucune' ? 'Enregistrer' : b.k === 'aucune' ? 'Remettre la carte normale' : 'Activer « '+M.nom+' »')+'</button></div>'
@@ -4124,7 +4156,7 @@ function sauverMaintenance(){
   var b = brouillonMaint, M = MODES_MAINT[b.k], txt = String(b.texte || '').trim();
   // « aucune » est aussi écrit en toutes lettres : un texte vide pourrait être ignoré par le serveur
   var envoi = b.k === 'aucune' ? { maintenance:false, maintenanceTexte:'[mode:aucune]', maintenanceFin:'' }
-    : { maintenance:!!M.ecran, maintenanceTexte: b.k === 'complet' ? txt : '[mode:' + b.k + ']' + (txt ? ' ' + txt : ''), maintenanceFin:String(b.fin || '').trim() };
+    : { maintenance:!!M.ecran, maintenanceTexte: b.k === 'complet' ? txt : '[mode:' + b.k + ']' + (b.k === 'securite' ? codeEtapes(etapesPourSauver()) : '') + (txt ? ' ' + txt : ''), maintenanceFin:String(b.fin || '').trim() };
   $('mt-go').disabled = true; $('mt-go').textContent = '…';
   serveur('majConfig', etat.mdp, envoi).then(function(j){
     appliquer(j);
@@ -5336,6 +5368,60 @@ setTimeout(cacherSplash, 5000);
 setTimeout(boucleChargement, (eco ? 45 : RAFRAICHIR_S) * 1000);
 setInterval(majHorloge, 5000);
 document.addEventListener('visibilitychange', function(){ if (!document.hidden) charger(); });
+// ===================== V53 : ÉTAPES DE LA COUPURE =====================
+// L'équipe fait avancer les étapes ; le public les voit passer en direct (heure de chaque étape).
+var ETAPES_CP = [
+  { e:'⛔', t:'Carte coupée', tEn:'Map switched off', x:'Par sécurité, par l\'équipe Traboule', xEn:'For safety, by the Traboule team' },
+  { e:'🔎', t:'On vérifie les infos', tEn:'Checking the info', x:'Chaque signalement est contrôlé', xEn:'Every report is being checked' },
+  { e:'🧹', t:'On retire les fausses infos', tEn:'Removing fake info', x:'Les signalements douteux sont supprimés', xEn:'Dubious reports are being deleted' },
+  { e:'🔐', t:'On sécurise les accès', tEn:'Securing access', x:'Les codes de l\'équipe sont changés', xEn:'Team codes are being changed' },
+  { e:'🚀', t:'Retour imminent', tEn:'Back very soon', x:'La carte revient dans quelques minutes', xEn:'The map is coming back in a few minutes' }
+];
+function hhmm(ts){ var d = new Date(ts || Date.now()); return String(d.getHours()).padStart(2,'0') + String(d.getMinutes()).padStart(2,'0'); }
+function hhmmTs(h){ if (!/^\d{4}$/.test(h || '')) return 0; var d = new Date(); d.setHours(+h.slice(0,2), +h.slice(2), 0, 0); if (d.getTime() > Date.now() + 60000) d.setDate(d.getDate() - 1); return d.getTime(); }
+function hhmmTxt(h){ return /^\d{4}$/.test(h || '') ? h.slice(0,2) + 'h' + h.slice(2) : ''; }
+function codeEtapes(l){ return '[etapes:' + l.map(function(x){ return x.i + '.' + x.h; }).join(',') + ']'; }
+function etapesActives(o){ o = o || modeMaint(etat.config); return o.etapes && o.etapes.length ? o.etapes : [{ i:0, h:hhmm(debutCoupure()) }]; }
+function etapesPourSauver(){ var o = modeMaint(etat.config); return o.k === 'securite' && o.etapes.length ? o.etapes : [{ i:0, h:hhmm() }]; }
+function debutEtape(){ var l = etapesActives(), t = hhmmTs(l[l.length - 1].h); return t || debutCoupure(); }
+function htmlEtapesCp(o){
+  var en = LANGUE === 'en', l = etapesActives(o), cur = l[l.length - 1].i, fin = heureFin(o.fin), h = '';
+  var faites = {}; l.forEach(function(x){ faites[x.i] = x.h; });
+  h += '<div class="cp-st">'+(en ? 'Where we are' : 'Où on en est')+'<span class="cp-num">'+(en ? 'Step ' : 'Étape ')+(cur + 1)+'/'+ETAPES_CP.length+'</span></div>';
+  ETAPES_CP.forEach(function(E, i){
+    if (i < cur && faites[i] === undefined) return; // étape sautée
+    var etat2 = i < cur ? 'ok' : i === cur ? 'en' : '', t = en ? E.tEn : E.t, x = en ? E.xEn : E.x;
+    var sous = i < cur ? (en ? 'at ' : 'à ') + hhmmTxt(faites[i]) + ' · ' + x : i === cur ? '<span id="cp-depuis">' + (en ? 'for ' : 'depuis ') + dureeTxt(Date.now() - (hhmmTs(faites[i]) || debutCoupure())) + '</span> · ' + x : x;
+    h += '<div class="cp-et '+etat2+(i === cur ? ' neuf' : '')+'"><i>'+(i < cur ? '✓' : i === cur ? '' : E.e)+'</i><div><b>'+(i === cur ? E.e + ' ' : '')+t+'</b><small>'+sous+'</small></div></div>';
+  });
+  h += '<div class="cp-et fin"><i>✅</i><div><b>'+(en ? 'The map comes back' : 'Retour de la carte')+'</b><small>'
+    + (fin ? (en ? 'planned around ' : 'prévu vers ') + esc(o.fin) + (en ? ', right here' : ', ici même') : (en ? 'right here, by itself, no need to reload' : 'ici même, tout seul, sans recharger')) + '</small></div></div>';
+  return h;
+}
+// admin : faire avancer (ou reculer) les étapes, publié tout de suite
+function htmlEtapesAdmin(o, actif){
+  var l = actif ? etapesActives(o) : [{ i:0, h:hhmm() }], cur = l[l.length - 1].i, faites = {}; l.forEach(function(x){ faites[x.i] = x.h; });
+  var h = '<label class="l">Étapes de la coupure (vues par le public)</label><div class="et-adm">';
+  ETAPES_CP.forEach(function(E, i){
+    var st = i < cur ? (faites[i] !== undefined ? 'ok' : 'saute') : i === cur ? 'en' : 'avenir';
+    h += '<div class="et-l '+st+'"><span class="e">'+E.e+'</span><div><b>'+E.t+'</b><small>'
+      + (st === 'ok' ? '✓ à ' + hhmmTxt(faites[i]) : st === 'saute' ? 'sautée' : st === 'en' ? (actif ? '● en cours depuis ' + hhmmTxt(faites[i]) : 'première étape') : E.x)+'</small></div>'
+      + (actif && st === 'avenir' ? '<button class="btn petit'+(i === cur + 1 ? ' rose' : '')+'" onclick="passerEtape('+i+')">'+(i === cur + 1 ? 'Passer →' : 'Sauter ici')+'</button>' : '') + '</div>';
+  });
+  h += '</div>' + (actif ? (l.length > 1 ? '<button class="btn plein petit" style="width:100%;margin-top:6px" onclick="annulerEtape()">↩ Revenir à l\'étape d\'avant</button>' : '')
+    + '<div class="sous" style="margin-top:6px">Chaque étape part tout de suite chez tout le monde. Quand c\'est fini, choisis « Aucune » ci-dessus pour remettre la carte.</div>'
+    : '<div class="sous" style="margin-top:6px">La coupure démarre à l\'étape 1. Une fois activée, tu feras avancer les étapes ici.</div>');
+  return h;
+}
+function majEtapes(liste, msg){
+  var o = modeMaint(etat.config);
+  var envoi = { maintenance:true, maintenanceTexte:'[mode:securite]' + codeEtapes(liste) + (o.texte ? ' ' + o.texte : ''), maintenanceFin:o.fin };
+  document.querySelectorAll('.et-adm .btn').forEach(function(b){ b.disabled = true; });
+  serveur('majConfig', etat.mdp, envoi).then(function(j){ appliquer(j); toast(msg); try { jouer('ding'); } catch(e){} ouvrirMaintenance(true); })
+    .catch(function(e){ document.querySelectorAll('.et-adm .btn').forEach(function(b){ b.disabled = false; }); erreurEquipe(e); });
+}
+function passerEtape(i){ var l = etapesActives().slice(); l.push({ i:i, h:hhmm() }); majEtapes(l, ETAPES_CP[i].e + ' Étape « ' + ETAPES_CP[i].t + ' » publiée'); }
+function annulerEtape(){ var l = etapesActives().slice(); if (l.length < 2) return; l.pop(); majEtapes(l, '↩ Retour à « ' + ETAPES_CP[l[l.length - 1].i].t + ' »'); }
 // ===================== V52 : MAINTENANCE (« on rénove la traboule ») =====================
 function debutMaint(){
   var l = [maintVu || Date.now()], c = etat.config || {};
@@ -5441,12 +5527,8 @@ function htmlCoupee(o){
     + '<div class="cp-logo"><div class="cp-halo"></div>'+svgHerse()+'</div>'
     + '<div class="cp-etiq"><b></b>'+(en ? 'SAFETY CUT' : 'COUPURE DE SÉCURITÉ')+'</div>'
     + '<h1 class="cp-t"><span>'+(en ? 'MAP' : 'CARTE')+'</span><b data-t="'+(en ? 'OFF' : 'COUPÉE')+'">'+(en ? 'OFF' : 'COUPÉE')+'</b></h1>'
-    + '<p class="cp-x">'+esc(texteMaint(o))+'</p>'
-    + '<div class="cp-bloc"><div class="cp-st">'+(en ? 'Where we are' : 'Où on en est')+'</div>'
-    + etape('ok', '✓', en ? 'Map switched off' : 'Carte coupée', (en ? 'at ' : 'à ') + heure(t0) + (en ? ' by the Traboule team' : ' par l\'équipe Traboule'))
-    + etape('en', '', en ? 'Checking in progress' : 'Vérification en cours', (en ? 'for ' : 'depuis ') + dureeTxt(Date.now() - t0), 'cp-depuis')
-    + etape('', '3', en ? 'The map comes back' : 'Retour de la carte', fin ? (en ? 'planned around ' : 'prévu vers ') + esc(o.fin) + (en ? ', right here' : ', ici même') : (en ? 'right here, by itself, no need to reload' : 'ici même, tout seul, sans recharger'))
-    + '</div>'
+    + '<p class="cp-x" id="cp-x">'+esc(texteMaint(o))+'</p>'
+    + '<div class="cp-bloc" id="cp-etapes">' + htmlEtapesCp(o) + '</div>'
     + '<div class="cp-bloc cp-faux"><div class="cp-st">'+(en ? 'Spot the fakes' : 'Repère les fausses infos')+'</div>'
     + '<div class="cp-li"><span>📵</span><div>'+(en ? 'During the cut, <b>no « Traboule » info is real</b>, even from a friend.' : 'Pendant la coupure, <b>aucune info « Traboule » n\'est vraie</b>, même envoyée par un pote.')+'</div></div>'
     + '<div class="cp-li"><span>🔑</span><div>'+(en ? 'We will <b>never</b> ask for your code, your number or money.' : 'On ne te demandera <b>jamais</b> ton code, ton numéro ou de l\'argent.')+'</div></div>'
