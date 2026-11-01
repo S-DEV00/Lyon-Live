@@ -804,6 +804,17 @@
   .evt-heures input, #ev-jour { -webkit-appearance:none; appearance:none; display:block; width:100%; max-width:100%; min-width:0; box-sizing:border-box; text-align:left; }
   .evt-heures > div { min-width:0; }
   input[type=date]::-webkit-date-and-time-value, input[type=time]::-webkit-date-and-time-value { text-align:left; }
+
+  /* Blocus : épingle plus discrète (retour utilisateur) */
+  .evt-pin.blocus { width:40px; height:46px; }
+  .evt-pin.blocus .ep-c { width:40px; height:40px; border-radius:11px; box-shadow:0 0 0 1.5px #fff, 0 0 10px #ff9f1c66; }
+  .evt-pin.blocus .ep-c::before { inset:-2.5px; border-radius:13px; padding:2.5px; background-size:16px 16px; animation-duration:1.4s; }
+  .evt-pin.blocus .ep-m { font-size:7.5px; line-height:11px; border-radius:9px 9px 0 0; }
+  .evt-pin.blocus .ep-e { font-size:16px; line-height:24px; animation:none; }
+  .evt-pin.blocus::after { left:14px; top:38px; border-width:5px; border-top-width:7px; }
+  .bl-gyro { top:-9px; width:10px; height:6px; margin-left:-5px; box-shadow:0 0 6px #ff7a00; animation:bl-clignote 1.2s steps(1) infinite; }
+  .bl-gyro::after { display:none; }
+  .evt-pin.blocus .evt-etiq { left:46px; top:4px; }
 </style>
 </head>
 <body>
@@ -2598,7 +2609,7 @@ function compteEvt(v){
 }
 function iconeEvt(v){
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, d = new Date(v.debut), live = etatEvt(v) === 'live';
-  return L.divIcon({ className:'', iconSize: (v.cat === 'fete' || v.cat === 'blocus') ? [52,58] : [46,52], iconAnchor: (v.cat === 'fete' || v.cat === 'blocus') ? [26,60] : [23,54],
+  return L.divIcon({ className:'', iconSize: v.cat === 'fete' ? [52,58] : v.cat === 'blocus' ? [40,46] : [46,52], iconAnchor: v.cat === 'fete' ? [26,60] : v.cat === 'blocus' ? [20,48] : [23,54],
     html: v.cat === 'blocus'
       ? '<div class="evt-pin blocus'+(live?' live':'')+'" style="--ec:'+C.c+'"><div class="ep-c"><span class="bl-gyro"></span><div class="ep-m">'+(live ? '● bloqué' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div></div><div class="evt-etiq">'+esc(v.titre)+'</div></div>'
       : v.cat === 'fete'
