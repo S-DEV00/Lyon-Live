@@ -680,6 +680,35 @@
   .ecole-nom.fac { background:#b07cff; color:#fff; }
   body:not(.zoom-proche) .ecole-nom.lycee { display:none; }
   body.zoom-loin .ecole-nom.fac, body:not(.zoom-14) .ecole-nom.fac { display:none; }
+
+  /* V22 : salles de concert + scène 2D */
+  .scene-nom { position:absolute; transform:translate(-50%,-150%); white-space:nowrap; pointer-events:none; font-weight:900; font-size:11px; padding:3px 8px 3px 6px; border-radius:9px;
+    background:linear-gradient(90deg,#ff3fa4,#a35cff); color:#fff; box-shadow:0 0 12px #ff3fa480, 0 2px 6px #0008; letter-spacing:.2px; }
+  .scene-nom.p { transform:translate(-50%,-50%); top:-34px; }
+  .scene-nom.g, .scene-nom.s { transform:translate(-50%,-50%); top:-30px; }
+  body:not(.zoom-proche) .scene-ic.s, body:not(.zoom-14) .scene-ic.g { display:none; }
+  body:not(.zoom-proche) .scene-nom.s, body:not(.zoom-proche) .scene-nom.p { display:none; }
+  body:not(.zoom-14) .scene-nom.g { display:none; }
+  .scene-svg { width:100%; height:100%; display:block; overflow:visible; filter:drop-shadow(0 4px 8px #000a); }
+  .scene-svg .sc-f { animation:scF 2.4s ease-in-out infinite alternate; transform-box:fill-box; }
+  .scene-svg .sc-f.b { animation-delay:-1.2s; animation-direction:alternate-reverse; }
+  .scene-svg .sc-f.c { animation-duration:3.1s; }
+  .scene-svg .sc-l { animation:scL 1s steps(2) infinite; }
+  .scene-svg .sc-l.b { animation-delay:-.5s; }
+  .scene-svg .sc-hp circle { animation:scHp .48s ease-in-out infinite alternate; transform-box:fill-box; transform-origin:center; }
+  .scene-svg .sc-fo circle { animation:scFo .9s ease-in-out infinite alternate; }
+  .scene-svg .sc-fo circle:nth-child(2n) { animation-delay:-.45s; }
+  .scene-svg .sc-fo circle:nth-child(3n) { animation-delay:-.2s; }
+  .scene-svg.calme .sc-f, .scene-svg.calme .sc-hp circle, .scene-svg.calme .sc-fo circle, .scene-svg.calme .sc-l { animation:none; }
+  .scene-svg.calme .sc-fx { opacity:.25; }
+  @keyframes scF { from { transform:rotate(-14deg); } to { transform:rotate(14deg); } }
+  @keyframes scL { 50% { opacity:.25; } }
+  @keyframes scHp { to { transform:scale(.82); } }
+  @keyframes scFo { to { transform:translateY(-2.5px); } }
+  .scene-evt { pointer-events:none; }
+  .scene-hero { --ec:#ff3fa4; }
+  .scene-hero .sh-svg { position:absolute; right:-6px; bottom:-6px; width:150px; height:100px; opacity:.55; }
+  @media (prefers-reduced-motion: reduce) { .scene-svg * { animation:none !important; } }
   .ecole-hero { border-radius:22px; padding:18px; margin-bottom:12px; position:relative; overflow:hidden; background:linear-gradient(150deg, color-mix(in srgb, var(--ec) 45%, #121217), #121217 80%); border:1px solid color-mix(in srgb, var(--ec) 55%, transparent); }
   .ecole-hero svg { position:absolute; right:-8px; bottom:-10px; width:120px; height:120px; opacity:.22; }
   .ecole-hero .eh-k { font-size:11px; font-weight:900; letter-spacing:.9px; text-transform:uppercase; color:var(--ec); }
@@ -1002,7 +1031,7 @@ var etat = { points:[], traces:[], messages:[], medics:[], blesses:[], decalage:
 if (!etat.mdp) etat.role = '';
 var vus = {}; try { vus = JSON.parse(lireLS('vus6') || '{}'); } catch(e){}
 var premierChargement = true, filtre = 'tout';
-var couches = { metro: lireLS('c_metro') !== '0', sante: lireLS('c_sante') !== '0', ecoles: lireLS('c_ecoles') !== '0' };
+var couches = { metro: lireLS('c_metro') !== '0', sante: lireLS('c_sante') !== '0', ecoles: lireLS('c_ecoles') !== '0', scenes: lireLS('c_scenes') !== '0' };
 var marqueurs = {}, zones = {}, bulles = {}, medicsM = {}, blessesM = {};
 function estAdmin(){ return etat.role === 'admin'; }
 function estMedic(){ return etat.role === 'medic'; }
@@ -1204,6 +1233,7 @@ function majCouches(){
   if (couches.sante) calqueSante.addTo(carte); else carte.removeLayer(calqueSante);
   if (couches.sante && z >= 16) calquePharma.addTo(carte); else carte.removeLayer(calquePharma);
   if (calqueEcoles) { if (couches.ecoles && z >= 14) calqueEcoles.addTo(carte); else carte.removeLayer(calqueEcoles); }
+  if (typeof calqueScenes !== 'undefined' && calqueScenes) { if (couches.scenes && z >= 13) calqueScenes.addTo(carte); else carte.removeLayer(calqueScenes); }
   document.body.classList.toggle('zoom-14', z >= 14); document.body.classList.toggle('zoom-16', z >= 16);
   if (planRendu) planRendu._update();
 }
@@ -1580,6 +1610,7 @@ function ouvrirLegende(){
     + '<button class="'+(couches.metro?'sel':'')+'" onclick="basculerCouche(\'metro\')">Métro</button>'
     + '<button class="'+(couches.sante?'sel':'')+'" onclick="basculerCouche(\'sante\')">Hôpitaux & pharmacies</button>'
     + '<button class="'+(couches.ecoles?'sel':'')+'" onclick="basculerCouche(\'ecoles\')">Lycées & facs</button>'
+    + '<button class="'+(couches.scenes?'sel':'')+'" onclick="basculerCouche(\'scenes\')">Salles de concert</button>'
     + '</div><label class="l">Fond de carte</label><div class="puces">'
     + Object.keys(FONDS).map(function(k){ return '<button class="'+(fondNom===k?'sel':'')+'" onclick="changerFond(\''+k+'\')">'+FONDS[k].nom+'</button>'; }).join('')
     + '</div><label class="l">Signalements</label>';
@@ -2549,7 +2580,7 @@ function sauverMaintenance(){
 // ===================== V17 : désencombrement des étiquettes =====================
 // Après chaque mouvement, on cache les étiquettes qui se chevauchent (les plus utiles gardent la place)
 // et celles qui passent sous l'en-tête ou les boutons.
-var ORDRE_LBL = ['.evt-etiq', '.info-etiq', '.st-nom', '.ecole-nom.fac', '.ecole-nom.lycee', '.repere span', '.nomrue span'];
+var ORDRE_LBL = ['.evt-etiq', '.info-etiq', '.scene-nom.g', '.st-nom', '.scene-nom.s', '.scene-nom.p', '.ecole-nom.fac', '.ecole-nom.lycee', '.repere span', '.nomrue span'];
 function desencombrer(){
   var pris = [];
   document.querySelectorAll('#haut .barre > *, #ticker.vu, #compteurs .pastille, #flottants button, #onglets, .leaflet-marker-icon .pin, .evt-pin .ep-c, #carte .station, #carte .hosto').forEach(function(el){
@@ -2616,6 +2647,97 @@ function evtDepuisEcole(i){ var e = ECOLES[i]; var d = new Date(Date.now()+86400
   brouillonEvt = { id:null, cat:'blocus', emoji:'', titre:'Blocus ' + nomCourt(e.n).replace(/^Lycée /,''), jour:isoJour(d), hDebut:'07:30', hFin:'', lieu:nomCourt(e.n), texte:'', lat:e.c[0], lng:e.c[1] };
   formulaireEvt(); }
 setTimeout(chargerEcoles, 1500);
+
+// ===================== V22 : SALLES DE CONCERT + SCÈNE 2D =====================
+// scenes.json : vraies salles de Lyon (liste vérifiée sur le web, bâtiments Overture Maps).
+// g = grande salle, s = salle, p = plein air / péniche (pas de bâtiment : on dessine une scène).
+var SCENES = null, calqueScenes = null;
+var COUL_SC = { toit:'#ff3fa4', mur:'#7a0f4c', bord:'#ffd3ec' };
+var NOM_SC = { g:'Grande salle de concert', s:'Salle de concert', p:'Scène plein air / péniche' };
+function svgScene(calme){
+  var u = 'sc' + Math.random().toString(36).slice(2,7);
+  return '<svg class="scene-svg'+(calme?' calme':'')+'" viewBox="0 0 120 84" aria-hidden="true"><defs>'
+    + '<linearGradient id="'+u+'f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'
+    + '<linearGradient id="'+u+'p" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a1630"/><stop offset="1" stop-color="#120a16"/></linearGradient></defs>'
+    + '<g class="sc-fx" style="mix-blend-mode:screen">'
+    + '<polygon class="sc-f" style="transform-origin:30px 12px" points="30,12 14,62 46,62" fill="url(#'+u+'f)" opacity=".55"/>'
+    + '<polygon class="sc-f b" style="transform-origin:60px 12px" points="60,12 46,62 74,62" fill="url(#'+u+'f)" opacity=".5"/>'
+    + '<polygon class="sc-f c" style="transform-origin:90px 12px" points="90,12 74,62 106,62" fill="url(#'+u+'f)" opacity=".55"/></g>'
+    // structure (truss)
+    + '<g stroke="#c9c9d6" stroke-width="1.6" fill="none"><rect x="10" y="8" width="100" height="6" rx="1"/><path d="M10 14L110 8M10 8L110 14" stroke-width=".7" opacity=".6"/>'
+    + '<rect x="10" y="8" width="5" height="52"/><rect x="105" y="8" width="5" height="52"/><path d="M10 20h5M10 32h5M10 44h5M105 20h5M105 32h5M105 44h5" stroke-width=".8"/></g>'
+    + '<g class="sc-l"><circle cx="30" cy="15" r="2.6" fill="#ff3fa4"/><circle cx="90" cy="15" r="2.6" fill="#4fd1ff"/></g>'
+    + '<g class="sc-l b"><circle cx="45" cy="15" r="2.2" fill="#ffd23f"/><circle cx="60" cy="15" r="2.6" fill="#a35cff"/><circle cx="75" cy="15" r="2.2" fill="#16c784"/></g>'
+    // plateau
+    + '<path d="M16 56h88l8 12H8z" fill="url(#'+u+'p)" stroke="#ff3fa4" stroke-width="1.6"/><path d="M8 68h104v4H8z" fill="#ff3fa4" opacity=".85"/>'
+    // enceintes
+    + '<g class="sc-hp"><rect x="18" y="34" width="13" height="22" rx="2" fill="#18181f" stroke="#55556a"/><circle cx="24.5" cy="40" r="3" fill="#33334a" stroke="#888"/><circle cx="24.5" cy="50" r="4" fill="#33334a" stroke="#888"/>'
+    + '<rect x="89" y="34" width="13" height="22" rx="2" fill="#18181f" stroke="#55556a"/><circle cx="95.5" cy="40" r="3" fill="#33334a" stroke="#888"/><circle cx="95.5" cy="50" r="4" fill="#33334a" stroke="#888"/></g>'
+    // platine / micro
+    + '<rect x="50" y="48" width="20" height="8" rx="1.5" fill="#26262f" stroke="#ff3fa4" stroke-width=".8"/><path d="M60 48v-10" stroke="#ccc" stroke-width="1.2"/><circle cx="60" cy="37" r="2" fill="#ccc"/>'
+    // public
+    + '<g class="sc-fo" fill="#ffffffcc">' + [14,24,34,44,54,66,76,86,96,106].map(function(x,i){ return '<circle cx="'+x+'" cy="'+(78+(i%2)*3)+'" r="2.6"/>'; }).join('') + '</g>'
+    + '</svg>';
+}
+function chargerScenes(){
+  fetch('scenes.json?v=1').then(function(r){ return r.json(); }).then(function(d){ SCENES = d; dessinerScenes(); }).catch(function(){});
+}
+function dessinerScenes(){
+  if (!SCENES || calqueScenes) return;
+  var pane = carte.createPane('scenes'); pane.style.zIndex = 352;
+  var rend = L.canvas({ pane:'scenes', padding:.4 }); calqueScenes = L.layerGroup();
+  var dy = -0.000032, dx = 0.00002;
+  SCENES.forEach(function(e){ e.b.forEach(function(b){ L.polygon(b.map(function(p){ return [p[0]+dy, p[1]+dx]; }), { renderer:rend, pane:'scenes', stroke:false, fillColor:COUL_SC.mur, fillOpacity:1, interactive:false }).addTo(calqueScenes); }); });
+  SCENES.forEach(function(e, i){
+    e.b.forEach(function(b){
+      L.polygon(b, { renderer:rend, pane:'scenes', color:'#ff8fd0', weight:6, opacity:.18, fill:false, interactive:false }).addTo(calqueScenes);
+      L.polygon(b, { renderer:rend, pane:'scenes', color:COUL_SC.bord, weight:1.2, opacity:.95, fillColor:COUL_SC.toit, fillOpacity:1 }).on('click', function(){ ouvrirScene(i); }).addTo(calqueScenes);
+    });
+    L.marker(e.c, { keyboard:false, zIndexOffset:-250, icon:L.divIcon({ className:'scene-ic '+e.k, iconSize:[e.b.length?64:72, e.b.length?45:50], iconAnchor:[e.b.length?32:36, e.b.length?20:30], html:svgScene(true) }) }).on('click', function(){ ouvrirScene(i); }).addTo(calqueScenes);
+    L.marker(e.c, { interactive:false, keyboard:false, pane:'markerPane', zIndexOffset:-280,
+      icon:L.divIcon({ className:'', iconSize:[0,0], html:'<div class="scene-nom '+e.k+'">🎤 '+esc(e.n)+'</div>' }) }).addTo(calqueScenes);
+  });
+  majCouches(); desencombrerBientot();
+}
+function evtsPres(c, m){ return evtsVisibles().filter(function(v){ return v.lat !== undefined && v.lat !== null && carte.distance([v.lat, v.lng], c) < m; }); }
+function ouvrirScene(i){
+  var e = SCENES[i]; if (!e) return;
+  var dang = etat.points.filter(function(p){ return (TYPES[p.type]||{}).g === 'danger' && carte.distance([p.lat,p.lng], e.c) < 300; });
+  var ev = evtsPres(e.c, 250);
+  var h = '<div class="entete-f" style="margin-bottom:6px"><div></div><button class="fermer" onclick="fermer()" aria-label="Fermer">'+ic('fermer')+'</button></div>'
+    + '<div class="ecole-hero scene-hero"><div class="sh-svg">'+svgScene(false)+'</div>'
+    + '<div class="eh-k">🎤 '+NOM_SC[e.k]+'</div><h3>'+esc(e.n)+'</h3>'
+    + '<div class="eh-s">'+esc(e.s)+'</div>'
+    + '<div class="eh-s" style="margin-top:6px">'+(dang.length ? '⚠️ '+dang.length+' signalement'+(dang.length>1?'s':'')+' à éviter à moins de 300 m' : '✓ Aucun signalement à éviter à moins de 300 m')+'</div></div>'
+    + (ev.length ? '<label class="l">Ici bientôt</label>' + ev.map(function(v){ return ligneEvt(v, false); }).join('') : '')
+    + '<div class="rangee"><a class="btn plein" target="_blank" href="https://maps.apple.com/?daddr='+e.c[0]+','+e.c[1]+'&dirflg=w">'+ic('fleche')+'Y aller à pied</a>'
+    + '<button class="btn plein" onclick="fermer();carte.flyTo(['+e.c[0]+','+e.c[1]+'],17)">'+ic('carte')+'Zoomer</button></div>'
+    + (estAdmin() ? '<div class="rangee"><button class="btn rose plein" onclick="evtDepuisScene('+i+')">🎉 Créer un concert ici</button></div>' : '');
+  ouvrir(h, 'ecole');
+}
+function evtDepuisScene(i){ var e = SCENES[i]; var d = new Date(Date.now()+86400000);
+  brouillonEvt = { id:null, cat:'fete', emoji:'', titre:'Concert · ' + e.n, jour:isoJour(d), hDebut:'20:00', hFin:'23:30', lieu:e.n, texte:'', lat:e.c[0], lng:e.c[1] };
+  formulaireEvt(); }
+setTimeout(chargerScenes, 1700);
+
+// Scène 2D sous chaque concert (le pin "monte" sur la scène). Taille réelle ~45 m, suit le zoom.
+var scenesEvt = {};
+function tailleScene(lat){ return Math.max(150, Math.min(300, 70 / (156543.03 * Math.cos(lat*Math.PI/180) / Math.pow(2, carte.getZoom())))); }
+function majScenesEvt(){
+  var vus4 = {}, z = carte.getZoom();
+  evtsVisibles().forEach(function(v){
+    if (v.cat !== 'fete' || v.lat === undefined || v.lat === null || z < 14) return;
+    if (SCENES && SCENES.some(function(e){ return e.b.length && carte.distance(e.c, [v.lat, v.lng]) < 60; })) return; // déjà dans une salle
+    vus4[v.id] = 1; var live = etatEvt(v) === 'live', w = Math.round(tailleScene(v.lat)), hh = Math.round(w*.7), cle = live + ':' + w;
+    if (scenesEvt[v.id] && scenesEvt[v.id]._cle === cle) return;
+    if (scenesEvt[v.id]) carte.removeLayer(scenesEvt[v.id]);
+    scenesEvt[v.id] = L.marker([v.lat, v.lng], { interactive:false, keyboard:false, zIndexOffset:500,
+      icon:L.divIcon({ className:'scene-evt', iconSize:[w,hh], iconAnchor:[w/2, hh*.76], html:svgScene(!live) }) }).addTo(carte);
+    scenesEvt[v.id]._cle = cle;
+  });
+  Object.keys(scenesEvt).forEach(function(id){ if (!vus4[id]) { carte.removeLayer(scenesEvt[id]); delete scenesEvt[id]; } });
+}
+carte.on('zoomend', majScenesEvt);
 
 // ===================== V15 : ÉVÉNEMENTS =====================
 // Stockés dans la config du serveur (champ "evenements", texte JSON). Pas d'expiration ni de confirmation :
@@ -2691,7 +2813,7 @@ function majEvenements(){
     evtMarqueurs[v.id]._cle = cle;
   });
   Object.keys(evtMarqueurs).forEach(function(id){ if (!vus2[id]) { carte.removeLayer(evtMarqueurs[id]); delete evtMarqueurs[id]; } });
-  majHalos();
+  majHalos(); majScenesEvt();
 }
 function pastilleEvt(){
   var l = evtsVisibles(); if (!l.length) return '';
