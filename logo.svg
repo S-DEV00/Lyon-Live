@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs>
+<linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb82e"/><stop offset=".5" stop-color="#ff6a1f"/><stop offset="1" stop-color="#ec2e1c"/></linearGradient>
+<linearGradient id="to" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c0905"/><stop offset="1" stop-color="#3a160b"/></linearGradient>
+<radialGradient id="tl" cx=".5" cy=".8" r=".75"><stop offset="0" stop-color="#fffbe8"/><stop offset=".5" stop-color="#ffe08f"/><stop offset="1" stop-color="#ffa733"/></radialGradient>
+<radialGradient id="ts" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffb347" stop-opacity=".42"/><stop offset=".6" stop-color="#ffb347" stop-opacity=".12"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
+<filter id="tf" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.6"/></filter></defs>
+<path d="M16.00 92.00V44.00A34.00 34.00 0 0 1 84.00 44.00V92.00Z" fill="url(#tg)"/>
+<path d="M25.00 92.00V44.00A25.00 25.00 0 0 1 75.00 44.00V92.00Z" fill="url(#to)"/>
+<path d="M32.50 67.68V44.00A17.50 17.50 0 0 1 67.50 44.00V67.68Z" fill="#160704"/>
+<ellipse cx="50" cy="60.88" rx="22" ry="10" fill="url(#ts)"/>
+<path d="M39.00 58.88V44.00A11.00 11.00 0 0 1 61.00 44.00V58.88Z" fill="#ffc35a" filter="url(#tf)" opacity=".95"/>
+<path d="M39.00 58.88V44.00A11.00 11.00 0 0 1 61.00 44.00V58.88Z" fill="url(#tl)"/>
+<rect x="46.50" y="83.80" width="7" height="3.4" rx="1.70" fill="#ffd98a" opacity="1"/><rect x="47.30" y="76.60" width="5.4" height="2.8" rx="1.40" fill="#ffd98a" opacity="0.95"/><rect x="47.90" y="70.35" width="4.2" height="2.3" rx="1.15" fill="#ffd98a" opacity="0.9"/><rect x="48.40" y="65.25" width="3.2" height="1.9" rx="0.95" fill="#ffd98a" opacity="0.85"/><rect x="48.80" y="61.25" width="2.4" height="1.5" rx="0.75" fill="#ffd98a" opacity="0.8"/></svg>

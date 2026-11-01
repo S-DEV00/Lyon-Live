@@ -1,21 +1,30 @@
 {
- "name": "Lyon Live",
- "short_name": "Lyon Live",
+ "name": "Traboule · la manif en direct à Lyon",
+ "short_name": "Traboule",
  "start_url": "./",
  "display": "standalone",
- "background_color": "#0c0c11",
+ "background_color": "#0c0605",
  "theme_color": "#0c0c11",
  "lang": "fr",
  "icons": [
   {
    "src": "icone-192.png",
    "sizes": "192x192",
-   "type": "image/png"
+   "type": "image/png",
+   "purpose": "any maskable"
   },
   {
    "src": "icone-512.png",
    "sizes": "512x512",
-   "type": "image/png"
+   "type": "image/png",
+   "purpose": "any maskable"
+  },
+  {
+   "src": "logo.svg",
+   "sizes": "any",
+   "type": "image/svg+xml",
+   "purpose": "any"
   }
- ]
+ ],
+ "description": "La carte en direct des manifs à Lyon : dangers, medics, eau, sorties sûres. Trouve ta sortie."
 }
