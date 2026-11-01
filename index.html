@@ -827,6 +827,8 @@
 
   .btn.cc-son { margin:0 0 12px; width:100%; background:linear-gradient(90deg,#ff2bd6,#7a5cff,#00e0ff); background-size:200% 100%; color:#fff; font-weight:800; border:0; animation:cc-fond 3s linear infinite; }
   .btn.cc-son.on { box-shadow:0 0 22px #ff2bd699; }
+  .btn.cc-son.bl { background:linear-gradient(90deg,transparent 0 14%,#16161cf2 26% 74%,transparent 86%),repeating-linear-gradient(-45deg,#ffd23f 0 14px,#16161c 14px 28px); background-size:100% 100%,200% 100%; animation:none; color:#fff; text-shadow:0 1px 3px #000, 0 0 6px #000; }
+  .btn.cc-son.bl.on { box-shadow:0 0 22px #ffd23f99; }
   body.concert-son .evt-hero.concert .cc-flash { animation-duration:.47s; }
   body.concert-son .evt-hero.concert .eh-e { animation-duration:.47s; }
 
@@ -2854,14 +2856,14 @@ function ouvrirEvt(id){
     + (v.cat === 'fete' ? '<div class="cc-grand-eq">' + Array.apply(null, Array(18)).map(function(_, k){ return '<i style="animation-duration:'+(.4+((k*37)%9)/14).toFixed(2)+'s;animation-delay:-'+((k*13)%7/10)+'s"></i>'; }).join('') + '</div>' : '')
     + (st === 'avenir' ? '<div class="evt-compte" id="evt-compte">'+htmlCompte(v)+'</div>' : '')
     + '</div>'
-    + (v.cat === 'fete' ? '<button class="btn plein cc-son" id="cc-son" onclick="basculerConcert()">🔊 Écouter le son</button>' : '')
+    + (v.cat === 'fete' || v.cat === 'blocus' ? '<button class="btn plein cc-son'+(v.cat==='blocus'?' bl':'')+'" id="cc-son" onclick="basculerConcert(\''+(v.cat==='blocus'?'blocus':'concert')+'.mp3\')">🔊 Écouter le son</button>' : '')
     + (v.texte ? '<div class="evt-desc">'+esc(v.texte)+'</div>' : '')
     + '<div class="rangee">'
     + (v.lat !== undefined && v.lat !== null ? '<button class="btn plein" onclick="fermer();carte.flyTo(['+v.lat+','+v.lng+'],16)">'+ic('carte')+'Sur la carte</button><a class="btn plein" target="_blank" href="https://maps.apple.com/?daddr='+v.lat+','+v.lng+'&dirflg=w">'+ic('fleche')+'Y aller</a>' : '')
     + '</div><div class="rangee"><button class="btn rose plein" onclick="partagerEvt(\''+v.id+'\')">'+ic('partage')+'Partager l\'événement</button></div>'
     + (estAdmin() ? '<div class="rangee"><button class="btn plein" onclick="editerEvt(\''+v.id+'\')">✏️ Modifier</button></div>' : '');
   ouvrir(h, 'evt');
-  if (v.cat === 'fete') { if (son.on) lancerConcert(); } else if (v.cat === 'blocus') jouer('blocus');
+  if (v.cat === 'fete') { if (son.on) lancerConcert('concert.mp3'); } else if (v.cat === 'blocus') { if (son.on) lancerConcert('blocus.mp3'); }
   clearInterval(evtMinuteur);
   if (st === 'avenir') evtMinuteur = setInterval(function(){ var el = $('evt-compte'); if (!el || $('feuille').dataset.vue !== 'evt') return clearInterval(evtMinuteur); el.innerHTML = htmlCompte(v); }, 1000);
 }
@@ -2869,10 +2871,12 @@ function ouvrirEvt(id){
 
 
 // ----- Son des concerts (concert.mp3), joué à l'ouverture d'une fiche concert si le son est activé -----
-var audioConcert = null;
-function lancerConcert(){
+// Même chose pour les blocus (blocus.mp3).
+var audioConcert = null, audioFichier = '';
+function lancerConcert(f){
+  f = f || audioFichier || 'concert.mp3';
   try {
-    if (!audioConcert) { audioConcert = new Audio('concert.mp3'); audioConcert.preload = 'auto'; audioConcert.onended = majBoutonConcert; }
+    if (!audioConcert || audioFichier !== f) { if (audioConcert) audioConcert.pause(); audioConcert = new Audio(f); audioFichier = f; audioConcert.preload = 'auto'; audioConcert.onended = majBoutonConcert; }
     audioConcert.currentTime = 0; audioConcert.volume = .85;
     var pr = audioConcert.play(); if (pr && pr.catch) pr.catch(function(){});
     document.body.classList.add('concert-son');
@@ -2880,7 +2884,7 @@ function lancerConcert(){
   majBoutonConcert();
 }
 function stopConcert(){ if (audioConcert && !audioConcert.paused) audioConcert.pause(); document.body.classList.remove('concert-son'); majBoutonConcert(); }
-function basculerConcert(){ if (audioConcert && !audioConcert.paused) stopConcert(); else lancerConcert(); }
+function basculerConcert(f){ if (audioConcert && !audioConcert.paused && audioFichier === f) stopConcert(); else lancerConcert(f); }
 function majBoutonConcert(){ var b = $('cc-son'); if (!b) return; var on = audioConcert && !audioConcert.paused && !audioConcert.ended;
   b.textContent = on ? '⏸ Couper le son' : '🔊 Écouter le son'; b.classList.toggle('on', !!on); if (!on) document.body.classList.remove('concert-son'); }
 
