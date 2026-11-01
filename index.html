@@ -916,6 +916,56 @@
   @keyframes cc-tourne2 { to { transform:translate(-50%,-50%) rotate(360deg); } }
   .halo-fete .hf-l { animation:cc-tourne2 6s linear infinite; }
   .halo-fete.bientot .hf-c, .halo-fete.bientot .hf-l { opacity:.45; } .halo-fete.bientot .hf-o { animation-duration:3s, 3s; opacity:.6; }
+
+  /* ===== V24 : admin turbo ===== */
+  #rapide { position:fixed; left:0; right:0; bottom:calc(var(--bas) + 80px); z-index:999; display:none; padding:0 10px; pointer-events:none; }
+  body.est-admin #rapide { display:block; }
+  body.est-admin #flottants { bottom:calc(var(--bas) + 150px); }
+  body.placement #rapide, body.trace #rapide { display:none; }
+  #rapide .rp-l { display:flex; gap:7px; overflow-x:auto; scrollbar-width:none; pointer-events:auto; padding:4px 2px 6px; -webkit-mask-image:linear-gradient(90deg,#000 88%,transparent); mask-image:linear-gradient(90deg,#000 88%,transparent); }
+  #rapide .rp-l::-webkit-scrollbar { display:none; }
+  #rapide button { flex:none; display:flex; align-items:center; gap:6px; height:44px; padding:0 13px 0 7px; border-radius:22px; font:inherit; font-size:13px; font-weight:800; color:#fff;
+    background:#16161ccc; -webkit-backdrop-filter:blur(14px) saturate(1.4); backdrop-filter:blur(14px) saturate(1.4); border:1px solid #ffffff1f; box-shadow:0 6px 18px #0007; }
+  #rapide button i { font-style:normal; width:31px; height:31px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:17px; background:var(--gc); box-shadow:0 0 0 2px #ffffff30 inset; }
+  #rapide button:active { transform:scale(.93); }
+  #rapide .rp-t { padding:0 12px; background:linear-gradient(135deg,#ff5caa,#a35cff); border:0; letter-spacing:.3px; }
+  .rp-mode { display:inline-flex; align-items:center; gap:8px; font-weight:800; font-size:16px; }
+  .rp-mode i { font-style:normal; width:34px; height:34px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:19px; background:var(--gc); }
+  #barre-mode .btn.pos { flex:0 0 auto; padding:0 14px; }
+  /* sélecteur rapide (appui long) */
+  .rapide-g { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:6px 0 10px; }
+  .rapide-g button { display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 2px 10px; border-radius:18px; background:var(--s2); border:1px solid #ffffff10; color:var(--txt); font:inherit; font-size:11px; font-weight:700; line-height:1.15; }
+  .rapide-g button i { font-style:normal; width:44px; height:44px; border-radius:15px; display:flex; align-items:center; justify-content:center; font-size:23px; background:var(--gc); box-shadow:0 6px 16px color-mix(in srgb, var(--gc) 45%, transparent); }
+  .rapide-g button:active { transform:scale(.94); }
+  /* toast avec actions */
+  #toast.act { display:flex; align-items:center; gap:10px; padding:8px 8px 8px 16px !important; pointer-events:auto; }
+  #toast.act button { font:inherit; font-size:13px; font-weight:800; border:0; border-radius:14px; padding:8px 12px; background:#ffffff1c; color:#fff; }
+  #toast.act button.r { background:var(--rose); }
+  /* fiche point : actions admin */
+  .adm-act { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:6px; }
+  .adm-act button { display:flex; flex-direction:column; align-items:center; gap:5px; padding:12px 2px 10px; border-radius:16px; background:var(--s2); border:1px solid #ffffff12; color:var(--txt); font:inherit; font-size:11.5px; font-weight:800; }
+  .adm-act button span { font-size:22px; line-height:1; }
+  .adm-act button.ok { background:linear-gradient(160deg,#16c78433,#16c78411); border-color:#16c78466; }
+  .adm-act button.ko { background:linear-gradient(160deg,#ff3b4e33,#ff3b4e11); border-color:#ff3b4e66; }
+  /* Gestion */
+  .g-hero { position:relative; overflow:hidden; border-radius:22px; padding:16px; margin:2px 0 12px; background:radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--pc) 40%, transparent), transparent 60%), linear-gradient(160deg,#1d1d26,#121217); border:1px solid color-mix(in srgb, var(--pc) 45%, #ffffff10); }
+  .g-hero .gh-h { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .g-hero .gh-k { font-size:11px; font-weight:900; letter-spacing:1px; text-transform:uppercase; color:#ffffff90; }
+  .g-hero .gh-p { font-family:Anton,Impact,sans-serif; font-size:30px; line-height:1.05; margin-top:4px; }
+  .g-hero .gh-c { font-variant-numeric:tabular-nums; font-weight:800; font-size:13px; color:#ffffffb0; background:#ffffff12; padding:6px 10px; border-radius:12px; }
+  .g-hero .gh-u { font-size:12.5px; color:#ffffff99; margin-top:6px; }
+  .g-hero .phases { margin:12px 0 0; }
+  .g-titre { display:flex; align-items:center; gap:8px; margin:18px 2px 8px; font-size:12px; font-weight:900; letter-spacing:.9px; text-transform:uppercase; color:var(--doux); }
+  .g-titre::after { content:""; flex:1; height:1px; background:#ffffff14; }
+  .outils-g { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .outils-g button { position:relative; display:flex; flex-direction:column; align-items:center; gap:6px; padding:14px 4px 11px; border-radius:18px; background:var(--s2); border:1px solid #ffffff10; color:var(--txt); font:inherit; font-size:11.5px; font-weight:800; }
+  .outils-g button span { font-size:24px; line-height:1; }
+  .outils-g button em { position:absolute; top:6px; right:7px; font-style:normal; font-size:10px; font-weight:900; padding:2px 6px; border-radius:8px; background:var(--rose); color:#fff; }
+  .outils-g button.danger { color:#ff8a95; }
+  .tuile-s { position:relative; overflow:hidden; }
+  .tuile-s::after { content:""; position:absolute; right:-14px; top:-14px; width:50px; height:50px; border-radius:50%; background:var(--tc); opacity:.14; }
+  .ligne-eq .nm { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .ligne-eq .ag { white-space:nowrap; }
 </style>
 </head>
 <body>
@@ -955,6 +1005,7 @@
 <div id="viseur"><svg viewBox="0 0 56 56"><path d="M28 54 C28 54 8 32 8 20 a20 20 0 0 1 40 0 C48 32 28 54 28 54z" fill="#ff5caa" stroke="#fff" stroke-width="2.5"/><circle cx="28" cy="20" r="7" fill="#09090b"/></svg></div>
 <div id="aide" class="verre"></div>
 <div id="barre-mode"></div>
+<div id="rapide"><div class="rp-l" id="rp-l"></div></div>
 
 <div id="voile"></div>
 <div id="feuille" class="feuille"></div>
@@ -1330,7 +1381,7 @@ function age(ts){
 }
 function heure(ts){ var d = new Date(ts); return String(d.getHours()).padStart(2,'0') + 'h' + String(d.getMinutes()).padStart(2,'0'); }
 function distance(a,b){ return carte.distance(L.latLng(a[0],a[1]), L.latLng(b[0],b[1])); }
-function toast(t){ var el=$('toast'); el.textContent=t; el.classList.add('vu'); clearTimeout(toast.t); toast.t=setTimeout(function(){el.classList.remove('vu');},2800); }
+function toast(t){ var el=$('toast'); el.classList.remove('act'); el.textContent=t; el.classList.add('vu'); clearTimeout(toast.t); toast.t=setTimeout(function(){el.classList.remove('vu');},2800); }
 // Adresse du serveur : config.js (ou ?api=... une fois dans le lien)
 var API = (function(){
   try { var q = new URLSearchParams(location.search).get('api'); if (q) { localStorage.setItem('api9', q); return q; } } catch(e){}
@@ -1711,9 +1762,7 @@ function ouvrirDetail(id){
   if (estAdmin()){
     h += '<label class="l">Admin</label>'
       + (t.vehicules ? '<div class="stepper" style="margin-bottom:6px"><button onclick="pas(-1)">−</button><output id="veh">'+(p.vehicules||0)+'</output><button onclick="pas(1)">+</button><span class="sous" style="margin:0">véhicules</span></div>' : '')
-      + '<div class="rangee"><button class="btn rose plein" onclick="confirmerPt(\''+p.id+'\')">'+ic('check')+'Toujours là</button>'
-      + '<button class="btn rouge plein" onclick="supprimerPt(\''+p.id+'\')">Plus là</button></div>'
-      + '<div class="rangee"><button class="btn plein" onclick="modifierNote(\''+p.id+'\')">✏️ Modifier</button><button class="btn plein" onclick="deplacerPoint(\''+p.id+'\')">✋ Déplacer</button></div>';
+      + actionsAdmin(p.id, 'Toujours là', 'Plus là');
   }
   ouvrir(h, 'detail');
 }
@@ -1728,9 +1777,7 @@ function ouvrirInfoPoint(p){
     + '<button class="btn plein" onclick="partagerInfo(\''+p.id+'\')">'+ic('partage')+'Partager</button></div>';
   if (estAdmin()){
     h += '<label class="l">Admin</label>'
-      + '<div class="rangee"><button class="btn rose plein" onclick="confirmerPt(\''+p.id+'\')">'+ic('check')+'Toujours vrai</button>'
-      + '<button class="btn rouge plein" onclick="supprimerPt(\''+p.id+'\')">Retirer</button></div>'
-      + '<div class="rangee"><button class="btn plein" onclick="modifierNote(\''+p.id+'\')">✏️ Modifier</button><button class="btn plein" onclick="deplacerPoint(\''+p.id+'\')">✋ Déplacer</button></div>';
+      + actionsAdmin(p.id, 'Toujours vrai', 'Retirer');
   }
   ouvrir(h, 'detail');
 }
@@ -1794,7 +1841,7 @@ function menuPlus(){
     + '<div class="rangee"><button class="btn plein" onclick="ouvrirLegende()">'+ic('carte')+'Carte</button><button class="btn plein" onclick="ouvrirConseils()">'+ic('bouclier')+'Conseils</button></div>'
     + '<div class="rangee"><button class="btn plein" onclick="ouvrirAutour()">'+ic('boussole')+'Autour de moi</button><button class="btn plein" onclick="partagerAppli()">'+ic('partage')+'Partager</button></div>'
     + (estMedic() ? '<div class="rangee"><button class="btn plein" onclick="ouvrirInfos()">'+ic('infos')+'Infos publiques</button></div>' : '')
-    + '<label class="l">Pseudo</label><input id="pseudo2" maxlength="24" value="'+esc(etat.pseudo)+'" onchange="etat.pseudo=this.value.trim();ecrireLS(\'pseudo_equipe\',etat.pseudo)">'
+    + '<input id="pseudo2" placeholder="Ton pseudo" maxlength="24" value="'+esc(etat.pseudo)+'" onchange="etat.pseudo=this.value.trim();ecrireLS(\'pseudo_equipe\',etat.pseudo)">'
     + '<div class="rangee"><button class="btn plein" onclick="quitterEquipe();toast(\'Déconnecté·e\')">Se déconnecter</button></div>'
     + (estAdmin() ? '<div class="rangee"><button class="btn rouge plein" onclick="toutEffacerDemande()">Après la manif : tout effacer</button></div>' : ''), 'plus');
 }
@@ -1816,7 +1863,8 @@ function commencerPlacement(c){
 function annulerModes(){ document.body.classList.remove('placement'); document.body.classList.remove('trace'); document.body.classList.remove('trace-doigt'); traceEnCours = null; if (typeof traceDoigt !== 'undefined' && traceDoigt) { traceDoigt = false; carte.dragging.enable(); } calqueDessin.clearLayers(); }
 function placerIci(){ var c = carte.getCenter(); annulerModes(); placerA(c.lat, c.lng); }
 function placerA(lat, lng){
-  if (cible === 'point') { brouillon = { lat:lat, lng:lng, type:null, vehicules:1 }; formulaire(); }
+  if (cible === 'rapide' && typeRapide) { var k = typeRapide; typeRapide = null; publierRapide(k, lat, lng); }
+  else if (cible === 'point') { brouillon = { lat:lat, lng:lng, type:null, vehicules:1 }; formulaire(); }
   else if (cible === 'blesse') { brouillon = { lat:lat, lng:lng, gravite:'moyen', note:'' }; formulaireBlesse(); }
   else if (cible === 'deplacer' && aDeplacer) { serveur('modifierPoint', etat.mdp, aDeplacer, { lat:lat, lng:lng }).then(function(j){ appliquer(j); toast('Point déplacé'); }).catch(erreurEquipe); aDeplacer = null; }
   else if (cible === 'evt' && brouillonEvt) { brouillonEvt.lat = lat; brouillonEvt.lng = lng; formulaireEvt(); }
@@ -1824,7 +1872,8 @@ function placerA(lat, lng){
 }
 carte.on('contextmenu', function(e){
   if (!estEquipe() || document.body.classList.contains('trace')) return;
-  annulerModes(); cible = estMedic() ? 'blesse' : 'point'; placerA(e.latlng.lat, e.latlng.lng);
+  annulerModes(); if (estAdmin()) return selecteurRapide(e.latlng.lat, e.latlng.lng);
+  cible = estMedic() ? 'blesse' : 'point'; placerA(e.latlng.lat, e.latlng.lng);
 });
 
 // ----- Tracés : rendu -----
@@ -1903,14 +1952,91 @@ function publier(){
     var g = TYPES[brouillon.type].g;
     envoi = Object.assign({}, brouillon, { type: g === 'danger' ? 'danger' : g === 'sur' ? 'rdv' : 'info', note: '[' + brouillon.type + '] ' + (brouillon.note || '') });
   }
-  serveur('ajouterPoint', etat.mdp, envoi).then(function(j){ vus['p'+'_'] = 1; fermer(); var d=JSON.parse(j); d.points.forEach(function(p){ vus['p'+p.id]=1; }); appliquer(d); toast('Point publié'); })
-    .catch(function(e){ $('pub').textContent='Publier'; $('pub').disabled=false; erreurEquipe(e); });
+  var b0 = brouillon; noterUsage(b0.type);
+  serveur('ajouterPoint', etat.mdp, envoi).then(function(j){ vus['p'+'_'] = 1; fermer(); var d=JSON.parse(j); d.points.forEach(function(p){ vus['p'+p.id]=1; }); appliquer(d); toastPublie(b0); })
+    .catch(function(e){ if ($('pub')) { $('pub').textContent='Publier'; $('pub').disabled=false; } erreurEquipe(e); });
 }
 function confirmerPt(id){
   var o = $('veh'); var maj = o ? { vehicules:+o.textContent } : {};
   serveur('confirmerPoint', etat.mdp, id, maj).then(function(j){ fermer(); appliquer(j); toast('Confirmé'); }).catch(erreurEquipe);
 }
 function supprimerPt(id){ serveur('supprimerPoint', etat.mdp, id).then(function(j){ fermer(); appliquer(j); toast('Point retiré'); }).catch(erreurEquipe); }
+
+// ===================== V24 : ADMIN TURBO =====================
+// Barre rapide : 1 tap sur un type -> on place l'épingle -> Publier. Appui long : grille 1 tap.
+// Les types les plus utilisés remontent tout seuls en premier.
+var FAVORIS_BASE = ['police','controle','nasse','lacrymo','bloque','canon','interpel','medic','sortie','eau','info'];
+function usages(){ try { return JSON.parse(lireLS('usage24') || '{}'); } catch(e){ return {}; } }
+function noterUsage(t){ var u = usages(); u[t] = (u[t]||0) + 1; ecrireLS('usage24', JSON.stringify(u)); if (estAdmin()) dessinerRapide(); }
+function favoris(n){
+  var u = usages(), l = FAVORIS_BASE.filter(function(k){ return TYPES[k]; });
+  Object.keys(u).forEach(function(k){ if (TYPES[k] && l.indexOf(k) < 0) l.push(k); });
+  l.sort(function(a,b){ return (u[b]||0) - (u[a]||0) || FAVORIS_BASE.indexOf(a) - FAVORIS_BASE.indexOf(b); });
+  return l.slice(0, n || 99);
+}
+function nomCourtType(k){ return (TYPES[k].nom || k).replace(/ \/.*$/, '').replace(/^Risque de /i, '').replace(/^(.)/, function(c){ return c.toUpperCase(); }); }
+function puceType(k){ return '<i style="--gc:'+COULEURS_G[TYPES[k].g]+'">'+(EMOJI[k]||'ℹ️')+'</i>'; }
+function dessinerRapide(){
+  var el = $('rp-l'); if (!el) return;
+  el.innerHTML = '<button class="rp-t" onclick="selecteurRapide()">⚡ Signaler</button>'
+    + favoris(10).map(function(k){ return '<button onclick="commencerRapide(\''+k+'\')">'+puceType(k)+esc(nomCourtType(k))+'</button>'; }).join('');
+}
+var typeRapide = null;
+function commencerRapide(k){
+  if (k === 'info') { commencerPlacement('point'); return; }
+  commencerPlacement('point'); typeRapide = k; cible = 'rapide';
+  modeAide('<span class="rp-mode">'+puceType(k)+esc(TYPES[k].nom)+'</span><br><span style="color:#9b9ba8">Mets l\'épingle au bon endroit puis « Publier ».</span>');
+  $('barre-mode').innerHTML = '<button class="btn plein verre" onclick="annulerModes()">Annuler</button>'
+    + '<button class="btn verre pos" onclick="rapideMaPosition()" aria-label="Ma position">'+ic('cible')+'</button>'
+    + '<button class="btn rose plein" onclick="placerIci()">'+ic('check')+'Publier</button>';
+}
+function rapideMaPosition(){
+  if (!navigator.geolocation) return toast('Position indisponible');
+  toast('Localisation…');
+  navigator.geolocation.getCurrentPosition(function(p){ carte.setView([p.coords.latitude, p.coords.longitude], Math.max(carte.getZoom(), 17)); toast('Épingle sur ta position, vérifie puis Publier'); },
+    function(){ toast('Position refusée'); }, { enableHighAccuracy:true, timeout:8000, maximumAge:20000 });
+}
+function selecteurRapide(lat, lng){
+  var ici = lat !== undefined;
+  if (ici) brouillon = { lat:lat, lng:lng, type:null, vehicules:1 };
+  var h = ici ? entete('Signaler ici', '1 tap = publié. Tu pourras préciser après.') : entete('Signaler', 'Choisis le type, puis place l\'épingle.');
+  h += '<div class="rapide-g">' + favoris(12).filter(function(k){ return k !== 'info'; }).map(function(k){ return '<button onclick="'+(ici ? 'publierRapide' : 'commencerRapide')+'(\''+k+'\')">'+puceType(k)+esc(nomCourtType(k))+'</button>'; }).join('') + '</div>'
+    + '<div class="rangee"><button class="btn plein" onclick="'+(ici ? 'formulaire()' : 'commencerPlacement(\'point\')')+'">ℹ️ Info / autre type…</button></div>';
+  ouvrir(h, 'form');
+}
+function publierRapide(k, lat, lng){
+  if (lat !== undefined) brouillon = { lat:lat, lng:lng, type:null, vehicules:1 };
+  if (!brouillon) return;
+  brouillon.type = k; brouillon.note = ''; brouillon.par = etat.pseudo;
+  var ANCIENS = ['police','controle','nasse','bloque','lacrymo','danger','medic','eau','rdv','sortie','tete','sauvage','info'];
+  var envoi = brouillon;
+  if (ANCIENS.indexOf(k) < 0) { var g = TYPES[k].g; envoi = Object.assign({}, brouillon, { type: g === 'danger' ? 'danger' : g === 'sur' ? 'rdv' : 'info', note: '[' + k + '] ' }); }
+  var b0 = brouillon; noterUsage(k); fermer(); toast('Envoi…');
+  serveur('ajouterPoint', etat.mdp, envoi).then(function(j){ var d = JSON.parse(j); d.points.forEach(function(p){ vus['p'+p.id]=1; }); appliquer(d); toastPublie(b0); }).catch(erreurEquipe);
+}
+// Le point qu'on vient de publier (le plus récent du même type à moins de 30 m)
+function pointPublie(b){
+  var best = null;
+  etat.points.forEach(function(p){ var t = p.type; if (t !== b.type) return; if (distance([p.lat,p.lng],[b.lat,b.lng]) > 30) return; if (!best || (p.cree||p.ts) > (best.cree||best.ts)) best = p; });
+  return best;
+}
+function toastPublie(b){
+  var p = pointPublie(b), t = TYPES[b.type] || {};
+  toastAction((EMOJI[b.type]||'📍') + ' ' + nomCourtType(b.type) + ' publié', p ? [['Annuler', function(){ supprimerPt(p.id); }], ['Préciser', function(){ ouvrirDetail(p.id); }, 'r']] : []);
+}
+function toastAction(txt, actions){
+  var el = $('toast'); el.innerHTML = ''; el.classList.add('act');
+  var s = document.createElement('span'); s.textContent = txt; el.appendChild(s);
+  (actions||[]).forEach(function(a){ var b = document.createElement('button'); b.textContent = a[0]; if (a[2]) b.className = a[2];
+    b.onclick = function(){ el.classList.remove('vu'); a[1](); }; el.appendChild(b); });
+  el.classList.add('vu'); clearTimeout(toast.t); toast.t = setTimeout(function(){ el.classList.remove('vu'); }, actions && actions.length ? 6000 : 2800);
+}
+function actionsAdmin(id, oui, non){
+  return '<div class="adm-act"><button class="ok" onclick="confirmerPt(\''+id+'\')"><span>✅</span>'+oui+'</button>'
+    + '<button class="ko" onclick="supprimerPt(\''+id+'\')"><span>🗑️</span>'+non+'</button>'
+    + '<button onclick="deplacerPoint(\''+id+'\')"><span>✋</span>Déplacer</button>'
+    + '<button onclick="modifierNote(\''+id+'\')"><span>✏️</span>Modifier</button></div>';
+}
 
 // ----- Tracés -----
 var traceEnCours = null, calqueDessin = L.layerGroup().addTo(carte);
@@ -2126,6 +2252,7 @@ function dessinerOnglets(){
                     + onglet('blesse','Blessé','commencerPlacement(\'blesse\')','fort vert') + onglet('infos','Infos','ouvrirInfos()','','badge-infos') + onglet('reglages','Plus','menuPlus()');
   else o = onglet('infos',tr('Infos'),'ouvrirInfos()','','badge-infos') + onglet('carte',tr('Carte'),'ouvrirLegende()') + onglet('boussole',tr('Autour'),'ouvrirAutour()','fort') + onglet('bouclier',tr('Conseils'),'ouvrirConseils()') + onglet('cadenas',tr('Équipe'),'ouvrirConnexion()');
   $('onglets').innerHTML = o;
+  document.body.classList.toggle('est-admin', estAdmin()); if (estAdmin()) dessinerRapide();
   majBadges();
 }
 
@@ -2454,9 +2581,21 @@ function dessinerGestion(rafraichir){
   var verif = aVerifier();
   var medics = etat.medics.filter(function(m){ return m.statut !== 'pause'; }).length;
   var attente = etat.blesses.filter(function(b){ return b.statut === 'attente'; }).length;
-  var h = entete('Gestion', 'Connecté·e : ' + esc(etat.pseudo || 'admin'));
-  var nEvt = evtsVisibles().length;
-  h += '<button class="prep5" style="margin:4px 0 10px;border-color:#ffd23f88;background:linear-gradient(135deg,#ffd23f22,#ff5caa22)" onclick="gererEvenements()"><span>📅</span><div><b>Événements, blocus, concerts</b><small>'+(nEvt ? nEvt+' à venir · ' : '')+'Créer ou modifier</small></div>'+ic('fleche')+'</button>';
+  var h = entete('Gestion', '');
+  var P = PHASES[ph] || PHASES.avant, nEvt = evtsVisibles().length;
+  // En-tête : état de la manif + horloge, changement d'état en 1 tap
+  h += '<div class="g-hero" style="--pc:'+P.c+'"><div class="gh-h"><div><div class="gh-k">État de la manif · visible par tous</div><div class="gh-p">'+P.e+' '+P.nom+'</div></div><div class="gh-c" id="gh-heure">'+heure(Date.now())+'</div></div>'
+    + '<div class="gh-u">Connecté·e : <b>'+esc(etat.pseudo || 'admin')+'</b></div>'
+    + '<div class="phases">' + Object.keys(PHASES).map(function(k){
+      return '<button class="'+(ph===k?'sel':'')+'" style="'+(ph===k?'border-color:'+PHASES[k].c+';background:'+PHASES[k].c+'22':'')+'" onclick="changerPhase(\''+k+'\')">'+PHASES[k].e+' '+PHASES[k].nom+'</button>'; }).join('') + '</div></div>';
+  // Actions rapides
+  h += '<div class="actions-r">'
+    + '<button onclick="selecteurRapide()"><span>⚡</span>Signaler</button>'
+    + '<button onclick="formulairePopup()"><span>🪧</span>Pop-up</button>'
+    + '<button onclick="ouvrirInfos()"><span>💬</span>Message</button>'
+    + '<button onclick="commencerTrace()"><span>〰️</span>Tracé</button>'
+    + '</div>';
+  h += '<div class="g-titre">En direct</div>';
   h += '<div class="stats">'
     + tuile(etat.points.length, 'points actifs', '#4f7cff', 'ouvrirListe(\'tout\')')
     + tuile(verif.length, 'à vérifier', verif.length ? '#ffae3b' : '#3a3a44', 'document.getElementById(\'sec-verif\').scrollIntoView({behavior:\'smooth\'})')
@@ -2465,21 +2604,11 @@ function dessinerGestion(rafraichir){
     + tuile((etat.popups||[]).length, 'pop-ups', '#ff5caa', '')
     + tuile(messagesInfos().length, 'messages', '#9a9aa5', 'ouvrirInfos()')
     + '</div>';
-  // Actions rapides
-  h += '<div class="actions-r">'
-    + '<button onclick="formulairePopup()"><span>🪧</span>Pop-up</button>'
-    + '<button onclick="ouvrirInfos()"><span>💬</span>Message</button>'
-    + '<button onclick="commencerPlacement(\'point\')"><span>📍</span>Point</button>'
-    + '<button onclick="commencerTrace()"><span>〰️</span>Tracé</button>'
-    + '</div>';
-  // Préparation 5 novembre
-  h += '<button class="prep5" onclick="prep5Demande()"><span>📣</span><div><b>Préparer la manif du jeudi 5 novembre</b><small>Rendez-vous, pop-up d\'annonce et parcours en 1 tap</small></div>'+ic('fleche')+'</button>';
-  // Phase
-  h += '<label class="l">État de la manif (visible par tous)</label><div class="phases">' + Object.keys(PHASES).map(function(k){
-      return '<button class="'+(ph===k?'sel':'')+'" style="'+(ph===k?'border-color:'+PHASES[k].c+';background:'+PHASES[k].c+'22':'')+'" onclick="changerPhase(\''+k+'\')">'+PHASES[k].e+' '+PHASES[k].nom+'</button>'; }).join('') + '</div>';
-  // Rendez-vous
-  h += '<label class="l">Prochain rendez-vous</label>'
-    + '<div class="rdv-form"><input id="rdv-h" maxlength="20" placeholder="14h" value="'+esc(cfg.rdvHeure||'')+'"><input id="rdv-t" maxlength="120" placeholder="Place Bellecour, côté statue" value="'+esc(cfg.rdvTexte||'')+'"></div>'
+  h += '<button class="prep5" style="margin:4px 0 4px;border-color:#ffd23f88;background:linear-gradient(135deg,#ffd23f22,#ff5caa22)" onclick="gererEvenements()"><span>📅</span><div><b>Événements, blocus, concerts</b><small>'+(nEvt ? nEvt+' à venir · ' : '')+'Créer ou modifier</small></div>'+ic('fleche')+'</button>';
+  if (Date.now() < new Date(2026, 10, 5, 20).getTime())
+    h += '<button class="prep5" onclick="prep5Demande()"><span>📣</span><div><b>Préparer la manif du jeudi 5 novembre</b><small>Rendez-vous, pop-up d\'annonce et parcours en 1 tap</small></div>'+ic('fleche')+'</button>';
+  h += '<div class="g-titre">Rendez-vous</div>';
+  h += '<div class="rdv-form"><input id="rdv-h" maxlength="20" placeholder="14h" value="'+esc(cfg.rdvHeure||'')+'"><input id="rdv-t" maxlength="120" placeholder="Place Bellecour, côté statue" value="'+esc(cfg.rdvTexte||'')+'"></div>'
     + '<label class="interrupteur"><span>'+(cfg.rdvLat ? 'Placé sur la carte · déplacer au centre de l\'écran' : 'Placer au centre de l\'écran')+'</span><input id="rdv-c" type="checkbox"></label>'
     + '<div class="rangee"><button class="btn plein" onclick="sauverRdv(true)">Effacer</button><button class="btn rose plein" onclick="sauverRdv()">Enregistrer</button></div>';
   // Pop-ups actives
@@ -2494,17 +2623,23 @@ function dessinerGestion(rafraichir){
     + (verif.length ? '<button class="btn petit" onclick="nettoyerDemande()">Ménage</button>' : '') + '</div>';
   if (!verif.length) h += '<div class="vide" style="padding:12px">Tout est à jour 👌</div>';
   verif.slice(0, 12).forEach(function(p){
-    h += '<div class="ligne-eq">'+pinHtml(p.type,'mini')+'<span class="nm">'+esc(TYPES[p.type].nom)+'</span><span class="ag">'+age(p.ts)+'</span>'
+    h += '<div class="ligne-eq">'+pinHtml(p.type,'mini')+'<span class="nm">'+esc(nomCourtType(p.type))+'</span><span class="ag">'+age(p.ts)+'</span>'
       + '<button class="btn petit" onclick="voirSur('+p.lat+','+p.lng+')">'+ic('oeil')+'</button>'
       + '<button class="btn petit vert" onclick="confirmerRapide(\''+p.id+'\')">✓</button><button class="btn petit rouge" onclick="supprimerRapide(\''+p.id+'\')">✕</button></div>'; });
   h += '</div>';
   // Outils
-  h += '<label class="l">Outils</label>'
-    + '<div class="rangee" style="margin-top:0"><button class="btn plein" onclick="gererEvenements()">📅 Événements'+(evtsVisibles().length ? ' <b style="color:#ff8cc4">· '+evtsVisibles().length+'</b>' : '')+'</button></div>'
-    + '<div class="rangee" style="margin-top:0"><button class="btn plein" onclick="ouvrirMaintenance()">🛠️ Maintenance'+(cfg.maintenance?' <b style="color:#ffae3b">· ON</b>':'')+'</button><button class="btn plein" onclick="ouvrirBilan()">📊 Bilan</button></div>'
-    + '<div class="rangee"><button class="btn plein" onclick="ouvrirQR()">🔳 QR code</button><button class="btn plein" onclick="ouvrirReflexes()">🛡️ Réflexes</button></div>'
-    + '<div class="rangee"><button class="btn plein" onclick="copierResume()">📋 Copier un résumé</button><button class="btn plein" onclick="partagerAppli()">'+ic('partage')+'Partager</button></div>'
-    + '<div class="rangee"><button class="btn plein" onclick="ouvrirLegende()">'+ic('carte')+'Carte</button><button class="btn plein" onclick="ouvrirAutour()">'+ic('boussole')+'Autour</button></div>'
+  h += '<div class="g-titre">Outils</div><div class="outils-g">'
+    + '<button onclick="gererEvenements()"><span>📅</span>Événements'+(nEvt ? '<em>'+nEvt+'</em>' : '')+'</button>'
+    + '<button onclick="ouvrirMaintenance()"><span>🛠️</span>Maintenance'+(cfg.maintenance ? '<em style="background:#ffae3b">ON</em>' : '')+'</button>'
+    + '<button onclick="ouvrirBilan()"><span>📊</span>Bilan</button>'
+    + '<button onclick="ouvrirQR()"><span>🔳</span>QR code</button>'
+    + '<button onclick="ouvrirReflexes()"><span>🛡️</span>Réflexes</button>'
+    + '<button onclick="copierResume()"><span>📋</span>Résumé</button>'
+    + '<button onclick="partagerAppli()"><span>📤</span>Partager</button>'
+    + '<button onclick="ouvrirLegende()"><span>🗺️</span>Carte</button>'
+    + '<button onclick="ouvrirAutour()"><span>🧭</span>Autour</button>'
+    + '</div>'
+    + '<div class="g-titre">Compte</div>'
     + '<label class="l">Pseudo</label><input id="pseudo2" maxlength="24" value="'+esc(etat.pseudo)+'" onchange="etat.pseudo=this.value.trim();ecrireLS(\'pseudo_equipe\',etat.pseudo)">'
     + '<div class="rangee"><button class="btn plein" onclick="quitterEquipe();toast(\'Déconnecté·e\')">Se déconnecter</button></div>'
     + '<div class="rangee"><button class="btn rouge plein" onclick="toutEffacerDemande()">Après la manif : tout effacer</button></div>';
