@@ -1748,6 +1748,61 @@
   body.zoom-14 .evt-pin.bl2 .evt-etiq { display:block; }
   .leaflet-marker-icon:active .evt-pin.bl2 { transform:scale(.92); }
   @media (prefers-reduced-motion: reduce) { .bl2 *, .bl2.live * { animation:none !important; } }
+
+  /* ================= v48 : barre du bas façon Traboule ================= */
+  /* fond chaud de pierre lyonnaise, arcades en filigrane, lumière qui filtre par le haut */
+  #onglets { border-radius:28px; padding:7px 6px 6px; overflow:visible;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='26' viewBox='0 0 34 26'%3E%3Cpath d='M3 26V13a14 14 0 0 1 28 0v13' fill='none' stroke='%23ffb27a' stroke-opacity='.07' stroke-width='1.4'/%3E%3C/svg%3E") 0 100% / 34px 26px repeat-x, linear-gradient(180deg, rgba(36,22,17,.94) 0%, rgba(17,11,10,.96) 100%);
+    border:1px solid rgba(255,150,90,.16); box-shadow:0 14px 34px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,190,140,.1), inset 0 -10px 24px rgba(0,0,0,.35); }
+  #onglets::before { content:""; position:absolute; left:16%; right:16%; top:-1px; height:1.5px; border-radius:2px; pointer-events:none;
+    background:linear-gradient(90deg, transparent, #ff8a3a 30%, #ffd27a 50%, #ff8a3a 70%, transparent); opacity:.85; }
+  /* onglets : libellés en capitales Traboule, icônes chaudes */
+  .onglet { color:#a8978d; gap:4px; padding:8px 2px 5px; border-radius:20px; position:relative; z-index:0; }
+  .onglet > span:not(.badge) { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:11px; letter-spacing:1.1px; text-transform:uppercase; line-height:1.1; }
+  .onglet svg.ic { width:23px; height:23px; color:#c2b0a5; stroke-width:1.9; transition:transform .3s cubic-bezier(.3,1.6,.5,1), color .2s; }
+  .onglet:active { background:none; }
+  /* actif : l'icône se loge sous une petite arche éclairée */
+  .onglet::before { content:""; position:absolute; left:50%; top:3px; width:42px; height:34px; margin-left:-21px; z-index:-1; border-radius:21px 21px 7px 7px;
+    background:linear-gradient(180deg, rgba(255,138,58,.32), rgba(255,106,31,.05)); border-top:1.5px solid #ff9a4a; box-shadow:0 -4px 14px -4px #ff8a3a;
+    opacity:0; transform:translateY(5px) scale(.85); transition:opacity .25s, transform .35s cubic-bezier(.3,1.6,.5,1); pointer-events:none; }
+  .onglet.sel::before, body.trace .onglet[data-o="trace"]::before { opacity:1; transform:none; }
+  .onglet.sel, body.trace .onglet[data-o="trace"] { color:#ffb27a; background:none; }
+  .onglet.sel svg.ic, body.trace .onglet[data-o="trace"] svg.ic { color:#ffe2c4; filter:drop-shadow(0 0 6px #ff8a3a); }
+  .onglet.actif { color:#3ee0a0; } .onglet.actif svg.ic { color:#3ee0a0; }
+  /* le bouton central : une traboule (arche orange, passage sombre, lumière au bout) */
+  .onglet.fort { color:#ffa064; }
+  .onglet.fort::before { display:none; }
+  .onglet.fort svg.ic { width:58px; height:64px; padding:18px 17px 20px; margin:-36px 0 0; color:#fff; stroke-width:2.6; border-radius:29px 29px 11px 11px;
+    border:3.5px solid transparent;
+    background:radial-gradient(70% 45% at 50% 100%, rgba(255,226,160,.95) 0%, rgba(255,154,43,.75) 40%, rgba(255,106,31,0) 100%) padding-box,
+               linear-gradient(180deg, #170b07 0%, #2c1209 100%) padding-box,
+               linear-gradient(160deg, #ffb82e 0%, #ff6a1f 45%, #e3301c 100%) border-box;
+    box-shadow:0 0 0 4px #150d0b, 0 10px 24px rgba(240,70,30,.5), 0 0 22px rgba(255,106,31,.45);
+    animation:arche-lueur 3.2s ease-in-out infinite; }
+  @keyframes arche-lueur { 50% { box-shadow:0 0 0 4px #150d0b, 0 10px 28px rgba(240,70,30,.62), 0 0 34px rgba(255,138,58,.7); } }
+  .onglet.fort:active svg.ic { transform:scale(.92); }
+  .onglet.fort > span:not(.badge) { margin-top:1px; text-shadow:0 0 10px rgba(255,106,31,.6); }
+  .onglet.fort.vert { color:#3ee0a0; }
+  .onglet.fort.vert svg.ic { background:radial-gradient(70% 45% at 50% 100%, rgba(200,255,225,.95) 0%, rgba(46,230,160,.7) 40%, rgba(22,199,132,0) 100%) padding-box,
+      linear-gradient(180deg, #06140e 0%, #0b2a1d 100%) padding-box, linear-gradient(160deg, #6ff7c4 0%, #16c784 50%, #0b8f5c 100%) border-box;
+    box-shadow:0 0 0 4px #150d0b, 0 10px 24px rgba(22,199,132,.45), 0 0 22px rgba(22,199,132,.4); animation:none; }
+  .onglet.fort.veille-on svg.ic { box-shadow:0 0 0 4px #150d0b, 0 0 0 7px #ff6a1f, 0 0 26px #f0461ecc; }
+  /* pastilles de notification : style Traboule */
+  .onglet .badge { top:1px; margin-left:4px; min-width:19px; height:19px; border-radius:10px; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:11.5px; letter-spacing:.3px;
+    background:linear-gradient(135deg,#ff5a4e,#d4112b); border:2px solid #1c120f; box-shadow:0 2px 8px rgba(212,17,43,.6); }
+  .onglet.fort .badge { top:-34px; margin-left:16px; }
+  body.leger #onglets, body.eco #onglets { background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='26' viewBox='0 0 34 26'%3E%3Cpath d='M3 26V13a14 14 0 0 1 28 0v13' fill='none' stroke='%23ffb27a' stroke-opacity='.07' stroke-width='1.4'/%3E%3C/svg%3E") 0 100% / 34px 26px repeat-x, #1a1110 !important; }
+  @media (prefers-reduced-motion: reduce) { .onglet.fort svg.ic { animation:none; } }
+
+  /* même pierre chaude pour la colonne de boutons et l'en-tête */
+  #flottants { background:linear-gradient(180deg, rgba(36,22,17,.94), rgba(17,11,10,.96)); border:1px solid rgba(255,150,90,.16);
+    box-shadow:0 12px 30px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,190,140,.1); }
+  #flottants .rond { color:#e8d6ca; }
+  #flottants .rond + .rond { border-top:1px solid rgba(255,150,90,.12) !important; border-radius:0 !important; }
+  #flottants .rond:first-child { border-radius:22px 22px 0 0 !important; } #flottants .rond:last-child { border-radius:0 0 22px 22px !important; }
+  #titre, #btn-son { background:linear-gradient(180deg, rgba(36,22,17,.9), rgba(17,11,10,.92)) !important; border-color:rgba(255,150,90,.18) !important; }
+  #direct { background:linear-gradient(180deg, rgba(36,22,17,.9), rgba(17,11,10,.92)) !important; }
+  .onglet.fort svg.ic { padding:19px 17px 19px; }
 </style>
 </head>
 <body>
@@ -3180,7 +3235,14 @@ function recentrer(){ carte.setView(LYON, 14); }
 
 // ===================== ONGLETS =====================
 function onglet(icone, nom, action, cls, badgeId){
-  return '<button class="onglet '+(cls||'')+'" onclick="'+action+'">'+ic(icone)+'<span>'+nom+'</span>'+(badgeId?'<span class="badge" id="'+badgeId+'"></span>':'')+'</button>';
+  return '<button class="onglet '+(cls||'')+'" data-o="'+icone+'" onclick="'+action+'">'+ic(icone)+'<span>'+nom+'</span>'+(badgeId?'<span class="badge" id="'+badgeId+'"></span>':'')+'</button>';
+}
+// L'onglet de la fiche ouverte s'allume (petite arche de lumière)
+var VUES_ONGLET = { infos:['infos'], carte:['legende','liste'], boussole:['autour'], bouclier:['conseils','reflexes'], cadenas:['connexion'], medic:['medics'],
+  reglages:['gestion','gestion-maint','gestion-prep','equipe','blocus-serie','evt-form','popup-form','plus'] };
+function majOngletActif(){
+  var f = $('feuille'), v = f.classList.contains('ouverte') ? (f.dataset.vue || '') : '';
+  document.querySelectorAll('#onglets .onglet').forEach(function(b){ var l = VUES_ONGLET[b.dataset.o] || []; b.classList.toggle('sel', !!v && l.indexOf(v) >= 0); });
 }
 function dessinerOnglets(){
   var rb = $('role-badge');
@@ -3884,7 +3946,7 @@ carte.on('movestart zoomstart', function(){ document.body.classList.add('bouge')
 carte.on('moveend zoomend', function(){ clearTimeout(carte._finBouge); carte._finBouge = setTimeout(function(){ document.body.classList.remove('bouge'); }, 120); });
 (function(){
   var f = $('feuille'); if (!f || !window.MutationObserver) return;
-  new MutationObserver(function(){ document.body.classList.toggle('fiche-ouverte', f.classList.contains('ouverte')); }).observe(f, { attributes:true, attributeFilter:['class'] });
+  new MutationObserver(function(){ document.body.classList.toggle('fiche-ouverte', f.classList.contains('ouverte')); majOngletActif(); }).observe(f, { attributes:true, attributeFilter:['class', 'data-vue'] });
 })();
 // Mode léger : si le téléphone affiche moins de ~35 images/s une fois la carte prête, on coupe le superflu.
 var LEGER = lireLS('leger25'); // '1' forcé, '0' refusé, sinon auto
