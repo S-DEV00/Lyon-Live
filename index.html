@@ -1006,6 +1006,10 @@
   .bl-conseils div { background:#ffd23f12; border:1px solid #ffd23f33; border-radius:14px; padding:10px 6px; text-align:center; font-size:20px; line-height:1.1; }
   .bl-conseils b { display:block; font-size:11.5px; color:#ffd23f; margin-top:5px; }
   .bl-conseils span { display:block; font-size:10.5px; color:#ffffff99; font-weight:600; margin-top:2px; }
+
+  /* V27 : vue 3D */
+  #btn-3d { font-family:Anton,Impact,sans-serif; font-size:17px; letter-spacing:.5px; color:#fff; }
+  body.vue3d #btn-3d { background:linear-gradient(135deg,#ff5caa,#a35cff) !important; border-color:transparent; box-shadow:0 0 16px #ff5caa88; }
 </style>
 </head>
 <body>
@@ -1035,6 +1039,7 @@
 </div>
 
 <div id="flottants">
+  <button class="rond verre" id="btn-3d" onclick="basculer3D()" aria-label="Vue 2D ou 3D">3D</button>
   <button class="rond verre" onclick="recentrer()" aria-label="Recentrer sur Lyon"></button>
   <button class="rond verre" onclick="meLocaliser()" aria-label="Me localiser"></button>
   <button class="rond verre" id="btn-autour" onclick="ouvrirAutour()" aria-label="Autour de moi"></button>
@@ -2861,6 +2866,83 @@ function basculerLeger(on){ LEGER = on ? '1' : '0'; ecrireLS('leger25', LEGER); 
 // Cache hors ligne / ouverture rapide
 if ('serviceWorker' in navigator && location.protocol === 'https:') window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
 
+// ===================== V27 : VUE 3D (bâtiments en relief) =====================
+// batiments.txt : ~52 000 bâtiments du centre de Lyon (Overture Maps), chargés seulement quand on passe en 3D.
+// Chaque bâtiment : "hauteur:contour encodé". Dessin en perspective cavalière : le toit est décalé vers le haut
+// selon la hauteur, les murs relient le sol au toit. Du nord au sud pour que les plus proches passent devant.
+var vue3D = false, BATS = null, calque3D = null, chargement3D = false;
+var COUL3D = {
+  sombre: { toit:[[58,58,74],[96,72,110]], bord:'#5c5c74', murs:['#0f0f14','#191921','#2a2a36'], sol:'#0e0e13' },
+  clair:  { toit:[[250,248,243],[255,228,240]], bord:'#bfb7a8', murs:['#a99f8e','#c4bcae','#dcd5c8'], sol:'#d8d2c6' }
+};
+function decoderBats(txt){
+  var O = carte.project(origineLL, Z0), cases = {};
+  txt.split(' ').forEach(function(t){
+    var k = t.indexOf(':'); if (k < 0) return;
+    var h = +t.slice(0, k), ll = decoder(t.slice(k+1)), n = ll.length, p = new Float32Array(n*2), x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    for (var i = 0; i < n; i++) { var q = carte.project(L.latLng(ll[i][0], ll[i][1]), Z0); var x = q.x - O.x, y = q.y - O.y; p[i*2] = x; p[i*2+1] = y;
+      if (x<x0) x0=x; if (x>x1) x1=x; if (y<y0) y0=y; if (y>y1) y1=y; }
+    var cle = Math.floor((x0+x1)/2/CASE) + ':' + Math.floor((y0+y1)/2/CASE);
+    var c = cases[cle] || (cases[cle] = { b:[1e9,1e9,-1e9,-1e9], l:[] });
+    c.l.push({ p:p, h:h, y:y1 });
+    if (x0<c.b[0]) c.b[0]=x0; if (y0<c.b[1]) c.b[1]=y0; if (x1>c.b[2]) c.b[2]=x1; if (y1>c.b[3]) c.b[3]=y1;
+  });
+  return Object.keys(cases).map(function(k){ return cases[k]; });
+}
+var Rendu3D = L.Canvas.extend({
+  _update: function(){
+    L.Canvas.prototype._update.call(this);
+    if (this._map._animatingZoom && this._bounds && this._deja) return;
+    this._dessiner();
+  },
+  _dessiner: function(){
+    if (!BATS) return; this._deja = true;
+    var map = this._map, ctx = this._ctx, z = map.getZoom(), b = this._bounds, r = L.Browser.retina ? 2 : 1, sz = b.getSize();
+    ctx.save(); ctx.setTransform(r,0,0,r,0,0); ctx.clearRect(0,0,sz.x,sz.y);
+    if (z < 15) { ctx.restore(); return; }
+    var k = Math.pow(2, z - Z0), off = map.project(origineLL, z).subtract(map.getPixelOrigin());
+    var tx = -b.min.x + off.x, ty = -b.min.y + off.y;
+    var m = 60 / k, vx0 = (b.min.x - off.x)/k - m, vy0 = (b.min.y - off.y)/k - m, vx1 = (b.min.x + sz.x - off.x)/k + m, vy1 = (b.min.y + sz.y - off.y)/k + 4*m;
+    var pxm = Math.pow(2, z) / (156543.03 * Math.cos(45.76*Math.PI/180)), f = pxm * 0.55; // pixels par mètre de hauteur
+    var vis = [];
+    BATS.forEach(function(c){ if (c.b[2] < vx0 || c.b[0] > vx1 || c.b[3] < vy0 || c.b[1] > vy1) return; c.l.forEach(function(o){ vis.push(o); }); });
+    vis.sort(function(a, b2){ return a.y - b2.y; });
+    var C = COUL3D[themePlan] || COUL3D.sombre;
+    ctx.lineJoin = 'round'; ctx.lineWidth = 1;
+    vis.forEach(function(o){
+      var p = o.p, n = p.length/2, d = o.h * f, i, ax, ay, bx, by;
+      // murs : une couleur selon l'orientation de la façade
+      for (i = 0; i < n; i++) {
+        ax = p[i*2]*k + tx; ay = p[i*2+1]*k + ty; var j = (i+1) % n; bx = p[j*2]*k + tx; by = p[j*2+1]*k + ty;
+        ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.lineTo(bx, by - d); ctx.lineTo(ax, ay - d); ctx.closePath();
+        var dx = bx - ax, dy = by - ay, L2 = Math.sqrt(dx*dx + dy*dy) || 1, sh = (dx/L2 + 1) / 2; // 0..1 : éclairage selon la direction du mur
+        ctx.fillStyle = C.murs[sh > .66 ? 2 : sh > .33 ? 1 : 0]; ctx.fill();
+      }
+      // toit
+      ctx.beginPath();
+      for (i = 0; i < n; i++) { var x = p[i*2]*k + tx, y = p[i*2+1]*k + ty - d; if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y); }
+      var t = Math.min(1, Math.max(0, (o.h - 8) / 40)), a = C.toit[0], b3 = C.toit[1]; // plus c'est haut, plus le toit tire vers le rose
+      ctx.closePath(); ctx.fillStyle = 'rgb('+Math.round(a[0]+(b3[0]-a[0])*t)+','+Math.round(a[1]+(b3[1]-a[1])*t)+','+Math.round(a[2]+(b3[2]-a[2])*t)+')'; ctx.fill(); ctx.strokeStyle = C.bord; ctx.stroke();
+    });
+    ctx.restore();
+  }
+});
+function basculer3D(force){
+  vue3D = force === undefined ? !vue3D : force; ecrireLS('vue3d', vue3D ? '1' : null);
+  document.body.classList.toggle('vue3d', vue3D); $('btn-3d').textContent = vue3D ? '2D' : '3D';
+  if (!vue3D) { if (calque3D) carte.removeLayer(calque3D); return; }
+  if (force === undefined) toast(carte.getZoom() < 15 ? 'Vue 3D : zoome pour voir les bâtiments' : 'Vue 3D');
+  if (BATS) return afficher3D();
+  if (chargement3D) return; chargement3D = true;
+  fetch('batiments.txt?v=1').then(function(r){ return r.text(); }).then(function(t){ BATS = decoderBats(t); chargement3D = false; if (vue3D) afficher3D(); })
+    .catch(function(){ chargement3D = false; toast('Bâtiments indisponibles hors ligne'); basculer3D(false); });
+}
+function afficher3D(){
+  if (!calque3D) { var pane = carte.getPane('bat3d') || carte.createPane('bat3d'); pane.style.zIndex = 330; pane.style.pointerEvents = 'none'; calque3D = new Rendu3D({ pane:'bat3d', padding:0.3 }); }
+  calque3D.addTo(carte);
+}
+if (lireLS('vue3d') === '1') setTimeout(function(){ basculer3D(true); }, 1200);
+
 // ===================== V16 : LYCÉES ET FACS (bâtiments 2D) =====================
 // Données : ecoles.json (Overture Maps / OpenStreetMap). Chaque bâtiment est dessiné à plat avec un petit
 // « mur » décalé dessous pour donner du relief. Lycées en jaune, facs et écoles sup en violet.
@@ -3580,8 +3662,8 @@ function etaler(){
 carte.on('zoomend', function(){ setTimeout(etaler, 50); });
 
 // ===================== DÉMARRAGE =====================
-document.querySelectorAll('#flottants .rond')[0].innerHTML = ic('fleche');
-document.querySelectorAll('#flottants .rond')[1].innerHTML = ic('cible');
+document.querySelectorAll('#flottants .rond:not(#btn-3d)')[0].innerHTML = ic('fleche');
+document.querySelectorAll('#flottants .rond:not(#btn-3d)')[1].innerHTML = ic('cible');
 $('btn-autour').innerHTML = ic('boussole');
 if (eco) document.body.classList.add('eco');
 if (grand) document.body.classList.add('grand');
