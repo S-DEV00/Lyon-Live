@@ -1888,6 +1888,71 @@
   #ticker .t1 #tk-age { font-family:Inter,sans-serif; font-weight:800; font-size:10px; letter-spacing:.6px; color:#b8a59a; }
   #ticker .t2 { font-size:14.5px !important; font-weight:700 !important; color:#fff6ee; line-height:1.32 !important; }
   @media (prefers-reduced-motion: reduce) { #titre::before, #ticker.urgent { animation:none !important; } }
+
+  /* ================= v51 : carte coupée ================= */
+  #maint[data-mode="securite"] { background:#0b0505; }
+  #maint[data-mode="securite"]::before { background:radial-gradient(circle at 50% 14%, rgba(255,59,48,.32) 0%, transparent 42%), radial-gradient(circle at 50% 110%, rgba(120,10,10,.35), transparent 50%) !important; z-index:1; }
+  .cp-fond { position:fixed !important; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .cp-fond .sp-plan { opacity:.5; -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 30%, #000 20%, transparent 80%); mask-image:radial-gradient(ellipse 80% 60% at 50% 30%, #000 20%, transparent 80%);
+    animation:cp-panne 6s steps(1) infinite; }
+  .cp-fond .sp-plan path { animation:none !important; stroke-dashoffset:0 !important; stroke:#ff3b30 !important; stroke-opacity:.22 !important; fill:none !important; filter:none !important; }
+  .cp-fond .sp-plan .pl-eau { stroke-opacity:.35 !important; }
+  @keyframes cp-panne { 0%, 7%, 9%, 52%, 54%, 100% { transform:none; opacity:.5; } 8% { transform:translateX(-6px) skewX(4deg); opacity:.2; } 53% { transform:translate(5px,-3px); opacity:.15; } }
+  .cp-scan { position:absolute; inset:0; background:repeating-linear-gradient(0deg, rgba(0,0,0,.28) 0 2px, transparent 2px 4px); }
+  .cp-scan::after { content:""; position:absolute; left:0; right:0; height:90px; top:-90px; background:linear-gradient(transparent, rgba(255,59,48,.12), transparent); animation:cp-balaye 4.5s linear infinite; }
+  @keyframes cp-balaye { to { top:110%; } }
+  #maint .m-boite.cp { position:relative; z-index:2; padding-top:4px; }
+  .cp-logo { position:relative; width:150px; height:168px; margin:4px auto 0; display:flex; align-items:flex-end; justify-content:center; }
+  .cp-halo { position:absolute; left:50%; top:46%; width:230px; height:230px; margin:-115px 0 0 -115px; border-radius:50%; background:radial-gradient(circle, rgba(255,59,48,.38), transparent 62%); animation:cp-gyro-halo 1.2s ease-in-out infinite; }
+  @keyframes cp-gyro-halo { 50% { opacity:.45; transform:scale(.9); } }
+  .cp-arche { position:relative; width:122px; height:142px; filter:drop-shadow(0 12px 30px rgba(255,40,30,.45)); overflow:visible; }
+  body.splash-la .cp-herse { transform:translateY(-150px); } body.splash-la .cp-cadenas { opacity:0; }
+  body:not(.splash-la) #maint.vu .cp-herse { animation:cp-tombe 1.3s .3s both; }
+  @keyframes cp-tombe { 0% { transform:translateY(-150px); animation-timing-function:cubic-bezier(.55,0,.85,.35); } 62% { transform:translateY(0); animation-timing-function:ease-out; }
+    76% { transform:translateY(-8px); animation-timing-function:ease-in; } 88% { transform:translateY(0); } 94% { transform:translateY(-2px); } 100% { transform:translateY(0); } }
+  body:not(.splash-la) #maint.vu .cp-cadenas { transform-box:fill-box; transform-origin:50% 0; animation:cp-clac .45s cubic-bezier(.3,1.8,.5,1) 1.45s both; }
+  @keyframes cp-clac { from { opacity:0; transform:translateY(-14px) scale(.6); } }
+  .cp-gyro path { animation:cp-gyro 1.2s steps(1) infinite; }
+  @keyframes cp-gyro { 50% { fill:#5a1410; } }
+  .cp-etiq { display:inline-flex; align-items:center; gap:8px; margin:10px 0 2px; padding:6px 13px; border-radius:20px; background:rgba(255,59,48,.14); border:1px solid rgba(255,59,48,.55);
+    color:#ff8a86; font-family:Anton,Impact,sans-serif; font-size:13px; letter-spacing:1.6px; }
+  .cp-etiq b { width:8px; height:8px; border-radius:50%; background:#ff3b30; box-shadow:0 0 10px #ff3b30; animation:bl2-pt 1s ease-in-out infinite; }
+  .cp-t { margin:8px 0 6px !important; font-size:min(64px, 17vw) !important; line-height:.95 !important; display:flex; flex-direction:column; align-items:center; letter-spacing:2px; }
+  .cp-t span { color:#fff; }
+  .cp-t b { position:relative; color:#ff3b30 !important; text-shadow:0 0 30px rgba(255,59,48,.6); }
+  .cp-t b::before, .cp-t b::after { content:attr(data-t); position:absolute; inset:0; opacity:0; }
+  .cp-t b::before { color:#26e0ff; animation:cp-glitch 3.8s steps(1) infinite; }
+  .cp-t b::after { color:#ffd23f; animation:cp-glitch 3.8s steps(1) .07s infinite; }
+  @keyframes cp-glitch { 0%, 89%, 94%, 100% { opacity:0; transform:none; clip-path:none; } 90% { opacity:.75; transform:translate(-4px,1px); clip-path:inset(15% 0 55% 0); }
+    92% { opacity:.6; transform:translate(4px,-2px); clip-path:inset(60% 0 8% 0); } }
+  .cp-x { font-size:16.5px !important; line-height:1.45; color:#f3e2dc !important; max-width:340px; margin:0 0 14px !important; }
+  .cp-bloc { width:100%; text-align:left; background:linear-gradient(180deg, rgba(42,14,12,.85), rgba(22,9,8,.88)); border:1px solid rgba(255,80,70,.22); border-radius:20px 20px 14px 14px;
+    padding:12px 14px; margin-bottom:10px; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
+  .cp-st { font-family:Anton,Impact,sans-serif; font-size:13px; letter-spacing:1.4px; text-transform:uppercase; color:#ff8a86; margin-bottom:9px; }
+  .cp-st::before { content:""; display:inline-block; width:8px; height:7px; margin-right:7px; border:2px solid #ff5a4e; border-bottom:0; border-radius:6px 6px 0 0; }
+  .cp-et { position:relative; display:flex; gap:12px; align-items:center; padding:6px 0 6px; }
+  .cp-et + .cp-et::before { content:""; position:absolute; left:12px; top:-8px; height:14px; width:2px; background:rgba(255,120,110,.3); }
+  .cp-et i { width:26px; height:26px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; font-style:normal; font-size:13px; font-weight:900;
+    background:#2a1513; border:2px solid rgba(255,120,110,.35); color:#c9a39e; }
+  .cp-et.ok i { background:#16c784; border-color:#16c784; color:#fff; box-shadow:0 0 10px rgba(22,199,132,.5); }
+  .cp-et.en i { border:2.5px solid rgba(255,138,58,.25); border-top-color:#ff8a3a; animation:m-tourne .9s linear infinite; }
+  .cp-et b { display:block; font-size:15px; color:#fff; } .cp-et small { display:block; font-size:12.5px; color:#d6b3ad; margin-top:1px; font-variant-numeric:tabular-nums; }
+  .cp-et.en b { color:#ffb27a; }
+  .cp-li { display:flex; gap:10px; align-items:flex-start; font-size:14px; line-height:1.4; color:#f0dcd6; padding:6px 0; }
+  .cp-li + .cp-li { border-top:1px solid rgba(255,120,110,.1); }
+  .cp-li > span { font-size:18px; line-height:1.2; flex:none; }
+  .cp-li b { color:#fff; }
+  .cp-li.num > span { width:22px; height:22px; border-radius:50%; font-size:12px; font-weight:900; display:flex; align-items:center; justify-content:center; background:#ff3b30; color:#fff; margin-top:1px; }
+  .cp-faux { border-color:rgba(255,210,63,.35); background:linear-gradient(180deg, rgba(48,36,10,.85), rgba(24,17,7,.88)); }
+  .cp-faux .cp-st { color:#ffd23f; } .cp-faux .cp-st::before { border-color:#ffd23f; }
+  .cp-hop { display:flex; align-items:center; gap:10px; padding:8px 0; text-decoration:none; color:#fff; font-size:14px; font-weight:700; }
+  .cp-hop + .cp-hop { border-top:1px solid rgba(255,120,110,.1); }
+  .cp-hop i { width:24px; height:24px; border-radius:7px; background:#d7263d; border:2px solid #fff; font-style:normal; font-weight:900; font-size:13px; display:flex; align-items:center; justify-content:center; flex:none; }
+  .cp-hop span { flex:1; } .cp-hop em { font-style:normal; font-size:12px; color:#ff8a86; font-weight:800; white-space:nowrap; }
+  #maint[data-mode="securite"] .m-verif, #maint[data-mode="securite"] .m-boutons, #maint[data-mode="securite"] .m-equipe, #maint[data-mode="securite"] .m-signe { position:relative; z-index:2; }
+  body.leger .cp-fond, body.eco .cp-fond { display:none; }
+  @media (prefers-reduced-motion: reduce) { .cp-fond .sp-plan, .cp-scan::after, .cp-halo, .cp-gyro path, .cp-t b::before, .cp-t b::after, .cp-et.en i { animation:none !important; }
+    #maint.vu .cp-herse, #maint.vu .cp-cadenas { animation:none !important; } }
 </style>
 </head>
 <body>
@@ -2625,6 +2690,9 @@ var SPLASH_HABITUE = !!lireLS('bienvenue9');
 if (SPLASH_HABITUE && $('splash')) $('splash').classList.add('rapide');
 // Résumé en direct affiché juste avant d'entrer : on sait tout de suite ce qui se passe
 function resumeSplash(){
+  var mo = (typeof modeMaint === 'function' && !estEquipe()) ? modeMaint(etat.config).k : 'aucune';
+  if (mo === 'securite') return LANGUE === 'en' ? '⛔ Map switched off for safety' : '⛔ Carte coupée par sécurité';
+  if (mo === 'complet') return LANGUE === 'en' ? '🛠️ Maintenance in progress' : '🛠️ Maintenance en cours';
   var en = LANGUE === 'en', pts = etat.points || [], dg = pts.filter(function(p){ return (TYPES[p.type] || {}).g === 'danger'; }).length;
   var md = (etat.medics || []).filter(function(m){ return m.statut !== 'pause'; }).length, ev = (typeof evtsVisibles === 'function') ? evtsVisibles() : [];
   var bl = ev.filter(function(v){ return v.cat === 'blocus'; }).length, l = [];
@@ -3803,6 +3871,7 @@ function txtResteCourt(ms){
   return h ? h + ' h ' + String(m%60).padStart(2,'0') : m + ' min';
 }
 function htmlMaint(o){
+  if (o.k === 'securite') return htmlCoupee(o);
   var en = LANGUE==='en', k = o.k, fin = heureFin(o.fin);
   var etiq = k==='fin' ? (en?'See you soon':'À bientôt') : k==='securite' ? (en?'Safety cut':'Coupure de sécurité') : (en?'Maintenance in progress':'Maintenance en cours');
   var titre = k==='fin' ? (en ? 'THANK <b>YOU ALL</b>' : 'MERCI <b>À TOUS</b>') : k==='securite' ? (en ? 'MAP <b>OFF</b>' : 'CARTE <b>COUPÉE</b>') : (en ? 'BE RIGHT <b>BACK</b>' : 'ON REVIENT <b>VITE</b>');
@@ -3841,6 +3910,7 @@ function htmlMaint(o){
 }
 function tickMaint(){
   var el = $('maint'); if (!el.classList.contains('vu')) { clearInterval(maintMinuteur); maintMinuteur = null; return; }
+  if ($('cp-depuis')) $('cp-depuis').textContent = (LANGUE === 'en' ? 'for ' : 'depuis ') + dureeTxt(Date.now() - debutCoupure());
   var o = maintApercu ? lireApercuMaint() : modeMaint(etat.config), fin = heureFin(o.fin), en = LANGUE==='en';
   if (fin && $('m-reste')) {
     $('m-reste').textContent = txtReste(fin - Date.now());
@@ -3905,16 +3975,19 @@ function majMaintenance(){
     ecrireLS('maintVu', String(maintVu));
     var h = htmlMaint(o);
     if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
+    if (o.k === 'securite' && majMaintenance.vu && prec !== 'securite') { try { jouer('alerte'); if (navigator.vibrate) navigator.vibrate([400,150,400]); } catch(e){} }
     el.dataset.mode = o.k;
     el.classList.add('vu'); document.body.classList.add('maint-vu'); cacherSplash(); lancerTickMaint();
     if ($('bienvenue').classList.contains('vu')) $('bienvenue').classList.remove('vu');
   } else if (el.classList.contains('vu')) { el.classList.remove('vu'); el.dataset.h = ''; document.body.classList.remove('maint-vu');
     maintVu = 0; ecrireLS('maintVu', '');
     if (estEquipe() && M.ecran) toast('🛠️ Maintenance toujours active pour le public · touche le bandeau en bas pour la couper');
+    else if (prec === 'securite' && typeof MOMENTS !== 'undefined') planifierFenetre(4, 'retour-carte', function(){ montrerMoment('retour'); });
     else { toast(en ? '✅ The map is back!' : '✅ La carte est de retour !'); try { jouer('message'); } catch(e){} }
     if (!lireLS('bienvenue9') && !estEquipe()) setTimeout(montrerBienvenue, 300); }
   else if (o.k === 'aucune' && lireLS('maintVu')) ecrireLS('maintVu', '');
   if (o.k === 'aucune' && lireLS('maintIgnore')) ecrireLS('maintIgnore', '');
+  majMaintenance.vu = true;
 }
 // Ce que voit le public pendant une vérification ou une coupure : on retire les signalements (et plus en cas de coupure)
 function filtrerMaint(){
@@ -5200,6 +5273,61 @@ setTimeout(cacherSplash, 5000);
 setTimeout(boucleChargement, (eco ? 45 : RAFRAICHIR_S) * 1000);
 setInterval(majHorloge, 5000);
 document.addEventListener('visibilitychange', function(){ if (!document.hidden) charger(); });
+// ===================== V51 : CARTE COUPÉE =====================
+// La traboule est fermée : une grille tombe sur l'arche, le plan de Lyon s'éteint, et on explique quoi faire.
+function debutCoupure(){
+  var l = [maintVu || Date.now()], c = etat.config || {};
+  if (c.ts && modeMaint(c).k === 'securite') l.push(c.ts);
+  return Math.min.apply(null, l);
+}
+function svgHerse(){
+  var barres = '', i;
+  for (i = 0; i < 8; i++) { var x = 25 + i * 9.7; barres += '<rect x="'+x.toFixed(1)+'" y="-6" width="3.6" height="150" rx="1.2"/><path d="M'+(x-1.4).toFixed(1)+' 150 l3.2 7 l3.2 -7z"/>'; }
+  return '<svg class="cp-arche" viewBox="0 0 120 140" aria-hidden="true"><defs>'
+    + '<linearGradient id="cpA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff5a4e"/><stop offset=".55" stop-color="#c3221a"/><stop offset="1" stop-color="#6e0f0b"/></linearGradient>'
+    + '<radialGradient id="cpL" cx=".5" cy="1" r=".8"><stop offset="0" stop-color="#ff3b30" stop-opacity=".45"/><stop offset="1" stop-color="#ff3b30" stop-opacity="0"/></radialGradient>'
+    + '<clipPath id="cpC"><path d="M22 140V58A38 38 0 0 1 98 58V140Z"/></clipPath></defs>'
+    + '<path d="M10 140V58A50 50 0 0 1 110 58V140Z" fill="url(#cpA)"/>'
+    + '<path d="M22 140V58A38 38 0 0 1 98 58V140Z" fill="#120606"/><path d="M22 140V58A38 38 0 0 1 98 58V140Z" fill="url(#cpL)"/>'
+    + '<g clip-path="url(#cpC)"><g class="cp-herse" fill="#2c2c33" stroke="#0a0a0d" stroke-width=".8">' + barres
+    + '<rect x="18" y="72" width="84" height="4" rx="1.5"/><rect x="18" y="112" width="84" height="4" rx="1.5"/></g></g>'
+    + '<g class="cp-cadenas"><rect x="49" y="96" width="22" height="18" rx="3.5" fill="#ffd23f" stroke="#1a1408" stroke-width="1.5"/>'
+    + '<path d="M53.5 96v-5a6.5 6.5 0 0 1 13 0v5" fill="none" stroke="#ffd23f" stroke-width="3.2"/><circle cx="60" cy="104" r="2.4" fill="#1a1408"/><rect x="59" y="105" width="2" height="5" fill="#1a1408"/></g>'
+    + '<g class="cp-gyro"><path d="M50 9a10 10 0 0 1 20 0v3H50z" fill="#ff3b30"/><rect x="47" y="11" width="26" height="4" rx="1.5" fill="#3a1010"/></g></svg>';
+}
+function htmlCoupee(o){
+  var en = LANGUE === 'en', fin = heureFin(o.fin), t0 = debutCoupure();
+  var plan = document.querySelector('#splash .sp-plan'), fond = plan ? plan.outerHTML : '';
+  var urg = (PLAN.urgences || []).map(function(h){ return { n:String(h[0]).replace(/\s*\(urgences\)\s*/i, ''), la:h[1], lo:h[2] }; });
+  var etape = function(cls, ic, titre, sous, id){ return '<div class="cp-et '+cls+'"><i>'+ic+'</i><div><b>'+titre+'</b><small'+(id ? ' id="'+id+'"' : '')+'>'+sous+'</small></div></div>'; };
+  return '<div class="cp-fond">'+fond+'<div class="cp-scan"></div></div>'
+    + '<div class="m-boite cp">'
+    + '<div class="cp-logo"><div class="cp-halo"></div>'+svgHerse()+'</div>'
+    + '<div class="cp-etiq"><b></b>'+(en ? 'SAFETY CUT' : 'COUPURE DE SÉCURITÉ')+'</div>'
+    + '<h1 class="cp-t"><span>'+(en ? 'MAP' : 'CARTE')+'</span><b data-t="'+(en ? 'OFF' : 'COUPÉE')+'">'+(en ? 'OFF' : 'COUPÉE')+'</b></h1>'
+    + '<p class="cp-x">'+esc(texteMaint(o))+'</p>'
+    + '<div class="cp-bloc"><div class="cp-st">'+(en ? 'Where we are' : 'Où on en est')+'</div>'
+    + etape('ok', '✓', en ? 'Map switched off' : 'Carte coupée', (en ? 'at ' : 'à ') + heure(t0) + (en ? ' by the Traboule team' : ' par l\'équipe Traboule'))
+    + etape('en', '', en ? 'Checking in progress' : 'Vérification en cours', (en ? 'for ' : 'depuis ') + dureeTxt(Date.now() - t0), 'cp-depuis')
+    + etape('', '3', en ? 'The map comes back' : 'Retour de la carte', fin ? (en ? 'planned around ' : 'prévu vers ') + esc(o.fin) + (en ? ', right here' : ', ici même') : (en ? 'right here, by itself, no need to reload' : 'ici même, tout seul, sans recharger'))
+    + '</div>'
+    + '<div class="cp-bloc cp-faux"><div class="cp-st">'+(en ? 'Spot the fakes' : 'Repère les fausses infos')+'</div>'
+    + '<div class="cp-li"><span>📵</span><div>'+(en ? 'During the cut, <b>no « Traboule » info is real</b>, even from a friend.' : 'Pendant la coupure, <b>aucune info « Traboule » n\'est vraie</b>, même envoyée par un pote.')+'</div></div>'
+    + '<div class="cp-li"><span>🔑</span><div>'+(en ? 'We will <b>never</b> ask for your code, your number or money.' : 'On ne te demandera <b>jamais</b> ton code, ton numéro ou de l\'argent.')+'</div></div>'
+    + '<div class="cp-li"><span>✅</span><div>'+(en ? 'The map will come back <b>here only</b>, on this page.' : 'La carte reviendra <b>ici seulement</b>, sur cette page.')+'</div></div></div>'
+    + '<div class="cp-bloc"><div class="cp-st">'+(en ? 'Meanwhile' : 'Pendant ce temps')+'</div>'
+    + [[en ? 'Trust what you see around you' : 'Fie-toi à ce que tu vois autour de toi', '👀'], [en ? 'Stay with your group and follow the march' : 'Reste avec ton groupe et suis le cortège', '👥'],
+       [en ? 'Hurt? Find a medic or call 15 / 112' : 'Blessé·e ? Va vers un medic ou appelle le 15 / 112', '⛑️']].map(function(c, i){ return '<div class="cp-li num"><span>'+(i+1)+'</span><div>'+c[1]+' '+c[0]+'</div></div>'; }).join('')
+    + '</div>'
+    + (urg.length ? '<div class="cp-bloc"><div class="cp-st">'+(en ? 'Hospitals with A&E' : 'Hôpitaux avec urgences')+'</div>' + urg.map(function(h){
+        return '<a class="cp-hop" target="_blank" href="https://maps.apple.com/?daddr='+h.la+','+h.lo+'&dirflg=w"><i>H</i><span>'+esc(h.n)+'</span><em>'+(en ? 'Go' : 'Y aller')+' →</em></a>'; }).join('') + '</div>' : '')
+    + '<div class="m-verif"><b></b><span id="m-verif">'+(en ? 'Checking automatically' : 'Vérification automatique')+'</span></div>'
+    + '<div class="m-boutons"><button class="btn plein m-retry" onclick="maintReessayer(this)">↻ '+(en ? 'Check now' : 'Vérifier maintenant')+'</button>'
+    + '<button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(en ? 'Safety tips' : 'Les bons réflexes')+'</button>'
+    + '<div class="appels" style="margin:0"><a href="tel:112">112<span>'+(en ? 'Emergency' : 'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div></div>'
+    + '<button class="m-equipe" onclick="ouvrirConnexion()">🔑 '+(en ? 'Team access' : 'Accès équipe')+'</button>'
+    + '<small class="m-signe">'+logoTraboule('cps')+'Traboule</small></div>';
+}
 // ===================== V44 : FICHE BLOCUS =====================
 // Métro le plus proche, l'ampleur du mouvement ce jour-là, réflexes blocus, affiche story à partager.
 function stationsProches(lat, lng, n){
@@ -5545,6 +5673,8 @@ var MOMENTS = {
   dispersion: { e:'🚪', c:'#ff3b4e', son:'alerte', t:'<b>DISPER-<br>SION</b>', tEn:'<b>DISPER-<br>SAL</b>',
                 x:'Reste groupé·e et ne traîne pas. Les sorties sûres sont en vert sur la carte.', xEn:'Stay together, don\'t hang around. Safe exits are green on the map.',
                 b:['🧭 Sortie sûre la plus proche', '🧭 Nearest safe exit', 'ouvrirAutour()'] },
+  retour:     { e:'✅', c:'#16c784', son:'message', t:'CARTE<br><b>DE RETOUR</b>', tEn:'MAP<br><b>IS BACK</b>',
+                x:'On a tout vérifié : les infos de la carte sont de nouveau fiables. Merci d\'avoir attendu.', xEn:'We checked everything: the map can be trusted again. Thanks for waiting.' },
   fin:        { e:'❤️', c:'#16c784', son:'concert', conf:true, t:'MERCI<br><b>À TOUS</b>', tEn:'THANK<br><b>YOU ALL</b>',
                 x:'La manif est terminée. Rentre en groupe et préviens tes proches en arrivant.', xEn:'The march is over. Go home in a group and text your loved ones when you\'re back.' }
 };
