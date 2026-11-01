@@ -1337,6 +1337,74 @@
     .zone-nasse, .zone-lacrymo, .zone-danger, .blesse.grave, .choix.sel .pt, .onglet .badge.vu { animation:none !important; }
     .pin-sol.neuf::after, .moi::after, .medic-live::after { animation-duration:3s !important; }
   }
+
+  /* ================= v36 : maintenance en plusieurs modes ================= */
+  /* Fin de manif : rose, drapeau qui flotte */
+  #maint[data-mode="fin"]::before { background:radial-gradient(circle at 50% 20%, #ff5caa3a 0%, transparent 45%), radial-gradient(circle at 15% 88%, #16c7841f 0%, transparent 40%); }
+  #maint[data-mode="fin"] .m-anim i { border-color:#ff5caa; }
+  #maint[data-mode="fin"] .m-anim .m-rond { background:linear-gradient(145deg,#ff9ad0,#e0338a); box-shadow:0 12px 40px #ff5caa66, inset 0 2px 0 #fff6; }
+  #maint[data-mode="fin"] .m-anim .m-rond span { animation:m-drapeau 1.8s ease-in-out infinite; transform-origin:25% 90%; }
+  @keyframes m-drapeau { 0%,100% { transform:rotate(-9deg); } 50% { transform:rotate(9deg) scale(1.06); } }
+  #maint[data-mode="fin"] h1 b { color:#ff5caa; }
+  #maint[data-mode="fin"] .m-etat { background:#ff5caa1f; border-color:#ff5caa55; color:#ff9ad0; }
+  #maint[data-mode="fin"] .m-etat b { background:#ff5caa; box-shadow:0 0 0 0 #ff5caa; }
+  #maint[data-mode="fin"] .m-compte .m-l2 { color:#ff9ad0; }
+  /* Carte coupée : rouge, sirène */
+  #maint[data-mode="securite"]::before { background:radial-gradient(circle at 50% 20%, #ff3b4e44 0%, transparent 45%), radial-gradient(circle at 80% 90%, #ff3b4e1c 0%, transparent 40%); }
+  #maint[data-mode="securite"] .m-anim i { border-color:#ff3b4e; animation-duration:1.8s; }
+  #maint[data-mode="securite"] .m-anim .m-rond { background:linear-gradient(145deg,#ff6a76,#c8102e); box-shadow:0 12px 40px #ff3b4e77, inset 0 2px 0 #fff6; }
+  #maint[data-mode="securite"] .m-anim .m-rond span { animation:m-sirene 1.1s ease-in-out infinite; }
+  @keyframes m-sirene { 0%,100% { transform:scale(1) rotate(0); } 25% { transform:scale(1.12) rotate(-8deg); } 50% { transform:scale(1) rotate(0); } 75% { transform:scale(1.12) rotate(8deg); } }
+  #maint[data-mode="securite"] h1 b { color:#ff3b4e; }
+  #maint[data-mode="securite"] .m-etat { background:#ff3b4e1f; border-color:#ff3b4e66; color:#ff8a96; }
+  #maint[data-mode="securite"] .m-etat b { background:#ff3b4e; box-shadow:0 0 0 0 #ff3b4e; }
+  #maint[data-mode="securite"] .m-compte .m-l2 { color:#ff8a96; }
+  #maint[data-mode="securite"] .m-barre i { background:linear-gradient(90deg,#ff3b4e,#ff9aa5); }
+  .m-conseils { width:100%; display:flex; flex-direction:column; gap:7px; margin:0 0 14px; text-align:left; }
+  .m-conseils div { display:flex; gap:12px; align-items:center; background:#16161c; border:1px solid #ffffff12; border-radius:16px; padding:11px 13px; font-size:14px; line-height:1.35; color:#e4e4ea; }
+  .m-conseils div > span { font-size:21px; flex:none; }
+  .m-prochains { width:100%; text-align:left; margin:0 0 12px; }
+  .m-prochains > b { display:block; font-size:11.5px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; color:var(--doux); margin:0 0 8px 2px; }
+  .m-evt { width:100%; display:flex; gap:12px; align-items:center; text-align:left; background:#1a1420; border:1px solid #ff5caa2e; border-radius:16px; padding:10px 12px; margin-bottom:7px; }
+  .m-evt > span { width:40px; height:40px; border-radius:12px; background:color-mix(in srgb, var(--ec) 24%, #16161c); display:flex; align-items:center; justify-content:center; font-size:20px; flex:none; }
+  .m-evt b { display:block; font-size:15px; } .m-evt small { display:block; font-size:12.5px; color:var(--doux); margin-top:2px; }
+  .m-evt:active { transform:scale(.98); }
+  /* Bandeau en haut pour le public (modes Bandeau / Vérification / fin de manif) */
+  #m-band { --mc:#4f7cff; display:none; width:100%; margin-top:8px; pointer-events:auto; text-align:left; border-radius:16px; padding:10px 12px 10px 14px; box-shadow:var(--ombre);
+    align-items:center; gap:11px; position:relative; overflow:hidden; }
+  #m-band.vu { display:flex; animation:tk-in .5s cubic-bezier(.2,1.2,.4,1) both; }
+  #m-band.mb-verif { --mc:#16c784; } #m-band.mb-fin { --mc:#ff5caa; }
+  #m-band::before { content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--mc); }
+  #m-band.mb-bandeau::after, #m-band.mb-verif::after { content:""; position:absolute; bottom:0; height:2px; width:35%; border-radius:2px; background:var(--mc); opacity:.8; animation:m-va 2.2s ease-in-out infinite; }
+  #m-band .mb-ic { width:38px; height:38px; border-radius:12px; flex:none; display:flex; align-items:center; justify-content:center; font-size:19px; background:color-mix(in srgb, var(--mc) 22%, transparent); }
+  #m-band .mb-ic span { display:inline-block; }
+  #m-band.mb-bandeau .mb-ic span { animation:mb-cri 2.6s ease-in-out infinite; }
+  #m-band.mb-verif .mb-ic span { animation:mb-loupe 2.4s ease-in-out infinite; }
+  @keyframes mb-cri { 0%,70%,100% { transform:rotate(0) scale(1); } 76% { transform:rotate(-14deg) scale(1.15); } 84% { transform:rotate(10deg) scale(1.08); } 92% { transform:rotate(-4deg); } }
+  @keyframes mb-loupe { 0%,100% { transform:translate(-3px,1px) rotate(-6deg); } 50% { transform:translate(3px,-1px) rotate(6deg); } }
+  #m-band .mb-t { flex:1; min-width:0; }
+  #m-band .mb-t b { display:block; font-size:14px; font-weight:800; }
+  #m-band .mb-t span { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; font-size:12.5px; color:#c9c9d3; line-height:1.35; margin-top:1px; }
+  #m-band .mb-r { flex:none; font-size:12px; font-weight:800; padding:5px 9px; border-radius:10px; background:color-mix(in srgb, var(--mc) 22%, transparent); color:#fff; font-variant-numeric:tabular-nums; }
+  /* Aperçu admin du mode Vérification : on cache les signalements comme le public */
+  body.apercu-verif .leaflet-overlay-pane, body.apercu-verif .leaflet-marker-icon .pin, body.apercu-verif .pin-sol, body.apercu-verif .sv-pin, body.apercu-verif .info-etiq { visibility:hidden; }
+  .m-apercu-x.bas { top:auto; right:auto; left:50%; transform:translateX(-50%); bottom:calc(var(--bas) + 160px); z-index:2600; box-shadow:0 8px 24px #000a; }
+  #maint > .m-apercu-x { position:fixed; box-shadow:0 8px 24px #000a; }
+  /* Admin : choix du mode */
+  .m-statut.on { background:color-mix(in srgb, var(--mc, #ffae3b) 12%, transparent); border-color:color-mix(in srgb, var(--mc, #ffae3b) 50%, transparent); }
+  .m-modes { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:4px; }
+  .m-mode { --mc:#9b9ba8; position:relative; text-align:left; background:var(--s2); border:2px solid transparent; border-radius:16px; padding:11px 12px 12px; display:flex; flex-direction:column; gap:2px;
+    transition:transform .15s, border-color .15s, background .15s; }
+  .m-mode .e { display:inline-block; font-size:22px; line-height:1; margin-bottom:5px; }
+  .m-mode b { font-size:14.5px; } .m-mode small { font-size:11.5px; color:var(--doux); line-height:1.3; }
+  .m-mode:active { transform:scale(.96); }
+  .m-mode.sel { border-color:var(--mc); background:color-mix(in srgb, var(--mc) 14%, var(--s2)); }
+  .m-mode.sel .e { animation:choix-sel .4s cubic-bezier(.3,1.8,.5,1); }
+  .m-mode.live::after { content:"EN COURS"; position:absolute; top:9px; right:9px; font-size:9px; font-weight:800; letter-spacing:.6px; padding:3px 6px; border-radius:6px; background:var(--mc); color:#0b0b10; }
+  .bandeau-maint { transition:background .3s; }
+  @media (prefers-reduced-motion: reduce) {
+    #maint[data-mode] .m-anim .m-rond span, #m-band .mb-ic span, #m-band::after, .m-mode.sel .e { animation:none !important; }
+  }
 </style>
 </head>
 <body>
@@ -1361,6 +1429,7 @@
     <div id="direct"><span id="point-direct"></span><span id="maj">…</span></div>
     <button id="btn-son" onclick="basculerSon()" aria-label="Son"></button>
   </div>
+  <button id="m-band" class="verre" onclick="ouvrirInfoMaint()"></button>
   <button id="ticker" class="verre" onclick="ouvrirInfos()"><span id="tk-ic">📌</span><div class="t1"><span id="tk-niv"></span><span id="tk-age"></span></div><div class="t2" id="tk-txt"></div></button>
   <div id="compteurs"></div>
 </div>
@@ -1389,7 +1458,7 @@
 <div id="popup"></div>
 <div id="bienvenue"></div>
 <div id="maint"></div>
-<div class="bandeau-maint" onclick="ouvrirMaintenance()">🛠️ <span id="bm-txt">Maintenance activée · le public ne voit pas la carte</span></div>
+<div class="bandeau-maint" onclick="ouvrirMaintenance()"><span id="bm-e">🛠️</span> <span id="bm-txt">Maintenance activée · le public ne voit pas la carte</span></div>
 <div id="reseau" onclick="charger()"><span class="r-ic">📶</span><div><b id="rs-t"></b><span id="rs-s"></span></div></div>
 
 <script src="plan.js?v=1"></script>
@@ -1831,6 +1900,7 @@ function appliquer(json){
   etat.traces.forEach(function(t){ var m = /^\[([a-z]+)\] ?/.exec(t.note || ''); if (m && TRACES[m[1]]) { t.type = m[1]; t.note = t.note.slice(m[0].length); } });
   etat.points.forEach(function(p){ var m = /^\[([a-z]+)\] ?/.exec(p.note || ''); if (m && TYPES[m[1]]) { p.type = m[1]; p.note = p.note.slice(m[0].length); } });
   etat.config = d.config || {};
+  filtrerMaint();
   etat.derniereMaj = Date.now();
   majMaintenance(); noterJournal();
   sauverCache(d);
@@ -3066,7 +3136,7 @@ function dessinerGestion(rafraichir){
   // Outils
   h += '<div class="g-titre">Outils</div><div class="outils-g">'
     + '<button onclick="gererEvenements()"><span>🗓️</span>Événements'+(nEvt ? '<em>'+nEvt+'</em>' : '')+'</button>'
-    + '<button onclick="ouvrirMaintenance()"><span>🛠️</span>Maintenance'+(cfg.maintenance ? '<em style="background:#ffae3b">ON</em>' : '')+'</button>'
+    + '<button onclick="ouvrirMaintenance()"><span>🛠️</span>Maintenance'+(function(){ var o = modeMaint(cfg); return o.k !== 'aucune' ? '<em style="background:'+MODES_MAINT[o.k].c+'">'+MODES_MAINT[o.k].e+' '+MODES_MAINT[o.k].nom+'</em>' : ''; })()+'</button>'
     + '<button onclick="ouvrirBilan()"><span>📊</span>Bilan</button>'
     + '<button onclick="ouvrirQR()"><span>🔳</span>QR code</button>'
     + '<button onclick="ouvrirReflexes()"><span>🛡️</span>Réflexes</button>'
@@ -3082,14 +3152,55 @@ function dessinerGestion(rafraichir){
   if (rafraichir || $('feuille').dataset.vue === 'gestion') rafraichirFeuille(h); else ouvrir(h, 'gestion');
 }
 // ===================== V10 =====================
-// ----- Maintenance -----
-var maintVu = 0, maintCheck = 0, maintMinuteur = null, maintApercu = false;
-var MODELES_MAINT = [
-  ['🔄 Mise à jour', 'On met la carte à jour avec de nouvelles fonctions. Elle revient toute seule, pas besoin de recharger.'],
-  ['🔎 Vérif des infos', 'On vérifie les infos avant de les remettre sur la carte. Reste prudent·e et suis le cortège.'],
-  ['⏸ Pause', 'La carte est en pause pour le moment. Elle reviendra avant le prochain rendez-vous.'],
-  ['🏁 Fin de journée', 'La manif est terminée, merci à tout le monde. Rentrez en groupe et prenez soin de vous.']
-];
+// ----- Maintenance : plusieurs modes -----
+// Le mode est rangé au début du texte (ex. "[mode:verif] On vérifie…") : pas besoin de mettre à jour le serveur Google.
+// Modes « écran » (la carte est cachée) : maintenance = true. Modes légers (bandeau, vérification) : maintenance = false,
+// la carte reste servie normalement et c'est l'appli qui affiche le bandeau / cache les signalements.
+var maintVu = 0, maintCheck = 0, maintMinuteur = null, maintApercu = false, brouillonMaint = null, bandeauMinuteur = null;
+var MODES_MAINT = {
+  aucune:   { e:'✅', nom:'Aucune', d:'Carte normale pour tout le monde', c:'#16c784' },
+  complet:  { e:'🛠️', nom:'Mise à jour', d:'Carte cachée, écran « On revient vite »', ecran:true, c:'#ffae3b', public:'le public ne voit pas la carte',
+              texte:'La carte est en maintenance. Elle reviendra toute seule, pas besoin de recharger.',
+              en:'The map is being updated. It will come back by itself, no need to do anything.',
+              modeles:[['🔄 Nouveautés', 'On met la carte à jour avec de nouvelles fonctions. Elle revient toute seule, pas besoin de recharger.'],
+                       ['⏸ Pause', 'La carte est en pause pour le moment. Elle reviendra avant le prochain rendez-vous.']] },
+  bandeau:  { e:'📢', nom:'Bandeau', d:'Carte visible, message en haut de l\'écran', c:'#4f7cff', public:'le public voit un bandeau',
+              titre:'Mise à jour en cours', titreEn:'Update in progress',
+              texte:'Petite mise à jour en cours : certaines infos peuvent avoir quelques minutes de retard.',
+              en:'Small update in progress: some info may be a few minutes late.',
+              modeles:[['📶 Réseau saturé', 'Le réseau est saturé dans le cortège : la carte se met à jour plus lentement.'],
+                       ['⏳ Retard', 'On rattrape le retard : certaines infos peuvent dater de quelques minutes.']] },
+  verif:    { e:'🔎', nom:'Vérification', d:'Carte visible, signalements cachés', c:'#16c784', public:'le public ne voit pas les signalements',
+              titre:'On vérifie les signalements', titreEn:'Checking the reports',
+              texte:'On vérifie les signalements avant de les remettre sur la carte. Reste prudent·e et suis le cortège.',
+              en:'We are checking the reports before putting them back on the map. Stay careful and follow the march.',
+              modeles:[['🧐 Infos douteuses', 'Des infos douteuses ont circulé : on vérifie tout avant de les remettre sur la carte.']] },
+  fin:      { e:'🏁', nom:'Fin de manif', d:'Écran « Merci » + prochains rendez-vous', ecran:true, c:'#ff5caa', public:'le public voit l\'écran de fin',
+              texte:'La manif est terminée, merci à tout le monde. Rentrez en groupe et prenez soin de vous.',
+              en:'The protest is over, thanks everyone. Go home in groups and take care of yourselves.',
+              modeles:[['🌙 Ce soir', 'C\'est fini pour aujourd\'hui. Rentrez en groupe, et on se retrouve au prochain rendez-vous.']] },
+  securite: { e:'🚨', nom:'Carte coupée', d:'Tout est caché, alerte sécurité', ecran:true, c:'#ff3b4e', public:'carte coupée pour le public',
+              texte:'On a coupé la carte par sécurité. Ne te fie pas aux infos qui circulent en notre nom tant qu\'elle n\'est pas revenue.',
+              en:'We switched the map off for safety. Don\'t trust info shared in our name until it is back.',
+              modeles:[['🔐 Compte piraté', 'Quelqu\'un a publié de fausses infos en notre nom. La carte est coupée le temps de tout vérifier.']] }
+};
+var ORDRE_MAINT = ['aucune','complet','bandeau','verif','fin','securite'];
+// Lit le mode en cours dans la config : { k, texte, fin }
+function modeMaint(cfg){
+  cfg = cfg || {};
+  var t = String(cfg.maintenanceTexte || ''), m = /^\[mode:([a-z]+)\]\s*/.exec(t), k = m && MODES_MAINT[m[1]] ? m[1] : '';
+  if (m) t = t.slice(m[0].length);
+  var o = { k:'aucune', texte:t, fin:String(cfg.maintenanceFin || '') };
+  if (k && k !== 'aucune' && !MODES_MAINT[k].ecran) o.k = k;
+  else if (cfg.maintenance) o.k = (k && MODES_MAINT[k].ecran) ? k : 'complet';
+  return o;
+}
+function texteMaint(o){
+  var M = MODES_MAINT[o.k] || MODES_MAINT.complet;
+  if (!o.texte || o.texte === M.texte) return LANGUE === 'en' ? (M.en || M.texte) : (M.texte || '');
+  return o.texte;
+}
+function cleMaint(o){ return o.k + '|' + o.texte + '|' + o.fin; }
 // "22h30", "9h", "21:15" -> heure de retour (aujourd'hui, ou demain si déjà passée depuis plus d'1 h)
 function heureFin(txt){
   var m = String(txt||'').match(/(\d{1,2})\s*[h:]\s*(\d{2})?/i); if (!m) return 0;
@@ -3103,26 +3214,50 @@ function txtReste(ms){
   if (h) return h + ' h ' + String(m).padStart(2,'0');
   return m + ' min ' + String(sec).padStart(2,'0');
 }
-function htmlMaint(cfg){
-  var en = LANGUE==='en', fin = heureFin(cfg.maintenanceFin);
-  return '<div class="m-boite"><div class="m-anim"><i></i><i></i><i></i><div class="m-rond"><span>⚙️</span></div></div>'
-    + '<div class="m-etat"><b></b>'+(en?'Maintenance in progress':'Maintenance en cours')+'</div>'
-    + '<h1>'+(en ? 'BE RIGHT <b>BACK</b>' : 'ON REVIENT <b>VITE</b>')+'</h1>'
-    + '<p>'+esc(cfg.maintenanceTexte || (en ? 'The map is being updated. It will come back by itself, no need to do anything.' : 'La carte est en maintenance. Elle reviendra toute seule, pas besoin de recharger.'))+'</p>'
-    + '<div class="m-compte">'
-    + (fin ? '<div class="m-l1"><span>'+(en?'Back in':'Retour dans')+'</span><b id="m-reste">'+txtReste(fin-Date.now())+'</b></div><div class="m-l2">⏱ '+(en?'Planned around ':'Prévu vers ')+esc(cfg.maintenanceFin)+'</div><div class="m-barre"><i id="m-prog"></i></div>'
-           : (cfg.maintenanceFin ? '<div class="m-l1"><span>'+(en?'Back':'Retour')+'</span><b style="font-size:20px">'+esc(cfg.maintenanceFin)+'</b></div>' : '<div class="m-l1"><span>'+(en?'Working on it':'On s\'en occupe')+'</span><b style="font-size:20px">…</b></div>')
-             + '<div class="m-barre indet"><i></i></div>')
-    + '</div>'
-    + '<div class="m-verif"><b></b><span id="m-verif">'+(en?'Checking automatically':'Vérification automatique')+'</span></div>'
-    + '<div class="m-boutons"><button class="btn plein m-retry" onclick="maintReessayer(this)">↻ '+(en?'Check now':'Vérifier maintenant')+'</button>'
+function txtResteCourt(ms){
+  if (ms <= 60000) return LANGUE==='en' ? 'soon' : 'bientôt';
+  var m = Math.ceil(ms/60000), h = Math.floor(m/60);
+  return h ? h + ' h ' + String(m%60).padStart(2,'0') : m + ' min';
+}
+function htmlMaint(o){
+  var en = LANGUE==='en', k = o.k, fin = heureFin(o.fin);
+  var etiq = k==='fin' ? (en?'See you soon':'À bientôt') : k==='securite' ? (en?'Safety cut':'Coupure de sécurité') : (en?'Maintenance in progress':'Maintenance en cours');
+  var titre = k==='fin' ? (en ? 'THANK <b>YOU ALL</b>' : 'MERCI <b>À TOUS</b>') : k==='securite' ? (en ? 'MAP <b>OFF</b>' : 'CARTE <b>COUPÉE</b>') : (en ? 'BE RIGHT <b>BACK</b>' : 'ON REVIENT <b>VITE</b>');
+  var h = '<div class="m-boite"><div class="m-anim"><i></i><i></i><i></i><div class="m-rond"><span>'+(k==='fin' ? '🏁' : k==='securite' ? '🚨' : '⚙️')+'</span></div></div>'
+    + '<div class="m-etat"><b></b>'+etiq+'</div><h1>'+titre+'</h1><p>'+esc(texteMaint(o))+'</p>';
+  // compte à rebours
+  var l1 = k==='fin' ? (en?'Live map again in':'Carte en direct dans') : (en?'Back in':'Retour dans');
+  if (fin) h += '<div class="m-compte"><div class="m-l1"><span>'+l1+'</span><b id="m-reste">'+txtReste(fin-Date.now())+'</b></div><div class="m-l2">⏱ '+(en?'Planned around ':'Prévu vers ')+esc(o.fin)+'</div><div class="m-barre"><i id="m-prog"></i></div></div>';
+  else if (o.fin) h += '<div class="m-compte"><div class="m-l1"><span>'+(k==='fin' ? (en?'Next live map':'Prochaine carte en direct') : (en?'Back':'Retour'))+'</span><b style="font-size:20px">'+esc(o.fin)+'</b></div></div>';
+  else if (k !== 'fin') h += '<div class="m-compte"><div class="m-l1"><span>'+(k==='securite' ? (en?'We are checking everything':'On vérifie tout') : (en?'Working on it':'On s\'en occupe'))+'</span><b style="font-size:20px">…</b></div><div class="m-barre indet"><i></i></div></div>';
+  // conseils
+  var cons = k==='fin' ? [['👥', en?'Go home in a group, avoid ending up alone':'Rentre en groupe, évite de finir seul·e'],
+                          ['📱', en?'Text a friend once you are home':'Préviens un proche quand tu es arrivé·e'],
+                          ['🩹', en?'Hurt or shaken? Call 15 or 112':'Blessé·e ou choqué·e ? Appelle le 15 ou le 112']]
+           : k==='securite' ? [['✋', en?'Don\'t forward "Lyon Live" info going around right now':'Ne relaie pas les infos « Lyon Live » qui circulent en ce moment'],
+                               ['👀', en?'Trust what you see around you':'Fie-toi à ce que tu vois autour de toi'],
+                               ['👥', en?'Stay with your group and follow the march':'Reste avec ton groupe et suis le cortège']] : [];
+  if (cons.length) h += '<div class="m-conseils">' + cons.map(function(c){ return '<div><span>'+c[0]+'</span>'+c[1]+'</div>'; }).join('') + '</div>';
+  // fin de manif : les prochains rendez-vous de l'agenda
+  if (k === 'fin') {
+    var pro = evenements().filter(function(v){ return etatEvt(v) !== 'passe'; }).slice(0, 3);
+    if (pro.length) h += '<div class="m-prochains"><b>'+(en?'Next meetups':'Prochains rendez-vous')+'</b>' + pro.map(function(v){
+      var C = CATS_EVT[v.cat] || CATS_EVT.autre;
+      return '<button class="m-evt" style="--ec:'+C.c+'" onclick="ouvrirEvt(\''+esc(v.id)+'\')"><span>'+esc(v.emoji || C.e)+'</span><div><b>'+esc(v.titre)+'</b><small>'
+        + esc(jourEvt(v.debut) + ' · ' + heuresEvt(v) + (v.lieu ? ' · ' + v.lieu : ''))+'</small></div></button>'; }).join('') + '</div>';
+  }
+  h += '<div class="m-verif"><b></b><span id="m-verif">'+(en?'Checking automatically':'Vérification automatique')+'</span></div>'
+    + '<div class="m-boutons">'
+    + (k === 'fin' ? '<button class="btn plein m-retry" onclick="maintIgnorer()">🗺️ '+(en?'See the map anyway':'Voir la carte quand même')+'</button>'
+                   : '<button class="btn plein m-retry" onclick="maintReessayer(this)">↻ '+(en?'Check now':'Vérifier maintenant')+'</button>')
     + '<button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(en?'Safety tips':'Les bons réflexes')+'</button>'
     + '<div class="appels" style="margin:0"><a href="tel:112">112<span>'+(en?'Emergency':'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div></div>'
     + '<small>Lyon Live</small></div>';
+  return h;
 }
 function tickMaint(){
   var el = $('maint'); if (!el.classList.contains('vu')) { clearInterval(maintMinuteur); maintMinuteur = null; return; }
-  var cfg = maintApercu ? lireApercuMaint() : (etat.config || {}), fin = heureFin(cfg.maintenanceFin), en = LANGUE==='en';
+  var o = maintApercu ? lireApercuMaint() : modeMaint(etat.config), fin = heureFin(o.fin), en = LANGUE==='en';
   if (fin && $('m-reste')) {
     $('m-reste').textContent = txtReste(fin - Date.now());
     var debut = maintVu || Date.now(), tot = Math.max(60000, fin - debut);
@@ -3133,61 +3268,149 @@ function tickMaint(){
 }
 function lancerTickMaint(){ tickMaint(); if (!maintMinuteur) maintMinuteur = setInterval(tickMaint, 1000); }
 function maintReessayer(b){ b.disabled = true; b.textContent = '…'; Promise.resolve(charger()).then(function(){}, function(){}).then(function(){ b.disabled = false; b.textContent = '↻ ' + (LANGUE==='en'?'Check now':'Vérifier maintenant'); if ($('maint').classList.contains('vu')) toast(LANGUE==='en'?'Still in maintenance':'Toujours en maintenance'); }); }
+// Fin de manif : on peut quand même regarder la carte (un bandeau reste en haut)
+function maintIgnorer(){
+  var o = modeMaint(etat.config); ecrireLS('maintIgnore', cleMaint(o));
+  var el = $('maint'); el.classList.remove('vu'); el.dataset.h = ''; document.body.classList.remove('maint-vu');
+  majBandeauMaint(o);
+}
+// Bandeau en haut de l'écran (modes Bandeau et Vérification, et fin de manif quand on a choisi de voir la carte)
+function majBandeauMaint(o, apercu){
+  var b = $('m-band'); if (!b) return;
+  var montrer = apercu || (!estEquipe() && (o.k === 'bandeau' || o.k === 'verif' || (o.k === 'fin' && lireLS('maintIgnore') === cleMaint(o))));
+  if (!montrer) { b.className = 'verre'; b.innerHTML = ''; clearInterval(bandeauMinuteur); bandeauMinuteur = null; return; }
+  var M = MODES_MAINT[o.k] || MODES_MAINT.bandeau, en = LANGUE==='en', fin = heureFin(o.fin);
+  var titre = o.k === 'fin' ? (en ? 'The protest is over' : 'La manif est terminée') : (en ? M.titreEn : M.titre);
+  var sous = o.k === 'fin' ? (en ? 'Thanks everyone · tap to see the next meetups' : 'Merci à tout le monde · touche pour voir les prochains rendez-vous') : texteMaint(o);
+  var h = '<span class="mb-ic"><span>'+M.e+'</span></span><div class="mb-t"><b>'+esc(titre)+'</b><span>'+esc(sous)+'</span></div>'
+    + (fin && o.k !== 'fin' ? '<span class="mb-r" id="mb-reste">'+txtResteCourt(fin - Date.now())+'</span>' : '');
+  if (b.dataset.h !== h) { b.innerHTML = h; b.dataset.h = h; }
+  b.className = 'verre vu mb-' + o.k;
+  clearInterval(bandeauMinuteur); bandeauMinuteur = null;
+  if (fin && o.k !== 'fin') bandeauMinuteur = setInterval(function(){ var r = $('mb-reste'); if (r) r.textContent = txtResteCourt(fin - Date.now()); }, 15000);
+}
+function ouvrirInfoMaint(){
+  var o = modeMaint(etat.config), en = LANGUE==='en';
+  if (o.k === 'fin') { ecrireLS('maintIgnore', ''); majMaintenance(); return; }
+  var M = MODES_MAINT[o.k]; if (!M || o.k === 'aucune') return;
+  var fin = heureFin(o.fin);
+  ouvrir(entete(M.e + ' ' + (en ? M.titreEn : M.titre), en ? 'Message from the Lyon Live team' : 'Message de l\'équipe Lyon Live')
+    + '<div class="info-carte"><div class="ic-x">'+esc(texteMaint(o))+'</div>'
+    + (o.fin ? '<div class="ic-m"><span>⏱ '+(en?'Back to normal ':'Retour à la normale ')+(fin ? (en?'in ':'dans ') + txtResteCourt(fin - Date.now()) + ' · ' : '')+esc(o.fin)+'</span></div>' : '') + '</div>'
+    + (o.k === 'verif' ? '<div class="sous">'+(en ? 'Reports are hidden while we check them. The map, metro and hospitals stay visible.' : 'Les signalements sont cachés le temps de les vérifier. Le plan, le métro et les hôpitaux restent visibles.')+'</div>' : '')
+    + '<div class="rangee"><button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(en?'Safety tips':'Les bons réflexes')+'</button><button class="btn plein" onclick="fermer()">OK</button></div>', 'info-maint');
+}
+function txtAdminMaint(o){ var M = MODES_MAINT[o.k]; return o.k === 'aucune' ? '' : M.nom + (o.fin ? ' · retour ' + o.fin : '') + ' · ' + M.public; }
 function majMaintenance(){
-  var cfg = etat.config || {}, on = !!cfg.maintenance;
+  var o = modeMaint(etat.config), M = MODES_MAINT[o.k], prec = majMaintenance.prec || 'aucune', en = LANGUE==='en';
+  majMaintenance.prec = o.k;
   maintCheck = Date.now();
-  document.body.classList.toggle('maint-admin', on && estEquipe());
-  if ($('bm-txt')) $('bm-txt').textContent = 'Maintenance activée' + (cfg.maintenanceFin ? ' · retour ' + cfg.maintenanceFin : '') + ' · le public ne voit pas la carte';
+  document.body.classList.toggle('maint-admin', o.k !== 'aucune' && estEquipe());
+  if ($('bm-txt')) { $('bm-txt').textContent = txtAdminMaint(o); $('bm-e').textContent = M.e;
+    var bm = document.querySelector('.bandeau-maint'); if (bm) { bm.style.background = M.c; bm.style.color = (o.k === 'bandeau' || o.k === 'securite') ? '#fff' : '#140d00'; } }
+  // Fin d'une vérification / coupure : les signalements reviennent sans pluie de « nouveau signalement »
+  if (!estEquipe() && (prec === 'verif' || prec === 'securite') && o.k !== 'verif' && o.k !== 'securite') {
+    etat.points.forEach(function(p){ vus['p'+p.id] = 1; });
+    if (prec === 'verif') { toast(en ? '✅ Reports are back on the map' : '✅ Les signalements sont de retour'); try { jouer('message'); } catch(e){} }
+  }
   if (maintApercu) return;
-  var el = $('maint');
-  if (on && !estEquipe()) {
+  majBandeauMaint(o);
+  var el = $('maint'), ecran = !!M.ecran && !estEquipe() && !(o.k === 'fin' && lireLS('maintIgnore') === cleMaint(o));
+  if (ecran) {
     if (!maintVu) maintVu = Number(lireLS('maintVu')) || Date.now();
     ecrireLS('maintVu', String(maintVu));
-    var h = htmlMaint(cfg);
+    var h = htmlMaint(o);
     if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
+    el.dataset.mode = o.k;
     el.classList.add('vu'); document.body.classList.add('maint-vu'); cacherSplash(); lancerTickMaint();
     if ($('bienvenue').classList.contains('vu')) $('bienvenue').classList.remove('vu');
   } else if (el.classList.contains('vu')) { el.classList.remove('vu'); el.dataset.h = ''; document.body.classList.remove('maint-vu');
     maintVu = 0; ecrireLS('maintVu', '');
-    toast(LANGUE==='en' ? '✅ The map is back!' : '✅ La carte est de retour !'); try { jouer('message'); } catch(e){}
+    toast(en ? '✅ The map is back!' : '✅ La carte est de retour !'); try { jouer('message'); } catch(e){}
     if (!lireLS('bienvenue9') && !estEquipe()) setTimeout(montrerBienvenue, 300); }
-  else if (!on && lireLS('maintVu')) ecrireLS('maintVu', '');
+  else if (o.k === 'aucune' && lireLS('maintVu')) ecrireLS('maintVu', '');
+  if (o.k === 'aucune' && lireLS('maintIgnore')) ecrireLS('maintIgnore', '');
 }
-function lireApercuMaint(){ var c = etat.config || {};
-  return { maintenanceTexte: $('mt-txt') ? $('mt-txt').value : c.maintenanceTexte, maintenanceFin: $('mt-fin') ? $('mt-fin').value : c.maintenanceFin }; }
+// Ce que voit le public pendant une vérification ou une coupure : on retire les signalements (et plus en cas de coupure)
+function filtrerMaint(){
+  if (estEquipe()) return;
+  var k = modeMaint(etat.config).k;
+  if (k === 'verif' || k === 'securite') { etat.points = []; etat.traces = []; }
+  if (k === 'securite') { etat.messages = []; etat.popups = []; etat.medics = []; }
+}
+
+// ----- Maintenance : réglages admin -----
+function lireFormMaint(){ if (!brouillonMaint) return; if ($('mt-txt')) brouillonMaint.texte = $('mt-txt').value; if ($('mt-fin')) brouillonMaint.fin = $('mt-fin').value; }
+function lireApercuMaint(){ lireFormMaint(); var b = brouillonMaint || modeMaint(etat.config); return { k:b.k, texte:b.texte, fin:b.fin }; }
+function ouvrirMaintenance(garder){
+  if (!garder || !brouillonMaint) { var o = modeMaint(etat.config); brouillonMaint = { k:o.k, texte:o.texte, fin:o.fin }; }
+  dessinerMaint();
+}
+function dessinerMaint(){
+  var o = modeMaint(etat.config), b = brouillonMaint, M = MODES_MAINT[b.k], A = MODES_MAINT[o.k];
+  var h = entete('🛠️ Maintenance', 'Choisis ce que voit le public. Les admins et les medics voient toujours la carte normale.')
+    + '<div class="m-statut'+(o.k !== 'aucune' ? ' on' : '')+'" style="--mc:'+A.c+'"><span class="e">'+A.e+'</span><div><b>'+(o.k === 'aucune' ? 'Carte visible par tout le monde' : 'En ce moment : ' + A.nom)+'</b><small>'
+    + (o.k === 'aucune' ? 'Aucune maintenance en cours' : A.d + (o.fin ? ' · retour vers ' + esc(o.fin) : ''))+'</small></div></div>'
+    + '<label class="l">Mode</label><div class="m-modes">' + ORDRE_MAINT.map(function(k){ var X = MODES_MAINT[k];
+        return '<button class="m-mode'+(b.k === k ? ' sel' : '')+(o.k === k ? ' live' : '')+'" style="--mc:'+X.c+'" onclick="choisirModeMaint(\''+k+'\')"><span class="e">'+X.e+'</span><b>'+X.nom+'</b><small>'+X.d+'</small></button>'; }).join('') + '</div>';
+  if (b.k !== 'aucune') {
+    h += '<div class="maint-form"><label class="l">Message pour le public</label>'
+      + '<div class="chips">' + (M.modeles || []).map(function(m, i){ return '<button onclick="$(\'mt-txt\').value=MODES_MAINT[\''+b.k+'\'].modeles['+i+'][1]">'+m[0]+'</button>'; }).join('')
+      + '<button onclick="$(\'mt-txt\').value=\'\'">↺ Texte par défaut</button></div>'
+      + '<textarea id="mt-txt" maxlength="200" placeholder="'+esc(M.texte)+'">'+esc(b.texte || '')+'</textarea>'
+      + '<label class="l">'+(b.k === 'fin' ? 'Prochaine carte en direct (facultatif)' : 'Retour prévu')+'</label>'
+      + '<div class="chips"><button onclick="finDans(15)">+15 min</button><button onclick="finDans(30)">+30 min</button><button onclick="finDans(60)">+1 h</button><button onclick="finDans(120)">+2 h</button><button onclick="$(\'mt-fin\').value=\'\'">Sans heure</button></div>'
+      + '<input id="mt-fin" maxlength="20" placeholder="ex : 9h30 (compte à rebours automatique)" value="'+esc(b.fin || '')+'"></div>';
+  }
+  h += '<div class="rangee">' + (b.k !== 'aucune' ? '<button class="btn plein" onclick="apercuMaint()">'+ic('oeil')+'Aperçu</button>' : '')
+    + '<button class="btn rose plein" id="mt-go" onclick="sauverMaintenance()">'+(b.k === o.k && b.k === 'aucune' ? 'Enregistrer' : b.k === 'aucune' ? 'Remettre la carte normale' : 'Activer « '+M.nom+' »')+'</button></div>'
+    + '<div class="rangee"><button class="btn plein" onclick="brouillonMaint=null;dessinerGestion()">Retour</button></div>'
+    + '<div class="sous" style="margin-top:8px">Quand tu remets la carte normale, les gens la voient revenir toute seule, sans recharger.</div>';
+  ouvrir(h, 'gestion-maint');
+}
+function choisirModeMaint(k){
+  lireFormMaint();
+  var b = brouillonMaint, A = MODES_MAINT[b.k];
+  // le texte suit le mode, sauf si l'admin a écrit son propre message
+  var perso = b.texte && b.texte !== A.texte && !(A.modeles || []).some(function(m){ return m[1] === b.texte; });
+  if (!perso) b.texte = '';
+  b.k = k; dessinerMaint();
+}
 function apercuMaint(){
-  var el = $('maint'); maintApercu = true; maintVu = Date.now(); maintCheck = Date.now();
-  el.innerHTML = htmlMaint(lireApercuMaint()) + '<button class="m-apercu-x" onclick="fermerApercuMaint()">✕ Fermer l\'aperçu</button>';
-  el.dataset.h = ''; el.classList.add('vu'); lancerTickMaint();
+  var o = lireApercuMaint(), M = MODES_MAINT[o.k], el = $('maint');
+  maintApercu = true; maintVu = Date.now(); maintCheck = Date.now();
+  if (M.ecran) {
+    el.innerHTML = htmlMaint(o) + '<button class="m-apercu-x" onclick="fermerApercuMaint()">✕ Fermer l\'aperçu</button>';
+    el.dataset.h = ''; el.dataset.mode = o.k; el.classList.add('vu'); lancerTickMaint();
+  } else {
+    fermer(); majBandeauMaint(o, true);
+    document.body.classList.toggle('apercu-verif', o.k === 'verif');
+    var x = document.createElement('button'); x.className = 'm-apercu-x bas'; x.id = 'm-apercu-x'; x.textContent = '✕ Fermer l\'aperçu'; x.onclick = fermerApercuMaint; document.body.appendChild(x);
+    toast(o.k === 'verif' ? 'Aperçu : le public voit la carte sans les signalements' : 'Aperçu : le public voit ce bandeau en haut');
+  }
 }
-function fermerApercuMaint(){ maintApercu = false; maintVu = 0; var el = $('maint'); el.classList.remove('vu'); el.innerHTML = ''; majMaintenance(); }
+function fermerApercuMaint(){
+  maintApercu = false; maintVu = 0; var el = $('maint'); el.classList.remove('vu'); el.innerHTML = ''; el.dataset.h = '';
+  document.body.classList.remove('apercu-verif'); var x = $('m-apercu-x'); if (x) x.remove();
+  majMaintenance(); ouvrirMaintenance(true);
+}
 function finDans(min){
   var d = new Date(Date.now() + min*60000); d.setMinutes(Math.ceil(d.getMinutes()/5)*5);
   $('mt-fin').value = d.getHours() + 'h' + String(d.getMinutes()).padStart(2,'0');
 }
-function ouvrirMaintenance(){
-  var cfg = etat.config || {}, on = !!cfg.maintenance;
-  ouvrir(entete('🛠️ Maintenance', 'Le public voit un écran « On revient vite » à la place de la carte. Les admins et les medics continuent de tout voir.')
-    + '<div class="m-statut'+(on?' on':'')+'"><span class="e">'+(on?'🛠️':'✅')+'</span><div><b>'+(on?'Maintenance en cours':'Carte visible par tout le monde')+'</b><small>'
-    + (on ? (cfg.maintenanceFin ? 'Retour prévu vers '+esc(cfg.maintenanceFin) : 'Pas d\'heure de retour') : 'Active la maintenance pour cacher la carte au public')+'</small></div></div>'
-    + '<label class="interrupteur"><span><b>Maintenance activée</b></span><input id="mt-on" type="checkbox" '+(on?'checked':'')+'></label>'
-    + '<div class="maint-form"><label class="l">Message pour le public</label>'
-    + '<div class="chips">' + MODELES_MAINT.map(function(m, i){ return '<button onclick="$(\'mt-txt\').value=MODELES_MAINT['+i+'][1]">'+m[0]+'</button>'; }).join('') + '</div>'
-    + '<textarea id="mt-txt" maxlength="200" placeholder="La carte est en maintenance. Elle reviendra toute seule, pas besoin de recharger.">'+esc(cfg.maintenanceTexte||'')+'</textarea>'
-    + '<label class="l">Retour prévu</label>'
-    + '<div class="chips"><button onclick="finDans(15)">+15 min</button><button onclick="finDans(30)">+30 min</button><button onclick="finDans(60)">+1 h</button><button onclick="finDans(120)">+2 h</button><button onclick="$(\'mt-fin\').value=\'\'">Sans heure</button></div>'
-    + '<input id="mt-fin" maxlength="20" placeholder="ex : 9h30 (compte à rebours automatique)" value="'+esc(cfg.maintenanceFin||'')+'"></div>'
-    + '<div class="rangee"><button class="btn plein" onclick="apercuMaint()">'+ic('oeil')+'Aperçu</button><button class="btn rose plein" id="mt-go" onclick="sauverMaintenance()">Enregistrer</button></div>'
-    + '<div class="rangee"><button class="btn plein" onclick="dessinerGestion()">Retour</button></div>'
-    + '<div class="sous" style="margin-top:8px">Quand tu coupes la maintenance, les gens voient « La carte est de retour » tout seuls, sans recharger.</div>', 'gestion-maint');
-}
 function sauverMaintenance(){
-  var on = $('mt-on').checked; $('mt-go').disabled = true; $('mt-go').textContent = '…';
-  serveur('majConfig', etat.mdp, { maintenance:on, maintenanceTexte:$('mt-txt').value, maintenanceFin:$('mt-fin').value }).then(function(j){
+  lireFormMaint();
+  var b = brouillonMaint, M = MODES_MAINT[b.k], txt = String(b.texte || '').trim();
+  // « aucune » est aussi écrit en toutes lettres : un texte vide pourrait être ignoré par le serveur
+  var envoi = b.k === 'aucune' ? { maintenance:false, maintenanceTexte:'[mode:aucune]', maintenanceFin:'' }
+    : { maintenance:!!M.ecran, maintenanceTexte: b.k === 'complet' ? txt : '[mode:' + b.k + ']' + (txt ? ' ' + txt : ''), maintenanceFin:String(b.fin || '').trim() };
+  $('mt-go').disabled = true; $('mt-go').textContent = '…';
+  serveur('majConfig', etat.mdp, envoi).then(function(j){
     appliquer(j);
-    if (on && !(etat.config && etat.config.maintenance)) { toast('Ton serveur Google doit être mis à jour pour la maintenance (voir le message de Claude)'); return; }
-    dessinerGestion(); toast(on ? 'Maintenance activée' : 'Carte de nouveau visible pour tous');
-  }).catch(function(e){ if ($('mt-go')) { $('mt-go').disabled = false; $('mt-go').textContent = 'Enregistrer'; } erreurEquipe(e); });
+    if (modeMaint(etat.config).k !== b.k) { toast('Ton serveur Google doit être mis à jour pour la maintenance (voir le message de Claude)'); if ($('mt-go')) { $('mt-go').disabled = false; $('mt-go').textContent = 'Réessayer'; } return; }
+    brouillonMaint = null; dessinerGestion();
+    toast(b.k === 'aucune' ? '✅ Carte de nouveau normale pour tous' : M.e + ' ' + M.nom + ' activé · ' + M.public);
+  }).catch(function(e){ if ($('mt-go')) { $('mt-go').disabled = false; $('mt-go').textContent = 'Réessayer'; } erreurEquipe(e); });
 }
 
 
