@@ -1612,7 +1612,6 @@ function ouvrirLegende(){
     + '<button class="'+(couches.metro?'sel':'')+'" onclick="basculerCouche(\'metro\')">Métro</button>'
     + '<button class="'+(couches.sante?'sel':'')+'" onclick="basculerCouche(\'sante\')">Hôpitaux & pharmacies</button>'
     + '<button class="'+(couches.ecoles?'sel':'')+'" onclick="basculerCouche(\'ecoles\')">Lycées & facs</button>'
-    + '<button class="'+(couches.scenes?'sel':'')+'" onclick="basculerCouche(\'scenes\')">Salles de concert</button>'
     + '</div><label class="l">Fond de carte</label><div class="puces">'
     + Object.keys(FONDS).map(function(k){ return '<button class="'+(fondNom===k?'sel':'')+'" onclick="changerFond(\''+k+'\')">'+FONDS[k].nom+'</button>'; }).join('')
     + '</div><label class="l">Signalements</label>';
@@ -2720,7 +2719,7 @@ function ouvrirScene(i){
 function evtDepuisScene(i){ var e = SCENES[i]; var d = new Date(Date.now()+86400000);
   brouillonEvt = { id:null, cat:'fete', emoji:'', titre:'Concert · ' + e.n, jour:isoJour(d), hDebut:'20:00', hFin:'23:30', lieu:e.n, texte:'', lat:e.c[0], lng:e.c[1] };
   formulaireEvt(); }
-setTimeout(chargerScenes, 1700);
+// Salles retirées à la demande (01/11) : remettre setTimeout(chargerScenes, 1700) pour les réafficher.
 
 // Scène 2D sous chaque concert (le pin "monte" sur la scène). Taille réelle ~45 m, suit le zoom.
 var scenesEvt = {};
