@@ -834,6 +834,10 @@
   .evt-hero.rassemb h3 { animation:rs-texte 2.2s ease-in-out infinite; text-shadow:0 0 18px #ff9f1c66; }
   .evt-ligne.rassemb .el-e { display:inline-block; animation:rs-crie 2.2s ease-in-out infinite; }
   .pastille.evt-chip.rassemb { box-shadow:0 0 12px #ff9f1c44; }
+
+  .pop-boite { display:flex; flex-direction:column; }
+  .pop-btns { position:sticky; bottom:-18px; margin-top:auto; padding:14px 18px 18px; margin-bottom:-18px; background:linear-gradient(transparent, #121217 30%); z-index:2; }
+  .pop-boite { scrollbar-width:none; } .pop-boite::-webkit-scrollbar { display:none; }
 </style>
 </head>
 <body>
@@ -2286,7 +2290,7 @@ function htmlPopup(p, apercu){
     + (p.ts ? '<span class="pop-age">'+(LANGUE==='en'?'Posted ':'Publié ')+age(p.ts)+'</span>' : '')
     + '</div>'
     + (p.titre ? '<h3 class="anton">'+esc(p.titre)+'</h3>' : '')
-    + (L.quand ? '<div class="pop-quand"><span class="q-ic">📅</span><div><b>'+esc(txtQuand(L.quand))+'</b><small>'+txtDans(L.quand)+'</small></div></div>' : '')
+    + (L.quand ? '<div class="pop-quand"><span class="q-ic">⏰</span><div><b>'+esc(txtQuand(L.quand))+'</b><small>'+txtDans(L.quand)+'</small></div></div>' : '')
     + corps
     + '<div class="pop-btns">'
     + (p.lat !== undefined && p.lat !== null && p.lat !== '' ? '<button class="btn plein" onclick="fermerPopup(\''+(p.id||'')+'\',true)">'+ic('position')+'Voir sur la carte</button>' : '')
