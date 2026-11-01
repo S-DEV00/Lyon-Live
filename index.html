@@ -1571,6 +1571,91 @@
   .leaflet-marker-icon .pin.neuf.pop:not(.vieux) { animation:pin-pop .5s cubic-bezier(.3,1.7,.5,1) both, pin-lueur 1.6s 1s ease-in-out infinite; }
   @keyframes pin-lueur { 50% { filter:brightness(1.15) drop-shadow(0 0 7px var(--pc)); } }
   @media (prefers-reduced-motion: reduce) { .pb.alerte i.pb-ic, .pb.bump, .pb.bump .pb-n, .leaflet-marker-icon .pin.neuf { animation:none !important; } }
+
+  /* ================= v42 : manif du jeudi 5 novembre ================= */
+  #compteurs .pastille.pb-j5 { background:linear-gradient(110deg, #ff9a2b33, #ff5a1f55 40%, #ffd0a833 50%, #ff5a1f55 60%, #e3301c33) !important; background-size:250% 100% !important;
+    border-color:#ff8a3a !important; animation:j5-brille 3.2s linear infinite; }
+  #compteurs .pastille.pb-j5 .pb-n { font-size:19px; }
+  @keyframes j5-brille { to { background-position:-250% 0; } }
+  body.jour-j #titre::after { content:"JOUR J"; font-family:Inter,sans-serif; font-size:9.5px; font-weight:900; letter-spacing:1px; padding:3px 6px; border-radius:7px; margin-left:2px;
+    background:var(--grad); color:#fff; box-shadow:0 0 12px #ff6a1f88; animation:j5-badge 2s ease-in-out infinite; }
+  @keyframes j5-badge { 50% { box-shadow:0 0 20px #ff6a1fdd; } }
+  /* la fiche du 5 */
+  .feuille[data-vue="j5"] { padding-top:0; }
+  .feuille[data-vue="j5"] .poignee { position:relative; z-index:2; margin-top:10px; background:#ffffff55; }
+  .j5 { position:relative; margin:-27px -18px 0; }
+  .j5-x { position:absolute; top:14px; right:14px; z-index:3; background:#00000044; color:#fff; }
+  .j5-haut { position:relative; overflow:hidden; padding:38px 20px 22px; text-align:center; border-radius:30px 30px 0 0;
+    background:radial-gradient(120% 90% at 50% 0%, #ff7a2a 0%, #c2330f 38%, #3a1208 75%, #1a0d09 100%); }
+  .j5-rayons { position:absolute; left:50%; top:-40%; width:220%; aspect-ratio:1; margin-left:-110%; pointer-events:none; opacity:.35;
+    background:repeating-conic-gradient(from 0deg, #fff3 0deg 5deg, transparent 5deg 18deg); animation:j5-tourne 40s linear infinite;
+    -webkit-mask-image:radial-gradient(circle, #000 0%, transparent 60%); mask-image:radial-gradient(circle, #000 0%, transparent 60%); }
+  @keyframes j5-tourne { to { transform:rotate(360deg); } }
+  .j5-k { position:relative; font-size:12px; font-weight:900; letter-spacing:2.2px; color:#ffe0c8; }
+  .j5-t { position:relative; margin:6px 0 14px; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:58px; line-height:.95; letter-spacing:2px; color:#fff; text-shadow:0 6px 30px #0006; }
+  .j5-t b { font-weight:400; color:#ffd27a; }
+  .j5-cd { position:relative; display:flex; justify-content:center; gap:8px; }
+  .j5-cd > div { min-width:66px; padding:10px 4px 8px; border-radius:16px; background:#0000004d; border:1px solid #ffffff2e; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
+  .j5-cd b { display:block; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:34px; line-height:1; color:#fff; font-variant-numeric:tabular-nums; }
+  .j5-cd span { display:block; font-size:10.5px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#ffd0a8; margin-top:4px; }
+  .j5-cd .tic b { animation:j5-tic .45s cubic-bezier(.3,1.6,.5,1); }
+  @keyframes j5-tic { from { transform:translateY(-6px) scale(.9); opacity:.4; } }
+  .j5-cd-l { position:relative; margin-top:10px; font-size:12px; font-weight:800; letter-spacing:.6px; color:#ffe0c8; text-transform:uppercase; }
+  .j5-live { position:relative; display:inline-flex; align-items:center; gap:9px; padding:12px 18px; border-radius:30px; background:#0006; border:1px solid #ffffff38;
+    font-family:Anton,Impact,sans-serif; font-size:24px; letter-spacing:1.5px; color:#fff; }
+  .j5-live i { width:12px; height:12px; border-radius:50%; background:#ff3b30; box-shadow:0 0 0 0 #ff3b30; animation:sp-live 1.4s infinite; }
+  .j5-corps { padding:6px 18px 0; }
+  .j5-bloc { background:var(--s2); border:1px solid #ffffff10; border-radius:20px; padding:14px; margin-top:12px; }
+  .j5-st { display:flex; align-items:center; justify-content:space-between; font-size:12px; font-weight:900; letter-spacing:.9px; text-transform:uppercase; color:#ffb27a; margin-bottom:10px; }
+  .j5-st span { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:18px; letter-spacing:.5px; color:#fff; }
+  .j5-tl { position:relative; padding-left:4px; }
+  .j5-et { position:relative; display:flex; gap:12px; align-items:center; }
+  .j5-et b { display:block; font-size:15.5px; } .j5-et small { display:block; font-size:12.5px; color:var(--doux); margin-top:1px; }
+  .j5-pt { width:18px; height:18px; border-radius:50%; flex:none; border:3px solid #fff; background:#ff6a1f; box-shadow:0 0 0 4px #ff6a1f44; }
+  .j5-pt.arr { background:#16c784; box-shadow:0 0 0 4px #16c78444; }
+  .j5-ligne { position:relative; width:4px; height:34px; margin:4px 0 4px 11px; border-radius:2px; overflow:hidden; background:#ffffff14; }
+  .j5-ligne::after { content:""; position:absolute; left:0; right:0; top:-40px; height:40px; background:linear-gradient(transparent, #ff6a1f, #ffd27a); animation:j5-marche 1.6s linear infinite; }
+  @keyframes j5-marche { to { transform:translateY(80px); } }
+  .j5-note { font-size:12.5px; color:var(--doux); margin:10px 0; line-height:1.4; }
+  .j5-sac { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+  .j5-it { display:flex; align-items:center; gap:9px; text-align:left; padding:10px; border-radius:14px; background:var(--s1); border:1.5px solid #ffffff12; color:var(--txt); transition:transform .15s, background .2s, border-color .2s; }
+  .j5-it:active { transform:scale(.95); }
+  .j5-it > span { font-size:20px; flex:none; transition:transform .3s cubic-bezier(.3,1.8,.5,1); }
+  .j5-it b { display:block; font-size:13px; line-height:1.2; } .j5-it small { display:block; font-size:11px; color:var(--doux); line-height:1.25; margin-top:1px; }
+  .j5-it.ok { background:#0f231b; border-color:#16c78488; } .j5-it.ok > span { transform:scale(1.15) rotate(-8deg); }
+  .j5-it.ok b::after { content:" ✓"; color:#3ee0a0; }
+  .j5-barre { height:6px; border-radius:4px; background:#ffffff12; overflow:hidden; margin:-2px 0 10px; }
+  .j5-barre i { display:block; height:100%; border-radius:4px; background:linear-gradient(90deg,#ff9a2b,#16c784); transition:width .5s cubic-bezier(.2,.8,.2,1); }
+  .j5-pret { text-align:center; font-family:Anton,Impact,sans-serif; font-size:22px; letter-spacing:1px; color:#3ee0a0; margin:10px 0 0; animation:pop-saute .6s cubic-bezier(.2,1.6,.4,1) both; }
+  .j5-affiche img { display:block; width:100%; border-radius:22px; box-shadow:0 20px 50px #000a; margin:4px 0 12px; }
+  /* confettis */
+  .confettis { position:fixed; inset:0; z-index:2800; pointer-events:none; overflow:hidden; }
+  .confettis i { position:absolute; top:-20px; width:9px; height:15px; border-radius:2px; animation:conf-tombe var(--d) cubic-bezier(.25,.6,.5,1) var(--r) forwards; }
+  @keyframes conf-tombe { 0% { transform:translate(0,0) rotate(0); opacity:1; } 85% { opacity:1; } 100% { transform:translate(var(--x), 105vh) rotate(var(--t)); opacity:0; } }
+  /* les grands moments de la manif, en plein écran */
+  #moment { position:fixed; inset:0; z-index:2700; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px;
+    background:rgba(8,5,4,.86); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); opacity:0; visibility:hidden; transition:opacity .35s, visibility .35s; overflow:hidden; }
+  #moment.vu { opacity:1; visibility:visible; }
+  #moment::before { content:""; position:absolute; left:50%; top:42%; width:180vmax; height:180vmax; margin:-90vmax 0 0 -90vmax; pointer-events:none;
+    background:repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--mc) 30%, transparent) 0deg 6deg, transparent 6deg 20deg);
+    -webkit-mask-image:radial-gradient(circle, #000 0%, transparent 45%); mask-image:radial-gradient(circle, #000 0%, transparent 45%); }
+  #moment.vu::before { animation:j5-tourne 30s linear infinite; }
+  #moment::after { content:""; position:absolute; left:50%; top:42%; width:420px; height:420px; margin:-210px 0 0 -210px; border-radius:50%; pointer-events:none;
+    background:radial-gradient(circle, color-mix(in srgb, var(--mc) 55%, transparent), transparent 65%); }
+  .mo-e { position:relative; z-index:1; width:120px; height:120px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:62px;
+    background:radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--mc) 55%, #fff), var(--mc) 60%, color-mix(in srgb, var(--mc) 60%, #000)); box-shadow:0 0 60px var(--mc), inset 0 -6px 14px #0004; }
+  .mo-e i { position:absolute; inset:0; border-radius:50%; border:3px solid var(--mc); opacity:0; }
+  #moment.vu .mo-e { animation:pop-saute .7s cubic-bezier(.2,1.6,.4,1) both .1s; }
+  #moment.vu .mo-e i { animation:sp-onde 1.8s ease-out infinite; } #moment.vu .mo-e i:nth-child(2) { animation-delay:.6s; } #moment.vu .mo-e i:nth-child(3) { animation-delay:1.2s; }
+  .mo-t { position:relative; z-index:1; margin:22px 0 10px; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:min(72px, 18vw); line-height:.95; letter-spacing:2px; color:#fff; }
+  .mo-t b { font-weight:400; color:var(--mc); text-shadow:0 0 30px color-mix(in srgb, var(--mc) 70%, transparent); }
+  #moment.vu .mo-t { animation:at-lettre .6s cubic-bezier(.2,1.4,.4,1) both .3s; }
+  .mo-x { position:relative; z-index:1; max-width:330px; font-size:17px; line-height:1.45; color:#eee4de; margin:0 0 22px; }
+  #moment.vu .mo-x { animation:at-monte .5s .55s both; }
+  .mo-b { position:relative; z-index:1; display:flex; flex-direction:column; gap:8px; width:100%; max-width:320px; }
+  #moment.vu .mo-b { animation:at-monte .5s .7s both; }
+  .mo-q { position:relative; z-index:1; margin-top:14px; font-size:12px; color:#ffffff88; }
+  @media (prefers-reduced-motion: reduce) { #compteurs .pastille.pb-j5, body.jour-j #titre::after, .j5-rayons, .j5-ligne::after, #moment *, #moment::before, .confettis { animation:none !important; } .confettis { display:none; } }
 </style>
 </head>
 <body>
@@ -1637,6 +1722,7 @@
 <div id="popup"></div>
 <div id="bienvenue"></div>
 <div id="annonce-t"></div>
+<div id="moment" aria-live="assertive"></div>
 <div id="maint"></div>
 <div class="bandeau-maint" onclick="ouvrirMaintenance()"><span id="bm-e">🛠️</span> <span id="bm-txt">Maintenance activée · le public ne voit pas la carte</span></div>
 <div id="reseau" onclick="charger()"><span class="r-ic">📶</span><div><b id="rs-t"></b><span id="rs-s"></span></div></div>
@@ -1785,6 +1871,7 @@ function jouer(nom){
     else if (nom === 'blocus') { [0,.25,.5,.62,.74].forEach(function(t){ clap(t); }); [1.1,1.35,1.6,1.72,1.84].forEach(function(t){ clap(t); }); }
     else if (nom === 'sauvage') { for (var b=0;b<6;b++) kick(b*.14 + (b>2 ? .14 : 0)); note(880,.95,.12,'square',.07); note(1175,1.08,.22,'square',.07); }
     else if (nom === 'concert') { for (var b=0;b<4;b++) { kick(b*.32); note(b%2 ? 1568 : 1318, b*.32+.16, .08, 'square', .06); } note(523,1.3,.18,'triangle',.18); note(659,1.42,.18,'triangle',.18); note(784,1.54,.35,'triangle',.2); }
+    else if (nom === 'depart') { for (var k=0;k<9;k++) kick(k*.1 + (k>5 ? (k-5)*.03 : 0)); note(523,1.05,.3,'sawtooth',.09); note(659,1.05,.3,'sawtooth',.08); note(784,1.05,.55,'sawtooth',.08); note(1046,1.3,.7,'triangle',.16); }
     else if (nom === 'medic') { for (var j=0;j<3;j++) { note(1046,j*.42,.16,'triangle',.3); note(784,j*.42+.18,.18,'triangle',.3); } }
   } catch(e){}
 }
@@ -2178,7 +2265,7 @@ function appliquer(json){
   if (sonAJouer && !premierChargement) jouer(sonAJouer);
   premierChargement = false;
   nettoyerVus();
-  majTicker(); majBadges(); majCompteurs(); majHorloge(); majMaPosition();
+  majTicker(); majBadges(); majCompteurs(); majHorloge(); majMaPosition(); if (typeof verifierPhase === 'function') verifierPhase();
   var vue = $('feuille').dataset.vue;
   if (vue === 'infos') dessinerInfos(true);
   if (vue === 'medics') dessinerMedics(true);
@@ -2236,13 +2323,15 @@ function majCompteurs(){
     return '<span class="pastille pb pb-'+k+(alerte ? ' alerte' : '')+(saute ? ' bump' : '')+'" style="--pc:'+coul+'" onclick="'+f+'"><i class="pb-ic">'+e+'</i>'
       + (n !== '' ? '<b class="pb-n">'+n+'</b>' : '') + '<span class="pb-t">'+t+(s ? '<small>'+s+'</small>' : '')+'</span></span>';
   }
+  var j5 = typeof j5Pastille === 'function' ? j5Pastille() : null; if (j5) c.push(pb.apply(null, j5));
   if (cfg.phase && PHASES[cfg.phase]) c.push(pb('phase', PHASES[cfg.phase].c, PHASES[cfg.phase].e, '', PHASES[cfg.phase].nom, cfg.phase==='avant' && cfg.rdvHeure ? 'RDV '+esc(cfg.rdvHeure) : '', 'ouvrirInfos()'));
   if (police) c.push(pb('police', '#ff3b4e', '🚓', police, 'police', vehic ? vehic+' véh.' : '', 'ouvrirListe(\'police\')'));
   if (nasses) c.push(pb('nasse', '#ff3b4e', '🔒', nasses, 'nasse'+(nasses>1?'s':''), '', 'ouvrirListe(\'nasse\')', true));
   if (surs) c.push(pb('surs', '#16c784', '🚪', surs, 'sûr'+(surs>1?'s':''), '', 'ouvrirListe(\'sur\')'));
   if (medics) c.push(pb('medics', '#16c784', '⛑️', medics, 'medic'+(medics>1?'s':''), '', 'ouvrirAutour()'));
   if (attente) c.push(pb('blesses', '#ff3b4e', '🤕', attente, 'blessé'+(attente>1?'s':''), 'en attente', 'ouvrirMedics()', true));
-  var pe = pastilleEvt(); if (pe) c.push(pe);
+  var pe = pastilleEvt(), v0 = evtsVisibles()[0];
+  if (pe && !(j5 && v0 && v0.cat === 'manif' && Math.abs(v0.debut - J5.debut) < 86400000)) c.push(pe);
   if (filtre !== 'tout') c.push(pb('filtre', '#ff6a1f', '🔎', '', 'Filtre', filtre==='danger'?'à éviter':'sûr', 'ouvrirLegende()'));
   majCompteurs.avant = now;
   $('compteurs').innerHTML = c.join('');
@@ -4760,6 +4849,201 @@ setTimeout(cacherSplash, 5000);
 setTimeout(boucleChargement, (eco ? 45 : RAFRAICHIR_S) * 1000);
 setInterval(majHorloge, 5000);
 document.addEventListener('visibilitychange', function(){ if (!document.hidden) charger(); });
+// ===================== V42 : MANIF DU JEUDI 5 NOVEMBRE =====================
+// Compte à rebours, sac à préparer, affiche à partager, et les grands moments de la manif en plein écran.
+var J5 = { debut:Date.UTC(2026,10,5,9,30), fin:Date.UTC(2026,10,5,15,0), finJour:Date.UTC(2026,10,5,22,59), heure:'10h30',
+  depart:'Manufacture des Tabacs', departQ:'Lyon 3e', arrivee:'Place Bellecour', arriveeQ:'Lyon 2e' };
+function j5Etat(){ var n = maintenant(); return n > J5.finJour ? 'passe' : n >= J5.fin ? 'fini' : n >= J5.debut ? 'live' : 'avant'; }
+function j5JoursAvant(){ var a = new Date(maintenant()); a.setHours(0,0,0,0); var d = new Date(J5.debut); d.setHours(0,0,0,0); return Math.round((d - a) / 86400000); }
+function j5Jour(){ return j5JoursAvant() === 0; }
+function j5Pastille(){
+  var st = j5Etat(), en = LANGUE === 'en'; if (st === 'passe') return null;
+  if (st === 'live') return ['j5', '#ff6a1f', '✊', '', en ? 'March live' : 'Manif en cours', en ? '5 Nov' : '5 nov.', 'ouvrirJ5()', true];
+  if (st === 'fini') return ['j5', '#16c784', '❤️', '', en ? 'Thank you' : 'Merci à tous', en ? '5 Nov' : '5 nov.', 'ouvrirJ5()'];
+  var j = j5JoursAvant();
+  if (j <= 0) return ['j5', '#ff6a1f', '✊', '', en ? 'D-Day' : 'Jour J', (en ? 'in ' : 'dans ') + txtResteCourt(J5.debut - maintenant()), 'ouvrirJ5()'];
+  return ['j5', '#ff6a1f', '✊', 'J-' + j, en ? 'Strike & march' : 'Grève & manif', (en ? 'Thu ' : 'jeu. ') + J5.heure, 'ouvrirJ5()'];
+}
+function htmlCompteJ5(){
+  var en = LANGUE === 'en', st = j5Etat();
+  if (st === 'live') { var ms = maintenant() - J5.debut, h = Math.floor(ms / 3600000), m = Math.floor(ms % 3600000 / 60000);
+    return '<div class="j5-live"><i></i>'+(en ? 'LIVE · ' : 'EN COURS · ')+(h ? h + ' H ' + String(m).padStart(2,'0') : m + ' MIN')+'</div>'; }
+  if (st !== 'avant') return '<div class="j5-live">❤️ '+(en ? 'THANK YOU ALL' : 'MERCI À TOUS')+'</div>';
+  var s = Math.max(0, Math.floor((J5.debut - maintenant()) / 1000)), d = Math.floor(s / 86400), hh = Math.floor(s % 86400 / 3600), mm = Math.floor(s % 3600 / 60), ss = s % 60;
+  var b = function(v, l, tic){ return '<div'+(tic ? ' class="tic"' : '')+'><b>'+String(v).padStart(2,'0')+'</b><span>'+l+'</span></div>'; };
+  return b(d, en ? 'days' : 'jours') + b(hh, en ? 'hrs' : 'h') + b(mm, 'min') + b(ss, 's', true);
+}
+var SAC5 = [['💧','De l\'eau','une gourde'],['🧴','Sérum phy','pour les yeux'],['🔋','Tel chargé','+ batterie externe'],['🪪','Tes papiers','pièce d\'identité'],
+  ['✍️','Un numéro écrit','d\'un proche, sur papier'],['🥪','De quoi grignoter','la journée est longue'],['🧥','Habits confortables','et de quoi te couvrir'],['👥','Ton groupe','+ un point de RDV']];
+function sacJ5(){ var v = lireLS('sac5') || ''; return v ? v.split(',').map(Number) : []; }
+function htmlSacJ5(){
+  var ok = sacJ5(), n = ok.length;
+  return '<div class="j5-st">🎒 '+(LANGUE === 'en' ? 'Pack your bag' : 'Prépare ton sac')+' <span id="j5-sac-n">'+n+'/'+SAC5.length+'</span></div>'
+    + '<div class="j5-barre"><i style="width:'+Math.round(n / SAC5.length * 100)+'%"></i></div>'
+    + '<div class="j5-sac">' + SAC5.map(function(it, i){ return '<button class="j5-it'+(ok.indexOf(i) >= 0 ? ' ok' : '')+'" onclick="cocherSacJ5('+i+')"><span>'+it[0]+'</span><div><b>'+it[1]+'</b><small>'+it[2]+'</small></div></button>'; }).join('') + '</div>'
+    + (n === SAC5.length ? '<div class="j5-pret">✊ '+(LANGUE === 'en' ? 'READY!' : 'PRÊT·E !')+'</div>' : '');
+}
+function cocherSacJ5(i){
+  var ok = sacJ5(), k = ok.indexOf(i), avant = ok.length;
+  if (k >= 0) ok.splice(k, 1); else ok.push(i);
+  ecrireLS('sac5', ok.join(','));
+  var el = $('j5-sac'); if (el) el.innerHTML = htmlSacJ5();
+  if (ok.length === SAC5.length && avant < SAC5.length) { confettis(); try { jouer('ding'); } catch(e){} }
+  try { if (navigator.vibrate) navigator.vibrate(12); } catch(e){}
+}
+var j5Minuteur = null;
+function ouvrirJ5(){
+  var en = LANGUE === 'en';
+  var h = '<div class="j5"><button class="fermer j5-x" onclick="fermer()" aria-label="Fermer">'+ic('fermer')+'</button>'
+    + '<div class="j5-haut"><div class="j5-rayons"></div><div class="j5-k">✊ '+(en ? 'THURSDAY 5 NOVEMBER · LYON' : 'JEUDI 5 NOVEMBRE · LYON')+'</div>'
+    + '<h2 class="j5-t">'+(en ? 'STRIKE<br><b>& MARCH</b>' : 'GRÈVE<br><b>& MANIF</b>')+'</h2>'
+    + '<div class="j5-cd" id="j5-cd">'+htmlCompteJ5()+'</div>'
+    + (j5Etat() === 'avant' ? '<div class="j5-cd-l">'+(en ? 'before the start · intersyndicale' : 'avant le départ · intersyndicale')+'</div>' : '') + '</div>'
+    + '<div class="j5-corps">'
+    + '<div class="j5-bloc"><div class="j5-st">📍 '+(en ? 'The route' : 'Le parcours')+'</div><div class="j5-tl">'
+    + '<div class="j5-et"><span class="j5-pt"></span><div><b>'+J5.heure+' · '+(en ? 'Start' : 'Départ')+'</b><small>'+J5.depart+' · '+J5.departQ+'</small></div></div>'
+    + '<div class="j5-ligne"></div>'
+    + '<div class="j5-et"><span class="j5-pt arr"></span><div><b>'+(en ? 'Finish' : 'Arrivée')+'</b><small>'+J5.arrivee+' · '+J5.arriveeQ+'</small></div></div></div>'
+    + '<div class="j5-note">'+(en ? 'The route can change: on the day, follow the live map.' : 'Le parcours peut changer : le jour J, suis la carte en direct.')+'</div>'
+    + '<button class="btn plein" onclick="voirParcoursJ5()">🗺️ '+(en ? 'See it on the map' : 'Voir sur la carte')+'</button></div>'
+    + '<div class="j5-bloc" id="j5-sac">'+htmlSacJ5()+'</div>'
+    + '<div class="rangee"><button class="btn plein" onclick="agendaJ5()">📅 '+(en ? 'Calendar' : 'Agenda')+'</button><button class="btn rose plein" onclick="afficheJ5()">📸 '+(en ? 'My poster' : 'Mon affiche')+'</button></div>'
+    + '<div class="rangee"><button class="btn plein" onclick="ouvrirReflexes()">🛡️ '+(en ? 'Safety tips' : 'Les bons réflexes')+'</button></div>'
+    + (estAdmin() ? '<div class="rangee"><button class="btn plein" onclick="prep5Demande()">🛠️ Préparer la carte du 5 (admin)</button></div>' : '')
+    + '<div class="appels"><a href="tel:112">112<span>'+(en ? 'Emergency' : 'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div>'
+    + '</div></div>';
+  ouvrir(h, 'j5');
+  clearInterval(j5Minuteur);
+  j5Minuteur = setInterval(function(){
+    var f = $('feuille'); if (f.dataset.vue !== 'j5' || !f.classList.contains('ouverte')) { clearInterval(j5Minuteur); return; }
+    var c = $('j5-cd'); if (c) c.innerHTML = htmlCompteJ5();
+  }, 1000);
+}
+var j5Apercu = null;
+function voirParcoursJ5(){
+  fermer();
+  var c = MANIF5.trace.coords;
+  if (j5Apercu) carte.removeLayer(j5Apercu);
+  j5Apercu = L.layerGroup([
+    L.polyline(c, { color:'#09090b', weight:12, opacity:.6, lineCap:'round', lineJoin:'round', interactive:false }),
+    L.polyline(c, { color:'#ff6a1f', weight:6, dashArray:'2 12', lineCap:'round', lineJoin:'round', interactive:false, className:'j5-trait' }),
+    L.marker(c[0], { interactive:false, icon:L.divIcon({ className:'', iconSize:[20,20], iconAnchor:[10,10], html:'<span class="j5-pt" style="display:block"></span>' }) }),
+    L.marker(c[c.length-1], { interactive:false, icon:L.divIcon({ className:'', iconSize:[20,20], iconAnchor:[10,10], html:'<span class="j5-pt arr" style="display:block"></span>' }) })
+  ]).addTo(carte);
+  carte.fitBounds(L.latLngBounds(c), { padding:[70, 70] });
+  toast(LANGUE === 'en' ? 'Planned route (it can change on the day)' : 'Parcours prévu (il peut changer le jour J)');
+  setTimeout(function(){ if (j5Apercu) { carte.removeLayer(j5Apercu); j5Apercu = null; } }, 20000);
+}
+function agendaJ5(){
+  function f(ts){ return new Date(ts).toISOString().replace(/[-:]/g, '').replace(/\.\d+/, ''); }
+  var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Traboule//FR','BEGIN:VEVENT','UID:manif-5-novembre@traboule','DTSTAMP:'+f(Date.now()),
+    'DTSTART:'+f(J5.debut),'DTEND:'+f(J5.fin),'SUMMARY:Grève & manif · Lyon','LOCATION:'+J5.depart+' (Lyon 3e) → '+J5.arrivee,
+    'DESCRIPTION:Départ 10h30 de la Manufacture des Tabacs\\, arrivée place Bellecour. Carte en direct : '+(urlAppli||''),
+    'BEGIN:VALARM','TRIGGER:-PT1H','ACTION:DISPLAY','DESCRIPTION:Manif dans 1 h','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  var a = document.createElement('a'); a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics); a.download = 'manif-5-novembre.ics';
+  document.body.appendChild(a); a.click(); a.remove(); toast('Rappel 1 h avant inclus');
+}
+function confettis(){
+  var c = document.createElement('div'); c.className = 'confettis';
+  var cols = ['#ff6a1f','#ffb82e','#ffd27a','#16c784','#ffffff','#ff3b4e'], h = '';
+  for (var i = 0; i < 70; i++) h += '<i style="left:'+(Math.random()*100)+'%;background:'+cols[i % cols.length]+';--d:'+(1.8 + Math.random()*1.6).toFixed(2)+'s;--r:'+(Math.random()*.6).toFixed(2)+'s;--x:'+Math.round(Math.random()*160 - 80)+'px;--t:'+Math.round(Math.random()*900 - 450)+'deg"></i>';
+  c.innerHTML = h; document.body.appendChild(c); setTimeout(function(){ c.remove(); }, 4200);
+}
+// Affiche « Je serai là » (format story) pour faire tourner la manif
+function afficheJ5(){
+  toast('Création de ton affiche…');
+  var W = 1080, H = 1920, cv = document.createElement('canvas'); cv.width = W; cv.height = H; var x = cv.getContext('2d');
+  function img(svg, t){ return new Promise(function(ok){ var i = new Image(); i.onload = function(){ ok(i); }; i.onerror = function(){ ok(null); };
+    i.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="'+t+'" height="'+t+'" ')); }); }
+  var polices = (document.fonts && document.fonts.load) ? Promise.all([document.fonts.load('120px Anton'), document.fonts.load('800 40px Inter'), document.fonts.load('600 40px Inter')]).catch(function(){}) : Promise.resolve();
+  Promise.all([polices, img(logoTraboule('af'), 520), img(QR_SVG, 620)]).then(function(r){
+    var logo = r[1], qr = r[2], A = 'Anton, Impact, sans-serif';
+    var g = x.createRadialGradient(W/2, 560, 40, W/2, 640, 1250); g.addColorStop(0, '#5a1f0a'); g.addColorStop(.45, '#1f0c07'); g.addColorStop(1, '#0b0605');
+    x.fillStyle = g; x.fillRect(0, 0, W, H);
+    x.save(); x.translate(W/2, 520); x.globalAlpha = .07; x.fillStyle = '#ffb27a';
+    for (var k = 0; k < 24; k++) { x.rotate(Math.PI * 2 / 24); x.beginPath(); x.moveTo(0, 0); x.lineTo(-40, -1400); x.lineTo(40, -1400); x.closePath(); x.fill(); }
+    x.restore();
+    x.textAlign = 'center';
+    if (logo) { x.save(); x.shadowColor = '#ff6a1f'; x.shadowBlur = 60; x.drawImage(logo, W/2 - 130, 150, 260, 260); x.restore(); }
+    x.fillStyle = '#ffd0a8'; x.font = '400 54px ' + A; x.fillText('T R A B O U L E', W/2, 480);
+    x.fillStyle = '#fff'; x.font = '400 150px ' + A; x.fillText('JEUDI', W/2, 690);
+    var gr = x.createLinearGradient(140, 0, 940, 0); gr.addColorStop(0, '#ffb82e'); gr.addColorStop(.5, '#ff6a1f'); gr.addColorStop(1, '#ec2e1c');
+    x.save(); x.shadowColor = '#ff6a1f'; x.shadowBlur = 50; x.fillStyle = gr; x.font = '400 330px ' + A; x.fillText('5 NOV.', W/2, 1010); x.restore();
+    x.fillStyle = '#ffd0a8'; x.font = '800 66px Inter, sans-serif'; x.fillText('GRÈVE & MANIF', W/2, 1110);
+    x.fillStyle = 'rgba(0,0,0,.35)'; rond(x, 110, 1160, W - 220, 190, 40); x.fill();
+    x.strokeStyle = 'rgba(255,255,255,.18)'; x.lineWidth = 3; rond(x, 110, 1160, W - 220, 190, 40); x.stroke();
+    x.fillStyle = '#fff'; x.font = '400 92px ' + A; x.fillText('10H30', W/2, 1262);
+    x.fillStyle = '#e9d6cb'; x.font = '600 40px Inter, sans-serif'; x.fillText('Manufacture des Tabacs → Bellecour', W/2, 1322);
+    x.save(); x.shadowColor = '#ff6a1f'; x.shadowBlur = 40; x.fillStyle = '#fff'; x.font = '400 128px ' + A; x.fillText('JE SERAI LÀ ✊', W/2, 1505); x.restore();
+    x.fillStyle = '#fff'; rond(x, 110, 1580, 260, 260, 30); x.fill();
+    if (qr) x.drawImage(qr, 130, 1600, 220, 220);
+    x.textAlign = 'left'; x.fillStyle = '#fff'; x.font = '800 50px Inter, sans-serif'; x.fillText('La carte en direct', 410, 1680);
+    x.fillStyle = '#ffb27a'; x.font = '400 64px ' + A; x.fillText('TROUVE TA SORTIE', 410, 1760);
+    x.fillStyle = '#bfa99c'; x.font = '600 32px Inter, sans-serif'; x.fillText((urlAppli || '').replace(/^https:\/\//, '').replace(/\/$/, ''), 410, 1815);
+    cv.toBlob(function(b){ montrerAfficheJ5(b, URL.createObjectURL(b)); }, 'image/jpeg', .9);
+  });
+}
+function rond(x, a, b, w, h, r){ x.beginPath(); x.moveTo(a + r, b); x.arcTo(a + w, b, a + w, b + h, r); x.arcTo(a + w, b + h, a, b + h, r); x.arcTo(a, b + h, a, b, r); x.arcTo(a, b, a + w, b, r); x.closePath(); }
+var afficheBlob = null;
+function montrerAfficheJ5(blob, url){
+  afficheBlob = blob;
+  ouvrir(entete('📸 Ton affiche', 'À poster en story ou dans tes groupes pour faire venir du monde.')
+    + '<div class="j5-affiche"><img src="'+url+'" alt="Affiche Je serai là, jeudi 5 novembre"></div>'
+    + '<div class="rangee"><button class="btn plein" onclick="ouvrirJ5()">Retour</button><button class="btn rose plein" onclick="partagerAfficheJ5()">'+ic('partage')+'Partager</button></div>'
+    + '<div class="sous" style="margin-top:8px">Sur iPhone, tu peux aussi appuyer longtemps sur l\'image puis « Enregistrer dans Photos ».</div>', 'affiche');
+}
+function partagerAfficheJ5(){
+  var texte = 'Jeudi 5 novembre, 10h30 : grève & manif, de la Manufacture des Tabacs à Bellecour. Je serai là ✊ Carte en direct : ' + (urlAppli || '');
+  try {
+    var f = new File([afficheBlob], 'traboule-5-novembre.jpg', { type:'image/jpeg' });
+    if (navigator.canShare && navigator.canShare({ files:[f] })) { navigator.share({ files:[f], text:texte }).catch(function(){}); return; }
+  } catch(e){}
+  var a = document.createElement('a'); a.href = URL.createObjectURL(afficheBlob); a.download = 'traboule-5-novembre.jpg'; document.body.appendChild(a); a.click(); a.remove();
+  toast('Affiche enregistrée');
+}
+// Les grands moments : quand l'orga change l'état de la manif, tout le monde le voit en grand
+var MOMENTS = {
+  encours:    { e:'✊', c:'#ff6a1f', son:'depart', conf:true, t:'C\'EST<br><b>PARTI</b>', tEn:'HERE<br><b>WE GO</b>',
+                x:'Le cortège s\'élance. Reste avec ton groupe et garde la carte ouverte.', xEn:'The march is moving. Stay with your group and keep the map open.' },
+  pause:      { e:'⏸️', c:'#ffae3b', son:'message', t:'CORTÈGE<br><b>À L\'ARRÊT</b>', tEn:'MARCH<br><b>STOPPED</b>',
+                x:'Le cortège est arrêté. Reste groupé·e et attends les infos.', xEn:'The march has stopped. Stay together and wait for updates.' },
+  dispersion: { e:'🚪', c:'#ff3b4e', son:'alerte', t:'<b>DISPER-<br>SION</b>', tEn:'<b>DISPER-<br>SAL</b>',
+                x:'Reste groupé·e et ne traîne pas. Les sorties sûres sont en vert sur la carte.', xEn:'Stay together, don\'t hang around. Safe exits are green on the map.',
+                b:['🧭 Sortie sûre la plus proche', '🧭 Nearest safe exit', 'ouvrirAutour()'] },
+  fin:        { e:'❤️', c:'#16c784', son:'concert', conf:true, t:'MERCI<br><b>À TOUS</b>', tEn:'THANK<br><b>YOU ALL</b>',
+                x:'La manif est terminée. Rentre en groupe et préviens tes proches en arrivant.', xEn:'The march is over. Go home in a group and text your loved ones when you\'re back.' }
+};
+function verifierPhase(){
+  var cfg = etat.config || {}, ph = cfg.phase; if (!ph || !PHASES[ph]) return;
+  var vu = lireLS('phaseVue42'); if (vu === ph) return;
+  ecrireLS('phaseVue42', ph);
+  if (!vu || !MOMENTS[ph] || !cfg.ts || maintenant() - cfg.ts > 20*60000) return;
+  (function att(n){
+    var pret = $('splash').style.display === 'none' && !$('maint').classList.contains('vu') && !$('bienvenue').classList.contains('vu');
+    if (!pret && n < 60) return setTimeout(function(){ att(n + 1); }, 500);
+    montrerMoment(ph);
+  })(0);
+}
+function montrerMoment(k){
+  var M = MOMENTS[k], el = $('moment'), en = LANGUE === 'en'; if (!M || !el) return;
+  el.style.setProperty('--mc', M.c);
+  el.innerHTML = '<div class="mo-e"><i></i><i></i><i></i>'+M.e+'</div><h1 class="mo-t">'+(en ? M.tEn : M.t)+'</h1><p class="mo-x">'+(en ? M.xEn : M.x)+'</p>'
+    + '<div class="mo-b">'+(M.b ? '<button class="btn rose plein" onclick="fermerMoment();'+M.b[2]+'">'+(en ? M.b[1] : M.b[0])+'</button>' : '')
+    + '<button class="btn plein" onclick="fermerMoment()">OK</button></div><div class="mo-q">Traboule · '+heure(maintenant())+'</div>';
+  el.onclick = function(ev){ if (ev.target === el) fermerMoment(); };
+  requestAnimationFrame(function(){ el.classList.add('vu'); });
+  try { jouer(M.son); } catch(e){}
+  try { if (navigator.vibrate) navigator.vibrate(k === 'dispersion' ? [300,120,300] : [120,60,120]); } catch(e){}
+  if (M.conf) setTimeout(confettis, 350);
+  clearTimeout(montrerMoment.t); montrerMoment.t = setTimeout(fermerMoment, k === 'dispersion' ? 12000 : 8000);
+}
+function fermerMoment(){ var el = $('moment'); if (el) el.classList.remove('vu'); }
+// Le jour J : écran d'accueil et en-tête aux couleurs de la manif
+(function(){
+  if (!j5Jour()) return;
+  document.body.classList.add('jour-j');
+  var d = $('sp-date'); if (d) d.textContent = '✊ Jour J · Grève & manif · ' + J5.heure;
+})();
 // ===================== V39 : ÉQUIPE & CODES PERSO =====================
 // Chaque membre a son propre code (créé ici, montré une seule fois). Le serveur ne garde qu'une empreinte du code.
 var equipe = { liste:null, code:null, role:'medic', sur:null };
