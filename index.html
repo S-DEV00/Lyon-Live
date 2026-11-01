@@ -664,7 +664,7 @@
   .evt-ligne .el-e { flex:none; font-size:26px; align-self:center; }
   .evt-ligne.live { border-color:#ff3b4e88; } .evt-ligne.passe { opacity:.5; }
   .evt-ligne .el-live { color:#ff6b78; font-weight:900; }
-  .evt-cats { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+  .evt-cats { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
   .evt-cats button { background:var(--s2); border:2px solid transparent; border-radius:14px; padding:9px 4px; font-size:12px; font-weight:700; color:#ddd; display:flex; flex-direction:column; align-items:center; gap:3px; }
   .evt-cats button span { font-size:22px; }
   .evt-cats button.sel { border-color:var(--ec); background:color-mix(in srgb, var(--ec) 18%, #1b1b21); color:#fff; }
@@ -755,6 +755,46 @@
   .evt-ligne.concert .el-t b { background:var(--neon); background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:cc-fond 3s linear infinite; }
   .pastille.evt-chip.concert { border-color:#ff2bd6 !important; box-shadow:0 0 14px #ff2bd666; }
   .pastille.evt-chip.concert b { background:var(--neon); background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:cc-fond 2s linear infinite; }
+
+  /* ================= v19 : blocus qui envoient ================= */
+  @keyframes bl-bande { to { background-position:40px 0; } }
+  @keyframes bl-gyro { to { transform:rotate(360deg); } }
+  @keyframes bl-secoue { 0%,100% { transform:rotate(0); } 20% { transform:rotate(-6deg); } 40% { transform:rotate(5deg); } 60% { transform:rotate(-3deg); } 80% { transform:rotate(2deg); } }
+  @keyframes bl-defile { to { transform:translateX(-50%); } }
+  @keyframes bl-clignote { 0%,49% { opacity:1; } 50%,100% { opacity:.25; } }
+  :root { --rayures:repeating-linear-gradient(-45deg,#ffd23f 0 10px,#111 10px 20px); }
+  .evt-pin.blocus { width:52px; height:60px; }
+  .evt-pin.blocus .ep-c { width:52px; height:52px; border:0; background:#141006; overflow:visible; box-shadow:0 0 0 2px #fff, 0 0 22px #ff9f1caa; }
+  .evt-pin.blocus .ep-c::before { content:""; position:absolute; inset:-4px; border-radius:17px; padding:4px; background:var(--rayures); background-size:28px 28px; animation:bl-bande .8s linear infinite;
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; }
+  .evt-pin.blocus .ep-m { background:#ffd23f; color:#000; border-radius:12px 12px 0 0; }
+  .evt-pin.blocus .ep-e { animation:bl-secoue 1.2s ease-in-out infinite; display:inline-block; font-size:22px; }
+  .evt-pin.blocus::after { left:20px; top:49px; border-top-color:#ffd23f; }
+  .bl-gyro { position:absolute; left:50%; top:-15px; width:16px; height:10px; margin-left:-8px; border-radius:8px 8px 2px 2px; background:#ff7a00; box-shadow:0 0 10px #ff7a00, 0 0 22px #ff7a00; z-index:2; }
+  .bl-gyro::after { content:""; position:absolute; left:50%; top:50%; width:90px; height:90px; margin:-45px 0 0 -45px; border-radius:50%;
+    background:conic-gradient(from 0deg, transparent 0 300deg, #ffae3b88 330deg, transparent 360deg); animation:bl-gyro 1s linear infinite; pointer-events:none; }
+  .evt-pin.blocus .evt-etiq { left:58px; color:#ffd23f; }
+  .evt-hero.blocus { background:#0f0c04; border:0; padding:42px 18px 46px; box-shadow:0 0 0 2px #ffd23f, 0 0 40px #ff9f1c44; }
+  .evt-hero.blocus::before { inset:0; width:auto; height:auto; border-radius:0; background:radial-gradient(circle at 50% 30%, #ffae3b33, transparent 60%); }
+  .bl-ruban { position:absolute; left:-10px; right:-10px; height:26px; background:#ffd23f; overflow:hidden; display:flex; align-items:center; box-shadow:0 3px 10px #0008; z-index:1; }
+  .bl-ruban.haut { top:8px; transform:rotate(-2deg); } .bl-ruban.bas { bottom:8px; transform:rotate(1.5deg); }
+  .bl-ruban div { display:flex; white-space:nowrap; animation:bl-defile 9s linear infinite; }
+  .bl-ruban.bas div { animation-direction:reverse; }
+  .bl-ruban span { font-family:Anton,Impact,sans-serif; font-size:15px; letter-spacing:1.5px; color:#000; padding:0 10px; }
+  .bl-ruban span i { font-style:normal; display:inline-block; width:34px; height:14px; margin-left:16px; vertical-align:-2px; background:repeating-linear-gradient(-45deg,#000 0 6px,transparent 6px 12px); }
+  .bl-faisceau { position:absolute; width:220px; height:220px; border-radius:50%; background:conic-gradient(from 0deg, transparent 0 290deg, #ff9f1c66 330deg, transparent 360deg); animation:bl-gyro 1.2s linear infinite; pointer-events:none; }
+  .bl-faisceau.g { left:-90px; top:20%; } .bl-faisceau.d { right:-90px; top:35%; animation-duration:.9s; animation-direction:reverse; }
+  .evt-hero.blocus .eh-e { animation:bl-secoue 1.2s ease-in-out infinite; display:inline-block; filter:drop-shadow(0 0 14px #ff9f1c); }
+  .evt-hero.blocus h3 { font-size:42px; color:#ffd23f; -webkit-text-stroke:1px #000; text-shadow:3px 3px 0 #000, 0 0 24px #ff9f1c88; }
+  .evt-hero.blocus .evt-cat { background:var(--rayures); color:#fff; text-shadow:0 0 3px #000, 0 0 3px #000; animation:bl-bande .8s linear infinite; background-size:28px 28px; }
+  .evt-hero.blocus .evt-etat.live { background:#ff3b4e; }
+  .evt-hero.blocus .evt-infos > div, .evt-hero.blocus .evt-compte div { background:#ffd23f14; border:1px solid #ffd23f33; }
+  .evt-hero.blocus .evt-compte b { color:#ffd23f; }
+  .evt-ligne.blocus { background:#16130a; border-color:#ffd23f55; }
+  .evt-ligne.blocus::before { width:6px; background:var(--rayures); background-size:14px 14px; animation:bl-bande .8s linear infinite; }
+  .evt-ligne.blocus .el-t b { color:#ffd23f; }
+  .pastille.evt-chip.blocus { border-color:#ffd23f !important; box-shadow:0 0 12px #ffd23f55; }
+  .pastille.evt-chip.blocus b { color:#ffd23f; animation:bl-clignote 1s steps(1) infinite; }
 </style>
 </head>
 <body>
@@ -928,6 +968,10 @@ function note(f, debut, duree, type, vol){
   g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || .25, t + .015); g.gain.exponentialRampToValueAtTime(0.0001, t + duree);
   o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + duree + .05);
 }
+function clap(debut){ var c = son.ctx, t = c.currentTime + debut, n = c.sampleRate * .12, buf = c.createBuffer(1, n, c.sampleRate), d = buf.getChannelData(0);
+  for (var i = 0; i < n; i++) d[i] = (Math.random()*2-1) * Math.pow(1 - i/n, 3);
+  var src = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain(); src.buffer = buf; f.type = 'bandpass'; f.frequency.value = 1400; f.Q.value = .8;
+  g.gain.value = .9; src.connect(f); f.connect(g); g.connect(c.destination); src.start(t); }
 function kick(debut){ var c = son.ctx, t = c.currentTime + debut, o = c.createOscillator(), g = c.createGain();
   o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(42, t + .22);
   g.gain.setValueAtTime(.9, t); g.gain.exponentialRampToValueAtTime(.001, t + .3); o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + .32); }
@@ -938,6 +982,7 @@ function jouer(nom){
     if (nom === 'ding') { note(880,0,.18); note(1320,.12,.32); }
     else if (nom === 'message') { note(660,0,.14); note(990,.1,.14); note(1320,.2,.3); }
     else if (nom === 'alerte') { for (var i=0;i<6;i++) note(i%2 ? 740 : 988, i*.28, .26, 'square', .18); }
+    else if (nom === 'blocus') { [0,.25,.5,.62,.74].forEach(function(t){ clap(t); }); [1.1,1.35,1.6,1.72,1.84].forEach(function(t){ clap(t); }); }
     else if (nom === 'concert') { for (var b=0;b<4;b++) { kick(b*.32); note(b%2 ? 1568 : 1318, b*.32+.16, .08, 'square', .06); } note(523,1.3,.18,'triangle',.18); note(659,1.42,.18,'triangle',.18); note(784,1.54,.35,'triangle',.2); }
     else if (nom === 'medic') { for (var j=0;j<3;j++) { note(1046,j*.42,.16,'triangle',.3); note(784,j*.42+.18,.18,'triangle',.3); } }
   } catch(e){}
@@ -2507,7 +2552,7 @@ function ouvrirEcole(i){
   ouvrir(h, 'ecole');
 }
 function evtDepuisEcole(i){ var e = ECOLES[i]; var d = new Date(Date.now()+86400000);
-  brouillonEvt = { id:null, cat:'action', emoji:'', titre:'Blocus ' + nomCourt(e.n).replace(/^Lycée /,''), jour:isoJour(d), hDebut:'07:30', hFin:'', lieu:nomCourt(e.n), texte:'', lat:e.c[0], lng:e.c[1] };
+  brouillonEvt = { id:null, cat:'blocus', emoji:'', titre:'Blocus ' + nomCourt(e.n).replace(/^Lycée /,''), jour:isoJour(d), hDebut:'07:30', hFin:'', lieu:nomCourt(e.n), texte:'', lat:e.c[0], lng:e.c[1] };
   formulaireEvt(); }
 setTimeout(chargerEcoles, 1500);
 
@@ -2515,6 +2560,7 @@ setTimeout(chargerEcoles, 1500);
 // Stockés dans la config du serveur (champ "evenements", texte JSON). Pas d'expiration ni de confirmation :
 // un événement reste jusqu'à sa fin, puis disparaît tout seul.
 var CATS_EVT = {
+  blocus:  { nom:'Blocus',         e:'🚧', c:'#ffd23f' },
   manif:   { nom:'Manif',          e:'✊', c:'#ff5caa' },
   rassemb: { nom:'Rassemblement',  e:'📣', c:'#ff9f1c' },
   ag:      { nom:'AG / réunion',   e:'🗣️', c:'#4f7cff' },
@@ -2541,8 +2587,10 @@ function compteEvt(v){
 }
 function iconeEvt(v){
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, d = new Date(v.debut), live = etatEvt(v) === 'live';
-  return L.divIcon({ className:'', iconSize: v.cat === 'fete' ? [52,58] : [46,52], iconAnchor: v.cat === 'fete' ? [26,60] : [23,54],
-    html: v.cat === 'fete'
+  return L.divIcon({ className:'', iconSize: (v.cat === 'fete' || v.cat === 'blocus') ? [52,58] : [46,52], iconAnchor: (v.cat === 'fete' || v.cat === 'blocus') ? [26,60] : [23,54],
+    html: v.cat === 'blocus'
+      ? '<div class="evt-pin blocus'+(live?' live':'')+'" style="--ec:'+C.c+'"><div class="ep-c"><span class="bl-gyro"></span><div class="ep-m">'+(live ? '● bloqué' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div></div><div class="evt-etiq">'+esc(v.titre)+'</div></div>'
+      : v.cat === 'fete'
       ? '<div class="evt-pin concert'+(live?' live':'')+'" style="--ec:'+C.c+'"><div class="cc-notes"><b>♪</b><b>♫</b><b>♪</b></div><div class="ep-c"><div class="ep-m">'+(live ? '● live' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div><div class="cc-eq"><i></i><i></i><i></i><i></i><i></i></div></div>'
       : '<div class="evt-pin'+(live?' live':'')+'" style="--ec:'+C.c+'"><div class="ep-c"><div class="ep-m">'+(live ? 'live' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div></div>'
       + '<div class="evt-etiq">'+esc(v.titre)+'</div></div>' });
@@ -2564,11 +2612,11 @@ function pastilleEvt(){
   var l = evtsVisibles(); if (!l.length) return '';
   var v = l[0], C = CATS_EVT[v.cat] || CATS_EVT.autre, live = etatEvt(v) === 'live';
   if (!live && v.debut - maintenant() > 7*86400000) return '';
-  return '<span class="pastille verre evt-chip'+(v.cat==='fete'?' concert':'')+'" style="--ec:'+C.c+'" onclick="ouvrirEvt(\''+v.id+'\')">'+esc(v.emoji||C.e)+' <b>'+(live ? 'EN COURS' : (jourEvt(v.debut) === 'Aujourd\'hui' ? (v.journee ? 'auj.' : heure(v.debut)) : JOURS_C[new Date(v.debut).getDay()] + ' ' + (v.journee ? new Date(v.debut).getDate()+'/'+(new Date(v.debut).getMonth()+1) : heure(v.debut))))+'</b> '+esc(v.titre.length > 22 ? v.titre.slice(0,21)+'…' : v.titre)+(l.length > 1 ? ' <span style="opacity:.6">+'+(l.length-1)+'</span>' : '')+'</span>';
+  return '<span class="pastille verre evt-chip'+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':'')+'" style="--ec:'+C.c+'" onclick="ouvrirEvt(\''+v.id+'\')">'+esc(v.emoji||C.e)+' <b>'+(live ? 'EN COURS' : (jourEvt(v.debut) === 'Aujourd\'hui' ? (v.journee ? 'auj.' : heure(v.debut)) : JOURS_C[new Date(v.debut).getDay()] + ' ' + (v.journee ? new Date(v.debut).getDate()+'/'+(new Date(v.debut).getMonth()+1) : heure(v.debut))))+'</b> '+esc(v.titre.length > 22 ? v.titre.slice(0,21)+'…' : v.titre)+(l.length > 1 ? ' <span style="opacity:.6">+'+(l.length-1)+'</span>' : '')+'</span>';
 }
 function ligneEvt(v, admin){
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, d = new Date(v.debut), st = etatEvt(v);
-  return '<button class="evt-ligne '+st+(v.cat==='fete'?' concert':'')+'" style="--ec:'+C.c+'" onclick="'+(admin ? 'editerEvt' : 'ouvrirEvt')+'(\''+v.id+'\')">'
+  return '<button class="evt-ligne '+st+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':'')+'" style="--ec:'+C.c+'" onclick="'+(admin ? 'editerEvt' : 'ouvrirEvt')+'(\''+v.id+'\')">'
     + '<div class="el-d"><span>'+JOURS_C[d.getDay()]+'</span><b>'+d.getDate()+'</b><span>'+MOIS_C[d.getMonth()]+'</span></div>'
     + '<div class="el-t"><b>'+esc(v.titre)+'</b><small>'+(st==='live' ? '<span class="el-live">● En cours</span> · ' : '')+heuresEvt(v)+(v.lieu ? ' · '+esc(v.lieu) : '')+'</small></div>'
     + '<div class="el-e">'+(admin ? '✏️' : esc(v.emoji||C.e))+'</div></button>';
@@ -2592,7 +2640,7 @@ function ouvrirEvt(id){
   var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, st = etatEvt(v);
   var h = '<div class="entete-f" style="margin-bottom:6px"><div></div><button class="fermer" onclick="fermer()" aria-label="Fermer">'+ic('fermer')+'</button></div>'
-    + '<div class="evt-hero'+(v.cat==='fete'?' concert':'')+'" style="--ec:'+C.c+'">'+(v.cat==='fete' ? decorConcert() : '')+'<div class="eh-top"><span class="evt-cat">'+C.nom+'</span><span class="evt-etat'+(st==='live'?' live':'')+'">'+(st==='live' ? '● EN COURS' : st==='passe' ? 'TERMINÉ' : 'À VENIR')+'</span></div>'
+    + '<div class="evt-hero'+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':'')+'" style="--ec:'+C.c+'">'+(v.cat==='fete' ? decorConcert() : v.cat==='blocus' ? decorBlocus() : '')+'<div class="eh-top"><span class="evt-cat">'+C.nom+'</span><span class="evt-etat'+(st==='live'?' live':'')+'">'+(st==='live' ? '● EN COURS' : st==='passe' ? 'TERMINÉ' : 'À VENIR')+'</span></div>'
     + '<div class="eh-e">'+esc(v.emoji||C.e)+'</div><h3>'+esc(v.titre)+'</h3>'
     + '<div class="evt-infos"><div><span>📅</span><div>'+jourEvt(v.debut)+'<small>'+heuresEvt(v)+'</small></div></div>'
     + (v.lieu ? '<div><span>📍</span><div>'+esc(v.lieu)+'</div></div>' : '') + '</div>'
@@ -2605,11 +2653,16 @@ function ouvrirEvt(id){
     + '</div><div class="rangee"><button class="btn rose plein" onclick="partagerEvt(\''+v.id+'\')">'+ic('partage')+'Partager l\'événement</button></div>'
     + (estAdmin() ? '<div class="rangee"><button class="btn plein" onclick="editerEvt(\''+v.id+'\')">✏️ Modifier</button></div>' : '');
   ouvrir(h, 'evt');
-  if (v.cat === 'fete') jouer('concert');
+  if (v.cat === 'fete') jouer('concert'); else if (v.cat === 'blocus') jouer('blocus');
   clearInterval(evtMinuteur);
   if (st === 'avenir') evtMinuteur = setInterval(function(){ var el = $('evt-compte'); if (!el || $('feuille').dataset.vue !== 'evt') return clearInterval(evtMinuteur); el.innerHTML = htmlCompte(v); }, 1000);
 }
 
+
+function decorBlocus(){
+  var t = ''; for (var k = 0; k < 8; k++) t += '<span>ON BLOQUE TOUT<i></i></span>';
+  return '<div class="bl-faisceau g"></div><div class="bl-faisceau d"></div><div class="bl-ruban haut"><div>'+t+t+'</div></div><div class="bl-ruban bas"><div>'+t+t+'</div></div>';
+}
 function decorConcert(){
   var cols = ['#ff2bd6','#00e0ff','#ffe600','#39ff88','#7a5cff'], c = '';
   for (var k = 0; k < 22; k++) c += '<b style="left:'+((k*47)%100)+'%;background:'+cols[k%5]+';animation-duration:'+(2.2+(k%5)*.5)+'s;animation-delay:-'+((k*7)%30/10)+'s"></b>';
