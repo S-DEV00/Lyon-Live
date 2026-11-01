@@ -1517,6 +1517,10 @@
   .eq-t small i { font-style:normal; color:#3ee0a0; }
   .eq-m .btn.petit { padding:8px 10px; flex:none; }
   .eq-m .btn.sur { background:#5c1420; border-color:#ff3b4e; color:#fff; }
+
+  /* v40 : se connecter depuis l'écran de maintenance */
+  #maint .m-equipe { margin-top:16px; padding:9px 16px; border-radius:20px; background:#ffffff0d; border:1px solid #ffffff1a; color:#bdb3ad; font-size:13px; font-weight:700; }
+  #maint .m-equipe:active { background:#ffffff1a; }
 </style>
 </head>
 <body>
@@ -3381,6 +3385,7 @@ function htmlMaint(o){
                    : '<button class="btn plein m-retry" onclick="maintReessayer(this)">↻ '+(en?'Check now':'Vérifier maintenant')+'</button>')
     + '<button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(en?'Safety tips':'Les bons réflexes')+'</button>'
     + '<div class="appels" style="margin:0"><a href="tel:112">112<span>'+(en?'Emergency':'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div></div>'
+    + '<button class="m-equipe" onclick="ouvrirConnexion()">🔑 '+(en ? 'Team access' : 'Accès équipe')+'</button>'
     + '<small class="m-signe">'+logoTraboule('ms')+'Traboule</small></div>';
   return h;
 }
@@ -3455,7 +3460,8 @@ function majMaintenance(){
     if ($('bienvenue').classList.contains('vu')) $('bienvenue').classList.remove('vu');
   } else if (el.classList.contains('vu')) { el.classList.remove('vu'); el.dataset.h = ''; document.body.classList.remove('maint-vu');
     maintVu = 0; ecrireLS('maintVu', '');
-    toast(en ? '✅ The map is back!' : '✅ La carte est de retour !'); try { jouer('message'); } catch(e){}
+    if (estEquipe() && M.ecran) toast('🛠️ Maintenance toujours active pour le public · touche le bandeau en bas pour la couper');
+    else { toast(en ? '✅ The map is back!' : '✅ La carte est de retour !'); try { jouer('message'); } catch(e){} }
     if (!lireLS('bienvenue9') && !estEquipe()) setTimeout(montrerBienvenue, 300); }
   else if (o.k === 'aucune' && lireLS('maintVu')) ecrireLS('maintVu', '');
   if (o.k === 'aucune' && lireLS('maintIgnore')) ecrireLS('maintIgnore', '');
