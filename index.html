@@ -1670,6 +1670,7 @@
   .bs-it .btn.petit { padding:8px 10px; flex:none; }
   .bs-res button { display:flex; align-items:center; gap:8px; width:100%; text-align:left; padding:10px 12px; margin-top:6px; border-radius:12px; background:var(--s1); border:1px dashed #ffd23f66; color:var(--txt); font-size:14px; }
   .bs-res button b { color:#ffd23f; }
+  .bs-nv { font-style:normal; font-size:9.5px; font-weight:900; letter-spacing:.6px; padding:2px 6px; border-radius:6px; background:#ffd23f; color:#1a1408; vertical-align:2px; margin-left:4px; }
 </style>
 </head>
 <body>
@@ -4924,20 +4925,30 @@ setInterval(majHorloge, 5000);
 document.addEventListener('visibilitychange', function(){ if (!document.hidden) charger(); });
 // ===================== V43 : BLOCUS EN SÉRIE =====================
 // Plusieurs lycées d'un coup, même jour, même heure. Liste préparée pour lundi 2 novembre (à compléter).
-var BLOCUS_PRET = { jour:'2026-11-02', hDebut:'07:30', hFin:'', noms:['Lycée général et technologique Édouard Herriot','Lycée Juliette Récamier','Lycée Docteur Charles Mérieux',
+var BLOCUS_PRET = { v:2, jour:'2026-11-02', hDebut:'07:30', hFin:'', noms:['Lycée général et technologique Édouard Herriot','Lycée Juliette Récamier','Lycée Docteur Charles Mérieux',
   'Lycée Pierre Brossolette','Lycée Jean Perrin','Cité Scolaire Parc Chabrières','Lycée Ampère','Cité scolaire Antoine de Saint-Exupéry',
-  'Lycée La Martinière Diderot - Site Diderot','Lycée de Saint-Just','Lycée général et technologique Marcel Sembat'] };
+  'Lycée La Martinière Diderot - Site Diderot','Lycée de Saint-Just','Lycée général et technologique Marcel Sembat',
+  // ajoutés avec la 2e liste (1/11 au soir)
+  'Lycée général et technologique Jean-Paul Sartre','Cité Scolaire Internationale de Lyon','Lycée Auguste et Louis Lumière','Cité scolaire Lacassagne',
+  'Lycée Edouard Branly','Lycée Polyvalent Jacques Brel','Lycée général et technologique Frédéric Faÿs'] };
+BLOCUS_PRET.nouveaux = BLOCUS_PRET.noms.slice(11);
 var bs = null;
 function bsCharger(){
   try { bs = JSON.parse(lireLS('blocusSerie') || 'null'); } catch(e){ bs = null; }
   if (!bs) bs = JSON.parse(JSON.stringify(BLOCUS_PRET));
+  // nouvelle version de la liste préparée : on ajoute ce qui manque sans rien retirer
+  if ((bs.v || 1) < BLOCUS_PRET.v && bs.jour === BLOCUS_PRET.jour) {
+    BLOCUS_PRET.noms.forEach(function(n){ if (bs.noms.indexOf(n) < 0) bs.noms.push(n); });
+    bs.v = BLOCUS_PRET.v; bsSauver();
+  }
 }
 function bsSauver(){ ecrireLS('blocusSerie', JSON.stringify(bs)); }
 function bsNorm(t){ return String(t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
 function bsEcole(nom){ return (ECOLES || []).filter(function(e){ return e.n === nom; })[0]; }
 // Nom complet sans « général et technologique » (lieu) et nom court comme on le dit (titre : « Blocus Herriot »)
 function bsLieu(n){ return n.replace(/^Lycée (général|professionnel|polyvalent|technologique|des métiers)( (et|privé) (technologique|général))?( privé)?\s*/i, 'Lycée ').replace(/^Cité Scolaire /, 'Cité scolaire ').replace(/ - Site /, ' · ').slice(0, 60); }
-function bsCourt(n){ return bsLieu(n).replace(/^Lycée (de |du |des )?/i, '').replace(/^Cité scolaire /i, '').replace(/^Docteur /, '').replace(/^Antoine de /, '').replace(/^La Martinière Diderot · Diderot$/, 'Martinière Diderot').replace(/^(Édouard|Juliette|Pierre|Marcel) /, ''); }
+function bsCourt(n){ return bsLieu(n).replace(/^Lycée (de |du |des )?/i, '').replace(/^Cité scolaire /i, '').replace(/^Docteur /, '').replace(/^Antoine de /, '').replace(/^La Martinière Diderot · Diderot$/, 'Martinière Diderot').replace(/^(Édouard|Edouard|Juliette|Pierre|Marcel|Frédéric) /, '')
+    .replace(/^Internationale de Lyon$/, 'CSI (Cité internationale)').replace(/^Auguste et Louis Lumière$/, 'Lumière'); }
 function bsTitre(e){ return 'Blocus ' + bsCourt(e.n); }
 function bsDeja(e){ return evenements().some(function(v){ return v.cat === 'blocus' && isoJour(v.debut) === bs.jour && v.lat !== undefined && distance([v.lat, v.lng], e.c) < 80; }); }
 function ouvrirBlocusSerie(){
@@ -4955,7 +4966,7 @@ function dessinerBlocusSerie(){
     + '<label>Fin<input type="time" id="bs-h2" value="'+esc(bs.hFin)+'" onchange="bsLire()" placeholder="—"></label></div>'
     + '<label class="l">'+jourTxt+' · '+items.length+' lycée'+(items.length > 1 ? 's' : '')+'</label>'
     + items.map(function(e){ var d = bsDeja(e);
-        return '<div class="bs-it'+(d ? ' deja' : '')+'"><span>🚧</span><div><b>'+esc(bsCourt(e.n))+'</b><small>'+(d ? '✓ déjà sur la carte' : esc(bsLieu(e.n)))+'</small></div>'
+        return '<div class="bs-it'+(d ? ' deja' : '')+'"><span>🚧</span><div><b>'+esc(bsCourt(e.n))+(!d && (BLOCUS_PRET.nouveaux || []).indexOf(e.n) >= 0 ? ' <em class="bs-nv">NOUVEAU</em>' : '')+'</b><small>'+(d ? '✓ déjà sur la carte' : esc(bsLieu(e.n)))+'</small></div>'
           + '<button class="btn petit" onclick="bsRetirer(\''+esc(e.n).replace(/'/g, '&#39;')+'\')" aria-label="Retirer">✕</button></div>'; }).join('')
     + '<label class="l">Ajouter un lycée</label><input id="bs-cherche" placeholder="ex : Lumière, Saxe, Branly…" oninput="bsChercher()" autocomplete="off"><div class="bs-res" id="bs-res"></div>'
     + '<div class="rangee"><button class="btn plein" onclick="gererEvenements()">Retour</button>'
@@ -4987,15 +4998,15 @@ function bsPublier(){
 }
 // Les admins voient la liste préparée dès qu'ils ouvrent l'appli (une fois), jusqu'au jour du blocus à midi
 (function(){
-  if (lireLS('bs2-propose')) return;
+  if (lireLS('bs2-propose-v' + BLOCUS_PRET.v)) return;
   var n = 0;
   (function att(){
     if (++n > 120 || Date.now() > new Date(BLOCUS_PRET.jour + 'T12:00').getTime()) return;
     var occupe = $('splash').style.display !== 'none' || !etat.derniereMaj || !ECOLES || $('feuille').classList.contains('ouverte')
       || $('annonce-t').classList.contains('vu') || $('moment').classList.contains('vu') || $('popup').classList.contains('vu');
     if (!estAdmin() || occupe) return setTimeout(att, 700);
-    ecrireLS('bs2-propose', '1'); ouvrirBlocusSerie();
-    setTimeout(function(){ toast('🚧 Blocus de lundi prêts : vérifie et publie'); }, 600);
+    ecrireLS('bs2-propose-v' + BLOCUS_PRET.v, '1'); ouvrirBlocusSerie();
+    setTimeout(function(){ toast('🚧 ' + BLOCUS_PRET.nouveaux.length + ' lycées ajoutés pour lundi : vérifie et publie'); }, 600);
   })();
 })();
 // ===================== V42 : MANIF DU JEUDI 5 NOVEMBRE =====================
