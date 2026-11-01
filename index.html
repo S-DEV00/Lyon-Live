@@ -25,9 +25,11 @@
 <link rel="manifest" href="manifest.json">
 <script src="config.js"></script>
 <link rel="stylesheet" href="leaflet.css">
-<script src="leaflet.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- polices chargées sans bloquer l'affichage : si le réseau rame (manif), l'appli s'ouvre quand même tout de suite -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap"></noscript>
 <style>
   :root {
     --rose:#ff6a1f; --rose2:#ffa064; --noir:#09090b; --s1:#121216; --s2:#1b1b21; --s3:#26262e; --ligne:#2e2e38;
@@ -1762,8 +1764,30 @@
 <div class="bandeau-maint" onclick="ouvrirMaintenance()"><span id="bm-e">🛠️</span> <span id="bm-txt">Maintenance activée · le public ne voit pas la carte</span></div>
 <div id="reseau" onclick="charger()"><span class="r-ic">📶</span><div><b id="rs-t"></b><span id="rs-s"></span></div></div>
 
+<script src="leaflet.js"></script>
 <script src="plan.js?v=1"></script>
 <script>
+// ===================== FILE DES FENÊTRES =====================
+// Une seule fenêtre à la fois (présentation, annonce, pop-ups, grands moments, outils admin), dans l'ordre :
+// chacune attend que l'écran d'accueil soit parti et que la précédente soit fermée.
+var FILE_FEN = [], fenT = 0;
+function fenetreLibre(){
+  var s = document.getElementById('splash'); if (s && s.style.display !== 'none') return false;
+  if (['maint','bienvenue','annonce-t','popup','moment','alerte'].some(function(id){ var e = document.getElementById(id); return e && e.classList.contains('vu'); })) return false;
+  return !document.getElementById('feuille').classList.contains('ouverte');
+}
+function planifierFenetre(prio, nom, montrer){
+  if (FILE_FEN.some(function(f){ return f.nom === nom; })) return;
+  FILE_FEN.push({ prio:prio, nom:nom, montrer:montrer }); FILE_FEN.sort(function(a, b){ return a.prio - b.prio; });
+  tickFenetres();
+}
+function tickFenetres(){
+  clearTimeout(fenT); if (!FILE_FEN.length) return;
+  if (!fenetreLibre()) { fenT = setTimeout(tickFenetres, 200); return; }
+  var f = FILE_FEN.shift(); try { f.montrer(); } catch(e){}
+  if (FILE_FEN.length) fenT = setTimeout(tickFenetres, 800);
+}
+
 // ===================== ICÔNES =====================
 var IC = {
   police:'<path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M9.5 12l2 2 3.5-4"/>',
@@ -2402,7 +2426,7 @@ function charger(){
 var SPLASH_T0 = Date.now(); document.body.classList.add('splash-la');
 function cacherSplash(){ var s = $('splash'); if (!s || s.classList.contains('parti') || s._fin) return;
   s._fin = 1; clearInterval(window._spEtapes); var p = $('sp-prog'); if (p) p.style.transform = 'scaleX(1)'; var e = $('sp-etape'); if (e) e.textContent = tr('C\'est parti !');
-  setTimeout(function(){ s.classList.add('parti'); document.body.classList.remove('splash-la'); setTimeout(function(){ s.style.display='none'; }, 700); }, Math.max(350, 2200 - (Date.now() - SPLASH_T0))); }
+  setTimeout(function(){ s.classList.add('parti'); document.body.classList.remove('splash-la'); setTimeout(function(){ s.style.display='none'; }, 700); }, Math.max(350, (lireLS('bienvenue9') ? 1200 : 2200) - (Date.now() - SPLASH_T0))); }
 (function(){
   var d = $('sp-date'); if (d) d.textContent = 'En direct · ' + new Date().toLocaleDateString(LANGUE === 'en' ? 'en-GB' : 'fr-FR', { weekday:'long', day:'numeric', month:'long' });
   var et = LANGUE === 'en' ? ['Connecting…','Loading the Lyon map…','Fetching live reports…','Almost there…'] : ['Connexion au serveur…','Chargement du plan de Lyon…','Récupération des signalements…','Presque prêt…'];
@@ -3301,7 +3325,7 @@ function verifierPopups(){
   (etat.popups || []).slice().reverse().forEach(function(p){
     if (!vus['o'+p.id] && filePopups.indexOf(p.id) < 0) filePopups.push(p.id);
   });
-  if (!$('popup').classList.contains('vu') && !$('alerte').classList.contains('vu')) popupSuivante();
+  if (filePopups.length) planifierFenetre(30, 'popups', popupSuivante);
 }
 function popupSuivante(){
   while (filePopups.length) {
@@ -4930,7 +4954,7 @@ document.querySelectorAll('#flottants .rond:not(#btn-3d)')[1].innerHTML = ic('ci
 $('btn-autour').innerHTML = ic('boussole');
 if (eco) document.body.classList.add('eco');
 if (grand) document.body.classList.add('grand');
-if (!lireLS('bienvenue9') && !estEquipe()) (function att(n){ if ($('splash').style.display === 'none' || n > 40) montrerBienvenue(); else setTimeout(function(){ att(n+1); }, 150); })(0);
+if (!lireLS('bienvenue9') && !estEquipe()) planifierFenetre(10, 'presentation', montrerBienvenue);
 appliquerLangue();
 majVeilleBadge();
 majBoutonSon();
@@ -5123,8 +5147,7 @@ function bsPublier(){
   var n = 0;
   (function att(){
     if (++n > 120 || Date.now() > new Date(BLOCUS_PRET.jour + 'T12:00').getTime()) return;
-    var occupe = $('splash').style.display !== 'none' || !etat.derniereMaj || !ECOLES || $('feuille').classList.contains('ouverte')
-      || $('annonce-t').classList.contains('vu') || $('moment').classList.contains('vu') || $('popup').classList.contains('vu');
+    var occupe = !etat.derniereMaj || !ECOLES || !fenetreLibre() || FILE_FEN.length;
     if (!estAdmin() || occupe) return setTimeout(att, 700);
     ecrireLS('bs2-propose-v' + BLOCUS_PRET.v, '1'); ouvrirBlocusSerie();
     setTimeout(function(){ toast('🚧 ' + BLOCUS_PRET.nouveaux.length + ' lycées ajoutés pour lundi : vérifie et publie'); }, 600);
@@ -5299,11 +5322,7 @@ function verifierPhase(){
   var vu = lireLS('phaseVue42'); if (vu === ph) return;
   ecrireLS('phaseVue42', ph);
   if (!vu || !MOMENTS[ph] || !cfg.ts || maintenant() - cfg.ts > 20*60000) return;
-  (function att(n){
-    var pret = $('splash').style.display === 'none' && !$('maint').classList.contains('vu') && !$('bienvenue').classList.contains('vu');
-    if (!pret && n < 60) return setTimeout(function(){ att(n + 1); }, 500);
-    montrerMoment(ph);
-  })(0);
+  planifierFenetre(5, 'moment', function(){ montrerMoment(ph); });
 }
 function montrerMoment(k){
   var M = MOMENTS[k], el = $('moment'), en = LANGUE === 'en'; if (!M || !el) return;
@@ -5451,14 +5470,7 @@ function fermerAnnonceT(){ ecrireLS('traboule1', '1'); var el = $('annonce-t'); 
 (function(){
   if (lireLS('traboule1')) return;
   if (!lireLS('bienvenue9')) { ecrireLS('traboule1', '1'); return; }
-  var n = 0;
-  (function att(){
-    if (++n > 120) return; // pas le bon moment pendant une minute : on réessaiera à la prochaine ouverture
-    var pret = $('splash').style.display === 'none' && etat.derniereMaj && !$('maint').classList.contains('vu') && !$('bienvenue').classList.contains('vu')
-      && !$('feuille').classList.contains('ouverte') && !$('alerte').classList.contains('vu');
-    if (!pret) return setTimeout(att, 500);
-    setTimeout(montrerAnnonceT, 500);
-  })();
+  planifierFenetre(20, 'annonce', function(){ if (!lireLS('traboule1')) montrerAnnonceT(); });
 })();
 </script>
 </body>
