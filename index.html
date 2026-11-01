@@ -1981,9 +1981,24 @@ var API = (function(){
   try { var q = new URLSearchParams(location.search).get('api'); if (q) { localStorage.setItem('api9', q); return q; } } catch(e){}
   return lireLS('api9') || '';
 })();
-function serveur(fn){
+// Deux adresses : la nouvelle (API_URL) et l'ancienne en secours (API_SECOURS, dans config.js).
+// Au démarrage on vérifie que la nouvelle répond ; sinon on reste sur l'ancienne : la carte ne s'éteint jamais.
+var API_SEC = (typeof API_SECOURS !== 'undefined' && API_SECOURS && API_SECOURS !== API) ? API_SECOURS : '', premiereLecture = null;
+function testerServeur(u){
+  var ac = (typeof AbortController !== 'undefined') ? new AbortController() : null, t = ac ? setTimeout(function(){ ac.abort(); }, 9000) : 0;
+  return fetch(u + '?fn=lireCarte&t=' + Date.now(), { redirect:'follow', signal: ac && ac.signal })
+    .then(function(r){ clearTimeout(t); return r.json(); }, function(e){ clearTimeout(t); throw e; })
+    .then(function(d){ if (d && d.ok && d.r) return d; throw 'réponse invalide'; });
+}
+var choixServeur = !API_SEC ? Promise.resolve(API) : testerServeur(API).then(function(d){ premiereLecture = d.r; return API; }, function(){
+  return testerServeur(API_SEC).then(function(d){ API = API_SEC; premiereLecture = d.r; return API; }, function(){ return API; });
+});
+function surSecours(){ return !!API_SEC && API === API_SEC; }
+function serveur(){ var a = arguments; return choixServeur.then(function(){ return serveurDirect.apply(null, a); }); }
+function serveurDirect(fn){
   var args = Array.prototype.slice.call(arguments,1);
   if (!API) return Promise.reject('Serveur non configuré');
+  if (fn === 'lireCarte' && premiereLecture) { var pl = premiereLecture; premiereLecture = null; return Promise.resolve(pl); }
   var ac = (typeof AbortController !== 'undefined') ? new AbortController() : null, minut = ac ? setTimeout(function(){ ac.abort(); }, fn === 'lireCarte' || fn === 'lireCarteEquipe' ? 15000 : 25000) : 0;
   var req = (fn === 'lireCarte') ? fetch(API + '?fn=lireCarte&t=' + Date.now(), { redirect:'follow', signal: ac && ac.signal })
     : fetch(API, { method:'POST', redirect:'follow', headers:{ 'Content-Type':'text/plain;charset=utf-8' }, body: JSON.stringify({ fn:fn, args:args }), signal: ac && ac.signal });
@@ -4705,7 +4720,9 @@ function dessinerEquipe(){
   var L = equipe.liste, perso = estCodePerso(etat.mdp);
   var h = entete('👥 Équipe & codes', 'Chaque personne de l\'équipe a son propre code. Téléphone perdu ? Tu retires juste son code, les autres ne changent rien.');
   if (L === 'vieux') {
-    h += '<div class="eq-etat attention"><span>🔧</span><div><b>Ton serveur Google n\'est pas encore à jour</b>Colle le nouveau script (celui que Claude t\'a donné), enregistre et déploie une nouvelle version. Ensuite cet écran marchera.</div></div>'
+    h += (surSecours()
+        ? '<div class="eq-etat attention"><span>🔧</span><div><b>L\'appli n\'arrive pas à joindre ta nouvelle adresse Google</b>Elle utilise l\'ancienne, en secours. Dans Google : Déployer → Gérer les déploiements → le plus récent → ✏️ → « Qui a accès » : <b>Tout le monde</b> → Déployer.</div></div>'
+        : '<div class="eq-etat attention"><span>🔧</span><div><b>Ton serveur Google n\'est pas encore à jour</b>Colle le nouveau script (celui que Claude t\'a donné), enregistre et déploie une nouvelle version. Ensuite cet écran marchera.</div></div>')
       + '<div class="rangee"><button class="btn plein" onclick="dessinerGestion()">Retour</button></div>';
     return montrerEquipe(h);
   }
