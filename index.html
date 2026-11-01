@@ -1656,6 +1656,20 @@
   #moment.vu .mo-b { animation:at-monte .5s .7s both; }
   .mo-q { position:relative; z-index:1; margin-top:14px; font-size:12px; color:#ffffff88; }
   @media (prefers-reduced-motion: reduce) { #compteurs .pastille.pb-j5, body.jour-j #titre::after, .j5-rayons, .j5-ligne::after, #moment *, #moment::before, .confettis { animation:none !important; } .confettis { display:none; } }
+
+  /* ================= v43 : blocus en série ================= */
+  .bs-ligne { display:grid; grid-template-columns:1fr 1fr; gap:8px; } .bs-ligne label:first-child { grid-column:1 / -1; }
+  .bs-ligne input { width:100%; }
+  .bs-ligne label { display:flex; flex-direction:column; gap:5px; font-size:11px; font-weight:800; letter-spacing:.6px; text-transform:uppercase; color:var(--doux); }
+  .bs-ligne input { padding:11px 8px; font-size:15px; min-width:0; }
+  .bs-it { display:flex; align-items:center; gap:10px; background:var(--s2); border:1px solid #ffd23f33; border-radius:14px; padding:8px 8px 8px 10px; margin-bottom:6px; animation:fi-in .3s both; }
+  .bs-it > span { width:34px; height:34px; border-radius:11px; flex:none; display:flex; align-items:center; justify-content:center; font-size:18px;
+    background:repeating-linear-gradient(-45deg, #ffd23f 0 6px, #1a1608 6px 12px); box-shadow:inset 0 0 0 2px #ffd23f; }
+  .bs-it > div { flex:1; min-width:0; } .bs-it b { display:block; font-size:14.5px; } .bs-it small { display:block; font-size:11.5px; color:var(--doux); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .bs-it.deja { border-color:#16c78455; } .bs-it.deja small { color:#3ee0a0; }
+  .bs-it .btn.petit { padding:8px 10px; flex:none; }
+  .bs-res button { display:flex; align-items:center; gap:8px; width:100%; text-align:left; padding:10px 12px; margin-top:6px; border-radius:12px; background:var(--s1); border:1px dashed #ffd23f66; color:var(--txt); font-size:14px; }
+  .bs-res button b { color:#ffd23f; }
 </style>
 </head>
 <body>
@@ -4392,7 +4406,7 @@ function partagerEvt(id){
 function gererEvenements(){
   var tous = evenements(), avenir = tous.filter(function(v){ return etatEvt(v) !== 'passe'; }), passes = tous.length - avenir.length;
   ouvrir(entete('🗓️ Événements', 'Ils restent sur la carte et dans l\'agenda jusqu\'à leur fin, sans rien confirmer. Ensuite ils disparaissent tout seuls.')
-    + '<div class="rangee" style="margin-top:4px"><button class="btn rose plein" onclick="nouvelEvt()">'+ic('plus')+'Nouvel événement</button></div>'
+    + '<div class="rangee" style="margin-top:4px"><button class="btn rose plein" onclick="nouvelEvt()">'+ic('plus')+'Nouvel événement</button><button class="btn plein" onclick="ouvrirBlocusSerie()">🚧 Blocus en série</button></div>'
     + suggestionsEvt()
     + (avenir.length ? listeAgenda(avenir, true) : '<div class="vide" style="padding:14px">Aucun événement à venir.</div>')
     + (passes ? '<div class="sous" style="margin-top:6px">'+passes+' événement'+(passes>1?'s':'')+' terminé'+(passes>1?'s':'')+', retiré'+(passes>1?'s':'')+' automatiquement au prochain enregistrement.</div>' : '')
@@ -4849,6 +4863,82 @@ setTimeout(cacherSplash, 5000);
 setTimeout(boucleChargement, (eco ? 45 : RAFRAICHIR_S) * 1000);
 setInterval(majHorloge, 5000);
 document.addEventListener('visibilitychange', function(){ if (!document.hidden) charger(); });
+// ===================== V43 : BLOCUS EN SÉRIE =====================
+// Plusieurs lycées d'un coup, même jour, même heure. Liste préparée pour lundi 2 novembre (à compléter).
+var BLOCUS_PRET = { jour:'2026-11-02', hDebut:'07:30', hFin:'', noms:['Lycée général et technologique Édouard Herriot','Lycée Juliette Récamier','Lycée Docteur Charles Mérieux',
+  'Lycée Pierre Brossolette','Lycée Jean Perrin','Cité Scolaire Parc Chabrières','Lycée Ampère','Cité scolaire Antoine de Saint-Exupéry',
+  'Lycée La Martinière Diderot - Site Diderot','Lycée de Saint-Just','Lycée général et technologique Marcel Sembat'] };
+var bs = null;
+function bsCharger(){
+  try { bs = JSON.parse(lireLS('blocusSerie') || 'null'); } catch(e){ bs = null; }
+  if (!bs) bs = JSON.parse(JSON.stringify(BLOCUS_PRET));
+}
+function bsSauver(){ ecrireLS('blocusSerie', JSON.stringify(bs)); }
+function bsNorm(t){ return String(t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
+function bsEcole(nom){ return (ECOLES || []).filter(function(e){ return e.n === nom; })[0]; }
+// Nom complet sans « général et technologique » (lieu) et nom court comme on le dit (titre : « Blocus Herriot »)
+function bsLieu(n){ return n.replace(/^Lycée (général|professionnel|polyvalent|technologique|des métiers)( (et|privé) (technologique|général))?( privé)?\s*/i, 'Lycée ').replace(/^Cité Scolaire /, 'Cité scolaire ').replace(/ - Site /, ' · ').slice(0, 60); }
+function bsCourt(n){ return bsLieu(n).replace(/^Lycée (de |du |des )?/i, '').replace(/^Cité scolaire /i, '').replace(/^Docteur /, '').replace(/^Antoine de /, '').replace(/^La Martinière Diderot · Diderot$/, 'Martinière Diderot').replace(/^(Édouard|Juliette|Pierre|Marcel) /, ''); }
+function bsTitre(e){ return 'Blocus ' + bsCourt(e.n); }
+function bsDeja(e){ return evenements().some(function(v){ return v.cat === 'blocus' && isoJour(v.debut) === bs.jour && v.lat !== undefined && distance([v.lat, v.lng], e.c) < 80; }); }
+function ouvrirBlocusSerie(){
+  bsCharger();
+  if (!ECOLES) { toast('Chargement des lycées…'); chargerEcoles(); return setTimeout(function(){ if (ECOLES) ouvrirBlocusSerie(); }, 1500); }
+  dessinerBlocusSerie();
+}
+function bsLire(){ if ($('bs-jour')) { bs.jour = $('bs-jour').value || bs.jour; bs.hDebut = $('bs-h1').value || '07:30'; bs.hFin = $('bs-h2').value || ''; bsSauver(); } }
+function dessinerBlocusSerie(){
+  var items = bs.noms.map(bsEcole).filter(Boolean), nouveaux = items.filter(function(e){ return !bsDeja(e); }).length;
+  var jourTxt = jourEvt(new Date(bs.jour + 'T12:00').getTime());
+  var h = entete('🚧 Blocus en série', 'Les lycées, le jour et l\'heure : tout part d\'un coup sur la carte et dans l\'agenda. Tu peux revenir compléter la liste, rien ne sera publié deux fois.')
+    + '<div class="bs-ligne"><label>Jour<input type="date" id="bs-jour" value="'+esc(bs.jour)+'" onchange="bsLire();dessinerBlocusSerie()"></label>'
+    + '<label>Début<input type="time" id="bs-h1" value="'+esc(bs.hDebut)+'" onchange="bsLire()"></label>'
+    + '<label>Fin<input type="time" id="bs-h2" value="'+esc(bs.hFin)+'" onchange="bsLire()" placeholder="—"></label></div>'
+    + '<label class="l">'+jourTxt+' · '+items.length+' lycée'+(items.length > 1 ? 's' : '')+'</label>'
+    + items.map(function(e){ var d = bsDeja(e);
+        return '<div class="bs-it'+(d ? ' deja' : '')+'"><span>🚧</span><div><b>'+esc(bsCourt(e.n))+'</b><small>'+(d ? '✓ déjà sur la carte' : esc(bsLieu(e.n)))+'</small></div>'
+          + '<button class="btn petit" onclick="bsRetirer(\''+esc(e.n).replace(/'/g, '&#39;')+'\')" aria-label="Retirer">✕</button></div>'; }).join('')
+    + '<label class="l">Ajouter un lycée</label><input id="bs-cherche" placeholder="ex : Lumière, Saxe, Branly…" oninput="bsChercher()" autocomplete="off"><div class="bs-res" id="bs-res"></div>'
+    + '<div class="rangee"><button class="btn plein" onclick="gererEvenements()">Retour</button>'
+    + '<button class="btn rose plein" id="bs-go" '+(nouveaux ? '' : 'disabled ')+'onclick="bsPublier()">'+(nouveaux ? 'Publier '+nouveaux+' blocus' : 'Tout est publié ✓')+'</button></div>'
+    + '<div class="sous" style="margin-top:8px">Sans heure de fin, un blocus reste affiché 3 h. Le jour même, il passe « en direct » sur la carte.</div>';
+  var f = $('feuille'); if (f.dataset.vue === 'blocus-serie' && f.classList.contains('ouverte')) rafraichirFeuille(h); else ouvrir(h, 'blocus-serie');
+}
+function bsRetirer(nom){ bsLire(); bs.noms = bs.noms.filter(function(n){ return n !== nom; }); bsSauver(); dessinerBlocusSerie(); }
+function bsAjouter(nom){ bsLire(); if (bs.noms.indexOf(nom) < 0) bs.noms.push(nom); bsSauver(); dessinerBlocusSerie(); toast('Ajouté'); }
+function bsChercher(){
+  var q = bsNorm($('bs-cherche').value).trim(), r = $('bs-res'); if (!r) return;
+  if (q.length < 2) { r.innerHTML = ''; return; }
+  var l = (ECOLES || []).filter(function(e){ return e.k !== 'fac' && bs.noms.indexOf(e.n) < 0 && bsNorm(e.n).indexOf(q) >= 0; }).slice(0, 6);
+  r.innerHTML = l.length ? l.map(function(e){ return '<button onclick="bsAjouter(\''+esc(e.n).replace(/'/g, '&#39;')+'\')"><b>＋</b>'+esc(bsLieu(e.n))+'</button>'; }).join('')
+                         : '<div class="sous" style="margin:8px 2px">Pas trouvé. Tu peux aussi le créer à la main : Événements → Nouvel événement.</div>';
+}
+function bsPublier(){
+  bsLire();
+  var debut = new Date(bs.jour + 'T' + (bs.hDebut || '07:30')).getTime(), fin = bs.hFin ? new Date(bs.jour + 'T' + bs.hFin).getTime() : 0;
+  if (!debut) return toast('Choisis le jour et l\'heure');
+  if (fin && fin <= debut) fin = 0;
+  var base = Date.now().toString(36), nouveaux = bs.noms.map(bsEcole).filter(function(e){ return e && !bsDeja(e); }).map(function(e, i){
+    var v = { id:'b' + base + i, cat:'blocus', emoji:'🚧', titre:bsTitre(e).slice(0, 60), debut:debut, lieu:bsLieu(e.n), texte:'', lat:Math.round(e.c[0]*1e5)/1e5, lng:Math.round(e.c[1]*1e5)/1e5 };
+    if (fin) v.fin = fin; return v; });
+  if (!nouveaux.length) return toast('Tout est déjà publié');
+  $('bs-go').disabled = true; $('bs-go').textContent = '…';
+  enregistrerEvts(evenements().concat(nouveaux), nouveaux.length + ' blocus publiés 🚧').then(function(){ try { jouer('blocus'); } catch(e){} })
+    .catch(function(e){ if ($('bs-go')) { $('bs-go').disabled = false; $('bs-go').textContent = 'Réessayer'; } erreurEquipe(e); });
+}
+// Les admins voient la liste préparée dès qu'ils ouvrent l'appli (une fois), jusqu'au jour du blocus à midi
+(function(){
+  if (lireLS('bs2-propose')) return;
+  var n = 0;
+  (function att(){
+    if (++n > 120 || Date.now() > new Date(BLOCUS_PRET.jour + 'T12:00').getTime()) return;
+    var occupe = $('splash').style.display !== 'none' || !etat.derniereMaj || !ECOLES || $('feuille').classList.contains('ouverte')
+      || $('annonce-t').classList.contains('vu') || $('moment').classList.contains('vu') || $('popup').classList.contains('vu');
+    if (!estAdmin() || occupe) return setTimeout(att, 700);
+    ecrireLS('bs2-propose', '1'); ouvrirBlocusSerie();
+    setTimeout(function(){ toast('🚧 Blocus de lundi prêts : vérifie et publie'); }, 600);
+  })();
+})();
 // ===================== V42 : MANIF DU JEUDI 5 NOVEMBRE =====================
 // Compte à rebours, sac à préparer, affiche à partager, et les grands moments de la manif en plein écran.
 var J5 = { debut:Date.UTC(2026,10,5,9,30), fin:Date.UTC(2026,10,5,15,0), finJour:Date.UTC(2026,10,5,22,59), heure:'10h30',
