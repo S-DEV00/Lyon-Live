@@ -1205,6 +1205,46 @@
   .ob-opt input::after { content:""; position:absolute; left:3px; top:3px; width:24px; height:24px; border-radius:50%; background:#fff; transition:transform .2s; box-shadow:0 2px 4px #0006; }
   .ob-opt input:checked { background:#16c784; } .ob-opt input:checked::after { transform:translateX(20px); }
   .ob-note { font-size:13px; color:var(--doux); text-align:center; line-height:1.4; padding:0 6px; }
+  /* ================= v34 : mode live ================= */
+  @keyframes lv-point { 50% { opacity:.35; } }
+  #live-evt { position:fixed; left:12px; right:76px; bottom:calc(max(10px, calc(var(--bas) - 4px)) + 86px); z-index:998; display:none; align-items:stretch; gap:6px; }
+  body.est-admin #live-evt { bottom:calc(max(10px, calc(var(--bas) - 4px)) + 134px); }
+  body.placement #live-evt, body.trace #live-evt, body.fiche-ouverte #live-evt { display:none !important; }
+  #live-evt.vu { display:flex; }
+  #live-evt .le-c { flex:1; min-width:0; display:grid; grid-template-columns:44px 1fr; grid-template-rows:1fr auto; column-gap:10px; align-items:center; text-align:left; padding:9px 10px 8px; border-radius:20px;
+    background:rgba(16,16,22,.9); -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px); border:1.5px solid color-mix(in srgb, var(--ec) 70%, transparent); box-shadow:0 10px 28px #0009, 0 0 18px color-mix(in srgb, var(--ec) 35%, transparent); color:#fff; font:inherit; }
+  #live-evt .le-e { width:44px; height:44px; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:22px; background:color-mix(in srgb, var(--ec) 22%, #16161c); position:relative; }
+  #live-evt .le-e .cc-eq { height:8px; margin-top:1px; } #live-evt .le-e .cc-eq i { width:3px; }
+  #live-evt .le-t { min-width:0; } #live-evt .le-t small { display:flex; align-items:center; gap:5px; font-size:10px; font-weight:900; letter-spacing:.8px; color:#ff6b78; }
+  #live-evt .le-t small i { width:7px; height:7px; border-radius:50%; background:#ff3b4e; box-shadow:0 0 8px #ff3b4e; animation:lv-point 1.2s infinite; }
+  #live-evt .le-t b { display:block; font-size:14.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } #live-evt .le-t em { display:block; font-style:normal; font-size:11.5px; color:#ffffffaa; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #live-evt .le-barre { grid-column:1 / -1; height:4px; border-radius:3px; background:#ffffff18; margin-top:7px; overflow:hidden; } #live-evt .le-barre i { display:block; height:100%; background:var(--ec); border-radius:3px; box-shadow:0 0 8px var(--ec); }
+  #live-evt .le-s, #live-evt .le-x { flex:none; width:34px; border-radius:14px; background:rgba(16,16,22,.9); border:1px solid #ffffff1c; color:#fff; font-size:22px; display:flex; align-items:center; justify-content:center; }
+  #live-evt .le-x { position:absolute; top:-9px; right:-9px; width:26px; height:26px; border-radius:50%; padding:0; background:#26262e; border:1px solid #ffffff2a; box-shadow:0 3px 8px #0008; }
+  #live-evt .le-x svg.ic { width:13px; height:13px; }
+  #live-evt.concert .le-c { border-color:#ff2bd6; box-shadow:0 10px 28px #0009, 0 0 22px #ff2bd655; } #live-evt.concert .le-barre i { background:linear-gradient(90deg,#ff2bd6,#7a5cff,#00e0ff); }
+  #live-evt.blocus .le-barre i { background:repeating-linear-gradient(-45deg,#ffd23f 0 6px,#16161c 6px 12px); }
+  /* Fiche : bloc EN DIRECT */
+  .evt-live { margin-top:12px; background:#0007; border:1px solid #ffffff1f; border-radius:16px; padding:11px 12px; }
+  .evt-live .lv-haut { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .lv-pastille { display:inline-flex; align-items:center; gap:6px; background:#ff3b4e; color:#fff; font-size:11px; font-weight:900; letter-spacing:.8px; padding:5px 10px; border-radius:20px; box-shadow:0 0 16px #ff3b4e88; }
+  .lv-pastille i { width:7px; height:7px; border-radius:50%; background:#fff; animation:lv-point 1.2s infinite; }
+  .lv-dep { font-size:13px; color:#ffffffcc; font-weight:600; } .lv-dep b { font-size:17px; color:#fff; font-variant-numeric:tabular-nums; }
+  .lv-frise { display:flex; align-items:center; gap:10px; margin-top:11px; font-size:12.5px; font-weight:800; font-variant-numeric:tabular-nums; }
+  .lv-barre { position:relative; flex:1; height:8px; border-radius:6px; background:#ffffff1a; }
+  .lv-barre i { position:absolute; left:0; top:0; bottom:0; border-radius:6px; background:var(--ec); box-shadow:0 0 10px var(--ec); }
+  .lv-barre b { position:absolute; top:50%; width:14px; height:14px; margin:-7px 0 0 -7px; border-radius:50%; background:#fff; box-shadow:0 0 0 3px var(--ec), 0 0 14px #fff; }
+  .lv-reste { text-align:center; font-size:12.5px; color:#ffffffaa; font-weight:700; margin-top:7px; } .lv-reste b { color:#fff; font-variant-numeric:tabular-nums; }
+  .evt-hero.concert .lv-barre i { background:linear-gradient(90deg,#ff2bd6,#7a5cff,#00e0ff); } .evt-hero.concert .lv-barre b { box-shadow:0 0 0 3px #ff2bd6, 0 0 14px #fff; }
+  .evt-hero.blocus .evt-live { background:#ffd23f10; border-color:#ffd23f33; } .evt-hero.sauvage .evt-live { background:#ff8a1f10; border-color:#ff8a1f44; }
+  /* Égaliseur réel + flash calé sur les basses */
+  body.eq-reel .cc-grand-eq i { animation:none !important; transition:transform .06s linear; }
+  body.eq-reel .evt-hero.concert .cc-flash { animation:none; opacity:calc(var(--beat, 0) * .9); }
+  body.eq-reel .evt-hero.concert .eh-e { animation:none; transform:scale(calc(1 + var(--beat, 0) * .35)); }
+  /* Agenda : en ce moment */
+  .agenda-jour.live { display:flex; align-items:center; gap:7px; color:#ff6b78; } .agenda-jour.live i { width:8px; height:8px; border-radius:50%; background:#ff3b4e; box-shadow:0 0 8px #ff3b4e; animation:lv-point 1.2s infinite; }
+  .evt-ligne.live { box-shadow:0 0 0 1.5px color-mix(in srgb, var(--ec) 70%, transparent), 0 0 18px color-mix(in srgb, var(--ec) 25%, transparent); }
+  body.leger #live-evt .le-c { -webkit-backdrop-filter:none; backdrop-filter:none; background:#16161cf2; }
 </style>
 </head>
 <body>
@@ -1246,6 +1286,7 @@
 <div id="aide" class="verre"></div>
 <div id="barre-mode"></div>
 <div id="rapide"><div class="rp-l" id="rp-l"></div></div>
+<div id="live-evt"></div>
 
 <div id="voile"></div>
 <div id="feuille" class="feuille"></div>
@@ -3500,7 +3541,7 @@ function majEvenements(){
     evtMarqueurs[v.id]._cle = cle;
   });
   Object.keys(evtMarqueurs).forEach(function(id){ if (!vus2[id]) { carte.removeLayer(evtMarqueurs[id]); delete evtMarqueurs[id]; } });
-  majHalos(); majScenesEvt();
+  majHalos(); majScenesEvt(); majLiveCarte();
 }
 function pastilleEvt(){
   var l = evtsVisibles(); if (!l.length) return '';
@@ -3516,7 +3557,9 @@ function ligneEvt(v, admin){
     + '<div class="el-e">'+(admin ? '✏️' : esc(v.emoji||C.e))+'</div></button>';
 }
 function listeAgenda(l, admin){
-  var h = '', jour = '';
+  var h = '', jour = '', live = l.filter(function(v){ return etatEvt(v) === 'live'; });
+  if (live.length) { h += '<div class="agenda-jour live"><i></i>En ce moment</div>'; live.forEach(function(v){ h += ligneEvt(v, admin); }); }
+  l = l.filter(function(v){ return etatEvt(v) !== 'live'; });
   l.forEach(function(v){ var j = jourEvt(v.debut); if (j !== jour) { jour = j; h += '<div class="agenda-jour">'+j+'</div>'; } h += ligneEvt(v, admin); });
   return h;
 }
@@ -3539,8 +3582,9 @@ function ouvrirEvt(id){
     + '<div class="evt-infos"><div>'+calMini(v.debut)+'<div>'+jourEvt(v.debut)+'<small>'+heuresEvt(v)+'</small></div></div>'
     + (v.lieu ? '<div><span>📍</span><div>'+esc(v.lieu)+infoDistance(v)+'</div></div>' : '')
     + (v.cat === 'sauvage' && butSv(v) ? '<div class="sv-but"><span>'+butSv(v).e+'</span><div><small>OBJECTIF</small>'+esc(butSv(v).nom)+'</div></div>' : '') + '</div>'
-    + (v.cat === 'fete' ? '<div class="cc-grand-eq">' + Array.apply(null, Array(18)).map(function(_, k){ return '<i style="animation-duration:'+(.4+((k*37)%9)/14).toFixed(2)+'s;animation-delay:-'+((k*13)%7/10)+'s"></i>'; }).join('') + '</div>' + nuitConcert(v, st) : '')
+    + (v.cat === 'fete' ? '<div class="cc-grand-eq">' + Array.apply(null, Array(18)).map(function(_, k){ return '<i style="animation-duration:'+(.4+((k*37)%9)/14).toFixed(2)+'s;animation-delay:-'+((k*13)%7/10)+'s"></i>'; }).join('') + '</div>' + (st === 'live' ? '' : nuitConcert(v, st)) : '')
     + (st === 'avenir' ? '<div class="evt-compte" id="evt-compte">'+htmlCompte(v)+'</div>' : '')
+    + (st === 'live' ? '<div class="evt-live" id="evt-live">'+htmlLive(v)+'</div>' : '')
     + '</div>'
     + (v.cat === 'fete' || v.cat === 'blocus' ? '<button class="btn plein cc-son'+(v.cat==='blocus'?' bl':'')+'" id="cc-son" onclick="basculerConcert(\''+(v.cat==='blocus'?'blocus':'concert')+'.mp3\')">🔊 Écouter le son</button>' : '')
     + (v.texte ? (v.cat === 'fete' ? '<div class="evt-desc cc"><b>📣 LE MOT DE L’ORGA</b>'+esc(v.texte)+'</div>' : '<div class="evt-desc">'+esc(v.texte)+'</div>') : '')
@@ -3556,10 +3600,84 @@ function ouvrirEvt(id){
   if (v.cat === 'sauvage' && son.on) jouer('sauvage');
   if (v.cat === 'fete') { if (son.on) lancerConcert('concert.mp3'); } else if (v.cat === 'blocus') { if (son.on) lancerConcert('blocus.mp3'); }
   clearInterval(evtMinuteur);
+  if (st === 'live') evtMinuteur = setInterval(function(){ var el = $('evt-live'); if (!el || $('feuille').dataset.vue !== 'evt') return clearInterval(evtMinuteur); el.innerHTML = htmlLive(v); }, 1000);
   if (st === 'avenir') evtMinuteur = setInterval(function(){ var el = $('evt-compte'); if (!el || $('feuille').dataset.vue !== 'evt') return clearInterval(evtMinuteur); el.innerHTML = htmlCompte(v); }, 1000);
 }
 
 
+
+
+// ===================== v34 : MODE LIVE =====================
+// Durée en clair : "1 h 05", "12 min"
+function dureeTxt(ms){ ms = Math.max(0, ms); var h = Math.floor(ms/3600000), m = Math.floor(ms%3600000/60000); return h ? h + ' h ' + String(m).padStart(2,'0') : m + ' min'; }
+function evtsLive(){ return evtsVisibles().filter(function(v){ return etatEvt(v) === 'live'; }); }
+var liveIdx = 0, liveCache = {};
+try { liveCache = JSON.parse(lireLS('liveCache34') || '{}'); } catch(e){}
+function classeCat(v){ return v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':v.cat==='sauvage'?' sauvage':''; }
+// Carte flottante "EN DIRECT" sur la carte
+function majLiveCarte(){
+  var el = $('live-evt'); if (!el) return;
+  var l = evtsLive().filter(function(v){ return !liveCache['x' + v.id]; });
+  if (!l.length) { el.classList.remove('vu'); el.innerHTML = ''; document.body.classList.remove('a-live'); return; }
+  liveIdx = liveIdx % l.length; var v = l[liveIdx], C = CATS_EVT[v.cat] || CATS_EVT.autre, n = maintenant();
+  var p = Math.max(0, Math.min(1, (n - v.debut) / (finEvt(v) - v.debut)));
+  el.className = 'vu' + classeCat(v); el.style.setProperty('--ec', C.c);
+  el.innerHTML = '<button class="le-c" onclick="ouvrirEvt(\'' + v.id + '\')">'
+    + '<span class="le-e">' + esc(v.emoji || C.e) + (v.cat === 'fete' ? '<span class="cc-eq"><i></i><i></i><i></i><i></i></span>' : '') + '</span>'
+    + '<span class="le-t"><small><i></i>EN DIRECT' + (l.length > 1 ? ' · ' + (liveIdx + 1) + '/' + l.length : '') + '</small><b>' + esc(v.titre) + '</b>'
+    + '<em>' + (v.journee ? 'Toute la journée' : 'encore ' + dureeTxt(finEvt(v) - n) + (v.lieu ? ' · ' + esc(v.lieu) : '')) + '</em></span>'
+    + '<span class="le-barre"><i style="width:' + (p*100).toFixed(1) + '%"></i></span></button>'
+    + '<button class="le-x" onclick="liveCache[\'x' + v.id + '\']=1;ecrireLS(\'liveCache34\',JSON.stringify(liveCache));majLiveCarte()" aria-label="Masquer">' + ic('fermer') + '</button>';
+  document.body.classList.add('a-live');
+}
+// Annonce quand un événement commence (une seule fois par événement)
+function annoncerDebuts(){
+  var l = evtsLive(), neuf = null;
+  l.forEach(function(v){ if (!liveCache['a' + v.id]) { liveCache['a' + v.id] = 1; if (maintenant() - v.debut < 30*60000) neuf = v; } });
+  Object.keys(liveCache).forEach(function(k){ var id = k.slice(1); if (!evenements().some(function(v){ return v.id === id; })) delete liveCache[k]; });
+  ecrireLS('liveCache34', JSON.stringify(liveCache));
+  if (neuf && !$('bienvenue').classList.contains('vu')) {
+    var C = CATS_EVT[neuf.cat] || CATS_EVT.autre;
+    toastAction('🔴 C’est parti : ' + (neuf.emoji || C.e) + ' ' + neuf.titre, [['Voir', function(){ ouvrirEvt(neuf.id); }]]);
+    try { jouer(neuf.cat === 'fete' ? 'concert' : neuf.cat === 'sauvage' ? 'sauvage' : 'message'); } catch(e){}
+  }
+}
+function tickLive(){ try { majEvenements(); } catch(e){} majLiveCarte(); annoncerDebuts(); }
+setInterval(function(){ if (!document.hidden) tickLive(); }, 20000);
+// Plusieurs événements en direct : la carte défile toute seule
+setInterval(function(){ if (document.hidden || !document.body.classList.contains('a-live')) return; if (evtsLive().length > 1) { liveIdx++; majLiveCarte(); } }, 6000);
+// Bloc "en direct" dans la fiche : depuis / encore + frise, mis à jour chaque seconde
+function htmlLive(v){
+  var n = maintenant(), d = finEvt(v) - v.debut, p = Math.max(0, Math.min(1, (n - v.debut) / d));
+  return '<div class="lv-haut"><span class="lv-pastille"><i></i>EN DIRECT</span><span class="lv-dep">depuis <b>' + dureeTxt(n - v.debut) + '</b></span></div>'
+    + (v.journee ? '' : '<div class="lv-frise"><span>' + heure(v.debut) + '</span><div class="lv-barre"><i style="width:' + (p*100).toFixed(2) + '%"></i><b style="left:' + (p*100).toFixed(2) + '%"></b></div><span>' + heure(finEvt(v)) + '</span></div>'
+    + '<div class="lv-reste">Encore <b>' + dureeTxt(finEvt(v) - n) + '</b>' + (v.fin ? '' : ' (fin estimée)') + '</div>');
+}
+// Égaliseur qui réagit vraiment au son du concert
+var analyseur = null, sourceAudio = null, rafEq = 0;
+function brancherAnalyseur(){
+  try {
+    if (!son.ctx || !audioConcert) return false;
+    if (son.ctx.state === 'suspended') son.ctx.resume();
+    if (!sourceAudio || sourceAudio._el !== audioConcert) {
+      sourceAudio = son.ctx.createMediaElementSource(audioConcert); sourceAudio._el = audioConcert;
+      analyseur = son.ctx.createAnalyser(); analyseur.fftSize = 64; analyseur.smoothingTimeConstant = .7;
+      sourceAudio.connect(analyseur); analyseur.connect(son.ctx.destination);
+    }
+    return true;
+  } catch(e){ return false; }
+}
+function boucleEq(){
+  cancelAnimationFrame(rafEq);
+  var barres = document.querySelectorAll('.cc-grand-eq i'); if (!barres.length || !analyseur || !audioConcert || audioConcert.paused) { document.body.classList.remove('eq-reel'); return; }
+  document.body.classList.add('eq-reel');
+  var data = new Uint8Array(analyseur.frequencyBinCount); analyseur.getByteFrequencyData(data);
+  var nb = barres.length, total = 0;
+  for (var k = 0; k < nb; k++) { var x = data[Math.min(data.length - 1, Math.floor(k * (data.length * .75) / nb))] / 255; total += x; barres[k].style.transform = 'scaleY(' + Math.max(.08, x).toFixed(3) + ')'; }
+  var basse = data[1] / 255, hero = document.querySelector('.evt-hero.concert');
+  if (hero) hero.style.setProperty('--beat', (basse * basse).toFixed(3));
+  rafEq = requestAnimationFrame(boucleEq);
+}
 
 // ----- Son des concerts (concert.mp3), joué à l'ouverture d'une fiche concert si le son est activé -----
 // Même chose pour les blocus (blocus.mp3).
@@ -3571,6 +3689,7 @@ function lancerConcert(f){
     audioConcert.currentTime = 0; audioConcert.volume = .85;
     var pr = audioConcert.play(); if (pr && pr.catch) pr.catch(function(){});
     document.body.classList.add('concert-son');
+    if (f === 'concert.mp3' && brancherAnalyseur()) setTimeout(boucleEq, 60);
   } catch(e){}
   majBoutonConcert();
 }
