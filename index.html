@@ -1102,6 +1102,25 @@
   .sv-ruban div { display:flex; white-space:nowrap; animation:bl-defile 8s linear infinite; } .sv-ruban.bas div { animation-direction:reverse; }
   .sv-ruban span { font-family:Anton,Impact,sans-serif; font-size:15px; letter-spacing:1.5px; color:#000; padding:0 12px; } .sv-ruban.bas span { color:#ffd23f; }
   .bl-conseils.sv div { background:#ff8a1f12; border-color:#ff8a1f44; } .bl-conseils.sv b { color:#ffb15c; }
+  /* ================= v32 : manif sauvage planifiée (événement) ================= */
+  .sv-pin.evt .sv-etiq { top:-14px; font-size:10px; }
+  .sv-pin.evt .evt-etiq { left:60px; top:18px; color:#ffd23f; }
+  .evt-hero.sauvage { background:#120803; border:0; padding:44px 18px 48px; box-shadow:0 0 0 2px #ff8a1f, 0 0 36px #ff6a0055; }
+  .evt-hero.sauvage::before { inset:0; width:auto; height:auto; border-radius:0; background:radial-gradient(circle at 80% 10%, #ff8a1f66, transparent 50%), radial-gradient(circle at 10% 100%, #ffd23f33, transparent 55%); }
+  .evt-hero.sauvage .sv-flash { position:absolute; inset:0; background:radial-gradient(circle at 70% 30%, #fff, transparent 60%); opacity:0; animation:sv-eclair 3s infinite; pointer-events:none; border-radius:inherit; }
+  .evt-hero.sauvage .eh-e { animation:sv-tremble .5s linear infinite; display:inline-block; filter:drop-shadow(0 0 16px #ff8a1f); }
+  .evt-hero.sauvage h3 { font-size:42px; color:#ffd23f; text-shadow:3px 3px 0 #c2410c, 0 0 22px #ff8a1f88; }
+  .evt-hero.sauvage h3.long { font-size:34px; }
+  .evt-hero.sauvage .evt-cat { background:#ff8a1f; color:#000; }
+  .evt-hero.sauvage .evt-etat.live { background:#ff3b4e; }
+  .evt-hero.sauvage .evt-infos > div, .evt-hero.sauvage .evt-compte div { background:#ff8a1f14; border:1px solid #ff8a1f44; }
+  .evt-hero.sauvage .evt-compte b { color:#ffd23f; }
+  .evt-infos > div.sv-but { background:linear-gradient(90deg,#ff8a1f33,#ff8a1f0d) !important; border:1.5px solid #ff8a1f !important; font-size:17px; font-weight:800; }
+  .sv-but > span { font-size:24px !important; } .sv-but small { display:block; font-size:10px !important; letter-spacing:1px; color:#ffb15c !important; font-weight:900 !important; }
+  .evt-ligne.sauvage { background:#1a0f06; border-color:#ff8a1f55; } .evt-ligne.sauvage .el-t b { color:#ffb15c; }
+  .evt-ligne.sauvage::before { width:5px; background:repeating-linear-gradient(180deg,#ff8a1f 0 8px,#ffd23f 8px 16px); }
+  .pastille.evt-chip.sauvage { border-color:#ff8a1f !important; box-shadow:0 0 12px #ff8a1f55; } .pastille.evt-chip.sauvage b { color:#ffb15c; }
+  .sv-buts button.sel { box-shadow:0 0 0 2px #ff8a1f; }
 </style>
 </head>
 <body>
@@ -3313,6 +3332,7 @@ carte.on('zoomend', majScenesEvt);
 var CATS_EVT = {
   blocus:  { nom:'Blocus',         e:'🚧', c:'#ffd23f' },
   manif:   { nom:'Manif',          e:'✊', c:'#ff5caa' },
+  sauvage: { nom:'Manif sauvage',  e:'⚡', c:'#ff8a1f' },
   rassemb: { nom:'Rassemblement',  e:'📣', c:'#ff9f1c' },
   ag:      { nom:'AG / réunion',   e:'🗣️', c:'#4f7cff' },
   action:  { nom:'Action',         e:'⚡', c:'#ff3b4e' },
@@ -3321,6 +3341,19 @@ var CATS_EVT = {
 };
 var JOURS_C = ['dim','lun','mar','mer','jeu','ven','sam'], MOIS_C = ['janv','févr','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'];
 var evtMarqueurs = {}, brouillonEvt = null, evtMinuteur = null;
+// Manif sauvage planifiée : dans quel but
+var BUTS_SV = { periph:{ e:'🛣️', nom:'Blocage du périph' }, route:{ e:'🚗', nom:'Blocage routier' }, gare:{ e:'🚉', nom:'Gare / transports' }, occup:{ e:'🏢', nom:'Occupation' }, cortege:{ e:'🏃', nom:'Cortège surprise' }, autre:{ e:'✍️', nom:'Autre' } };
+function butSv(v){ var B = BUTS_SV[v.but]; if (!B && !v.butTxt) return null; return { e:B ? B.e : '🎯', nom:(v.butTxt || (B ? B.nom : '')) }; }
+function decorSauvageEvt(v){
+  var b = butSv(v), t1 = '', t2 = '';
+  for (var k = 0; k < 8; k++) { t1 += '<span>MANIF SAUVAGE ⚡</span>'; t2 += '<span>'+(b ? 'OBJECTIF : '+esc(b.nom.toUpperCase()) : 'ÇA VA BOUGER')+' ·</span>'; }
+  return '<div class="sv-flash"></div><div class="sv-ruban haut"><div>'+t1+t1+'</div></div><div class="sv-ruban bas"><div>'+t2+t2+'</div></div>';
+}
+function conseilsSv(v){
+  if (v.but === 'periph' || v.but === 'route') return '<div class="bl-conseils sv"><div>🚗<b>Jamais face aux voitures</b><span>n’entre pas sur une voie qui roule</span></div><div>🦺<b>Reste derrière</b><span>le groupe de tête, en bloc</span></div><div>🚪<b>Repère les sorties</b><span>bretelles, escaliers, ponts</span></div></div>'
+       + '<div class="bl-conseils sv"><div>🌙<b>Sois visible</b><span>de nuit : lampe, clair</span></div><div>🙈<b>Pas de visages</b><span>sur les photos et vidéos</span></div><div>⚖️<b>Risque légal</b><span>bloquer une route est un délit</span></div></div>';
+  return '<div class="bl-conseils sv"><div>👥<b>Reste groupé·e</b><span>ne pars jamais seul·e</span></div><div>🚪<b>Repère les sorties</b><span>rues de côté, métro</span></div><div>🙈<b>Pas de visages</b><span>sur les photos et vidéos</span></div></div>';
+}
 function evenements(){
   var l = []; try { l = JSON.parse((etat.config||{}).evenements || '[]'); } catch(e){}
   return (l || []).filter(function(v){ return v && v.id && v.debut; }).sort(function(a,b){ return a.debut - b.debut; });
@@ -3338,12 +3371,14 @@ function compteEvt(v){
 }
 function iconeEvt(v){
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, d = new Date(v.debut), live = etatEvt(v) === 'live';
-  return L.divIcon({ className:'', iconSize: v.cat === 'fete' ? [52,58] : v.cat === 'blocus' ? [40,46] : [46,52], iconAnchor: v.cat === 'fete' ? [26,60] : v.cat === 'blocus' ? [20,48] : [23,54],
-    html: v.cat === 'blocus'
+  return L.divIcon({ className:'', iconSize: v.cat === 'sauvage' ? [58,58] : v.cat === 'fete' ? [52,58] : v.cat === 'blocus' ? [40,46] : [46,52], iconAnchor: v.cat === 'sauvage' ? [29,29] : v.cat === 'fete' ? [26,60] : v.cat === 'blocus' ? [20,48] : [23,54],
+    html: v.cat === 'sauvage'
+      ? '<div class="sv-pin evt"><div class="sv-onde"></div>'+(live ? '<div class="sv-onde b"></div>' : '')+'<div class="sv-anneau"></div><div class="sv-c"><span>⚡</span></div><div class="sv-eclair"></div><div class="sv-etiq">'+(live ? '● EN COURS' : JOURS_C[d.getDay()].toUpperCase()+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut).toUpperCase()))+'</div><div class="evt-etiq">'+esc(v.titre)+'</div></div>'
+      : v.cat === 'blocus'
       ? '<div class="evt-pin blocus'+(live?' live':'')+'" style="--ec:'+C.c+'"><div class="ep-c"><span class="bl-gyro"></span><div class="ep-m">'+(live ? '● bloqué' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div></div><div class="evt-etiq">'+esc(v.titre)+'</div></div>'
       : v.cat === 'fete'
       ? '<div class="evt-pin concert'+(live?' live':'')+'" style="--ec:'+C.c+'"><div class="cc-notes"><b>♪</b><b>♫</b><b>♪</b></div><div class="ep-c"><div class="ep-m">'+(live ? '● live' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div><div class="cc-eq"><i></i><i></i><i></i><i></i><i></i></div></div>'
-      : '<div class="evt-pin'+(live?' live':'')+(v.cat==='rassemb'?' rassemb':'')+'" style="--ec:'+C.c+'"><div class="ep-c"><div class="ep-m">'+(live ? 'live' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div></div>'
+      : '<div class="evt-pin'+(live?' live':'')+(v.cat==='rassemb'?' rassemb':v.cat==='sauvage'?' sauvage':'')+'" style="--ec:'+C.c+'"><div class="ep-c"><div class="ep-m">'+(live ? 'live' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div></div>'
       + '<div class="evt-etiq">'+esc(v.titre)+'</div></div>' });
 }
 
@@ -3387,11 +3422,11 @@ function pastilleEvt(){
   var l = evtsVisibles(); if (!l.length) return '';
   var v = l[0], C = CATS_EVT[v.cat] || CATS_EVT.autre, live = etatEvt(v) === 'live';
   if (!live && v.debut - maintenant() > 7*86400000) return '';
-  return '<span class="pastille verre evt-chip'+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':'')+'" style="--ec:'+C.c+'" onclick="ouvrirEvt(\''+v.id+'\')">'+esc(v.emoji||C.e)+' <b>'+(live ? 'EN COURS' : (jourEvt(v.debut) === 'Aujourd\'hui' ? (v.journee ? 'auj.' : heure(v.debut)) : JOURS_C[new Date(v.debut).getDay()] + ' ' + (v.journee ? new Date(v.debut).getDate()+'/'+(new Date(v.debut).getMonth()+1) : heure(v.debut))))+'</b> '+esc(v.titre.length > 22 ? v.titre.slice(0,21)+'…' : v.titre)+(l.length > 1 ? ' <span style="opacity:.6">+'+(l.length-1)+'</span>' : '')+'</span>';
+  return '<span class="pastille verre evt-chip'+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':v.cat==='sauvage'?' sauvage':'')+'" style="--ec:'+C.c+'" onclick="ouvrirEvt(\''+v.id+'\')">'+esc(v.emoji||C.e)+' <b>'+(live ? 'EN COURS' : (jourEvt(v.debut) === 'Aujourd\'hui' ? (v.journee ? 'auj.' : heure(v.debut)) : JOURS_C[new Date(v.debut).getDay()] + ' ' + (v.journee ? new Date(v.debut).getDate()+'/'+(new Date(v.debut).getMonth()+1) : heure(v.debut))))+'</b> '+esc(v.titre.length > 22 ? v.titre.slice(0,21)+'…' : v.titre)+(l.length > 1 ? ' <span style="opacity:.6">+'+(l.length-1)+'</span>' : '')+'</span>';
 }
 function ligneEvt(v, admin){
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, d = new Date(v.debut), st = etatEvt(v);
-  return '<button class="evt-ligne '+st+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':'')+'" style="--ec:'+C.c+'" onclick="'+(admin ? 'editerEvt' : 'ouvrirEvt')+'(\''+v.id+'\')">'
+  return '<button class="evt-ligne '+st+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':v.cat==='sauvage'?' sauvage':'')+'" style="--ec:'+C.c+'" onclick="'+(admin ? 'editerEvt' : 'ouvrirEvt')+'(\''+v.id+'\')">'
     + '<div class="el-d"><span>'+JOURS_C[d.getDay()]+'</span><b>'+d.getDate()+'</b><span>'+MOIS_C[d.getMonth()]+'</span></div>'
     + '<div class="el-t"><b>'+esc(v.titre)+'</b><small>'+(st==='live' ? '<span class="el-live">● En cours</span> · ' : '')+heuresEvt(v)+(v.lieu ? ' · '+esc(v.lieu) : '')+'</small></div>'
     + '<div class="el-e">'+(admin ? '✏️' : esc(v.emoji||C.e))+'</div></button>';
@@ -3415,10 +3450,11 @@ function ouvrirEvt(id){
   var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, st = etatEvt(v);
   var h = '<div class="entete-f" style="margin-bottom:6px"><div></div><button class="fermer" onclick="fermer()" aria-label="Fermer">'+ic('fermer')+'</button></div>'
-    + '<div class="evt-hero'+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':'')+'" style="--ec:'+C.c+'">'+(v.cat==='fete' ? decorConcert(v) : v.cat==='blocus' ? decorBlocus(v) : v.cat==='rassemb' ? decorRasso() : '')+'<div class="eh-top"><span class="evt-cat">'+C.nom+'</span><span class="evt-etat'+(st==='live'?' live':'')+'">'+(st==='live' ? '● EN COURS' : st==='passe' ? 'TERMINÉ' : 'À VENIR')+'</span></div>'
+    + '<div class="evt-hero'+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':v.cat==='sauvage'?' sauvage':'')+'" style="--ec:'+C.c+'">'+(v.cat==='fete' ? decorConcert(v) : v.cat==='blocus' ? decorBlocus(v) : v.cat==='rassemb' ? decorRasso() : v.cat==='sauvage' ? decorSauvageEvt(v) : '')+'<div class="eh-top"><span class="evt-cat">'+C.nom+'</span><span class="evt-etat'+(st==='live'?' live':'')+'">'+(st==='live' ? '● EN COURS' : st==='passe' ? 'TERMINÉ' : 'À VENIR')+'</span></div>'
     + '<div class="eh-e">'+esc(v.emoji||C.e)+'</div><h3'+(v.titre.length > 26 ? ' class="long"' : '')+'>'+esc(v.titre)+'</h3>'
     + '<div class="evt-infos"><div>'+calMini(v.debut)+'<div>'+jourEvt(v.debut)+'<small>'+heuresEvt(v)+'</small></div></div>'
-    + (v.lieu ? '<div><span>📍</span><div>'+esc(v.lieu)+infoDistance(v)+'</div></div>' : '') + '</div>'
+    + (v.lieu ? '<div><span>📍</span><div>'+esc(v.lieu)+infoDistance(v)+'</div></div>' : '')
+    + (v.cat === 'sauvage' && butSv(v) ? '<div class="sv-but"><span>'+butSv(v).e+'</span><div><small>OBJECTIF</small>'+esc(butSv(v).nom)+'</div></div>' : '') + '</div>'
     + (v.cat === 'fete' ? '<div class="cc-grand-eq">' + Array.apply(null, Array(18)).map(function(_, k){ return '<i style="animation-duration:'+(.4+((k*37)%9)/14).toFixed(2)+'s;animation-delay:-'+((k*13)%7/10)+'s"></i>'; }).join('') + '</div>' + nuitConcert(v, st) : '')
     + (st === 'avenir' ? '<div class="evt-compte" id="evt-compte">'+htmlCompte(v)+'</div>' : '')
     + '</div>'
@@ -3426,12 +3462,14 @@ function ouvrirEvt(id){
     + (v.texte ? (v.cat === 'fete' ? '<div class="evt-desc cc"><b>📣 LE MOT DE L’ORGA</b>'+esc(v.texte)+'</div>' : '<div class="evt-desc">'+esc(v.texte)+'</div>') : '')
     + alentoursEvt(v)
     + (v.cat === 'fete' ? '<div class="bl-conseils cc"><div>🎧<b>Tes oreilles</b><span>bouchons, loin des enceintes</span></div><div>💧<b>Bois de l’eau</b><span>et garde un œil sur tes potes</span></div><div>🚶<b>Rentre à plusieurs</b><span>prévois ton retour</span></div></div>' : '')
+    + (v.cat === 'sauvage' ? conseilsSv(v) : '')
     + (v.cat === 'blocus' ? '<div class="bl-conseils"><div>👥<b>Reste en groupe</b><span>et repère une sortie</span></div><div>🙈<b>Pas de visages</b><span>sur les photos et vidéos</span></div><div>🔋<b>Batterie chargée</b><span>et le 112 en tête</span></div></div>' : '')
     + '<div class="rangee">'
     + (v.lat !== undefined && v.lat !== null ? '<button class="btn plein" onclick="fermer();carte.flyTo(['+v.lat+','+v.lng+'],16)">'+ic('carte')+'Sur la carte</button><a class="btn plein" target="_blank" href="https://maps.apple.com/?daddr='+v.lat+','+v.lng+'&dirflg=w">'+ic('fleche')+'Y aller</a>' : '')
     + '</div><div class="rangee"><button class="btn plein" onclick="calendrierEvt(\''+v.id+'\')">🗓️ Agenda</button><button class="btn rose plein" onclick="partagerEvt(\''+v.id+'\')">'+ic('partage')+'Partager</button></div>'
     + (estAdmin() ? '<div class="rangee"><button class="btn plein" onclick="editerEvt(\''+v.id+'\')">✏️ Modifier</button></div>' : '');
   ouvrir(h, 'evt');
+  if (v.cat === 'sauvage' && son.on) jouer('sauvage');
   if (v.cat === 'fete') { if (son.on) lancerConcert('concert.mp3'); } else if (v.cat === 'blocus') { if (son.on) lancerConcert('blocus.mp3'); }
   clearInterval(evtMinuteur);
   if (st === 'avenir') evtMinuteur = setInterval(function(){ var el = $('evt-compte'); if (!el || $('feuille').dataset.vue !== 'evt') return clearInterval(evtMinuteur); el.innerHTML = htmlCompte(v); }, 1000);
@@ -3549,16 +3587,20 @@ function nouvelEvt(){
 }
 function editerEvt(id){
   var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
-  brouillonEvt = { id:v.id, cat:v.cat||'autre', emoji:v.emoji||'', titre:v.titre, jour:isoJour(v.debut), hDebut:isoHeure(v.debut), hFin:v.fin ? isoHeure(v.fin) : '', journee:!!v.journee, lieu:v.lieu||'', texte:v.texte||'', lat:v.lat, lng:v.lng };
+  brouillonEvt = { id:v.id, cat:v.cat||'autre', emoji:v.emoji||'', titre:v.titre, jour:isoJour(v.debut), hDebut:isoHeure(v.debut), hFin:v.fin ? isoHeure(v.fin) : '', journee:!!v.journee, lieu:v.lieu||'', texte:v.texte||'', lat:v.lat, lng:v.lng, but:v.but||'', butTxt:v.butTxt||'' };
   formulaireEvt();
 }
-function lireFormEvt(){ if (!$('ev-titre')) return; var b = brouillonEvt;
+function lireFormEvt(){ if (!$('ev-titre')) return; var b = brouillonEvt; if ($('ev-but')) b.butTxt = $('ev-but').value;
   b.titre = $('ev-titre').value; b.jour = $('ev-jour').value; b.hDebut = $('ev-deb').value || b.hDebut; b.hFin = $('ev-fin').value; b.lieu = $('ev-lieu').value; b.texte = $('ev-txt').value; }
 function formulaireEvt(){
   var b = brouillonEvt, C = CATS_EVT[b.cat] || CATS_EVT.autre;
   var h = entete(b.id ? 'Modifier l\'événement' : 'Nouvel événement', 'Enregistré directement, visible par tout le monde.')
     + '<label class="l">Type</label><div class="evt-cats">' + Object.keys(CATS_EVT).map(function(k){ var c = CATS_EVT[k];
         return '<button class="'+(b.cat===k?'sel':'')+'" style="--ec:'+c.c+'" onclick="lireFormEvt();brouillonEvt.cat=\''+k+'\';formulaireEvt()"><span>'+c.e+'</span>'+c.nom+'</button>'; }).join('') + '</div>'
+    + (b.cat === 'sauvage' ? '<label class="l">Dans quel but ?</label><div class="evt-cats sv-buts">' + Object.keys(BUTS_SV).map(function(k){ var x = BUTS_SV[k];
+        return '<button class="'+(b.but===k?'sel':'')+'" style="--ec:#ff8a1f" onclick="lireFormEvt();brouillonEvt.but=\''+k+'\';formulaireEvt()"><span>'+x.e+'</span>'+x.nom+'</button>'; }).join('') + '</div>'
+        + '<input id="ev-but" maxlength="50" placeholder="Préciser (facultatif) : ex. Bloquer le périph nord" value="'+esc(b.butTxt||'')+'" style="margin-top:6px">'
+        + '<div class="sous" style="margin:4px 0 0">Ce qui est publié ici est visible par tout le monde, police comprise. Ne mets ni noms ni détails que tu veux garder pour toi.</div>' : '')
     + '<label class="l">Nom de l\'événement</label><input id="ev-titre" maxlength="60" placeholder="ex : Rassemblement contre la loi" value="'+esc(b.titre)+'">'
     + '<label class="l">Quand</label><label class="interrupteur" style="margin:0 0 8px"><span>Toute la journée</span><input type="checkbox" '+(b.journee?'checked':'')+' onchange="lireFormEvt();brouillonEvt.journee=this.checked;formulaireEvt()"></label><div class="evt-heures'+(b.journee?' journee':'')+'"><input id="ev-jour" type="date" value="'+esc(b.jour)+'"><div><label>Début</label><input id="ev-deb" type="time" value="'+esc(b.hDebut)+'"></div><div><label>Fin (facultatif)</label><input id="ev-fin" type="time" value="'+esc(b.hFin)+'"></div></div>'
     + '<div class="sous" style="margin:4px 0 0">Jour, début, fin (la fin est facultative : sinon il disparaît 3 h après le début).</div>'
@@ -3592,6 +3634,7 @@ function sauverEvt(){
   var v = { id: b.id || ('e' + Date.now().toString(36)), cat:b.cat, emoji:C.e, titre:b.titre.trim().slice(0,60), debut:debut, lieu:b.lieu.trim().slice(0,60), texte:b.texte.trim().slice(0,400) };
   if (fin) v.fin = fin;
   if (b.journee) v.journee = 1;
+  if (b.cat === 'sauvage') { if (BUTS_SV[b.but]) v.but = b.but; if ((b.butTxt||'').trim()) v.butTxt = b.butTxt.trim().slice(0,50); }
   if (b.lat !== null && b.lat !== undefined) { v.lat = Math.round(b.lat*1e5)/1e5; v.lng = Math.round(b.lng*1e5)/1e5; }
   var l = evenements().filter(function(x){ return x.id !== v.id; }); l.push(v);
   $('ev-go').disabled = true; $('ev-go').textContent = '…';
