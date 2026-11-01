@@ -1496,6 +1496,27 @@
   @keyframes at-lettre { from { opacity:0; transform:translateY(28px) scale(.8); } }
   #annonce-t.vu .at-ancien { opacity:.75; }
   @media (prefers-reduced-motion: reduce) { #annonce-t *, #annonce-t *::after { animation-duration:.01s !important; animation-delay:0s !important; } }
+
+  /* ================= v39 : équipe & codes perso ================= */
+  .eq-etat { display:flex; align-items:center; gap:10px; padding:11px 13px; border-radius:16px; margin:4px 0 6px; font-size:13.5px; line-height:1.4; }
+  .eq-etat.ok { background:#0f231b; border:1px solid #16c78455; } .eq-etat.attention { background:#2a1d08; border:1px solid #ffae3b66; }
+  .eq-etat > span { font-size:22px; flex:none; } .eq-etat b { display:block; font-size:14.5px; }
+  .eq-code { position:relative; overflow:hidden; text-align:center; background:linear-gradient(150deg,#2e150b,#170c09 70%); border:1px solid #ff6a1f77; border-radius:22px; padding:16px 14px 14px; margin:6px 0 12px;
+    box-shadow:0 0 40px #ff6a1f22; animation:fi-in .4s cubic-bezier(.2,.8,.2,1) both; }
+  .eq-code .qui { font-size:12px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; color:#ffb27a; }
+  .eq-code .c { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:31px; font-weight:800; letter-spacing:3px; color:#fff; margin:8px 0 4px;
+    -webkit-user-select:all; user-select:all; text-shadow:0 0 18px #ff6a1f88; }
+  .eq-code .av { font-size:12.5px; color:#e9cdbd; margin:2px 0 10px; line-height:1.4; }
+  .eq-code .rangee { margin-top:8px; }
+  .eq-ajout { display:flex; flex-direction:column; gap:8px; background:var(--s2); border:1px solid var(--ligne); border-radius:18px; padding:12px; }
+  .eq-ajout input { background:var(--s1); }
+  .eq-m { display:flex; align-items:center; gap:10px; background:var(--s2); border-radius:15px; padding:9px 9px 9px 10px; margin-bottom:7px; }
+  .eq-r { width:36px; height:36px; border-radius:12px; flex:none; display:flex; align-items:center; justify-content:center; font-size:18px; background:#0f3d2a; }
+  .eq-r.admin { background:#3a1a0c; }
+  .eq-t { flex:1; min-width:0; } .eq-t b { display:block; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } .eq-t small { color:var(--doux); font-size:12px; }
+  .eq-t small i { font-style:normal; color:#3ee0a0; }
+  .eq-m .btn.petit { padding:8px 10px; flex:none; }
+  .eq-m .btn.sur { background:#5c1420; border-color:#ff3b4e; color:#fff; }
 </style>
 </head>
 <body>
@@ -3242,6 +3263,7 @@ function dessinerGestion(rafraichir){
   h += '</div>';
   // Outils
   h += '<div class="g-titre">Outils</div><div class="outils-g">'
+    + '<button onclick="ouvrirEquipe()"><span>👥</span>Équipe & codes'+(estCodePerso(etat.mdp) ? '' : '<em style="background:#ffae3b">!</em>')+'</button>'
     + '<button onclick="gererEvenements()"><span>🗓️</span>Événements'+(nEvt ? '<em>'+nEvt+'</em>' : '')+'</button>'
     + '<button onclick="ouvrirMaintenance()"><span>🛠️</span>Maintenance'+(function(){ var o = modeMaint(cfg); return o.k !== 'aucune' ? '<em style="background:'+MODES_MAINT[o.k].c+'">'+MODES_MAINT[o.k].e+' '+MODES_MAINT[o.k].nom+'</em>' : ''; })()+'</button>'
     + '<button onclick="ouvrirBilan()"><span>📊</span>Bilan</button>'
@@ -4660,6 +4682,99 @@ setTimeout(cacherSplash, 5000);
 setTimeout(boucleChargement, (eco ? 45 : RAFRAICHIR_S) * 1000);
 setInterval(majHorloge, 5000);
 document.addEventListener('visibilitychange', function(){ if (!document.hidden) charger(); });
+// ===================== V39 : ÉQUIPE & CODES PERSO =====================
+// Chaque membre a son propre code (créé ici, montré une seule fois). Le serveur ne garde qu'une empreinte du code.
+var equipe = { liste:null, code:null, role:'medic', sur:null };
+function estCodePerso(m){ return /^[A-Z0-9]{5}[\s-]?[A-Z0-9]{5}$/i.test(String(m || '').trim()); }
+function ouvrirEquipe(){
+  equipe.code = null; equipe.sur = null; dessinerEquipe();
+  serveur('listerEquipe', etat.mdp).then(function(l){ equipe.liste = l; dessinerEquipe(); }).catch(erreurCodes);
+}
+function erreurCodes(e){
+  if (/Fonction inconnue/.test(e)) { equipe.liste = 'vieux'; dessinerEquipe(); return; }
+  var b = $('eq-go'); if (b) { b.disabled = false; b.textContent = 'Créer son code'; }
+  erreurEquipe(e);
+}
+function dessinerEquipe(){
+  var L = equipe.liste, perso = estCodePerso(etat.mdp);
+  var h = entete('👥 Équipe & codes', 'Chaque personne de l\'équipe a son propre code. Téléphone perdu ? Tu retires juste son code, les autres ne changent rien.');
+  if (L === 'vieux') {
+    h += '<div class="eq-etat attention"><span>🔧</span><div><b>Ton serveur Google n\'est pas encore à jour</b>Colle le nouveau script (celui que Claude t\'a donné), enregistre et déploie une nouvelle version. Ensuite cet écran marchera.</div></div>'
+      + '<div class="rangee"><button class="btn plein" onclick="dessinerGestion()">Retour</button></div>';
+    return montrerEquipe(h);
+  }
+  h += perso ? '<div class="eq-etat ok"><span>🔑</span><div><b>Tu es connecté·e avec ton code perso</b>Parfait.</div></div>'
+             : '<div class="eq-etat attention"><span>⚠️</span><div><b>Tu es connecté·e avec le mot de passe partagé</b>Crée ton propre code ci-dessous, puis touche « C\'est mon code ».</div></div>';
+  if (equipe.code) {
+    var C = equipe.code;
+    h += '<div class="eq-code"><div class="qui">Code de '+esc(C.nom)+' · '+(C.role === 'admin' ? '🛡️ admin' : '⛑️ medic')+'</div><div class="c">'+esc(C.code)+'</div>'
+      + '<div class="av">Envoie-le maintenant, en privé (Signal…). <b>Il ne sera plus affiché</b> : si c\'est perdu, il suffira d\'en refaire un.</div>'
+      + '<div class="rangee"><button class="btn plein" onclick="copierCode()">📋 Copier</button><button class="btn rose plein" onclick="envoyerCode()">'+ic('partage')+'Envoyer</button></div>'
+      + '<div class="rangee"><button class="btn plein" onclick="utiliserCode()">🔑 C\'est mon code : l\'utiliser ici</button></div></div>';
+  }
+  h += '<label class="l">Ajouter quelqu\'un</label><div class="eq-ajout"><input id="eq-nom" maxlength="24" placeholder="Son pseudo (ex : Sam)" autocomplete="off" value="'+esc(equipe.nom || '')+'">'
+    + '<div class="segments"><button class="'+(equipe.role === 'medic' ? 'sel dispo' : '')+'" onclick="equipe.role=\'medic\';garderNomEq();dessinerEquipe()">⛑️ Medic</button>'
+    + '<button class="'+(equipe.role === 'admin' ? 'sel' : '')+'" onclick="equipe.role=\'admin\';garderNomEq();dessinerEquipe()">🛡️ Admin</button></div>'
+    + '<button class="btn rose plein" id="eq-go" onclick="creerMembreUI()">Créer son code</button></div>';
+  if (!L) h += '<div class="vide">Chargement de l\'équipe…</div>';
+  else {
+    h += '<label class="l">L\'équipe · '+L.membres.length+' personne'+(L.membres.length > 1 ? 's' : '')+'</label>';
+    if (!L.membres.length) h += '<div class="vide" style="padding:14px">Personne pour l\'instant. Commence par créer <b>ton</b> code (admin).</div>';
+    L.membres.forEach(function(m){
+      var sur = equipe.sur === m.id;
+      h += '<div class="eq-m"><span class="eq-r '+m.role+'">'+(m.role === 'admin' ? '🛡️' : '⛑️')+'</span><div class="eq-t"><b>'+esc(m.nom)+'</b><small>'+(m.role === 'admin' ? 'Admin' : 'Medic')+' · '
+        + (m.vu && maintenant() - m.vu < 5*60000 ? '<i>● en ligne</i>' : m.vu ? 'vu ' + age(m.vu) : 'pas encore connecté·e')+'</small></div>'
+        + '<button class="btn petit" onclick="nouveauCodeUI(\''+m.id+'\')" aria-label="Nouveau code">🔄</button>'
+        + '<button class="btn petit '+(sur ? 'sur' : 'rouge')+'" onclick="retirerMembreUI(\''+m.id+'\')">'+(sur ? 'Sûr ?' : '✕')+'</button></div>';
+    });
+    h += '<label class="l">Anciens mots de passe partagés</label>'
+      + (L.partages ? '<div class="eq-etat attention"><span>🔓</span><div><b>Encore actifs</b>Toute personne qui connaît l\'ancien mot de passe peut entrer. Quand chacun·e a son code, coupe-les.</div></div>'
+                      + '<button class="btn plein" '+(perso ? 'onclick="reglerPartagesUI(false)"' : 'disabled')+'>🔒 Couper les mots de passe partagés</button>'
+                      + (perso ? '' : '<div class="sous" style="margin-top:6px">Connecte-toi d\'abord avec ton propre code.</div>')
+                    : '<div class="eq-etat ok"><span>🔒</span><div><b>Coupés</b>Seuls les codes perso marchent. Les téléphones encore connectés avec l\'ancien mot de passe ont été déconnectés.</div></div>'
+                      + '<button class="btn plein" onclick="reglerPartagesUI(true)">Les réactiver</button>');
+  }
+  h += '<div class="rangee"><button class="btn plein" onclick="dessinerGestion()">Retour</button></div>';
+  montrerEquipe(h);
+}
+function montrerEquipe(h){ var f = $('feuille'); if (f.dataset.vue === 'equipe' && f.classList.contains('ouverte')) rafraichirFeuille(h); else ouvrir(h, 'equipe'); }
+function garderNomEq(){ equipe.nom = ($('eq-nom') || {}).value || ''; }
+function creerMembreUI(){
+  var nom = ($('eq-nom').value || '').trim(); if (!nom) { $('eq-nom').focus(); return toast('Mets son pseudo'); }
+  $('eq-go').disabled = true; $('eq-go').textContent = '…';
+  serveur('creerMembre', etat.mdp, nom, equipe.role).then(function(r){
+    equipe.code = { code:r.code, nom:r.nom, role:r.role }; equipe.liste = { membres:r.membres, partages:r.partages }; equipe.nom = '';
+    dessinerEquipe(); $('feuille').scrollTop = 0; try { jouer('ding'); } catch(e){}
+  }).catch(erreurCodes);
+}
+function nouveauCodeUI(id){
+  serveur('changerCodeMembre', etat.mdp, id).then(function(r){
+    equipe.code = { code:r.code, nom:r.nom, role:r.role }; equipe.liste = { membres:r.membres, partages:r.partages };
+    dessinerEquipe(); $('feuille').scrollTop = 0; toast('Nouveau code : l\'ancien ne marche plus');
+  }).catch(erreurCodes);
+}
+function retirerMembreUI(id){
+  if (equipe.sur !== id) { equipe.sur = id; dessinerEquipe(); clearTimeout(equipe.t); equipe.t = setTimeout(function(){ if (equipe.sur === id) { equipe.sur = null; if ($('feuille').dataset.vue === 'equipe') dessinerEquipe(); } }, 3500); return; }
+  equipe.sur = null;
+  serveur('retirerMembre', etat.mdp, id).then(function(l){ equipe.liste = l; dessinerEquipe(); toast('Code retiré : il ne marche plus'); }).catch(erreurCodes);
+}
+function reglerPartagesUI(actifs){
+  serveur('reglerPartages', etat.mdp, actifs).then(function(l){ equipe.liste = l; dessinerEquipe(); toast(actifs ? 'Mots de passe partagés réactivés' : '🔒 Mots de passe partagés coupés'); }).catch(erreurCodes);
+}
+function texteCode(){ var C = equipe.code || {};
+  return 'Ton code Traboule (' + (C.role === 'admin' ? 'admin' : 'medic') + ') : ' + C.code + '\nGarde-le pour toi. Ouvre ' + (urlAppli || 'l\'appli') + ' → onglet Équipe → entre ce code.'; }
+function copierCode(){ var C = equipe.code; if (!C) return;
+  if (navigator.clipboard) navigator.clipboard.writeText(C.code).then(function(){ toast('Code copié'); }).catch(function(){ toast(C.code); }); else toast(C.code); }
+function envoyerCode(){ if (!equipe.code) return;
+  if (navigator.share) navigator.share({ text:texteCode() }).catch(function(){}); else if (navigator.clipboard) navigator.clipboard.writeText(texteCode()).then(function(){ toast('Message copié, colle-le dans Signal'); }); }
+function utiliserCode(){
+  var C = equipe.code; if (!C) return;
+  serveur('connexion', C.code).then(function(role){
+    etat.mdp = C.code; etat.role = role; ecrireLS('mdp_equipe', C.code); ecrireLS('role_equipe', role);
+    if (!etat.pseudo) { etat.pseudo = C.nom; ecrireLS('pseudo_equipe', C.nom); }
+    dessinerOnglets(); toast('🔑 Tu utilises maintenant ton code perso'); dessinerEquipe();
+  }).catch(erreurCodes);
+}
 // ===================== V38 : ANNONCE DU NOUVEAU NOM =====================
 // Une seule fois, pour ceux qui connaissaient déjà Lyon Live. Les nouveaux venus ne la voient pas (ils n'ont connu que Traboule).
 function montrerAnnonceT(){
