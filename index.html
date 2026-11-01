@@ -1852,6 +1852,42 @@
   .feuille .r-chiffres b { font-size:30px; line-height:1.05; text-shadow:0 0 14px currentColor; }
   .feuille .r-chiffres button { border-radius:16px 16px 10px 10px; border:1px solid rgba(255,150,90,.1); }
   body.leger .feuille::before { background:radial-gradient(90% 100% at 50% -35%, rgba(255,138,58,.25), transparent 70%) !important; }
+
+  /* ================= v50 : en-tête et bandeau épinglé façon Traboule ================= */
+  /* pierre chaude commune aux pastilles du haut */
+  #titre, #direct, #btn-son, #ticker { background:linear-gradient(180deg, rgba(40,24,18,.93), rgba(18,12,10,.95)) !important; border:1px solid rgba(255,150,90,.2) !important;
+    box-shadow:0 8px 24px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,190,140,.14) !important; }
+  /* le nom : en dégradé orange comme sur l'écran d'accueil, le logo qui luit */
+  #titre { font-size:20px; letter-spacing:2.2px; padding:0 18px 0 9px; gap:8px; }
+  #titre::before { width:30px !important; height:32px !important; margin-top:-2px; animation:titre-lueur 3.4s ease-in-out infinite; }
+  @keyframes titre-lueur { 0%,100% { filter:drop-shadow(0 0 6px rgba(255,106,31,.55)); } 50% { filter:drop-shadow(0 0 12px rgba(255,170,80,.95)); } }
+  #titre .tt { background:linear-gradient(180deg, #ffd9a0 0%, #ff9a2b 45%, #ff5a1f 75%, #e3301c 100%); -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter:drop-shadow(0 0 10px rgba(255,106,31,.45)); }
+  /* EN DIRECT : capitales Traboule, point rouge qui pulse */
+  #direct { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:13px; letter-spacing:1.6px; color:#ff6a6f !important; padding:0 13px !important; height:34px; gap:7px;
+    border-color:rgba(255,80,80,.38) !important; }
+  #direct:has(.hs) { color:#b8a59a !important; border-color:rgba(255,150,90,.2) !important; }
+  #point-direct { width:8px !important; height:8px !important; background:#ff3b30 !important; box-shadow:0 0 8px #ff3b30; }
+  #point-direct.hs { background:#7a6a62 !important; box-shadow:none; }
+  #btn-son { color:#ffd0a8 !important; } #btn-son.off { color:#8e7d74 !important; }
+  /* bandeau du message : pierre, arcades à droite, icône dans une petite traboule éclairée */
+  #ticker { --tc:#4f7cff; border-radius:20px !important; padding:10px 14px 10px 10px !important;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='24' viewBox='0 0 30 24'%3E%3Cpath d='M3 24V12a12 12 0 0 1 24 0v12' fill='none' stroke='%23ffb27a' stroke-opacity='.065' stroke-width='1.3'/%3E%3C/svg%3E") 100% 100% / 30px 24px repeat-x, linear-gradient(135deg, rgba(46,27,19,.95), rgba(19,12,10,.96)) !important; }
+  #ticker.epingle { --tc:#ff6a1f; } #ticker.important { --tc:#ffae3b; } #ticker.urgent { --tc:#ff3b30; }
+  #ticker.vu { grid-template-columns:42px 1fr; column-gap:12px; }
+  #ticker.urgent { background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='24' viewBox='0 0 30 24'%3E%3Cpath d='M3 24V12a12 12 0 0 1 24 0v12' fill='none' stroke='%23ffb27a' stroke-opacity='.065' stroke-width='1.3'/%3E%3C/svg%3E") 100% 100% / 30px 24px repeat-x, linear-gradient(135deg, rgba(80,14,14,.96), rgba(30,8,8,.96)) !important;
+    border-color:rgba(255,80,80,.55) !important; animation:tk-urgent 1.6s ease-in-out infinite; }
+  @keyframes tk-urgent { 50% { box-shadow:0 8px 24px rgba(0,0,0,.5), 0 0 0 3px rgba(255,59,48,.35), 0 0 26px rgba(255,59,48,.45) !important; } }
+  #tk-ic { width:42px !important; height:48px !important; border-radius:21px 21px 9px 9px !important; font-size:20px !important; padding-top:2px;
+    border:2px solid transparent;
+    background:radial-gradient(75% 45% at 50% 100%, color-mix(in srgb, var(--tc) 85%, #fff) 0%, color-mix(in srgb, var(--tc) 45%, transparent) 45%, transparent 100%) padding-box,
+               linear-gradient(180deg, #170b07, #2a140b) padding-box,
+               linear-gradient(160deg, color-mix(in srgb, var(--tc) 60%, #fff), var(--tc) 55%, color-mix(in srgb, var(--tc) 70%, #000)) border-box !important;
+    box-shadow:0 0 14px color-mix(in srgb, var(--tc) 45%, transparent); }
+  #ticker .t1 { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:12px !important; letter-spacing:1.3px; color:color-mix(in srgb, var(--tc) 78%, #fff) !important; margin-bottom:2px !important; }
+  #ticker .t1 #tk-age { font-family:Inter,sans-serif; font-weight:800; font-size:10px; letter-spacing:.6px; color:#b8a59a; }
+  #ticker .t2 { font-size:14.5px !important; font-weight:700 !important; color:#fff6ee; line-height:1.32 !important; }
+  @media (prefers-reduced-motion: reduce) { #titre::before, #ticker.urgent { animation:none !important; } }
 </style>
 </head>
 <body>
@@ -1885,7 +1921,7 @@
 
 <div id="haut">
   <div class="barre verre">
-    <div id="titre" class="anton">Traboule</div>
+    <div id="titre" class="anton"><span class="tt">Traboule</span></div>
     <span id="role-badge"></span>
     <div id="direct"><span id="point-direct"></span><span id="maj">…</span></div>
     <button id="btn-son" onclick="basculerSon()" aria-label="Son"></button>
