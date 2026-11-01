@@ -2320,6 +2320,8 @@ function dessinerGestion(rafraichir){
   var medics = etat.medics.filter(function(m){ return m.statut !== 'pause'; }).length;
   var attente = etat.blesses.filter(function(b){ return b.statut === 'attente'; }).length;
   var h = entete('Gestion', 'Connecté·e : ' + esc(etat.pseudo || 'admin'));
+  var nEvt = evtsVisibles().length;
+  h += '<button class="prep5" style="margin:4px 0 10px;border-color:#ffd23f88;background:linear-gradient(135deg,#ffd23f22,#ff5caa22)" onclick="gererEvenements()"><span>📅</span><div><b>Événements, blocus, concerts</b><small>'+(nEvt ? nEvt+' à venir · ' : '')+'Créer ou modifier</small></div>'+ic('fleche')+'</button>';
   h += '<div class="stats">'
     + tuile(etat.points.length, 'points actifs', '#4f7cff', 'ouvrirListe(\'tout\')')
     + tuile(verif.length, 'à vérifier', verif.length ? '#ffae3b' : '#3a3a44', 'document.getElementById(\'sec-verif\').scrollIntoView({behavior:\'smooth\'})')
