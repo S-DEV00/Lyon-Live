@@ -838,6 +838,22 @@
   .pop-boite { display:flex; flex-direction:column; }
   .pop-btns { position:sticky; bottom:-18px; margin-top:auto; padding:14px 18px 18px; margin-bottom:-18px; background:linear-gradient(transparent, #121217 30%); z-index:2; }
   .pop-boite { scrollbar-width:none; } .pop-boite::-webkit-scrollbar { display:none; }
+
+  /* ================= v21 : zone de fête autour des concerts ================= */
+  @keyframes halo-bat { 0%,100% { transform:translate(-50%,-50%) scale(.9); opacity:.75; } 15% { transform:translate(-50%,-50%) scale(1.04); opacity:1; } }
+  @keyframes halo-onde { 0% { transform:translate(-50%,-50%) scale(.3); opacity:.8; } 100% { transform:translate(-50%,-50%) scale(1.15); opacity:0; } }
+  .halo-fete { position:absolute; left:0; top:0; pointer-events:none; }
+  .halo-fete .hf-c { position:absolute; left:0; top:0; width:var(--d); height:var(--d); border-radius:50%; transform:translate(-50%,-50%);
+    background:radial-gradient(circle, #ff2bd699 0%, #7a5cff66 30%, #00e0ff40 52%, transparent 70%); animation:halo-bat .9s ease-in-out infinite, cc-teinte 4s linear infinite; mix-blend-mode:screen; }
+  .halo-fete .hf-o { position:absolute; left:0; top:0; width:var(--d); height:var(--d); border-radius:50%; border:3px solid #ff2bd6; transform:translate(-50%,-50%);
+    box-shadow:0 0 18px #ff2bd6, inset 0 0 18px #00e0ff88; animation:halo-onde 1.8s ease-out infinite, cc-teinte 3s linear infinite; }
+  .halo-fete .hf-o:nth-child(3) { animation-delay:.6s, 0s; } .halo-fete .hf-o:nth-child(4) { animation-delay:1.2s, 0s; }
+  .halo-fete .hf-l { position:absolute; left:0; top:0; width:calc(var(--d) * 1.1); height:calc(var(--d) * 1.1); border-radius:50%; transform:translate(-50%,-50%);
+    background:conic-gradient(from 0deg, transparent 0 20deg, #ff2bd666 30deg, transparent 40deg 110deg, #00e0ff66 120deg, transparent 130deg 200deg, #ffe60066 210deg, transparent 220deg 290deg, #39ff8866 300deg, transparent 310deg);
+    animation:cc-tourne 6s linear infinite; }
+  @keyframes cc-tourne2 { to { transform:translate(-50%,-50%) rotate(360deg); } }
+  .halo-fete .hf-l { animation:cc-tourne2 6s linear infinite; }
+  .halo-fete.bientot .hf-c, .halo-fete.bientot .hf-l { opacity:.45; } .halo-fete.bientot .hf-o { animation-duration:3s, 3s; opacity:.6; }
 </style>
 </head>
 <body>
@@ -2640,6 +2656,29 @@ function iconeEvt(v){
       : '<div class="evt-pin'+(live?' live':'')+(v.cat==='rassemb'?' rassemb':'')+'" style="--ec:'+C.c+'"><div class="ep-c"><div class="ep-m">'+(live ? 'live' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div></div>'
       + '<div class="evt-etiq">'+esc(v.titre)+'</div></div>' });
 }
+
+// Zone de fête : halo néon qui pulse autour d'un concert en cours (plus discret 2 h avant)
+var halos = {}, RAYON_HALO = 220;
+function tailleHalo(lat){ return Math.max(170, Math.min(1000, 2 * RAYON_HALO / (156543.03 * Math.cos(lat*Math.PI/180) / Math.pow(2, carte.getZoom())))); }
+function majHalos(){
+  var vus3 = {};
+  evtsVisibles().forEach(function(v){
+    if (v.cat !== 'fete' || v.lat === undefined || v.lat === null) return;
+    var st = etatEvt(v), bientot = st === 'avenir' && v.debut - maintenant() < 2*3600000;
+    if (st !== 'live' && !bientot) return;
+    vus3[v.id] = 1; var cls = 'halo-fete' + (bientot ? ' bientot' : '');
+    if (!halos[v.id] || halos[v.id]._cls !== cls) {
+      if (halos[v.id]) carte.removeLayer(halos[v.id]);
+      halos[v.id] = L.marker([v.lat, v.lng], { interactive:false, keyboard:false, zIndexOffset:-3000, pane:'overlayPane',
+        icon:L.divIcon({ className:'', iconSize:[0,0], html:'<div class="'+cls+'"><div class="hf-l"></div><div class="hf-c"></div><div class="hf-o"></div><div class="hf-o"></div><div class="hf-o"></div></div>' }) }).addTo(carte);
+      halos[v.id]._cls = cls;
+    }
+    var el = halos[v.id].getElement(); if (el) el.firstChild.style.setProperty('--d', Math.round(tailleHalo(v.lat)) + 'px');
+  });
+  Object.keys(halos).forEach(function(id){ if (!vus3[id]) { carte.removeLayer(halos[id]); delete halos[id]; } });
+}
+carte.on('zoomend', majHalos);
+setInterval(majHalos, 60000);
 function majEvenements(){
   var vus2 = {};
   evtsVisibles().forEach(function(v){
@@ -2652,6 +2691,7 @@ function majEvenements(){
     evtMarqueurs[v.id]._cle = cle;
   });
   Object.keys(evtMarqueurs).forEach(function(id){ if (!vus2[id]) { carte.removeLayer(evtMarqueurs[id]); delete evtMarqueurs[id]; } });
+  majHalos();
 }
 function pastilleEvt(){
   var l = evtsVisibles(); if (!l.length) return '';
