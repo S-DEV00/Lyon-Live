@@ -1719,6 +1719,35 @@
   body.eco #carte, body.leger #carte { transition:none; transform:none; }
   @media (prefers-reduced-motion: reduce) { #splash.traverse .sp-logo svg, #splash.traverse .sp-plan { transition:none !important; transform:none !important; }
     .sp-flash { display:none; } body.splash-la #carte { transform:none; } }
+
+  /* ================= v47 : épingle blocus boostée (barrière de chantier) ================= */
+  .evt-pin.bl2 { position:relative; width:56px; height:60px; }
+  .bl2-halo { position:absolute; left:50%; top:22px; width:64px; height:64px; margin:-32px 0 0 -32px; border-radius:50%; pointer-events:none; opacity:0; }
+  .bl2.live .bl2-halo { border:3px solid #ffd23f; box-shadow:0 0 18px #ffd23f; animation:bl2-onde 1.8s ease-out infinite; }
+  @keyframes bl2-onde { 0% { transform:scale(.5); opacity:.9; } 100% { transform:scale(1.6); opacity:0; } }
+  .bl2-lampes { position:absolute; left:6px; right:6px; top:0; height:9px; display:flex; justify-content:space-between; }
+  .bl2-lampes i { width:10px; height:9px; border-radius:6px 6px 2px 2px; background:#6b5420; border:1.5px solid #1a1408; }
+  .bl2.live .bl2-lampes i { background:#ff8a00; box-shadow:0 0 10px #ff8a00, 0 0 20px #ff6a00; animation:bl2-gyro .8s steps(1) infinite; }
+  .bl2.live .bl2-lampes i + i { animation-delay:.4s; }
+  @keyframes bl2-gyro { 50% { background:#5a3a10; box-shadow:none; } }
+  .bl2-barre { position:absolute; left:0; right:0; top:8px; height:24px; border-radius:6px; border:2px solid #14110a;
+    background:repeating-linear-gradient(-45deg, #ffd23f 0 8px, #14110a 8px 16px);
+    box-shadow:0 0 0 2px #fff, 0 6px 14px rgba(0,0,0,.6), 0 0 18px rgba(255,210,63,.45); display:flex; align-items:center; justify-content:center; }
+  .bl2-barre b { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:9px; letter-spacing:.4px; line-height:1; color:#14110a; background:#fff; padding:2px 3px 1px; border-radius:3px; box-shadow:0 0 0 1.5px #14110a; }
+  .bl2.live .bl2-barre { animation:bl2-secoue 2.6s ease-in-out infinite; box-shadow:0 0 0 2px #fff, 0 6px 14px rgba(0,0,0,.6), 0 0 26px rgba(255,210,63,.75); }
+  @keyframes bl2-secoue { 0%, 84%, 100% { transform:rotate(0); } 88% { transform:rotate(-4deg); } 92% { transform:rotate(3.5deg); } 96% { transform:rotate(-2deg); } }
+  .bl2-pieds { position:absolute; left:9px; right:9px; top:31px; height:10px; display:flex; justify-content:space-between; }
+  .bl2-pieds i { width:5px; height:11px; border-radius:0 0 2px 2px; background:#d8d0b8; box-shadow:0 0 0 1.5px #14110a; }
+  .bl2-quand { position:absolute; left:50%; top:42px; transform:translateX(-50%); white-space:nowrap; font-size:9px; font-weight:900; letter-spacing:.5px; line-height:1;
+    padding:4px 7px; border-radius:9px; background:#14110a; color:#ffd23f; border:1.5px solid #ffd23f; box-shadow:0 3px 8px rgba(0,0,0,.6); }
+  .bl2.live .bl2-quand { background:#e8202e; color:#fff; border-color:#fff; display:flex; align-items:center; gap:4px; }
+  .bl2-quand i { width:6px; height:6px; border-radius:50%; background:#fff; animation:bl2-pt 1s ease-in-out infinite; }
+  @keyframes bl2-pt { 50% { opacity:.25; } }
+  .evt-pin.bl2 .evt-etiq { left:63px; top:7px; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:15px; letter-spacing:.6px; color:#ffd23f; text-transform:uppercase;
+    text-shadow:0 0 3px #000, 0 0 3px #000, 0 2px 6px #000; max-width:150px; }
+  body.zoom-14 .evt-pin.bl2 .evt-etiq { display:block; }
+  .leaflet-marker-icon:active .evt-pin.bl2 { transform:scale(.92); }
+  @media (prefers-reduced-motion: reduce) { .bl2 *, .bl2.live * { animation:none !important; } }
 </style>
 </head>
 <body>
@@ -3831,7 +3860,7 @@ function sauverMaintenance(){
 var ORDRE_LBL = ['.evt-etiq', '.info-etiq', '.scene-nom.g', '.st-nom', '.scene-nom.s', '.scene-nom.p', '.ecole-nom.fac', '.ecole-nom.lycee', '.repere span', '.nomrue span'];
 function desencombrer(){
   var pris = [];
-  document.querySelectorAll('#haut .barre > *, #ticker.vu, #compteurs .pastille, #flottants button, #onglets, .leaflet-marker-icon .pin, .evt-pin .ep-c, #carte .station, #carte .hosto').forEach(function(el){
+  document.querySelectorAll('#haut .barre > *, #ticker.vu, #compteurs .pastille, #flottants button, #onglets, .leaflet-marker-icon .pin, .evt-pin .ep-c, .evt-pin .bl2-barre, #carte .station, #carte .hosto').forEach(function(el){
     var r = el.getBoundingClientRect(); if (r.width) pris.push(r); });
   var H = window.innerHeight, W = window.innerWidth;
   ORDRE_LBL.forEach(function(sel){
@@ -4297,11 +4326,14 @@ function compteEvt(v){
 }
 function iconeEvt(v){
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, d = new Date(v.debut), live = etatEvt(v) === 'live';
-  return L.divIcon({ className:'', iconSize: v.cat === 'sauvage' ? [58,58] : v.cat === 'fete' ? [52,58] : v.cat === 'blocus' ? [40,46] : [46,52], iconAnchor: v.cat === 'sauvage' ? [29,29] : v.cat === 'fete' ? [26,60] : v.cat === 'blocus' ? [20,48] : [23,54],
+  return L.divIcon({ className:'', iconSize: v.cat === 'sauvage' ? [58,58] : v.cat === 'fete' ? [52,58] : v.cat === 'blocus' ? [56,60] : [46,52], iconAnchor: v.cat === 'sauvage' ? [29,29] : v.cat === 'fete' ? [26,60] : v.cat === 'blocus' ? [28,40] : [23,54],
     html: v.cat === 'sauvage'
       ? '<div class="sv-pin evt"><div class="sv-onde"></div>'+(live ? '<div class="sv-onde b"></div>' : '')+'<div class="sv-anneau"></div><div class="sv-c"><span>⚡</span></div><div class="sv-eclair"></div><div class="sv-etiq">'+(live ? '● EN COURS' : JOURS_C[d.getDay()].toUpperCase()+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut).toUpperCase()))+'</div><div class="evt-etiq">'+esc(v.titre)+'</div></div>'
       : v.cat === 'blocus'
-      ? '<div class="evt-pin blocus'+(live?' live':'')+'" style="--ec:'+C.c+'"><div class="ep-c"><span class="bl-gyro"></span><div class="ep-m">'+(live ? '● bloqué' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div></div><div class="evt-etiq">'+esc(v.titre)+'</div></div>'
+      ? '<div class="evt-pin bl2'+(live?' live':'')+'"><div class="bl2-halo"></div><div class="bl2-lampes"><i></i><i></i></div>'
+        + '<div class="bl2-barre"><b>BLOCUS</b></div><div class="bl2-pieds"><i></i><i></i></div>'
+        + '<div class="bl2-quand">'+(live ? '<i></i>EN COURS' : JOURS_C[d.getDay()].toUpperCase()+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut).toUpperCase()))+'</div>'
+        + '<div class="evt-etiq">'+esc(String(v.titre).replace(/^Blocus\s+/i, ''))+'</div></div>'
       : v.cat === 'fete'
       ? '<div class="evt-pin concert'+(live?' live':'')+'" style="--ec:'+C.c+'"><div class="cc-notes"><b>♪</b><b>♫</b><b>♪</b></div><div class="ep-c"><div class="ep-m">'+(live ? '● live' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div><div class="cc-eq"><i></i><i></i><i></i><i></i><i></i></div></div>'
       : '<div class="evt-pin'+(live?' live':'')+(v.cat==='rassemb'?' rassemb':v.cat==='sauvage'?' sauvage':'')+'" style="--ec:'+C.c+'"><div class="ep-c"><div class="ep-m">'+(live ? 'live' : JOURS_C[d.getDay()]+' '+(v.journee ? d.getDate()+'/'+(d.getMonth()+1) : heure(v.debut)))+'</div><div class="ep-e">'+esc(v.emoji||C.e)+'</div></div>'
