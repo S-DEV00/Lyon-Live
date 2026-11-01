@@ -1447,6 +1447,55 @@
   #maint small.m-signe { display:flex; align-items:center; gap:6px; font-family:Anton,Impact,sans-serif; font-size:14px; letter-spacing:1.4px; text-transform:uppercase; color:#cfc6c0; }
   #maint small.m-signe .logo-t { width:18px; height:18px; }
   @media (prefers-reduced-motion: reduce) { .logo-t .mk-lum, .sp-logo .mk-lum, .sp-logo .mk-pas { animation:none !important; } }
+
+  /* ================= v38 : annonce du nouveau nom ================= */
+  #annonce-t { position:fixed; inset:0; z-index:2650; background:rgba(8,5,4,.8); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+    display:flex; align-items:center; justify-content:center; padding:18px; opacity:0; visibility:hidden; transition:opacity .3s, visibility .3s; }
+  #annonce-t.vu { opacity:1; visibility:visible; }
+  .at-boite { position:relative; width:100%; max-width:390px; max-height:90vh; overflow:auto; scrollbar-width:none; border-radius:30px; padding-bottom:16px;
+    background:linear-gradient(180deg,#24120b 0%,#141012 42%); border:1px solid #ff6a1f55; box-shadow:0 24px 70px #000d, 0 0 90px #ff6a1f33;
+    transform:translateY(24px) scale(.94); transition:transform .45s cubic-bezier(.2,1.3,.4,1); }
+  .at-boite::-webkit-scrollbar { display:none; }
+  #annonce-t.vu .at-boite { transform:none; }
+  .at-x { position:absolute; top:12px; right:12px; z-index:2; width:34px; height:34px; border-radius:50%; background:#ffffff12; color:#cfc6c0; display:flex; align-items:center; justify-content:center; }
+  .at-x svg { width:16px; height:16px; }
+  .at-haut { position:relative; text-align:center; padding:26px 20px 6px; overflow:hidden; }
+  .at-haut::before { content:""; position:absolute; left:50%; top:-90px; width:320px; height:230px; transform:translateX(-50%); border-radius:50%; background:radial-gradient(circle,#ff6a1f55,transparent 70%); pointer-events:none; }
+  .at-logo { position:relative; width:80px; height:80px; margin:0 auto 8px; }
+  .at-logo .logo-t { width:80px; height:80px; filter:drop-shadow(0 10px 26px #ff6a1faa); }
+  .at-ancien { position:relative; display:inline-block; font-family:Anton,Impact,sans-serif; font-size:19px; letter-spacing:2px; color:#8f878c; }
+  .at-ancien::after { content:""; position:absolute; left:-5px; right:-5px; top:50%; height:3px; margin-top:-1px; border-radius:2px; background:#ff3b30; transform:scaleX(0); transform-origin:left; }
+  .at-fleche { font-size:15px; color:#ff8a4a; line-height:1.2; }
+  .at-nom { margin:0; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:56px; line-height:1.04; letter-spacing:3px; display:flex; justify-content:center; }
+  .at-nom em { font-style:normal; display:inline-block; background:linear-gradient(135deg,#ffb82e,#ff6a1f 55%,#ec2e1c); -webkit-background-clip:text; background-clip:text; color:transparent; filter:drop-shadow(0 0 16px #ff6a1f66); }
+  .at-slogan { font-size:12px; font-weight:800; letter-spacing:3.5px; text-transform:uppercase; color:#ffd0a8; margin-top:2px; }
+  .at-corps { position:relative; padding:0 16px; }
+  .at-t { font-size:11px; font-weight:800; letter-spacing:.9px; text-transform:uppercase; color:var(--doux); margin:14px 2px 8px; }
+  .at-li { display:flex; gap:12px; align-items:flex-start; text-align:left; background:#1d1817; border:1px solid #ffffff10; border-radius:16px; padding:11px 13px; margin-bottom:7px;
+    font-size:14.5px; line-height:1.42; color:#e9e2de; }
+  .at-li > span { font-size:21px; line-height:1.15; flex:none; }
+  .at-li b { color:#ffb27a; }
+  .at-li.ok { background:#0f231b; border-color:#16c78444; } .at-li.ok b { color:#7ff0b5; }
+  .at-li.tel { background:#13182a; border-color:#4f7cff44; } .at-li.tel b { color:#a9c0ff; }
+  .at-btns { position:sticky; bottom:-16px; z-index:2; display:flex; gap:8px; padding:14px 16px 16px; margin-bottom:-16px; background:linear-gradient(180deg, #14101200, #141012 35%); }
+  /* arrivée : logo, ancien nom barré, nouveau nom lettre par lettre, puis le texte */
+  #annonce-t.vu .at-logo { animation:pop-saute .6s cubic-bezier(.2,1.6,.4,1) both .05s; }
+  #annonce-t.vu .at-ancien { animation:at-monte .4s .2s both; }
+  #annonce-t.vu .at-ancien::after { animation:at-barre .35s .5s cubic-bezier(.6,0,.2,1) forwards; }
+  #annonce-t.vu .at-fleche { animation:at-monte .3s .6s both; }
+  #annonce-t.vu .at-nom em { animation:at-lettre .5s cubic-bezier(.2,1.4,.4,1) both; }
+  #annonce-t.vu .at-nom em:nth-child(1){animation-delay:.62s} #annonce-t.vu .at-nom em:nth-child(2){animation-delay:.66s} #annonce-t.vu .at-nom em:nth-child(3){animation-delay:.7s}
+  #annonce-t.vu .at-nom em:nth-child(4){animation-delay:.74s} #annonce-t.vu .at-nom em:nth-child(5){animation-delay:.78s} #annonce-t.vu .at-nom em:nth-child(6){animation-delay:.82s}
+  #annonce-t.vu .at-nom em:nth-child(7){animation-delay:.86s} #annonce-t.vu .at-nom em:nth-child(8){animation-delay:.9s}
+  #annonce-t.vu .at-slogan { animation:at-monte .4s 1s both; }
+  #annonce-t.vu .at-corps > * { animation:fi-in .4s cubic-bezier(.2,.8,.2,1) both; }
+  #annonce-t.vu .at-corps > *:nth-child(1){animation-delay:.45s} #annonce-t.vu .at-corps > *:nth-child(2){animation-delay:.5s} #annonce-t.vu .at-corps > *:nth-child(3){animation-delay:.55s}
+  #annonce-t.vu .at-corps > *:nth-child(4){animation-delay:.6s} #annonce-t.vu .at-corps > *:nth-child(n+5){animation-delay:.65s}
+  @keyframes at-monte { from { opacity:0; transform:translateY(8px); } }
+  @keyframes at-barre { to { transform:scaleX(1); } }
+  @keyframes at-lettre { from { opacity:0; transform:translateY(28px) scale(.8); } }
+  #annonce-t.vu .at-ancien { opacity:.75; }
+  @media (prefers-reduced-motion: reduce) { #annonce-t *, #annonce-t *::after { animation-duration:.01s !important; animation-delay:0s !important; } }
 </style>
 </head>
 <body>
@@ -1512,6 +1561,7 @@
 <div id="proxi"></div>
 <div id="popup"></div>
 <div id="bienvenue"></div>
+<div id="annonce-t"></div>
 <div id="maint"></div>
 <div class="bandeau-maint" onclick="ouvrirMaintenance()"><span id="bm-e">🛠️</span> <span id="bm-txt">Maintenance activée · le public ne voit pas la carte</span></div>
 <div id="reseau" onclick="charger()"><span class="r-ic">📶</span><div><b id="rs-t"></b><span id="rs-s"></span></div></div>
@@ -2287,7 +2337,7 @@ function ouvrirConseils(){
     + '<div class="carte-c"><h3>'+ic('sortie')+'Repère tes sorties</h3>Regarde les points verts et les itinéraires de repli avant de rejoindre le cortège.</div>'
     + '<div class="carte-c"><h3>'+ic('son')+'Sons</h3>Touche le haut-parleur en haut à droite pour activer les sons. Coupe le mode silencieux de ton iPhone et garde l\'app ouverte pour les entendre.</div>'
     + '<div class="carte-c"><h3>'+ic('oeil')+'Ta vie privée</h3>Cette carte ne connaît pas ta position et ne t\'identifie pas. « Autour de moi » et l\'alerte de proximité calculent tout sur ton téléphone.</div>'
-    + '<div class="rangee" style="margin-bottom:10px"><button class="btn plein" onclick="fermer();montrerBienvenue()">👋 Revoir la présentation</button></div>'
+    + '<div class="rangee" style="margin-bottom:10px"><button class="btn plein" onclick="fermer();montrerBienvenue()">👋 Revoir la présentation</button></div><div class="rangee" style="margin:-4px 0 10px"><button class="btn plein" onclick="fermer();montrerAnnonceT()">🏛️ Pourquoi « Traboule » ?</button></div>'
     + '<div class="carte-c"><h3>'+ic('carte')+'Si le réseau tombe</h3>Garde l\'app ouverte : le plan de Lyon est dans l\'app et les dernières infos restent affichées. Elle se remet à jour toute seule quand le réseau revient.</div>', 'conseils');
 }
 
@@ -4346,7 +4396,7 @@ function ouvrirConseilsEN(){
     + '<div class="carte-c"><h3>'+ic('son')+'Sounds</h3>Tap the speaker at the top right to turn on alert sounds. Turn off silent mode and keep the app open.</div>'
     + '<div class="carte-c"><h3>'+ic('oeil')+'Your privacy</h3>This map never knows where you are and doesn\'t identify you. “Nearby” and proximity alerts are computed on your phone.</div>'
     + '<div class="carte-c"><h3>'+ic('carte')+'If the network drops</h3>Keep the app open: the Lyon map is built in and the latest info stays on screen. It updates by itself when the network is back.</div>'
-    + '<div class="rangee" style="margin-bottom:10px"><button class="btn plein" onclick="fermer();montrerBienvenue()">👋 See the intro again</button></div>', 'conseils');
+    + '<div class="rangee" style="margin-bottom:10px"><button class="btn plein" onclick="fermer();montrerBienvenue()">👋 See the intro again</button></div><div class="rangee" style="margin:-4px 0 10px"><button class="btn plein" onclick="fermer();montrerAnnonceT()">🏛️ Why « Traboule »?</button></div>', 'conseils');
 }
 
 // ===== Préréglage manif du 5 novembre =====
@@ -4610,6 +4660,46 @@ setTimeout(cacherSplash, 5000);
 setTimeout(boucleChargement, (eco ? 45 : RAFRAICHIR_S) * 1000);
 setInterval(majHorloge, 5000);
 document.addEventListener('visibilitychange', function(){ if (!document.hidden) charger(); });
+// ===================== V38 : ANNONCE DU NOUVEAU NOM =====================
+// Une seule fois, pour ceux qui connaissaient déjà Lyon Live. Les nouveaux venus ne la voient pas (ils n'ont connu que Traboule).
+function montrerAnnonceT(){
+  var en = LANGUE === 'en', el = $('annonce-t'); if (!el) return;
+  var installe = window.navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+  var ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  var lettres = 'TRABOULE'.split('').map(function(l){ return '<em>'+l+'</em>'; }).join('');
+  var li = function(e, t, cls){ return '<div class="at-li'+(cls ? ' '+cls : '')+'"><span>'+e+'</span><div>'+t+'</div></div>'; };
+  el.innerHTML = '<div class="at-boite" role="dialog" aria-label="Traboule"><button class="at-x" onclick="fermerAnnonceT()" aria-label="Fermer">'+ic('fermer')+'</button>'
+    + '<div class="at-haut"><div class="at-logo">'+logoTraboule('at')+'</div><div class="at-ancien">LYON LIVE</div><div class="at-fleche">↓</div>'
+    + '<h3 class="at-nom">'+lettres+'</h3><div class="at-slogan">'+(en ? 'Find your way out' : 'Trouve ta sortie')+'</div></div>'
+    + '<div class="at-corps"><div class="at-t">'+(en ? 'Why this name?' : 'Pourquoi on change de nom ?')+'</div>'
+    + li('🏛️', en ? 'A <b>traboule</b> is a secret passage through Lyon\'s buildings. The silk workers, then the Resistance, used them to move around and escape.'
+                  : 'Une <b>traboule</b>, c\'est un passage secret qui traverse les immeubles de Lyon. Les canuts, puis la Résistance, s\'en servaient pour circuler et s\'échapper.')
+    + li('🚪', en ? 'That\'s what the app does: it shows you <b>where to go and how to get out</b>.' : 'C\'est ce que fait l\'app : te montrer <b>où passer et par où sortir</b>.')
+    + li('✊', en ? 'A <b>100 % Lyon</b> name, easy to remember and to pass around.' : 'Un nom <b>100 % lyonnais</b>, facile à retenir et à faire tourner.')
+    + '<div class="at-t">'+(en ? 'What changes for you?' : 'Pour toi, ça change quoi ?')+'</div>'
+    + li('✅', en ? '<b>Nothing to do</b>: same address, same live info, your settings are kept.' : '<b>Rien à faire</b> : même adresse, mêmes infos en direct, tes réglages sont gardés.', 'ok')
+    + (installe ? (ios ? li('📲', en ? 'For the new icon on your home screen: <b>delete the old one</b>, then in Safari tap Share → « Add to Home Screen ».'
+                                    : 'Pour la nouvelle icône sur ton écran d\'accueil : <b>supprime l\'ancienne</b>, puis dans Safari touche Partager → « Sur l\'écran d\'accueil ».', 'tel')
+                       : li('📲', en ? 'The new icon will show up on your home screen <b>by itself</b> in the next few days.' : 'La nouvelle icône arrive <b>toute seule</b> sur ton écran d\'accueil d\'ici quelques jours.', 'tel'))
+               : '')
+    + '</div><div class="at-btns"><button class="btn plein" onclick="fermerAnnonceT();partagerAppli()">'+ic('partage')+(en ? 'Share' : 'Faire tourner')+'</button>'
+    + '<button class="btn rose plein" onclick="fermerAnnonceT()">'+(en ? 'Let\'s go' : 'C\'est parti')+' 🔥</button></div></div>';
+  el.onclick = function(ev){ if (ev.target === el) fermerAnnonceT(); };
+  requestAnimationFrame(function(){ el.classList.add('vu'); });
+}
+function fermerAnnonceT(){ ecrireLS('traboule1', '1'); var el = $('annonce-t'); if (el) el.classList.remove('vu'); }
+(function(){
+  if (lireLS('traboule1')) return;
+  if (!lireLS('bienvenue9')) { ecrireLS('traboule1', '1'); return; }
+  var n = 0;
+  (function att(){
+    if (++n > 120) return; // pas le bon moment pendant une minute : on réessaiera à la prochaine ouverture
+    var pret = $('splash').style.display === 'none' && etat.derniereMaj && !$('maint').classList.contains('vu') && !$('bienvenue').classList.contains('vu')
+      && !$('feuille').classList.contains('ouverte') && !$('alerte').classList.contains('vu');
+    if (!pret) return setTimeout(att, 500);
+    setTimeout(montrerAnnonceT, 500);
+  })();
+})();
 </script>
 </body>
 </html>
