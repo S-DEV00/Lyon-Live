@@ -2585,6 +2585,37 @@
   .nt-carte b { display:block; font-size:14.5px; } .nt-carte small { display:block; font-size:12.5px; color:var(--doux); line-height:1.35; margin-top:1px; }
   .nt-carte > span:last-child { margin-left:auto; color:#ffb27a; font-size:22px; line-height:1; }
   @media (prefers-reduced-motion: reduce) { .nt-flap i b, .nt-mini i, #annonce-t.nt .nt-tampon { animation:none !important; } #annonce-t.nt .nt-tampon { opacity:1; } }
+  /* ================= v65 : fiche blocus — titre, mot de l'orga, bouton son ================= */
+  .bl-kick { display:flex; align-items:center; gap:8px; margin:2px 0 3px; font-size:12px; font-weight:900; letter-spacing:2px; text-transform:uppercase; color:#ffe9a8; }
+  .bl-kick i { width:22px; height:8px; border-radius:2px; flex:none; background:var(--rayures); background-size:14px 14px; }
+  .evt-hero.blocus h3.bl-nom { font-size:44px; line-height:1.04; margin:0 0 14px; white-space:nowrap; letter-spacing:.6px; color:#ffd23f;
+    -webkit-text-stroke:0; text-shadow:0 3px 0 #3a2500, 0 0 26px #ff9f1c77; }
+  .evt-hero.blocus h3.bl-nom.multi { white-space:normal; line-height:1.02; }
+  .bl-nom .nw { white-space:nowrap; }
+  /* le mot de l'orga : bande de chantier, mots « police » surlignés, alerte si la police est annoncée */
+  .evt-desc.bl-mot { position:relative; overflow:hidden; white-space:normal; background:linear-gradient(160deg,#1e190b,#14110a 70%); border:1px solid #ffd23f44; padding:12px 14px 13px 21px; margin-bottom:10px; }
+  .evt-desc.bl-mot::before { content:""; position:absolute; left:0; top:0; bottom:0; width:7px; background:var(--rayures); background-size:14px 14px; }
+  .blm-t { font-size:10.5px; font-weight:900; letter-spacing:1.3px; text-transform:uppercase; color:#ffd23f; margin-bottom:6px; }
+  .blm-x { font-size:16px; line-height:1.5; color:#f4efe6; white-space:pre-wrap; }
+  .blm-x mark { background:#ff3b4e2e; color:#ffc2c8; border-radius:5px; padding:0 4px; box-shadow:inset 0 -2px 0 #ff3b4e99; font-weight:800; }
+  .blm-alerte { display:flex; align-items:center; gap:10px; width:100%; text-align:left; margin-top:12px; padding:9px 11px; border-radius:13px; background:#ff3b4e1f; border:1px solid #ff3b4e66; color:#ffd0d4; }
+  .blm-alerte > span { font-size:21px; flex:none; animation:bl-clignote 1.4s steps(1) infinite; }
+  .blm-alerte b { display:block; font-size:13.5px; color:#fff; } .blm-alerte small { display:block; font-size:12px; color:#ffb3bb; margin-top:1px; }
+  .blm-alerte em { margin-left:auto; font-style:normal; font-size:22px; line-height:1; color:#ff8a95; }
+  /* le bouton son : bande de chantier, icône lecture / pause, petit égaliseur qui danse quand ça joue */
+  .feuille .btn.cc-son.bl { display:flex; align-items:center; justify-content:flex-start; gap:12px; height:58px; padding:0 16px 0 0; margin:0 0 12px; overflow:hidden; text-align:left; text-shadow:none;
+    background:linear-gradient(180deg,#1e190b,#15120a); border:1.5px solid #ffd23f55; color:#fff; animation:none; }
+  .bls-ic { align-self:stretch; width:64px; flex:none; display:flex; align-items:center; justify-content:center; background:var(--rayures); background-size:20px 20px; }
+  .bls-ic svg { width:36px; height:36px; padding:8px; border-radius:50%; background:#111; fill:#ffd23f; stroke:#ffd23f; box-shadow:0 0 0 2px #111, 0 2px 8px #0009; }
+  .bls-t { min-width:0; } .bls-t b { display:block; font-size:15.5px; font-weight:800; color:#ffd23f; line-height:1.2; }
+  .bls-t small { display:block; font-size:12px; font-weight:600; color:#ffffff8c; margin-top:1px; }
+  .bls-eq { margin-left:auto; display:flex; align-items:flex-end; gap:3px; height:22px; flex:none; }
+  .bls-eq i { width:4px; height:100%; border-radius:2px; background:#ffd23f; opacity:.3; transform:scaleY(.3); transform-origin:bottom; }
+  .feuille .btn.cc-son.bl.on { border-color:#ffd23f; box-shadow:0 0 24px #ffd23f55; }
+  .btn.cc-son.bl.on .bls-ic { animation:bl-bande .8s linear infinite; }
+  .btn.cc-son.bl.on .bls-eq i { opacity:1; animation:cc-eq .55s ease-in-out infinite; }
+  .bls-eq i:nth-child(2) { animation-delay:-.18s !important; } .bls-eq i:nth-child(3) { animation-delay:-.36s !important; } .bls-eq i:nth-child(4) { animation-delay:-.1s !important; } .bls-eq i:nth-child(5) { animation-delay:-.27s !important; }
+  @media (prefers-reduced-motion: reduce) { .btn.cc-son.bl.on .bls-ic, .btn.cc-son.bl.on .bls-eq i, .blm-alerte > span { animation:none !important; } }
 </style>
 </head>
 <body>
@@ -5301,7 +5332,7 @@ function ouvrirEvt(id){
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, st = etatEvt(v);
   var h = '<div class="entete-f" style="margin-bottom:6px"><div></div><button class="fermer" onclick="fermer()" aria-label="Fermer">'+ic('fermer')+'</button></div>'
     + '<div class="evt-hero'+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':v.cat==='sauvage'?' sauvage':'')+'" style="--ec:'+C.c+'">'+(v.cat==='fete' ? decorConcert(v) : v.cat==='blocus' ? decorBlocus(v) : v.cat==='rassemb' ? decorRasso() : v.cat==='sauvage' ? decorSauvageEvt(v) : '')+'<div class="eh-top"><span class="evt-cat">'+C.nom+'</span><span class="evt-etat'+(st==='live'?' live':'')+'">'+(st==='live' ? '● EN COURS' : st==='passe' ? 'TERMINÉ' : 'À VENIR')+'</span></div>'
-    + '<div class="eh-e">'+esc(v.emoji||C.e)+'</div><h3'+(v.titre.length > 26 ? ' class="long"' : '')+'>'+esc(v.titre)+'</h3>'
+    + '<div class="eh-e">'+esc(v.emoji||C.e)+'</div>' + (v.cat === 'blocus' ? titreBlocusHtml(v) : '<h3'+(v.titre.length > 26 ? ' class="long"' : '')+'>'+esc(v.titre)+'</h3>')
     + '<div class="evt-infos"><div>'+calMini(v.debut)+'<div>'+jourEvt(v.debut)+'<small>'+heuresEvt(v)+'</small></div></div>'
     + (v.lieu ? '<div><span>📍</span><div>'+esc(v.lieu)+infoDistance(v)+'</div></div>' : '')
     + (v.cat === 'sauvage' && butSv(v) ? '<div class="sv-but"><span>'+butSv(v).e+'</span><div><small>OBJECTIF</small>'+esc(butSv(v).nom)+'</div></div>' : '') + '</div>'
@@ -5309,8 +5340,9 @@ function ouvrirEvt(id){
     + (st === 'avenir' ? '<div class="evt-compte" id="evt-compte">'+htmlCompte(v)+'</div>' : '')
     + (st === 'live' ? '<div class="evt-live" id="evt-live">'+htmlLive(v)+'</div>' : '')
     + '</div>'
-    + (v.cat === 'fete' || v.cat === 'blocus' ? '<button class="btn plein cc-son'+(v.cat==='blocus'?' bl':'')+'" id="cc-son" onclick="basculerConcert(\''+(v.cat==='blocus'?'blocus':'concert')+'.mp3\')">🔊 Écouter le son</button>' : '')
-    + (v.texte ? (v.cat === 'fete' ? '<div class="evt-desc cc"><b>📣 LE MOT DE L’ORGA</b>'+esc(v.texte)+'</div>' : '<div class="evt-desc">'+esc(v.texte)+'</div>') : '')
+    + (v.cat === 'blocus' ? motOrgaBlocus(v) + boutonSonBlocus()
+      : (v.cat === 'fete' ? '<button class="btn plein cc-son" id="cc-son" onclick="basculerConcert(\'concert.mp3\')">🔊 Écouter le son</button>' : '')
+        + (v.texte ? (v.cat === 'fete' ? '<div class="evt-desc cc"><b>📣 LE MOT DE L’ORGA</b>'+esc(v.texte)+'</div>' : '<div class="evt-desc">'+esc(v.texte)+'</div>') : ''))
     + alentoursEvt(v)
     + (v.cat === 'fete' ? '<div class="bl-conseils cc"><div>🎧<b>Tes oreilles</b><span>bouchons, loin des enceintes</span></div><div>💧<b>Bois de l’eau</b><span>et garde un œil sur tes potes</span></div><div>🚶<b>Rentre à plusieurs</b><span>prévois ton retour</span></div></div>' : '')
     + (v.cat === 'sauvage' ? conseilsSv(v) : '')
@@ -5321,7 +5353,7 @@ function ouvrirEvt(id){
     + (v.cat === 'blocus' ? '<div class="rangee"><button class="btn plein bl-affiche-b" onclick="afficheBlocus(\''+v.id+'\')">📸 Affiche story « BLOCUS »</button></div>' : '')
     + (estAdmin() ? '<div class="rangee"><button class="btn plein" onclick="editerEvt(\''+v.id+'\')">✏️ Modifier</button></div>' : '');
   ouvrir(h, 'evt');
-  if (v.cat === 'blocus') compterBlocus();
+  if (v.cat === 'blocus') { compterBlocus(); ajusterNomBlocus(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajusterNomBlocus); }
   if (v.cat === 'sauvage' && son.on) jouer('sauvage');
   if (v.cat === 'fete') { if (son.on) lancerConcert('concert.mp3'); } else if (v.cat === 'blocus') { if (son.on) lancerConcert('blocus.mp3'); }
   clearInterval(evtMinuteur);
@@ -5421,7 +5453,9 @@ function lancerConcert(f){
 function stopConcert(){ if (audioConcert && !audioConcert.paused) audioConcert.pause(); document.body.classList.remove('concert-son'); majBoutonConcert(); }
 function basculerConcert(f){ if (audioConcert && !audioConcert.paused && audioFichier === f) stopConcert(); else lancerConcert(f); }
 function majBoutonConcert(){ var b = $('cc-son'); if (!b) return; var on = audioConcert && !audioConcert.paused && !audioConcert.ended;
-  b.textContent = on ? '⏸ Couper le son' : '🔊 Écouter le son'; b.classList.toggle('on', !!on); if (!on) document.body.classList.remove('concert-son'); }
+  if (b.classList.contains('bl')) { b.querySelector('.bls-ic').innerHTML = svgSonBl(on); b.querySelector('.bls-t b').textContent = on ? 'Couper le son' : 'Écouter le son';
+    b.querySelector('.bls-t small').textContent = on ? 'le son du blocus tourne' : 'l\'ambiance du blocus'; } else b.textContent = on ? '⏸ Couper le son' : '🔊 Écouter le son';
+  b.classList.toggle('on', !!on); if (!on) document.body.classList.remove('concert-son'); }
 
 function decorRasso(){
   var h = '<div class="rs-scene"><span class="rs-o"></span><span class="rs-o"></span><span class="rs-o"></span>';
@@ -5430,7 +5464,8 @@ function decorRasso(){
   return h + '</div>';
 }
 function decorBlocus(v){
-  var nom = v ? String(v.lieu || v.titre || '').replace(/^(Blocus|Lycée|Lycee)\s+/i, '').replace(/^(général|professionnel|polyvalent)\s+/i, '').toUpperCase().slice(0, 28) : '';
+  var nom = v ? nomBlocus(v).toUpperCase() : '';
+  if (nom.length > 30) nom = nom.slice(0, 30).replace(/\s+\S*$/, '');
   var t = '', t2 = ''; for (var k = 0; k < 8; k++) { t += '<span>ON BLOQUE TOUT<i></i></span>'; t2 += '<span>'+(nom ? esc(nom) + ' EN BLOCUS' : 'ON BLOQUE TOUT')+'<i></i></span>'; }
   return '<div class="bl-faisceau g"></div><div class="bl-faisceau d"></div><div class="bl-ruban haut"><div>'+t+t+'</div></div><div class="bl-ruban bas"><div>'+t2+t2+'</div></div>';
 }
@@ -6335,7 +6370,7 @@ function blocBlocus(v){
       + '<div class="bl-chips">' + l.map(function(x){ return '<button class="'+(x.id === v.id ? 'ici' : '')+(etatEvt(x) === 'live' ? ' live' : '')+'" onclick="ouvrirEvt(\''+x.id+'\')">'+esc(String(x.titre).replace(/^Blocus\s+/i, ''))+'</button>'; }).join('') + '</div>'
       + '<div class="rangee" style="margin-top:0"><button class="btn plein" onclick="voirBlocusJour(\''+v.id+'\')">🗺️ Sur la carte</button><button class="btn plein" onclick="copierBlocusJour(\''+v.id+'\')">📋 Copier la liste</button></div></div>';
   }
-  h += '<div class="bl-st" style="margin:14px 0 9px">🛡️ Les réflexes blocus</div><div class="bl-conseils bl6">'
+  h += '<div class="bl-st" id="bl-reflexes" style="margin:14px 0 9px;scroll-margin-top:70px">🛡️ Les réflexes blocus</div><div class="bl-conseils bl6">'
     + [['🕊️','Reste pacifique','ni violence ni casse'], ['🔥','Pas de feu','poubelles en feu = danger'], ['👥','Reste en groupe','et repère une sortie'],
        ['🙈','Pas de visages','sur les photos et vidéos'], ['🚓','Si la police arrive','reste calme, ne cours pas'], ['🔋','Batterie chargée','et le 112 en tête']]
       .map(function(c){ return '<div>'+c[0]+'<b>'+c[1]+'</b><span>'+c[2]+'</span></div>'; }).join('') + '</div>';
@@ -7208,6 +7243,52 @@ function carteTeaserNom(){
     if (!lireLS('nomTeaser1')) montrerTeaserNom();
   });
 })();
+// ===================== V65 : FICHE BLOCUS — TITRE, MOT DE L'ORGA, BOUTON SON =====================
+// Le titre ne répète plus « Blocus » (déjà sur l'étiquette et les rubans) : « LYCÉE BLOQUÉ DEMAIN » puis le nom en grand, sur une ligne.
+function nomBlocus(v){
+  var ty = /^(lyc[ée]e|cit[ée] scolaire|coll[èe]ge|universit[ée]|fac|iut|campus)\s+((g[ée]n[ée]ral(e)?\s+et\s+technologique|g[ée]n[ée]ral|professionnel|polyvalent|technologique|agricole)\s+)?((de\s+la|de\s+l['’]|du|des|de|d['’])\s*)?/i;
+  var n = String(v.titre || '').trim().replace(/^(blocus|blocage)\s+((du|de\s+la|de\s+l['’]|des)\s*)?/i, '').replace(ty, '').trim();
+  if (!n || /^(blocus|blocage)$/i.test(n)) n = String(v.lieu || '').trim().replace(ty, '').trim();
+  return n || String(v.titre || 'Blocus');
+}
+function typeBlocus(v){
+  var s = (v.lieu || '') + ' ' + (v.titre || '');
+  if (/coll[eè]ge/i.test(s)) return 'Collège';
+  if (/universit|(^|\s)(fac|iut|campus)(\s|$)/i.test(s)) return 'Fac';
+  if (/lyc[ée]e\s+pro|professionnel/i.test(s)) return 'Lycée pro';
+  return 'Lycée';
+}
+function titreBlocusHtml(v){
+  var st = etatEvt(v), t = typeBlocus(v);
+  var k = t + (t === 'Fac' ? ' bloquée' : ' bloqué') + (st === 'live' ? ' en ce moment' : st === 'passe' ? '' : ' ' + quandTxt(v.debut));
+  return '<div class="bl-kick"><i></i>' + esc(k) + '</div><h3 class="bl-nom" id="bl-nom">' + esc(nomBlocus(v)).split(' ').map(function(w){ return w.indexOf('-') > 0 ? '<span class="nw">' + w + '</span>' : w; }).join(' ') + '</h3>';
+}
+// le nom prend la plus grande taille qui tient sur une ligne ; s'il est trop long, il passe sur deux lignes
+function ajusterNomBlocus(){
+  var el = $('bl-nom'); if (!el || !el.clientWidth) return;
+  el.classList.remove('multi'); var t = 62; el.style.fontSize = t + 'px';
+  while (el.scrollWidth > el.clientWidth + 1 && t > 34) { t -= 2; el.style.fontSize = t + 'px'; }
+  if (el.scrollWidth > el.clientWidth + 1) { el.classList.add('multi'); el.style.fontSize = '38px'; }
+}
+// le mot de l'orga : les mots qui parlent de police sont surlignés, et une alerte renvoie vers les réflexes
+function motOrgaBlocus(v){
+  if (!v.texte) return '';
+  var flic = false, x = esc(v.texte)
+    .replace(/(^|[^a-zà-ÿ])(forces?\s+de\s+l(?:&#39;|’)\s*ordre|polici(?:er|ère)s?|police|flics?|keufs?|gendarmes?|gendarmerie|cond[ée]s)(?=[^a-zà-ÿ]|$)/gi, function(m, a, b){ flic = true; return a + '<mark>' + b + '</mark>'; })
+    .replace(/(^|[^A-Za-z])(CRS|BAC)(?=[^A-Za-z]|$)/g, function(m, a, b){ flic = true; return a + '<mark>' + b + '</mark>'; });
+  return '<div class="evt-desc bl-mot"><div class="blm-t">📣 Le mot de l\'orga</div><div class="blm-x">' + x + '</div>'
+    + (flic ? '<button class="blm-alerte" onclick="var r=$(\'bl-reflexes\'); if (r) r.scrollIntoView({ behavior:\'smooth\', block:\'start\' })"><span>🚔</span>'
+      + '<div><b>L\'orga parle de police</b><small>Relis les réflexes blocus avant d\'y aller</small></div><em>›</em></button>' : '')
+    + '</div>';
+}
+function svgSonBl(on){
+  return on ? '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2" stroke="none"/><rect x="14" y="5" width="4" height="14" rx="1.2" stroke="none"/></svg>'
+    : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 9.2h3.8L12.5 5v14l-5.2-4.2H3.5z" stroke="none"/><path d="M15.8 8.6a4.8 4.8 0 0 1 0 6.8M18.4 6a8.4 8.4 0 0 1 0 12" fill="none" stroke-width="2" stroke-linecap="round"/></svg>';
+}
+function boutonSonBlocus(){
+  return '<button class="btn plein cc-son bl" id="cc-son" onclick="basculerConcert(\'blocus.mp3\')"><span class="bls-ic">' + svgSonBl(false) + '</span>'
+    + '<span class="bls-t"><b>Écouter le son</b><small>l\'ambiance du blocus</small></span><span class="bls-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></button>';
+}
 </script>
 </body>
 </html>
