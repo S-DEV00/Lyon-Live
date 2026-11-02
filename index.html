@@ -2461,6 +2461,39 @@
     .ob.large .ob-bas .btn { width:auto; min-width:280px; }
     .ob.large .ob-bas .ob-ret { min-width:0; }
   }
+
+  /* ================= v62 : clin d'œil « Traboule est dispo sur ordi » ================= */
+  #clin { position:fixed; left:12px; right:12px; bottom:calc(max(10px, calc(var(--bas) - 4px)) + 92px); z-index:2550; display:none; pointer-events:none; }
+  #clin.vu { display:block; }
+  .cl-boite { position:relative; pointer-events:auto; max-width:440px; margin:0 auto; display:grid; grid-template-columns:118px 1fr; column-gap:12px; align-items:center;
+    padding:14px 14px 12px 10px; border-radius:24px 24px 18px 18px; color:#fff;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='24' viewBox='0 0 30 24'%3E%3Cpath d='M3 24V12a12 12 0 0 1 24 0v12' fill='none' stroke='%23ffb27a' stroke-opacity='.07' stroke-width='1.3'/%3E%3C/svg%3E") 100% 100% / 30px 24px repeat-x, linear-gradient(135deg, rgba(62,32,18,.97), rgba(22,13,10,.98));
+    border:1px solid rgba(255,150,90,.4); box-shadow:0 18px 44px rgba(0,0,0,.65), 0 0 34px rgba(255,106,31,.22), inset 0 1px 0 rgba(255,200,150,.18);
+    transform:translateY(30px) scale(.94); opacity:0; transition:transform .5s cubic-bezier(.2,1.4,.4,1), opacity .3s; }
+  #clin.ouvert .cl-boite { transform:none; opacity:1; }
+  .cl-x { position:absolute; top:8px; right:8px; width:28px; height:28px; border-radius:50%; border:0; background:rgba(255,255,255,.08); color:#d9c2b4; font:inherit; font-size:14px; font-weight:800; }
+  .cl-ill { position:relative; width:118px; height:92px; grid-row:1 / 3; }
+  .cl-ill svg { width:118px; height:86px; overflow:visible; filter:drop-shadow(0 8px 18px rgba(255,106,31,.35)); }
+  .cl-ecran { animation:cl-allume .9s .25s both; }
+  @keyframes cl-allume { 0% { opacity:0; } 30% { opacity:.6; } 40% { opacity:.2; } 100% { opacity:1; } }
+  .cl-oeil { transform-box:fill-box; transform-origin:center; animation:cl-clin 3.2s 1.2s ease-in-out infinite; }
+  @keyframes cl-clin { 0%, 40%, 52%, 100% { transform:scaleY(1); } 46% { transform:scaleY(.08); } }
+  .cl-smile { position:absolute; right:-4px; top:-8px; font-size:26px; transform:scale(0) rotate(-30deg); animation:cl-smile .6s 1.55s cubic-bezier(.2,1.8,.4,1) forwards; }
+  @keyframes cl-smile { to { transform:scale(1) rotate(8deg); } }
+  .cl-etin { position:absolute; width:6px; height:6px; border-radius:50%; background:#ffd23f; box-shadow:0 0 8px #ffb84d; opacity:0; animation:cl-etin 2.4s ease-out infinite; }
+  @keyframes cl-etin { 0%, 60%, 100% { opacity:0; transform:scale(.3); } 70% { opacity:1; transform:scale(1); } 85% { opacity:0; transform:scale(.6) translateY(-6px); } }
+  .cl-t small { display:inline-block; font-family:Anton,Impact,sans-serif; font-size:11.5px; letter-spacing:1.4px; color:#140800; background:var(--grad); padding:2px 8px 1px; border-radius:8px; margin-bottom:5px; }
+  .cl-t b { display:block; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:21px; line-height:1.06; letter-spacing:.3px; padding-right:24px; }
+  .cl-t b em { font-style:normal; color:#ffa64a; }
+  .cl-t span { display:block; font-size:12.5px; line-height:1.38; color:#e3cdbf; margin-top:5px; }
+  .cl-btns { grid-column:2; display:flex; gap:7px; margin-top:10px; }
+  .cl-btns .btn { flex:1; padding:9px 8px; font-size:13px; min-height:0; }
+  .cl-btns .btn.plein:not(.rose) { flex:0 0 auto; padding:9px 12px; }
+  /* sur ordi : le petit mot d'accueil, en bas à gauche de la carte */
+  #clin.pc { left:auto; right:96px; bottom:24px; width:430px; }
+  body.pc-l #clin.pc { right:96px; }
+  #clin.pc .cl-boite { margin:0; }
+  @media (prefers-reduced-motion: reduce) { .cl-ecran, .cl-oeil, .cl-smile, .cl-etin { animation:none !important; } .cl-smile { transform:none; } }
 </style>
 </head>
 <body>
@@ -2530,6 +2563,7 @@
 <div id="bienvenue"></div>
 <div id="annonce-t"></div>
 <div id="moment" aria-live="assertive"></div>
+<div id="clin" role="dialog" aria-live="polite"></div>
 <div id="maint"></div>
 <div class="bandeau-maint" onclick="ouvrirMaintenance()"><span id="bm-e">🛠️</span> <span id="bm-txt">Maintenance activée · le public ne voit pas la carte</span></div>
 <div id="reseau" onclick="charger()"><span class="r-ic">📶</span><div><b id="rs-t"></b><span id="rs-s"></span></div></div>
@@ -2543,7 +2577,7 @@
 var FILE_FEN = [], fenT = 0;
 function fenetreLibre(){
   var s = document.getElementById('splash'); if (s && s.style.display !== 'none') return false;
-  if (['maint','bienvenue','annonce-t','popup','moment','alerte'].some(function(id){ var e = document.getElementById(id); return e && e.classList.contains('vu'); })) return false;
+  if (['maint','bienvenue','annonce-t','popup','moment','alerte','clin'].some(function(id){ var e = document.getElementById(id); return e && e.classList.contains('vu'); })) return false;
   return !document.getElementById('feuille').classList.contains('ouverte');
 }
 function planifierFenetre(prio, nom, montrer){
@@ -6907,6 +6941,64 @@ function bienvenueLarge(){
 }
 var dessinerBienvenueAvantPC = dessinerBienvenue;
 dessinerBienvenue = function(){ dessinerBienvenueAvantPC(); try { bienvenueLarge(); } catch(e){} };
+// ===================== V62 : CLIN D'ŒIL « TRABOULE EST DISPO SUR ORDI » =====================
+// Une seule fois. Sur téléphone : une petite carte avec un ordi dont l'arche fait un clin d'œil.
+// Sur ordi, à la première visite : un mot d'accueil avec les astuces.
+function svgOrdiClin(){
+  return '<svg viewBox="0 0 120 86" aria-hidden="true"><defs>'
+    + '<linearGradient id="clA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb82e"/><stop offset=".5" stop-color="#ff6a1f"/><stop offset="1" stop-color="#e3301c"/></linearGradient>'
+    + '<radialGradient id="clL" cx=".5" cy=".8" r=".7"><stop offset="0" stop-color="#fffbe8"/><stop offset=".4" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff8a2b" stop-opacity="0"/></radialGradient>'
+    + '<clipPath id="clE"><rect x="16" y="6" width="88" height="56" rx="4"/></clipPath></defs>'
+    // l'écran
+    + '<rect x="11" y="1" width="98" height="66" rx="8" fill="#2a1a12" stroke="#5a3a2c" stroke-width="2"/>'
+    + '<g class="cl-ecran" clip-path="url(#clE)"><rect x="16" y="6" width="88" height="56" fill="#120a07"/>'
+    + '<path d="M16 22H104M16 40H104M16 54H104M40 6V62M64 6V62M86 6V62M20 58L100 12" stroke="#ffb27a" stroke-opacity=".14" stroke-width="1.2"/>'
+    + '<path d="M36 6C42 26 32 44 50 62M84 6C78 30 90 46 50 62" fill="none" stroke="#4f8cff" stroke-opacity=".55" stroke-width="3"/>'
+    + '<rect x="16" y="6" width="24" height="56" fill="#1d120d" opacity=".9"/><rect x="19" y="10" width="17" height="4" rx="2" fill="#ff8a3a" opacity=".8"/>'
+    + '<rect x="19" y="18" width="17" height="3" rx="1.5" fill="#ffffff" opacity=".25"/><rect x="19" y="24" width="13" height="3" rx="1.5" fill="#ffffff" opacity=".2"/><rect x="19" y="30" width="15" height="3" rx="1.5" fill="#ffffff" opacity=".2"/>'
+    // l'arche Traboule au milieu, son « œil » cligne
+    + '<path d="M58 52V36a12 12 0 0 1 24 0v16z" fill="url(#clA)"/><path d="M62.5 52V37a7.5 7.5 0 0 1 15 0v15z" fill="#160a06"/>'
+    + '<ellipse class="cl-oeil" cx="70" cy="44" rx="5" ry="6.5" fill="url(#clL)"/>'
+    + '<circle cx="92" cy="20" r="3" fill="#ff3b4e"/><circle cx="48" cy="30" r="3" fill="#16c784"/><circle cx="90" cy="46" r="2.6" fill="#ffd23f"/></g>'
+    // le clavier
+    + '<path d="M2 70h116l-6 12a4 4 0 0 1-3.6 2.2H11.6A4 4 0 0 1 8 82z" fill="#3a2419" stroke="#5a3a2c" stroke-width="1.5"/><rect x="48" y="71.5" width="24" height="3" rx="1.5" fill="#1d120d"/></svg>';
+}
+function montrerClin(pc){
+  var el = $('clin'), en = LANGUE === 'en'; if (!el) return;
+  ecrireLS('clinPC1', '1');
+  var etin = [[6,10,0],[100,4,.6],[108,60,1.2],[2,64,1.8]].map(function(e){ return '<i class="cl-etin" style="left:'+e[0]+'px;top:'+e[1]+'px;animation-delay:'+e[2]+'s"></i>'; }).join('');
+  el.className = pc ? 'pc' : '';
+  el.innerHTML = '<div class="cl-boite"><button class="cl-x" onclick="fermerClin()" aria-label="'+(en ? 'Close' : 'Fermer')+'">✕</button>'
+    + '<div class="cl-ill">'+svgOrdiClin()+'<span class="cl-smile">😉</span>'+etin+'</div>'
+    + (pc
+      ? '<div class="cl-t"><small>'+(en ? 'NEW' : 'NOUVEAU')+'</small><b>'+(en ? 'Welcome to the <em>computer</em> version' : 'Bienvenue sur la version <em>ordi</em>')+' 👋</b>'
+        + '<span>'+(en ? 'Live feed on the left, hover a pin for a quick look, right-click the map for the menu. Press <kbd>?</kbd> for shortcuts.' : 'Le fil en direct à gauche, survole une épingle pour un aperçu, clic droit sur la carte pour le menu. Touche <kbd>?</kbd> pour les raccourcis.')+'</span></div>'
+        + '<div class="cl-btns"><button class="btn plein" onclick="fermerClin()">OK</button><button class="btn rose plein" onclick="fermerClin();aidePC()">⌨️ '+(en ? 'Shortcuts' : 'Les raccourcis')+'</button></div>'
+      : '<div class="cl-t"><small>'+(en ? 'NEW' : 'NOUVEAU')+'</small><b>'+(en ? 'Psst… Traboule is on <em>computers</em> too' : 'Psst… Traboule est dispo sur <em>ordi</em>')+'</b>'
+        + '<span>'+(en ? 'Same live map, but big: live feed, hover the pins, keyboard shortcuts. Open the link on your computer.' : 'La même carte en direct, en grand : fil des signalements, survol des épingles, raccourcis clavier. Ouvre le lien sur ton PC.')+'</span></div>'
+        + '<div class="cl-btns"><button class="btn plein" onclick="fermerClin()">'+(en ? 'Later' : 'Plus tard')+'</button><button class="btn rose plein" onclick="envoyerLienPC()">📤 '+(en ? 'Send me the link' : 'M\'envoyer le lien')+'</button></div>')
+    + '</div>';
+  el.classList.add('vu'); requestAnimationFrame(function(){ requestAnimationFrame(function(){ el.classList.add('ouvert'); }); });
+  try { jouer('ding'); } catch(e){}
+  clearTimeout(montrerClin.t); montrerClin.t = setTimeout(fermerClin, pc ? 16000 : 30000);
+}
+function fermerClin(){ var el = $('clin'); if (!el || !el.classList.contains('vu')) return; el.classList.remove('ouvert'); clearTimeout(montrerClin.t);
+  setTimeout(function(){ el.classList.remove('vu'); el.innerHTML = ''; tickFenetres(); }, 320); }
+function envoyerLienPC(){
+  var en = LANGUE === 'en', t = en ? 'Traboule, the live protest map in Lyon, now on computers too 💻' : 'Traboule, la carte de la manif en direct à Lyon, aussi sur ordi 💻';
+  fermerClin();
+  if (navigator.share) { navigator.share({ title:'Traboule', text:t, url:urlAppli }).catch(function(){}); return; }
+  if (navigator.clipboard) navigator.clipboard.writeText(urlAppli).then(function(){ toast(en ? '📋 Link copied: paste it on your computer' : '📋 Lien copié : colle-le sur ton ordi'); });
+  else toast(urlAppli);
+}
+(function(){
+  if (lireLS('clinPC1')) return;
+  var connu = !!lireLS('bienvenue9');
+  if (estPC()) { setTimeout(function(){ planifierFenetre(40, 'clin-pc', function(){ if (!lireLS('clinPC1')) montrerClin(true); }); }, 1800); return; }
+  // sur téléphone : les habitués seulement (les nouveaux viennent de voir la présentation), et tant que c'est une nouveauté
+  if (!connu || Date.now() > new Date('2026-12-01T00:00:00').getTime()) return;
+  setTimeout(function(){ planifierFenetre(40, 'clin-pc', function(){ if (!lireLS('clinPC1')) montrerClin(false); }); }, 2500);
+})();
 </script>
 </body>
 </html>
