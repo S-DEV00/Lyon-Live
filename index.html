@@ -2661,6 +2661,72 @@
   .evt-cats button .lg-s { font-size:0; line-height:0; } .evt-cats button .lg-s svg { width:44px; height:34px; }
   .evt-hero .eh-e.eh-lg { font-size:0; line-height:0; margin:12px 0 10px; } .eh-lg svg { width:88px; height:69px; filter:drop-shadow(0 6px 14px #000a); }
   @media (prefers-reduced-motion: reduce) { .lg *, .lgp.live .lgp-halo, .lgp-quand i { animation:none !important; } }
+  /* ================= v67 : la scène des concerts, refaite ================= */
+  .scene-evt.s2w { pointer-events:none !important; }
+  .scene2 { width:100%; height:100%; display:block; overflow:visible; }
+  .scene2 .s2-clic { pointer-events:auto; cursor:pointer; }
+  .scene2 .sc-fx { mix-blend-mode:screen; }
+  .scene2 .s2-ciel polygon, .scene2 .s2-faisc polygon { animation:s2-balaye 3s ease-in-out infinite alternate; }
+  .scene2.live .s2-faisc polygon { opacity:.6; }
+  .scene2.avant .s2-ciel polygon { opacity:.55; }
+  @keyframes s2-balaye { from { transform:rotate(-24deg); } to { transform:rotate(24deg); } }
+  .scene2 .s2-sol { animation:s2-respire 3.2s ease-in-out infinite; }
+  .scene2.live .s2-sol { animation:s2-pulse .47s ease-out infinite; }
+  .scene2 .s2-halo { animation:s2-respire 4s ease-in-out infinite; }
+  .scene2.live .s2-halo { animation:s2-pulse .94s ease-out infinite; }
+  @keyframes s2-respire { 0%, 100% { opacity:.45; } 50% { opacity:.95; } }
+  @keyframes s2-pulse { 0% { opacity:1; } 100% { opacity:.55; } }
+  .scene2 .s2-eq { transform-box:fill-box; transform-origin:50% 100%; animation:s2-eq .5s ease-in-out infinite alternate; }
+  @keyframes s2-eq { 0% { transform:scaleY(.12); } 35% { transform:scaleY(.95); } 65% { transform:scaleY(.4); } 100% { transform:scaleY(.78); } }
+  .scene2 .s2-onde { transform-box:fill-box; transform-origin:50% 100%; opacity:.4; animation:s2-onde 2.6s ease-in-out infinite; }
+  @keyframes s2-onde { 0%, 100% { transform:scaleY(.08); } 50% { transform:scaleY(.42); } }
+  .scene2 .s2-bientot { paint-order:stroke; stroke:#0a0611; stroke-width:3px; animation:s2-neon 3.4s linear infinite; }
+  @keyframes s2-neon { 0%, 18%, 22%, 60%, 64%, 100% { opacity:1; } 20%, 62% { opacity:.35; } }
+  .scene2 .s2-lampe { animation:s2-lampe 1.6s ease-in-out infinite; }
+  .scene2.live .s2-lampe { animation:s2-flash .47s steps(2) infinite; }
+  @keyframes s2-lampe { 0%, 100% { opacity:.35; } 50% { opacity:1; } }
+  @keyframes s2-flash { 0% { opacity:1; } 100% { opacity:.3; } }
+  .scene2 .s2-chase { opacity:.25; animation:s2-chase 2s linear infinite; }
+  .scene2.live .s2-chase { animation-duration:1s; }
+  @keyframes s2-chase { 0%, 70%, 100% { opacity:.25; } 8% { opacity:1; } }
+  .scene2 .s2-cone { transform-box:fill-box; transform-origin:50% 50%; animation:s2-cone 1.2s ease-in-out infinite; }
+  .scene2.live .s2-cone { animation-duration:.47s; }
+  @keyframes s2-cone { 0%, 100% { transform:scale(1); } 30% { transform:scale(1.55); } }
+  .scene2.live .s2-bob { animation:s2-bob .47s ease-in-out infinite alternate; }
+  .scene2.live .s2-bob.b { animation-delay:-.23s; } .scene2.live .s2-bob.c { animation-delay:-.12s; }
+  @keyframes s2-bob { to { transform:translateY(-1.4px); } }
+  .scene2 .s2-bras { display:none; transform-box:fill-box; transform-origin:0 100%; }
+  .scene2 .s2-bras.d { transform-origin:100% 100%; }
+  .scene2.live .s2-bras { display:block; animation:s2-bras .94s ease-in-out infinite alternate; }
+  @keyframes s2-bras { from { transform:rotate(-12deg); } to { transform:rotate(14deg); } }
+  .scene2 .s2-dj { animation:s2-lampe 2s ease-in-out infinite; } .scene2.live .s2-dj { animation:s2-flash .23s steps(2) infinite; }
+  .scene2 .s2-fumee { transform-box:fill-box; transform-origin:50% 50%; animation:s2-fumee 7s ease-in-out infinite; }
+  @keyframes s2-fumee { 0%, 100% { transform:translateX(-9px) scale(.9); opacity:.25; } 50% { transform:translateX(9px) scale(1.15); opacity:.7; } }
+  .scene2 .s2-p { animation:s2-attend 3s ease-in-out infinite; }
+  .scene2.live .s2-p { animation:s2-saute .47s ease-in-out infinite alternate; }
+  @keyframes s2-attend { 0%, 100% { transform:translateX(-.6px); } 50% { transform:translateX(.6px); } }
+  @keyframes s2-saute { from { transform:translateY(0); } to { transform:translateY(-2.6px); } }
+  .scene2 .s2-mains { transform-box:fill-box; transform-origin:50% 100%; animation:s2-mains .94s ease-in-out infinite alternate; }
+  @keyframes s2-mains { from { transform:rotate(-7deg); } to { transform:rotate(7deg); } }
+  .scene2 .s2-tel { filter:drop-shadow(0 0 2px #fff); animation:s2-lampe 1.3s ease-in-out infinite; }
+  .scene2 .s2-conf { transform-box:fill-box; transform-origin:50% 50%; animation:s2-conf 3s linear infinite; }
+  @keyframes s2-conf { 0% { transform:translate(0,0) rotate(0); opacity:0; } 8% { opacity:1; } 50% { transform:translate(6px,62px) rotate(320deg); } 85% { opacity:1; } 100% { transform:translate(-4px,128px) rotate(640deg); opacity:0; } }
+  .scene2 .s2-note { opacity:0; animation:s2-note 2.2s ease-out infinite; }
+  .scene2.avant .s2-note { animation-duration:4.4s; }
+  @keyframes s2-note { 0% { transform:translateY(0); opacity:0; } 20% { opacity:1; } 100% { transform:translateY(-34px); opacity:0; } }
+  /* l'épingle du concert « monte » sur la scène : l'enceinte s'efface, le nom devient l'enseigne au-dessus du truss */
+  .evt-pin.lgp-fete.a-scene .lgp-obj, .evt-pin.lgp-fete.a-scene .lgp-halo { display:none; }
+  .evt-pin.lgp-fete.a-scene .evt-etiq { display:block; left:50%; top:calc(17px - var(--sh, 105px) * .66); transform:translateX(-50%); max-width:none; white-space:nowrap;
+    padding:3px 10px 2px; border-radius:7px; font-size:14px; color:#fff; background:#0c0612f0; border:1.5px solid #ff3fa4;
+    box-shadow:0 0 12px #ff3fa4aa, inset 0 0 8px #ff3fa455; text-shadow:0 0 6px #ff3fa4, 0 0 2px #ff3fa4; }
+  .evt-pin.lgp-fete.a-scene.live .evt-etiq { animation:s2-enseigne 2.4s linear infinite; }
+  @keyframes s2-enseigne { 0%, 100% { border-color:#ff3fa4; box-shadow:0 0 12px #ff3fa4aa, inset 0 0 8px #ff3fa455; } 50% { border-color:#4fd1ff; box-shadow:0 0 14px #4fd1ffaa, inset 0 0 8px #4fd1ff55; } }
+  .evt-pin.lgp-fete.a-scene .lgp-quand { top:44px; }
+  /* l'enceinte (zoom loin) bat doucement même avant le concert */
+  .lgp-fete:not(.live) .lgp-obj .lg-hp { animation:lg-boum 1.4s ease-in-out infinite; }
+  .lgp-fete:not(.live) .lgp-obj .lg-notes text { animation:lg-note 3s ease-in-out infinite; } .lgp-fete:not(.live) .lgp-obj .lg-notes text:nth-child(2) { animation-delay:1.5s; }
+  body.leger .scene2 .sc-fx, body.leger .scene2 .s2-confs, body.leger .scene2 .s2-fumees { display:none; }
+  @media (prefers-reduced-motion: reduce) { .scene2 *, .evt-pin.lgp-fete.a-scene .evt-etiq, .lgp-fete .lgp-obj * { animation:none !important; } .scene2 .s2-chase { opacity:.8; } .scene2 .s2-note { opacity:0; } }
 </style>
 </head>
 <body>
@@ -5230,20 +5296,26 @@ function evtDepuisScene(i){ var e = SCENES[i]; var d = new Date(Date.now()+86400
 
 // Scène 2D sous chaque concert (le pin "monte" sur la scène). Taille réelle ~45 m, suit le zoom.
 var scenesEvt = {};
-function tailleScene(lat){ return Math.max(150, Math.min(300, 70 / (156543.03 * Math.cos(lat*Math.PI/180) / Math.pow(2, carte.getZoom())))); }
+function tailleScene(lat){ var z = carte.getZoom(); return Math.max(z >= 17 ? 250 : z >= 16 ? 215 : z >= 15 ? 180 : 150, Math.min(320, 70 / (156543.03 * Math.cos(lat*Math.PI/180) / Math.pow(2, z)))); }
 function majScenesEvt(){
   var vus4 = {}, z = carte.getZoom();
   evtsVisibles().forEach(function(v){
     if (v.cat !== 'fete' || v.lat === undefined || v.lat === null || z < 14) return;
     if (SCENES && SCENES.some(function(e){ return e.b.length && carte.distance(e.c, [v.lat, v.lng]) < 60; })) return; // déjà dans une salle
     vus4[v.id] = 1; var live = etatEvt(v) === 'live', w = Math.round(tailleScene(v.lat)), hh = Math.round(w*.7), cle = live + ':' + w;
+    pinSurScene(v.id, hh);
     if (scenesEvt[v.id] && scenesEvt[v.id]._cle === cle) return;
     if (scenesEvt[v.id]) carte.removeLayer(scenesEvt[v.id]);
-    scenesEvt[v.id] = L.marker([v.lat, v.lng], { interactive:false, keyboard:false, zIndexOffset:500,
-      icon:L.divIcon({ className:'scene-evt', iconSize:[w,hh], iconAnchor:[w/2, hh*.76], html:svgScene(!live) }) }).addTo(carte);
+    scenesEvt[v.id] = L.marker([v.lat, v.lng], { keyboard:false, zIndexOffset:500,
+      icon:L.divIcon({ className:'scene-evt s2w', iconSize:[w,hh], iconAnchor:[w/2, hh*.76], html:svgScene2(live) }) }).on('click', function(){ ouvrirEvt(v.id); }).addTo(carte);
     scenesEvt[v.id]._cle = cle;
   });
-  Object.keys(scenesEvt).forEach(function(id){ if (!vus4[id]) { carte.removeLayer(scenesEvt[id]); delete scenesEvt[id]; } });
+  Object.keys(scenesEvt).forEach(function(id){ if (!vus4[id]) { carte.removeLayer(scenesEvt[id]); delete scenesEvt[id]; pinSurScene(id, 0); } });
+}
+// l'épingle du concert posée sur la scène : on cache l'enceinte et le nom devient l'enseigne au-dessus
+function pinSurScene(id, hh){
+  var m = evtMarqueurs[id], el = m && m.getElement && m.getElement(), p = el && el.querySelector('.evt-pin.lgp-fete'); if (!p) return;
+  p.classList.toggle('a-scene', !!hh); if (hh) p.style.setProperty('--sh', hh + 'px');
 }
 carte.on('zoomend', majScenesEvt);
 
@@ -7397,6 +7469,117 @@ iconeEvt = function(v){
       + '<div class="lgp-obj' + (live ? ' lg-on' : '') + '">' + logoEvt(v.cat, v) + '</div><div class="lgp-quand">' + quand + '</div>'
       + '<div class="evt-etiq">' + esc(v.titre) + '</div></div>' });
 };
+// v67 : la scène des concerts sur la carte, refaite. Vraie scène de festival : truss, mur LED, line arrays,
+// lyres, musiciens, public. À venir = « balances » (ça bouge doucement), en cours = le show (faisceaux, foule qui saute, confettis).
+function personneScene(x, y, s){
+  return '<g transform="translate('+x+' '+y+') scale('+s+')"><path d="M-3.6 0L-2.5-11L-3.5-20Q0-22.6 3.5-20L2.5-11L3.6 0H1.3L0-9.2L-1.3 0Z"/><circle cy="-25" r="3.4"/></g>';
+}
+function svgScene2(live){
+  var u = 'sq' + Math.random().toString(36).slice(2, 7), h = '', i, x;
+  var COL = ['#ff3fa4', '#4fd1ff', '#a35cff', '#ffd23f', '#ff3fa4'];
+  var r = function(k){ return ((k * 9301 + 49297) % 233280) / 233280; }; // pseudo-hasard stable
+  h += '<svg class="scene2' + (live ? ' live' : ' avant') + '" viewBox="0 0 200 140" aria-hidden="true"><defs>'
+    + '<radialGradient id="' + u + 'sol"><stop offset="0" stop-color="#ff3fa4" stop-opacity=".55"/><stop offset=".55" stop-color="#a35cff" stop-opacity=".22"/><stop offset="1" stop-color="#a35cff" stop-opacity="0"/></radialGradient>'
+    + '<radialGradient id="' + u + 'mur"><stop offset="0" stop-color="#ff3fa4" stop-opacity=".75"/><stop offset=".6" stop-color="#a35cff" stop-opacity=".25"/><stop offset="1" stop-color="#a35cff" stop-opacity="0"/></radialGradient>'
+    + '<radialGradient id="' + u + 'fum"><stop offset="0" stop-color="#fff" stop-opacity=".5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'
+    + COL.map(function(c, k){ return '<linearGradient id="' + u + 'b' + k + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + c + '" stop-opacity=".95"/><stop offset=".55" stop-color="' + c + '" stop-opacity=".35"/><stop offset="1" stop-color="' + c + '" stop-opacity="0"/></linearGradient>'
+      + '<linearGradient id="' + u + 'k' + k + '" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="' + c + '" stop-opacity=".9"/><stop offset="1" stop-color="' + c + '" stop-opacity="0"/></linearGradient>'; }).join('')
+    + '<linearGradient id="' + u + 'eq" gradientUnits="userSpaceOnUse" x1="0" y1="80" x2="0" y2="33"><stop offset="0" stop-color="#ff3fa4"/><stop offset=".55" stop-color="#a35cff"/><stop offset="1" stop-color="#4fd1ff"/></linearGradient>'
+    + '<linearGradient id="' + u + 'pl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a2660"/><stop offset="1" stop-color="#1d0f28"/></linearGradient>'
+    + '<linearGradient id="' + u + 'tr" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9c9db2"/><stop offset=".5" stop-color="#f0f0fa"/><stop offset="1" stop-color="#9c9db2"/></linearGradient>'
+    + '<linearGradient id="' + u + 'fd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".72" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'
+    + '<mask id="' + u + 'm" maskUnits="userSpaceOnUse" x="-20" y="96" width="240" height="50"><rect x="-20" y="96" width="240" height="46" fill="url(#' + u + 'fd)"/></mask>'
+    + '<pattern id="' + u + 'px" width="2.6" height="2.6" patternUnits="userSpaceOnUse"><path d="M0 0H2.6V2.6" fill="none" stroke="#000" stroke-opacity=".6" stroke-width=".7"/></pattern>'
+    + '</defs>';
+  // lumière au sol + ombre
+  h += '<ellipse class="s2-sol" cx="100" cy="106" rx="116" ry="32" fill="url(#' + u + 'sol)"/>'
+    + '<ellipse cx="100" cy="103" rx="90" ry="9" fill="#000" opacity=".6"/>';
+  // faisceaux vers le ciel (derrière le mur)
+  h += '<g class="sc-fx s2-ciel">' + (live ? [58, 82, 118, 142] : [70, 130]).map(function(x, k){
+      return '<polygon style="transform-origin:' + x + 'px 32px;animation-duration:' + (live ? 2.2 + k * .45 : 5 + k * 1.3) + 's;animation-delay:-' + (k * .9) + 's" points="' + (x - 1.6) + ',32 ' + (x + 1.6) + ',32 ' + (x + 13) + ',-78 ' + (x - 13) + ',-78" fill="url(#' + u + 'k' + (k % 4 + (live ? 0 : 1)) + ')"/>';
+    }).join('') + '</g>';
+  // halo du mur LED
+  h += '<ellipse class="s2-halo" cx="100" cy="56" rx="78" ry="44" fill="url(#' + u + 'mur)"/>';
+  // line arrays suspendus
+  [[38, 1], [162, -1]].forEach(function(c){
+    for (i = 0; i < 5; i++) h += '<rect x="' + (c[0] - 6) + '" y="' + (25 + i * 6.6) + '" width="12" height="6" rx="1" fill="#16121d" stroke="#4a4358" stroke-width=".7" transform="rotate(' + (c[1] * i * 4) + ' ' + c[0] + ' ' + (25 + i * 6.6) + ')"/>';
+  });
+  // mur LED
+  h += '<rect x="46" y="30" width="108" height="52" rx="2" fill="#0a0611" stroke="#2c2238" stroke-width="1.4"/>';
+  if (live) {
+    h += '<g class="s2-eqs">';
+    for (i = 0; i < 16; i++) { x = 49 + i * 6.55;
+      h += '<rect class="s2-eq" x="' + x.toFixed(1) + '" y="33" width="4.6" height="47" rx=".8" fill="url(#' + u + 'eq)" style="animation-duration:' + (.36 + r(i + 3) * .5).toFixed(2) + 's;animation-delay:-' + (r(i + 11) * .8).toFixed(2) + 's"/>'; }
+    h += '</g>';
+  } else {
+    h += '<g class="s2-eqs">';
+    for (i = 0; i < 16; i++) { x = 49 + i * 6.55;
+      h += '<rect class="s2-onde" x="' + x.toFixed(1) + '" y="33" width="4.6" height="47" rx=".8" fill="url(#' + u + 'eq)" style="animation-delay:-' + (i * .16).toFixed(2) + 's"/>'; }
+    h += '</g><text class="s2-bientot" x="100" y="63" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="17" letter-spacing="1.5" fill="#fff">' + (typeof LANGUE !== 'undefined' && LANGUE === 'en' ? 'SOON' : 'BIENTÔT') + '</text>';
+  }
+  h += '<rect x="46" y="30" width="108" height="52" rx="2" fill="url(#' + u + 'px)"/>';
+  // truss : poutre + 2 tours en treillis
+  var zz = function(x0, y0, x1, y1, n, ep, vert){ var d = '', k; for (k = 0; k <= n; k++) { var t = k / n; d += (k ? 'L' : 'M') + (vert ? (x0 + (k % 2) * ep) + ' ' + (y0 + (y1 - y0) * t) : (x0 + (x1 - x0) * t) + ' ' + (y0 + (k % 2) * ep)); } return d; };
+  h += '<g fill="none" stroke="url(#' + u + 'tr)" stroke-linejoin="round">'
+    + '<path d="M20 13H180M20 21H180M22 13V102M28 13V102M172 13V102M178 13V102" stroke-width="1.5"/>'
+    + '<path d="' + zz(20, 13, 180, 21, 26, 8) + zz(22, 21, 22, 102, 12, 6, 1) + zz(172, 21, 172, 102, 12, 6, 1) + '" stroke-width=".8" opacity=".75"/></g>';
+  // lyres sous la poutre
+  [52, 76, 100, 124, 148].forEach(function(x, k){
+    h += '<rect x="' + (x - 4) + '" y="21.5" width="8" height="5" rx="1.6" fill="#1b1722" stroke="#4a4358" stroke-width=".6"/>'
+      + '<circle class="s2-lampe" cx="' + x + '" cy="27.6" r="2.3" fill="' + COL[k] + '" style="animation-delay:-' + (k * .19).toFixed(2) + 's"/>';
+  });
+  // plateau
+  h += '<polygon points="30,88 170,88 184,100 16,100" fill="url(#' + u + 'pl)"/>'
+    + '<polygon points="30,88 170,88 172,90 28,90" fill="#ff3fa4" opacity=".35"/>'
+    + '<rect x="16" y="100" width="168" height="8.5" fill="#120a19"/><path d="M16 100.3H184" stroke="#ff3fa4" stroke-width="1.3"/>';
+  for (i = 0; i < 17; i++) h += '<circle class="s2-chase" cx="' + (21 + i * 9.9).toFixed(1) + '" cy="104.4" r="1.5" fill="' + COL[i % 4] + '" style="animation-delay:' + (i * (live ? .06 : .12)).toFixed(2) + 's"/>';
+  // musiciens (silhouettes à contre-jour) + caissons
+  h += '<g class="s2-zic" fill="#06030a">'
+    + '<g class="s2-bob">' + personneScene(70, 92, 1) + '<ellipse cx="69" cy="80" rx="4.6" ry="3.2" transform="rotate(-28 69 80)" fill="#ff3fa4"/><path d="M71 79L80 72" stroke="#e8e8f5" stroke-width="1.1"/></g>'
+    + '<g class="s2-bob b">' + personneScene(100, 92, 1.05) + '<path class="s2-bras" d="M103 72L108 62" stroke="#06030a" stroke-width="2.2" stroke-linecap="round" fill="none"/></g>'
+    + '<path d="M97 92L98 72" stroke="#c8c8d8" stroke-width=".9"/><circle cx="98" cy="71.2" r="1.4" fill="#c8c8d8"/>'
+    + '<g class="s2-bob c">' + personneScene(134, 92, .95) + '<path class="s2-bras d" d="M131 72L127 62" stroke="#06030a" stroke-width="2.1" stroke-linecap="round" fill="none"/></g>'
+    + '<rect x="122" y="80" width="25" height="9" rx="1" fill="#120f18" stroke="#3a3446" stroke-width=".6"/><rect class="s2-dj" x="123" y="86" width="23" height="1.6" fill="#4fd1ff"/>'
+    + '</g>';
+  [[37, 78], [151, 78]].forEach(function(c){
+    h += '<rect x="' + (c[0] - 8) + '" y="' + c[1] + '" width="16" height="11" rx="1.4" fill="#110e17" stroke="#3a3446" stroke-width=".7"/>'
+      + '<circle cx="' + c[0] + '" cy="' + (c[1] + 5.5) + '" r="4.2" fill="#221d2c" stroke="#5a5470" stroke-width=".7"/><circle class="s2-cone" cx="' + c[0] + '" cy="' + (c[1] + 5.5) + '" r="1.9" fill="#ff3fa4"/>';
+  });
+  // faisceaux vers le public
+  if (live) h += '<g class="sc-fx s2-faisc">' + [52, 76, 100, 124, 148].map(function(x, k){
+      return '<polygon style="transform-origin:' + x + 'px 28px;animation-duration:' + (1.7 + r(k + 5) * 1.6).toFixed(2) + 's;animation-delay:-' + (r(k + 21) * 2).toFixed(2) + 's" points="' + (x - 1.5) + ',28 ' + (x + 1.5) + ',28 ' + (x + 17) + ',136 ' + (x - 17) + ',136" fill="url(#' + u + 'b' + k + ')"/>';
+    }).join('') + '</g>';
+  // fumée
+  h += '<g class="s2-fumees">' + (live ? [44, 100, 156] : [100]).map(function(x, k){ return '<ellipse class="s2-fumee" cx="' + x + '" cy="99" rx="30" ry="7" fill="url(#' + u + 'fum)" style="animation-delay:-' + (k * 2.1) + 's"/>'; }).join('') + '</g>';
+  // le public
+  var foule = '', n = 0;
+  var gens = live
+    ? [[8, 113, .8], [21, 112, .8], [34, 113.5, .8], [47, 112, .8], [60, 113, .8], [73, 112, .8], [86, 113.5, .8], [99, 112, .8], [112, 113, .8], [125, 112, .8], [138, 113.5, .8], [151, 112, .8], [164, 113, .8], [177, 112, .8], [190, 113.5, .8],
+       [3, 124, 1], [19, 125, 1], [36, 123.5, 1], [53, 125, 1], [70, 124, 1], [87, 125.5, 1], [104, 124, 1], [121, 125, 1], [138, 123.5, 1], [155, 125, 1], [172, 124, 1], [189, 125, 1]]
+    : [[30, 114, .8], [52, 113, .8], [61, 114.5, .8], [118, 113, .8], [140, 114, .8], [151, 113, .8], [84, 124, 1], [176, 125, 1]];
+  gens.forEach(function(g, k){
+    var bras = live && (k % 3 === 1), tel = live && k % 7 === 3, rim = COL[k % 4];
+    foule += '<g class="s2-p" style="animation-delay:-' + (r(k + 40) * (live ? .47 : 3)).toFixed(2) + 's"><g transform="translate(' + g[0] + ' ' + g[1] + ') scale(' + g[2] + ')">'
+      + (bras ? '<path class="s2-mains" d="M-5 7L-8.5-7M5 7L8.5-7" stroke="#0e0614" stroke-width="2.3" stroke-linecap="round"/>' : '')
+      + (tel ? '<rect class="s2-tel" x="7.2" y="-11" width="2.6" height="4" rx=".6" fill="#fff"/>' : '')
+      + '<path d="M-7.5 18V9.5Q-7.5 4.6 0 4.6Q7.5 4.6 7.5 9.5V18Z" fill="#0e0614"/><circle r="3.7" fill="#0e0614"/>'
+      + '<path d="M-3.2-1.9A3.7 3.7 0 0 1 3.2-1.9" fill="none" stroke="' + rim + '" stroke-width="1" stroke-linecap="round"/></g></g>';
+    n++;
+  });
+  h += '<g mask="url(#' + u + 'm)">' + foule + '</g>';
+  // confettis + notes
+  if (live) {
+    h += '<g class="s2-confs">';
+    for (i = 0; i < 16; i++) h += '<rect class="s2-conf" x="' + (24 + r(i + 60) * 152).toFixed(1) + '" y="-6" width="2.4" height="4" rx=".5" fill="' + ['#ff3fa4', '#4fd1ff', '#ffd23f', '#a35cff', '#16c784'][i % 5] + '" style="animation-duration:' + (2.2 + r(i + 80) * 1.8).toFixed(2) + 's;animation-delay:-' + (r(i + 90) * 4).toFixed(2) + 's"/>';
+    h += '</g>';
+  }
+  h += '<g class="s2-notes" font-family="system-ui,sans-serif" font-weight="800">' + (live ? [[37, 74, '♪', '#4fd1ff'], [151, 74, '♫', '#ff3fa4'], [44, 70, '♫', '#ffd23f'], [158, 70, '♪', '#a35cff']] : [[151, 74, '♪', '#a35cff']]).map(function(t, k){
+      return '<text class="s2-note" x="' + t[0] + '" y="' + t[1] + '" font-size="9" fill="' + t[3] + '" style="animation-delay:-' + (k * (live ? .55 : 1.4)).toFixed(2) + 's">' + t[2] + '</text>';
+    }).join('') + '</g>';
+  // zone cliquable : plateau + mur
+  h += '<path class="s2-clic" d="M20 13H180V108H16Z" fill="transparent"/>';
+  return h + '</svg>';
+}
 </script>
 </body>
 </html>
