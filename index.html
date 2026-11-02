@@ -2030,6 +2030,51 @@
   .et-l.saute { opacity:.4; } .et-l.saute b { text-decoration:line-through; }
   .et-l.en { background:rgba(255,59,48,.12); border-color:rgba(255,59,48,.5); } .et-l.en small { color:#ff8a86; font-weight:700; }
   .et-l .btn.petit { padding:8px 11px; flex:none; }
+
+  /* ================= v55 : confort ================= */
+  .conf-b { width:100%; display:flex; align-items:center; gap:12px; text-align:left; padding:13px 14px; margin:10px 0 4px; border-radius:18px 18px 12px 12px; color:var(--txt);
+    background:linear-gradient(135deg, rgba(255,138,58,.18), rgba(255,90,31,.06)); border:1px solid rgba(255,150,90,.35); }
+  .conf-b > span { font-size:24px; } .conf-b > div { flex:1; } .conf-b b { display:block; font-size:15.5px; } .conf-b small { display:block; font-size:12.5px; color:var(--doux); margin-top:1px; }
+  .conf-b em { font-style:normal; font-size:24px; color:#ffa064; }
+  .cf-tailles { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:8px; }
+  .cf-tailles button { display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:4px; height:78px; border-radius:16px 16px 10px 10px; background:var(--s2);
+    border:2px solid rgba(255,150,90,.12); color:var(--txt); }
+  .cf-tailles b { font-family:Anton,Impact,sans-serif; font-weight:400; line-height:1; } .cf-tailles span { font-size:12px; font-weight:700; color:var(--doux); padding-bottom:8px; }
+  .cf-tailles button.sel { border-color:#ff8a3a; background:linear-gradient(180deg, rgba(255,138,58,.22), rgba(255,106,31,.06)); }
+  .cf-tailles button.sel b { color:#ffb27a; } .cf-tailles button.sel span { color:#ffd0a8; }
+  .cf-l { display:flex; align-items:center; gap:12px; padding:12px 13px; margin-bottom:7px; border-radius:16px; background:var(--s2); border:1px solid rgba(255,150,90,.1); }
+  .cf-i { width:34px; height:34px; border-radius:11px; flex:none; display:flex; align-items:center; justify-content:center; font-size:18px; background:rgba(255,138,58,.14); color:#ffb27a; }
+  .cf-i svg.ic { width:19px; height:19px; }
+  .cf-l > div { flex:1; min-width:0; } .cf-l b { display:block; font-size:14.5px; } .cf-l small { display:block; font-size:12px; color:var(--doux); line-height:1.35; margin-top:1px; }
+  .cf-ok { display:inline !important; color:#3ee0a0; font-size:12px; }
+  .cf-l input { width:50px; height:30px; flex:none; -webkit-appearance:none; appearance:none; border-radius:16px; background:#43332c; position:relative; transition:background .2s; margin:0; border:0; padding:0; }
+  .cf-l input::after { content:""; position:absolute; left:3px; top:3px; width:24px; height:24px; border-radius:50%; background:#fff; transition:transform .25s cubic-bezier(.3,1.5,.5,1); box-shadow:0 2px 4px #0006; }
+  .cf-l input:checked { background:linear-gradient(135deg,#ff9a2b,#ff5a1f); } .cf-l input:checked::after { transform:translateX(20px); }
+  .cf-bat { position:relative; height:34px; border-radius:12px; overflow:hidden; background:var(--s2); border:1px solid rgba(255,150,90,.15); margin-bottom:7px; }
+  .cf-bat i { position:absolute; left:0; top:0; bottom:0; background:linear-gradient(90deg, rgba(22,199,132,.35), rgba(22,199,132,.15)); }
+  .cf-bat.bas i { background:linear-gradient(90deg, rgba(255,59,48,.45), rgba(255,59,48,.18)); }
+  .cf-bat span { position:relative; display:flex; align-items:center; height:100%; padding:0 12px; font-size:13.5px; font-weight:800; }
+  /* très grand texte */
+  body.tres-grand .feuille, body.tres-grand #ticker, body.tres-grand .pop-boite, body.tres-grand #compteurs, body.tres-grand #m-band { zoom:1.3 !important; }
+  body.tres-grand .onglet > span:not(.badge) { font-size:13px; }
+  body.tres-grand .leaflet-marker-icon .pin { scale:1.12; }
+  /* contraste plein soleil : textes plus clairs, fonds opaques, contours nets */
+  body.contraste { --doux:#efe2da; --txt:#ffffff; }
+  body.contraste .feuille .sous, body.contraste #ticker .t1 #tk-age, body.contraste .msg .m1, body.contraste .ligne-eq .ag { color:#f3e7e0 !important; }
+  body.contraste .feuille, body.contraste #ticker, body.contraste #onglets, body.contraste #flottants, body.contraste #titre, body.contraste #direct, body.contraste #btn-son, body.contraste .pastille {
+    -webkit-backdrop-filter:none !important; backdrop-filter:none !important; }
+  body.contraste #ticker, body.contraste #onglets, body.contraste #flottants, body.contraste #titre, body.contraste #direct, body.contraste #btn-son { background:#140c0a !important; border-color:#ffb27a !important; }
+  body.contraste .onglet { color:#fff; } body.contraste .onglet svg.ic { color:#fff; }
+  body.contraste .carte-c, body.contraste .msg, body.contraste .cf-l, body.contraste .interrupteur, body.contraste .ligne-eq, body.contraste .autour-l { border:1px solid rgba(255,190,150,.45) !important; }
+  body.contraste .nomrue span { color:#fff !important; font-weight:800 !important; text-shadow:0 0 3px #000, 0 0 3px #000, 0 0 5px #000 !important; }
+  body.contraste .leaflet-marker-icon .pin { box-shadow:0 0 0 2px #000, 0 6px 14px rgba(0,0,0,.8) !important; }
+  body.contraste .evt-etiq, body.contraste .info-etiq { text-shadow:0 0 3px #000, 0 0 3px #000, 0 0 6px #000; }
+  /* gaucher : la colonne de boutons passe à gauche */
+  body.gaucher #flottants { right:auto !important; left:12px; }
+  body.gaucher #live-evt { left:76px; right:12px; }
+
+  /* bandeau du message : 2 lignes maximum, le message complet s'ouvre en touchant */
+  #ticker .t2 { display:-webkit-box !important; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 </style>
 </head>
 <body>
@@ -2940,9 +2985,7 @@ function ouvrirConseils(){
     + '<div class="rangee" style="margin-top:0"><button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ Les bons réflexes</button><button class="btn plein" onclick="ouvrirQR()">🔳 QR code</button></div>'
     + '<div class="appels"><a href="tel:112">112<span>Urgences</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div>'
     + '<div class="rangee"><button class="btn plein" onclick="partagerAppli()">'+ic('partage')+'Partager l\'appli</button><button class="btn plein" onclick="ouvrirAutour()">'+ic('boussole')+'Autour de moi</button></div>'
-    + '<label class="interrupteur"><span>🔠 Texte plus grand</span><input type="checkbox" '+(grand?'checked':'')+' onchange="basculerGrand(this.checked)"></label>'
-    + '<label class="interrupteur"><span>'+ic('batterie')+' Économie de batterie<br><span style="font-size:12px;color:#ad9a90">mises à jour moins fréquentes, sans animations</span></span><input type="checkbox" '+(eco?'checked':'')+' onchange="basculerEco(this.checked)"></label>'
-    + '<label class="interrupteur"><span>⚡ Mode léger<br><span style="font-size:12px;color:#ad9a90">moins d\'effets, carte plus fluide sur les vieux téléphones</span></span><input type="checkbox" '+(document.body.classList.contains('leger')?'checked':'')+' onchange="basculerLeger(this.checked)"></label>'
+    + boutonConfort()
     + '<div class="carte-c"><h3>'+ic('alerte')+'Urgences</h3><b>112</b> urgences · <b>15</b> SAMU · <b>114</b> par SMS si tu ne peux pas parler. Hôpitaux avec urgences = carrés rouges <b>H</b> sur la carte.</div>'
     + '<div class="carte-c"><h3>'+ic('equipe')+'En groupe</h3>Ne reste jamais seul·e. Convenez d\'un point de rendez-vous si vous êtes séparé·es.</div>'
     + '<div class="carte-c"><h3>'+ic('medic')+'Street medics</h3>Les croix vertes qui bougent sur la carte sont des medics en direct. Va vers eux si tu es blessé·e ou si tu vois quelqu\'un en difficulté.</div>'
@@ -3066,6 +3109,7 @@ function menuPlus(){
     + '<div class="rangee"><button class="btn plein" onclick="ouvrirLegende()">'+ic('carte')+'Carte</button><button class="btn plein" onclick="ouvrirConseils()">'+ic('bouclier')+'Conseils</button></div>'
     + '<div class="rangee"><button class="btn plein" onclick="ouvrirAutour()">'+ic('boussole')+'Autour de moi</button><button class="btn plein" onclick="partagerAppli()">'+ic('partage')+'Partager</button></div>'
     + (estMedic() ? '<div class="rangee"><button class="btn plein" onclick="ouvrirInfos()">'+ic('infos')+'Infos publiques</button></div>' : '')
+    + boutonConfort()
     + '<input id="pseudo2" placeholder="Ton pseudo" maxlength="24" value="'+esc(etat.pseudo)+'" onchange="etat.pseudo=this.value.trim();ecrireLS(\'pseudo_equipe\',etat.pseudo)">'
     + '<div class="rangee"><button class="btn plein" onclick="quitterEquipe();toast(\'Déconnecté·e\')">Se déconnecter</button></div>'
     + (estAdmin() ? '<div class="rangee"><button class="btn rouge plein" onclick="toutEffacerDemande()">Après la manif : tout effacer</button></div>' : ''), 'plus');
@@ -3873,7 +3917,7 @@ function dessinerGestion(rafraichir){
     + '<button onclick="ouvrirLegende()"><span>🗺️</span>Carte</button>'
     + '<button onclick="ouvrirAutour()"><span>🧭</span>Autour</button>'
     + '</div>'
-    + '<div class="g-titre">Compte</div>'
+    + '<div class="g-titre">Compte</div>' + boutonConfort()
     + '<label class="l">Pseudo</label><input id="pseudo2" maxlength="24" value="'+esc(etat.pseudo)+'" onchange="etat.pseudo=this.value.trim();ecrireLS(\'pseudo_equipe\',etat.pseudo)">'
     + '<div class="rangee"><button class="btn plein" onclick="quitterEquipe();toast(\'Déconnecté·e\')">Se déconnecter</button></div>'
     + '<div class="rangee"><button class="btn rouge plein" onclick="toutEffacerDemande()">Après la manif : tout effacer</button></div>';
@@ -5096,8 +5140,7 @@ function ouvrirConseilsEN(){
     + '<div class="rangee" style="margin-top:0"><button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ Safety tips</button><button class="btn plein" onclick="ouvrirQR()">🔳 QR code</button></div>'
     + '<div class="appels"><a href="tel:112">112<span>Emergency</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div>'
     + '<div class="rangee"><button class="btn plein" onclick="partagerAppli()">'+ic('partage')+'Share the app</button><button class="btn plein" onclick="ouvrirAutour()">'+ic('boussole')+'Nearby</button></div>'
-    + '<label class="interrupteur"><span>🔠 Bigger text</span><input type="checkbox" '+(grand?'checked':'')+' onchange="basculerGrand(this.checked)"></label>'
-    + '<label class="interrupteur"><span>'+ic('batterie')+' Battery saver<br><span style="font-size:12px;color:#ad9a90">fewer updates, no animations</span></span><input type="checkbox" '+(eco?'checked':'')+' onchange="basculerEco(this.checked)"></label>'
+    + boutonConfort()
     + '<div class="carte-c"><h3>'+ic('alerte')+'Emergency</h3><b>112</b> emergency · <b>15</b> ambulance · <b>114</b> by text if you can\'t speak. Hospitals with ER = red <b>H</b> squares on the map.</div>'
     + '<div class="carte-c"><h3>'+ic('carte')+'How to read the map</h3><b style="color:#ff6b7a">Red = avoid</b> (police, kettling, tear gas, blocked streets). <b style="color:#3ee0a0">Green = safe</b> (medics, water, exits, meeting points). A faded point is old info.</div>'
     + '<div class="carte-c"><h3>'+ic('equipe')+'Stay together</h3>Never stay alone. Agree on a meeting point in case you get separated.</div>'
@@ -5324,7 +5367,7 @@ function fermerBulleB(memoriser){
 function finBienvenue(){ var b = $('bienvenue'); b.classList.remove('vu'); setTimeout(function(){ b.classList.remove('accueil'); }, 300); ecrireLS('bienvenue9','1'); setTimeout(verifierPopups, 400); }
 
 // ----- Confort : texte plus grand -----
-function basculerGrand(on){ grand = on; ecrireLS('grand8', on ? '1' : null); document.body.classList.toggle('grand', on); }
+function basculerGrand(on){ choisirTexte(on ? 1 : 0); }
 
 // ----- Épingles proches : on les écarte un peu pour qu'elles ne se cachent pas -----
 function etaler(){
@@ -5368,6 +5411,76 @@ setTimeout(cacherSplash, 5000);
 setTimeout(boucleChargement, (eco ? 45 : RAFRAICHIR_S) * 1000);
 setInterval(majHorloge, 5000);
 document.addEventListener('visibilitychange', function(){ if (!document.hidden) charger(); });
+// ===================== V55 : CONFORT =====================
+// Texte (3 tailles), contraste plein soleil, écran toujours allumé, vibrations, boutons à gauche, batterie.
+var CONF = { texte: +(lireLS('texte55') || (lireLS('grand8') === '1' ? 1 : 0)), contraste: lireLS('contraste55') === '1', ecran: lireLS('ecran55') === '1',
+  vib: lireLS('vib55') !== '0', gaucher: lireLS('gaucher55') === '1' };
+var verrouEcran = null, batterie = null;
+function appliquerConfort(){
+  var b = document.body;
+  b.classList.toggle('grand', CONF.texte >= 1); b.classList.toggle('tres-grand', CONF.texte >= 2); grand = CONF.texte >= 1;
+  b.classList.toggle('contraste', CONF.contraste); b.classList.toggle('gaucher', CONF.gaucher);
+  var tc = document.querySelector('meta[name="theme-color"]'); if (tc) tc.content = CONF.contraste ? '#000000' : '#0c0c11';
+}
+function choisirTexte(n){ CONF.texte = n; ecrireLS('texte55', String(n)); ecrireLS('grand8', n ? '1' : null); appliquerConfort(); majConfort(); }
+function basculerConf(cle, on){
+  CONF[cle] = on; ecrireLS(cle + '55', on ? '1' : '0'); appliquerConfort();
+  if (cle === 'ecran') { if (on) garderEcran(); else lacherEcran(); }
+  if (cle === 'vib' && on) vibrer(60);
+  majConfort();
+}
+// vibrations : un seul interrupteur pour toute l'appli
+var vibrerNatif = navigator.vibrate ? navigator.vibrate.bind(navigator) : null;
+function vibrer(m){ if (!CONF.vib || !vibrerNatif) return false; try { return vibrerNatif(m); } catch(e){ return false; } }
+try { if (vibrerNatif) Object.defineProperty(navigator, 'vibrate', { configurable:true, value:function(m){ return vibrer(m); } }); } catch(e){}
+// écran toujours allumé (pratique en manif : pas besoin de redéverrouiller)
+function garderEcran(){
+  if (!('wakeLock' in navigator)) { toast(LANGUE === 'en' ? 'Not available on this phone' : 'Pas disponible sur ce téléphone'); CONF.ecran = false; ecrireLS('ecran55', '0'); majConfort(); return; }
+  navigator.wakeLock.request('screen').then(function(v){ verrouEcran = v; v.addEventListener('release', function(){ verrouEcran = null; majConfort(); }); majConfort(); })
+    .catch(function(){ verrouEcran = null; majConfort(); });
+}
+function lacherEcran(){ if (verrouEcran) { try { verrouEcran.release(); } catch(e){} verrouEcran = null; } }
+document.addEventListener('visibilitychange', function(){ if (!document.hidden && CONF.ecran && !verrouEcran) garderEcran(); });
+// batterie : niveau affiché, et proposition d'économie quand elle devient faible
+if (navigator.getBattery) navigator.getBattery().then(function(bt){
+  batterie = bt;
+  function verif(){ majConfort();
+    if (bt.level <= .2 && !bt.charging && !eco && lireLS('batProp55') !== isoJour(Date.now())) {
+      ecrireLS('batProp55', isoJour(Date.now()));
+      toastAction((LANGUE === 'en' ? '🔋 Battery ' : '🔋 Batterie à ') + Math.round(bt.level * 100) + (LANGUE === 'en' ? '%: save battery?' : ' % : passer en économie ?'),
+        [[LANGUE === 'en' ? 'Yes' : 'Oui', function(){ basculerEco(true); }, 'r']]);
+    } }
+  bt.addEventListener('levelchange', verif); bt.addEventListener('chargingchange', verif); setTimeout(verif, 8000);
+}).catch(function(){});
+function boutonConfort(){ var en = LANGUE === 'en';
+  return '<button class="conf-b" onclick="ouvrirConfort()"><span>⚙️</span><div><b>'+(en ? 'Comfort settings' : 'Confort')+'</b><small>'
+    + (en ? 'Text size, sunlight contrast, screen on, battery…' : 'Taille du texte, plein soleil, écran allumé, batterie…')+'</small></div><em>›</em></button>'; }
+function interConf(ic2, titre, sous, on, action){
+  return '<label class="cf-l"><span class="cf-i">'+ic2+'</span><div><b>'+titre+'</b>'+(sous ? '<small>'+sous+'</small>' : '')+'</div><input type="checkbox" '+(on ? 'checked' : '')+' onchange="'+action+'"></label>'; }
+function ouvrirConfort(){ dessinerConfort(); }
+function majConfort(){ if ($('feuille').dataset.vue === 'confort' && $('feuille').classList.contains('ouverte')) dessinerConfort(true); }
+function dessinerConfort(rafraichir){
+  var en = LANGUE === 'en', leger = document.body.classList.contains('leger');
+  var bat = batterie ? '<div class="cf-bat'+(batterie.level <= .2 && !batterie.charging ? ' bas' : '')+'"><i style="width:'+Math.round(batterie.level*100)+'%"></i><span>'+(batterie.charging ? '⚡ ' : '🔋 ')+Math.round(batterie.level*100)+' %'+(batterie.charging ? (en ? ' · charging' : ' · en charge') : '')+'</span></div>' : '';
+  var h = entete(en ? 'Comfort' : 'Confort', en ? 'Make the app easy to use, even in the crowd, in the sun or with low battery.' : 'Pour que l\'appli reste facile à utiliser, même dans la foule, en plein soleil ou avec peu de batterie.')
+    + '<label class="l">'+(en ? 'Reading' : 'Lecture')+'</label>'
+    + '<div class="cf-tailles">' + [[0, 'Aa', en ? 'Normal' : 'Normal'], [1, 'Aa', en ? 'Large' : 'Grand'], [2, 'Aa', en ? 'Extra large' : 'Très grand']].map(function(t){
+        return '<button class="'+(CONF.texte === t[0] ? 'sel' : '')+'" onclick="choisirTexte('+t[0]+')"><b style="font-size:'+(16 + t[0]*5)+'px">'+t[1]+'</b><span>'+t[2]+'</span></button>'; }).join('') + '</div>'
+    + interConf('☀️', en ? 'Sunlight contrast' : 'Contraste plein soleil', en ? 'Brighter text, sharper outlines' : 'Textes plus clairs, contours plus nets', CONF.contraste, 'basculerConf(\'contraste\',this.checked)')
+    + '<label class="l">'+(en ? 'Screen & battery' : 'Écran et batterie')+'</label>' + bat
+    + interConf('📱', en ? 'Keep the screen on' : 'Garder l\'écran allumé', en ? 'No need to unlock your phone to check the map' : 'Plus besoin de déverrouiller pour regarder la carte' + (CONF.ecran && verrouEcran ? ' · <b class="cf-ok">actif</b>' : ''), CONF.ecran, 'basculerConf(\'ecran\',this.checked)')
+    + interConf(ic('batterie'), en ? 'Battery saver' : 'Économie de batterie', en ? 'Updates every 45 s, no animations' : 'Mise à jour toutes les 45 s, sans animations', eco, 'basculerEco(this.checked);majConfort()')
+    + interConf('⚡', en ? 'Fewer effects' : 'Moins d\'effets', en ? 'Smoother map on older phones' : 'Carte plus fluide sur les vieux téléphones', leger, 'basculerLeger(this.checked);majConfort()')
+    + '<label class="l">'+(en ? 'Alerts' : 'Alertes')+'</label>'
+    + interConf('🔊', en ? 'Sounds' : 'Sons', en ? 'Turn off silent mode on iPhone' : 'Pense à couper le mode silencieux de l\'iPhone', son.on, 'basculerSon();majConfort()')
+    + (vibrerNatif ? interConf('📳', en ? 'Vibrations' : 'Vibrations', en ? 'For urgent alerts and news' : 'Pour les alertes urgentes et les nouveautés', CONF.vib, 'basculerConf(\'vib\',this.checked)') : '')
+    + '<label class="l">'+(en ? 'Handling' : 'Prise en main')+'</label>'
+    + interConf('👈', en ? 'Map buttons on the left' : 'Boutons de la carte à gauche', en ? 'Handier if you hold your phone in your left hand' : 'Plus pratique si tu tiens ton téléphone de la main gauche', CONF.gaucher, 'basculerConf(\'gaucher\',this.checked)')
+    + '<div class="langue" style="margin-top:12px"><button class="'+(en ? '' : 'sel')+'" onclick="changerLangue(\'fr\')">🇫🇷 Français</button><button class="'+(en ? 'sel' : '')+'" onclick="changerLangue(\'en\')">🇬🇧 English</button></div>';
+  if (rafraichir) rafraichirFeuille(h); else ouvrir(h, 'confort');
+}
+appliquerConfort();
+if (CONF.ecran) setTimeout(garderEcran, 1500);
 // ===================== V53 : ÉTAPES DE LA COUPURE =====================
 // L'équipe fait avancer les étapes ; le public les voit passer en direct (heure de chaque étape).
 var ETAPES_CP = [
