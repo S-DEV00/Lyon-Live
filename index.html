@@ -2533,6 +2533,58 @@
   body.pc-l .feuille:not(.large) .entete-f { position:sticky; top:-18px; z-index:6; margin:-18px -22px 10px; padding:18px 22px 10px;
     background:linear-gradient(180deg, #211612 0%, #1f1513 80%, rgba(31,21,19,0)); }
   @media (prefers-reduced-motion: reduce) { body.pc-l .feuille.large, body.pc-l .feuille.large.ouverte { transition:none; } }
+  /* ================= v64 : teaser du nouveau nom ================= */
+  #annonce-t.nt .at-boite { background:linear-gradient(180deg,#1f1410 0%,#121013 46%); }
+  .nt-tag { position:relative; display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:20px; background:#ffffff0d; border:1px dashed #ff8a4a99;
+    font-size:11px; font-weight:800; letter-spacing:1.6px; text-transform:uppercase; color:#ffb27a; margin:2px 0 14px; }
+  .nt-tableau { position:relative; display:inline-block; padding:9px 9px 11px; border-radius:16px; background:linear-gradient(180deg,#0b0809,#16100e);
+    border:1px solid #ffffff14; box-shadow:inset 0 2px 10px #000c, 0 12px 30px #0009, 0 0 40px #ff6a1f22; }
+  .nt-flap { display:flex; gap:3px; justify-content:center; }
+  .nt-flap i { position:relative; width:29px; height:42px; border-radius:6px; font-style:normal; display:flex; align-items:center; justify-content:center;
+    font-family:Anton,Impact,sans-serif; font-size:27px; line-height:1; color:#ffe2c8;
+    background:linear-gradient(180deg,#33241d 0%,#291c17 49%,#070404 49%,#070404 51%,#231713 51%,#1a1110 100%);
+    box-shadow:inset 0 1px 0 #ffffff1f, 0 3px 6px #000a; }
+  .nt-flap i.q { color:#ff8a3a; text-shadow:0 0 12px #ff6a1fcc; }
+  .nt-flap i b { display:block; font-weight:400; }
+  .nt-flap i b.f { animation:nt-flip .13s ease-out; } .nt-flap i b.g { animation:nt-flip2 .13s ease-out; }
+  @keyframes nt-flip { 0% { transform:scaleY(.4) translateY(-3px); opacity:.5; } 100% { transform:none; opacity:1; } }
+  @keyframes nt-flip2 { 0% { transform:scaleY(.4) translateY(-3px); opacity:.5; } 100% { transform:none; opacity:1; } }
+  .nt-tampon { position:absolute; right:-12px; bottom:-15px; padding:3px 10px 2px; border:2.5px solid #ff3b30; border-radius:8px; color:#ff4a3a; background:#1a0b0af0;
+    font-family:Anton,Impact,sans-serif; font-size:16px; letter-spacing:2px; box-shadow:0 4px 14px #0009; opacity:0; transform:rotate(-9deg); }
+  .nt-titre { margin:22px 0 0; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:34px; line-height:1.05; letter-spacing:1.4px; color:#fff; }
+  .nt-titre em { font-style:normal; background:linear-gradient(135deg,#ffb82e,#ff6a1f 55%,#ec2e1c); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .nt-sous { font-size:15.5px; font-weight:700; color:#ffd0a8; margin-top:5px; }
+  #annonce-t.nt.vu .nt-tag { animation:at-monte .4s .05s both; }
+  #annonce-t.nt.vu .nt-tableau { animation:pop-saute .6s cubic-bezier(.2,1.6,.4,1) both .1s; }
+  #annonce-t.nt.vu .nt-tampon { animation:nt-tampon .45s 1.9s cubic-bezier(.3,1.6,.5,1) forwards; }
+  #annonce-t.nt.vu .nt-titre { animation:at-monte .4s .45s both; }
+  #annonce-t.nt.vu .nt-sous { animation:at-monte .4s .6s both; }
+  @keyframes nt-tampon { 0% { opacity:0; transform:rotate(-9deg) scale(2.3); } 100% { opacity:1; transform:rotate(-9deg) scale(1); } }
+  @media (min-width:400px) { .nt-flap { gap:4px; } .nt-flap i { width:31px; height:45px; font-size:29px; } }
+  /* sur ordi : le panneau à gauche, les infos à droite */
+  @media (min-width:1000px) {
+    body.pc #annonce-t.nt .at-boite { max-width:900px; display:grid; grid-template-columns:1fr 1fr; padding-bottom:0; }
+    body.pc #annonce-t.nt .at-haut { grid-column:1; grid-row:1 / 3; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:44px 26px 48px;
+      border-right:1px solid #ffffff10; background:radial-gradient(circle at 50% 38%, #ff6a1f1f, transparent 70%); }
+    body.pc #annonce-t.nt .at-haut::before { top:-40px; }
+    body.pc #annonce-t.nt .nt-flap i { width:39px; height:57px; font-size:37px; border-radius:7px; }
+    body.pc #annonce-t.nt .nt-titre { font-size:46px; }
+    body.pc #annonce-t.nt .nt-sous { font-size:17px; }
+    body.pc #annonce-t.nt .at-corps { grid-column:2; grid-row:1; padding:34px 26px 0; }
+    body.pc #annonce-t.nt .at-btns { grid-column:2; grid-row:2; align-self:end; position:static; margin:0; padding:18px 26px 26px; background:none; }
+  }
+  /* le rappel dans Infos */
+  .nt-carte { display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:11px 13px; margin:0 0 12px; border-radius:18px; color:var(--txt);
+    background:linear-gradient(135deg,#2a1710,#161012 70%); border:1px dashed #ff8a4a88; }
+  .nt-carte:active { transform:scale(.98); }
+  .nt-mini { display:flex; gap:2px; flex:none; }
+  .nt-mini i { width:15px; height:22px; border-radius:3px; font-style:normal; display:flex; align-items:center; justify-content:center; font-family:Anton,Impact,sans-serif;
+    font-size:14px; color:#ff8a3a; background:linear-gradient(180deg,#33241d 49%,#070404 49%,#070404 51%,#231713 51%); animation:nt-mini 4.2s ease-out infinite; }
+  .nt-mini i:nth-child(2) { animation-delay:.12s; } .nt-mini i:nth-child(3) { animation-delay:.24s; } .nt-mini i:nth-child(4) { animation-delay:.36s; }
+  @keyframes nt-mini { 0%, 88% { transform:none; } 92% { transform:scaleY(.1); } 100% { transform:none; } }
+  .nt-carte b { display:block; font-size:14.5px; } .nt-carte small { display:block; font-size:12.5px; color:var(--doux); line-height:1.35; margin-top:1px; }
+  .nt-carte > span:last-child { margin-left:auto; color:#ffb27a; font-size:22px; line-height:1; }
+  @media (prefers-reduced-motion: reduce) { .nt-flap i b, .nt-mini i, #annonce-t.nt .nt-tampon { animation:none !important; } #annonce-t.nt .nt-tampon { opacity:1; } }
 </style>
 </head>
 <body>
@@ -3377,7 +3429,7 @@ function dessinerInfos(rafraichir, focusId){
   if (rafraichir && enEdition()) return;
   var liste = messagesInfos().slice().sort(function(a,b){ return (b.epingle?1:0) - (a.epingle?1:0); });
   var h = entete('Infos', 'Tout ce qu\'il faut savoir, en direct.');
-  h += carteResume() + agendaInfos() + annoncesActives();
+  h += carteResume() + agendaInfos() + annoncesActives() + carteTeaserNom();
   h += '<div class="onglets-i"><button class="'+(ongletInfos==='messages'?'sel':'')+'" onclick="ongletInfos=\'messages\';dessinerInfos(true)">💬 Messages</button><button class="'+(ongletInfos==='fil'?'sel':'')+'" onclick="ongletInfos=\'fil\';dessinerInfos(true)">🕑 Fil d\'activité</button></div>';
   if (ongletInfos === 'fil') {
     var ev = evenementsFil();
@@ -5914,6 +5966,8 @@ document.addEventListener('keydown', function(e){
   if (e.key === 'Enter' && t && (t.id === 'mdp' || t.id === 'pseudo') && $('go')) { e.preventDefault(); connexion(); return; }
   if (e.key === 'Escape') {
     if ($('moment') && $('moment').classList.contains('vu')) return fermerMoment();
+    if ($('annonce-t') && $('annonce-t').classList.contains('vu')) return $('annonce-t').classList.contains('nt') ? fermerTeaserNom() : fermerAnnonceT();
+    if ($('clin') && $('clin').classList.contains('vu')) return fermerClin();
     if ($('feuille').classList.contains('ouverte')) return fermer();
     if (document.body.classList.contains('trace') || document.body.classList.contains('placement')) { try { annulerModes(); } catch(x){} return; }
     return;
@@ -7069,6 +7123,91 @@ ouvrir = function(html, vue){ ouvrirAvantPC(html, vue); try { pagePC(); } catch(
 rafraichirFeuille = function(html){ var f = $('feuille'), y = f.scrollTop; rafraichirAvantPC(html); try { pagePC(); f.scrollTop = y; } catch(e){ console.error(e); } };
 fermer = function(){ fermerAvantPC(); document.body.classList.remove('page-large'); };
 $('voile').onclick = function(){ fermer(); };
+// ===================== V64 : TEASER DU NOUVEAU NOM =====================
+// Traboule va changer de nom, mais pas tout de suite. Le nouveau nom reste secret :
+// une annonce une seule fois (un panneau d'affichage dont les lettres cherchent sans jamais trouver),
+// puis un rappel dans Infos jusqu'à la révélation.
+var TEASER_NOM = true;
+var nt = { t:0 };
+function montrerTeaserNom(){
+  var el = $('annonce-t'), en = LANGUE === 'en'; if (!el) return;
+  ecrireLS('nomTeaser1', '1');
+  var li = function(e, t, cls){ return '<div class="at-li'+(cls ? ' '+cls : '')+'"><span>'+e+'</span><div>'+t+'</div></div>'; };
+  el.className = 'nt';
+  el.innerHTML = '<div class="at-boite" role="dialog" aria-label="'+(en ? 'Traboule is getting a new name' : 'Traboule change de nom')+'">'
+    + '<button class="at-x" onclick="fermerTeaserNom()" aria-label="'+(en ? 'Close' : 'Fermer')+'">'+ic('fermer')+'</button>'
+    + '<div class="at-haut"><div class="nt-tag">🤫 Top secret</div>'
+    + '<div class="nt-tableau" aria-hidden="true"><div class="nt-flap">'+'TRABOULE'.split('').map(function(l){ return '<i><b>'+l+'</b></i>'; }).join('')+'</div>'
+    + '<span class="nt-tampon">'+(en ? 'SOON' : 'BIENTÔT')+'</span></div>'
+    + '<h3 class="nt-titre">'+(en ? 'Traboule is getting<br><em>a new name</em>' : 'Traboule change<br><em>de nom</em>')+'</h3>'
+    + '<div class="nt-sous">'+(en ? '…but not right away 😏' : '…mais pas tout de suite 😏')+'</div></div>'
+    + '<div class="at-corps"><div class="at-t">'+(en ? 'What we can tell you' : 'Ce qu\'on peut te dire')+'</div>'
+    + li('🤫', en ? 'The new name is <b>still secret</b>. We\'ll reveal it right here, in the app, very soon.'
+                  : 'Le nouveau nom est <b>encore secret</b>. On le dévoile ici, dans l\'app, très bientôt.')
+    + li('🗺️', en ? '<b>Until then, Traboule stays Traboule</b>: the map works as usual for the next protests.'
+                  : '<b>En attendant, Traboule reste Traboule</b> : la carte marche comme d\'habitude pour les prochaines manifs.')
+    + li('✅', en ? '<b>Nothing to do for now</b>: the app works as usual and your settings are kept.'
+                 : '<b>Rien à faire pour l\'instant</b> : l\'app marche comme d\'habitude et tes réglages restent.', 'ok')
+    + li('👀', en ? 'Open the app now and then: <b>you\'ll be among the first</b> to find out.'
+                  : 'Passe de temps en temps sur l\'app : <b>tu seras parmi les premiers</b> à le découvrir.', 'tel')
+    + '</div><div class="at-btns"><button class="btn plein" onclick="partagerTeaserNom()">'+ic('partage')+(en ? 'Pass it on' : 'Faire tourner')+'</button>'
+    + '<button class="btn rose plein" onclick="fermerTeaserNom()">'+(en ? 'Can\'t wait' : 'J\'ai hâte')+' 🔥</button></div></div>';
+  el.onclick = function(ev){ if (ev.target === el) fermerTeaserNom(); };
+  requestAnimationFrame(function(){ el.classList.add('vu'); });
+  lancerFlapNom();
+}
+// Le panneau : TRABOULE s'affiche, puis les lettres se mettent à tourner, se figent un instant sur « ???????? », et repartent.
+function lancerFlapNom(){
+  clearInterval(nt.t);
+  var tuiles = [].slice.call(document.querySelectorAll('#annonce-t .nt-flap i')); if (!tuiles.length) return;
+  var calme = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var poser = function(t, c){ var l = t.firstChild; if (!l || l.textContent === c) return; l.textContent = c; t.classList.toggle('q', c === '?');
+    if (!calme) { var f = l.classList.contains('f'); l.classList.toggle('f', !f); l.classList.toggle('g', f); } };
+  if (calme) { setTimeout(function(){ tuiles.forEach(function(t){ poser(t, '?'); }); }, 900); return; }
+  var AZ = 'ABCDEFGHIJKLMNOPRSTUVYZ', t0 = Date.now() + 1000;
+  nt.t = setInterval(function(){
+    if (!document.body.contains(tuiles[0]) || document.hidden) { if (!document.body.contains(tuiles[0])) clearInterval(nt.t); return; }
+    var ms = Date.now() - t0; if (ms < 0) return;
+    var cycle = ms % 4600;
+    tuiles.forEach(function(t, i){
+      if (ms < i * 110) return;                                   // les lettres démarrent l'une après l'autre
+      if (cycle > 3200 + i * 60) return poser(t, '?');             // le panneau se fige sur « ???????? »
+      if (Math.random() < .6) return;
+      poser(t, Math.random() < .22 ? '?' : AZ.charAt(Math.floor(Math.random() * AZ.length)));
+    });
+  }, 105);
+}
+function fermerTeaserNom(){
+  ecrireLS('nomTeaser1', '1'); clearInterval(nt.t);
+  var el = $('annonce-t'); if (!el) return; el.classList.remove('vu');
+  setTimeout(function(){ if (!el.classList.contains('vu')) { el.className = ''; el.innerHTML = ''; } }, 350);
+}
+function partagerTeaserNom(){
+  var en = LANGUE === 'en';
+  var t = en ? '👀 Traboule is getting a new name… but not right away. The new name drops soon, keep the app close:'
+             : '👀 Traboule va changer de nom… mais pas tout de suite. Le nouveau nom arrive bientôt, garde l\'appli sous la main :';
+  if (navigator.share) { navigator.share({ title:'Traboule', text:t, url:urlAppli }).catch(function(){}); return; }
+  if (navigator.clipboard) navigator.clipboard.writeText(t + ' ' + urlAppli).then(function(){ toast(en ? '📋 Message copied' : '📋 Message copié, colle-le où tu veux'); }).catch(function(){ toast(urlAppli); });
+  else toast(urlAppli);
+}
+// le rappel dans Infos, jusqu'à la révélation
+function carteTeaserNom(){
+  if (!TEASER_NOM) return ''; var en = LANGUE === 'en';
+  return '<button class="nt-carte" onclick="fermer();setTimeout(montrerTeaserNom, 340)"><span class="nt-mini" aria-hidden="true"><i>?</i><i>?</i><i>?</i><i>?</i></span>'
+    + '<div><b>'+(en ? 'A new name is coming 👀' : 'Bientôt un nouveau nom 👀')+'</b><small>'+(en ? 'Traboule is changing its name, but not right away.' : 'Traboule change de nom, mais pas tout de suite.')+'</small></div><span>›</span></button>';
+}
+(function(){
+  if (!TEASER_NOM || lireLS('nomTeaser1')) return;
+  // ceux qui avaient raté « Lyon Live devient Traboule » passent directement au teaser
+  if (!lireLS('traboule1')) ecrireLS('traboule1', '1');
+  if (!lireLS('bienvenue9')) return;   // les nouveaux venus le verront à leur prochaine visite
+  planifierFenetre(20, 'nom-teaser', function(){
+    // pendant une manif, on ne gêne personne : ce sera pour la prochaine ouverture
+    var ph = (etat.config || {}).phase;
+    if (ph === 'encours' || ph === 'pause' || ph === 'dispersion') return;
+    if (!lireLS('nomTeaser1')) montrerTeaserNom();
+  });
+})();
 </script>
 </body>
 </html>
