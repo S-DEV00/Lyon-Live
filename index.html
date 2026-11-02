@@ -2237,7 +2237,7 @@
     #proxi, #aide { left:calc(50% - 290px); right:auto; width:580px; }
     /* les pages s'ouvrent en panneau sur le côté : la carte reste visible */
     .feuille { left:16px !important; right:auto !important; top:16px; bottom:auto !important; width:var(--pc-pan); max-height:calc(100vh - 32px) !important; border-radius:28px !important;
-      border:1px solid rgba(255,150,90,.22) !important; padding:18px 22px 26px !important; transform:translateX(calc(-100% - 40px));
+      border:1px solid rgba(255,150,90,.22) !important; padding:18px 22px 26px !important; transform:translateX(calc(-100% - 480px));
       box-shadow:0 24px 70px rgba(0,0,0,.75), 0 0 0 1px rgba(0,0,0,.4); scrollbar-width:thin; scrollbar-color:rgba(255,150,90,.35) transparent; }
     .feuille.ouverte { transform:none; }
     .feuille::before { border-radius:28px 28px 0 0 !important; }
@@ -2262,6 +2262,144 @@
     .astuce-pc { display:block; }
   }
   .astuce-pc { display:none; }
+
+  /* ================= v59 : version ordinateur — tableau de bord en direct ================= */
+  #pc-side, #pc-survol, #pc-menu { display:none; }
+  body.pc-l { --side:380px; }
+  body.pc-l #pc-side { display:flex; flex-direction:column; position:fixed; left:0; top:0; bottom:0; width:var(--side); z-index:1700;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='30' viewBox='0 0 38 30'%3E%3Cpath d='M4 30V15a15 15 0 0 1 30 0v15' fill='none' stroke='%23ffb27a' stroke-opacity='.045' stroke-width='1.3'/%3E%3C/svg%3E") 0 100% / 38px 30px,
+      radial-gradient(120% 50% at 0% 0%, rgba(255,106,31,.16), transparent 60%), linear-gradient(180deg, #1a100c, #0d0806 70%);
+    border-right:1px solid rgba(255,150,90,.18); box-shadow:10px 0 40px rgba(0,0,0,.45); }
+  /* la carte et tout ce qui flotte dessus se décalent à droite de la colonne */
+  body.pc-l #carte { left:var(--side) !important; right:0; width:auto !important; }
+  body.pc-l #haut { left:var(--side); }
+  body.pc-l #compteurs { display:none !important; }
+  body.pc-l #live-evt { left:calc(var(--side) + 16px) !important; bottom:18px !important; }
+  body.pc-l #flottants { bottom:22px !important; }
+  body.pc-l.est-admin #live-evt { bottom:74px !important; }
+  body.pc-l #rapide { left:calc(var(--side) + 16px) !important; right:96px !important; width:auto !important; bottom:16px !important; }
+  body.pc-l #barre-mode { left:calc(var(--side) + (100% - var(--side)) / 2 - 300px) !important; bottom:22px !important; }
+  body.pc-l #reseau { left:calc(var(--side) + (100% - var(--side)) / 2 - 270px) !important; bottom:24px !important; }
+  body.pc-l #proxi, body.pc-l #aide { left:calc(var(--side) + (100% - var(--side)) / 2 - 290px) !important; }
+  body.pc-l #toast { left:calc(var(--side) + (100% - var(--side)) / 2); }
+  body.pc-l #viseur { left:calc(var(--side) + (100% - var(--side)) / 2); }
+  body.pc-l .bandeau-maint { left:calc(var(--side) + (100% - var(--side)) / 2); bottom:22px; }
+  body.pc-l .feuille { left:calc(var(--side) + 16px) !important; }
+  body.pc-l #voile { left:var(--side); }
+  /* en-tête de la colonne : la barre Traboule */
+  .pcs-tete { padding:14px 14px 6px; }
+  body.pc-l .pcs-tete .barre { width:100%; box-shadow:none !important; }
+  body.pc-l .pcs-tete #titre { flex:1; }
+  .pcs-corps { flex:1; overflow:auto; padding:4px 14px 18px; scrollbar-width:thin; scrollbar-color:rgba(255,150,90,.3) transparent; }
+  .pcs-corps::-webkit-scrollbar { width:7px; } .pcs-corps::-webkit-scrollbar-thumb { background:rgba(255,150,90,.28); border-radius:4px; }
+  /* l'heure, la date et l'état de la manif */
+  .pcs-heure { display:flex; align-items:center; gap:14px; padding:6px 4px 10px; }
+  .ph-h { font-family:Anton,Impact,sans-serif; font-size:48px; line-height:.9; letter-spacing:1px; font-variant-numeric:tabular-nums;
+    background:linear-gradient(180deg,#fff3e2,#ffb366 60%,#ff6a1f); -webkit-background-clip:text; background-clip:text; color:transparent; filter:drop-shadow(0 0 16px rgba(255,106,31,.35)); }
+  .ph-h i { font-style:normal; animation:ph-clig 2s steps(1) infinite; }
+  @keyframes ph-clig { 50% { opacity:.25; } }
+  .ph-d { min-width:0; display:flex; flex-direction:column; gap:6px; align-items:flex-start; }
+  .ph-d b { font-size:14px; color:#f3e2d6; text-transform:capitalize; }
+  .ph-p { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:800; cursor:pointer;
+    background:color-mix(in srgb, var(--c) 18%, transparent); border:1px solid color-mix(in srgb, var(--c) 55%, transparent); color:#fff; }
+  .ph-p.calme { --c:#8f7f77; cursor:default; }
+    /* les 4 chiffres */
+  .pcs-stats { display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; margin-bottom:14px; }
+  .pst { position:relative; display:flex; flex-direction:column; align-items:flex-start; text-align:left; padding:8px 9px 8px; border-radius:16px 16px 11px 11px; color:#fff; min-width:0;
+    background:linear-gradient(160deg, color-mix(in srgb, var(--c) 18%, rgba(30,18,13,.95)), rgba(18,11,9,.96)); border:1px solid color-mix(in srgb, var(--c) 40%, transparent);
+    overflow:hidden; transition:transform .15s, border-color .2s; }
+  .pst:hover { transform:translateY(-2px); border-color:var(--c); }
+  .pst::after { content:""; position:absolute; right:-16px; top:-16px; width:54px; height:54px; border-radius:50%; background:radial-gradient(circle, color-mix(in srgb, var(--c) 38%, transparent), transparent 70%); }
+  .pst-e { position:absolute; right:7px; top:6px; font-size:15px; z-index:1; }
+  .pst b { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:28px; line-height:1; font-variant-numeric:tabular-nums; margin-top:2px; }
+  .pst .pst-t { font-size:9.5px; font-weight:900; letter-spacing:.5px; text-transform:uppercase; color:color-mix(in srgb, var(--c) 70%, #fff); margin-top:3px; white-space:nowrap; max-width:100%; overflow:hidden; text-overflow:ellipsis; }
+  .pst.bump b { animation:pst-bump .6s cubic-bezier(.2,1.6,.4,1); }
+  @keyframes pst-bump { 40% { transform:scale(1.35); color:var(--c); } }
+  .pst.alerte { animation:pst-al 1.6s ease-in-out infinite; }
+  @keyframes pst-al { 50% { box-shadow:0 0 0 3px color-mix(in srgb, var(--c) 40%, transparent), 0 0 22px color-mix(in srgb, var(--c) 45%, transparent); } }
+  /* sections */
+  .pcs-sec { margin-bottom:14px; }
+  .pcs-st { display:flex; align-items:center; justify-content:space-between; gap:8px; margin:2px 2px 8px; font-family:Anton,Impact,sans-serif; font-size:13px; letter-spacing:1.4px; text-transform:uppercase; color:#ffa064; }
+  .pcs-st span::before { content:""; display:inline-block; width:8px; height:7px; margin-right:7px; border:2px solid #ff8a3a; border-bottom:0; border-radius:6px 6px 0 0; }
+  .pcs-st button, .pcs-st em { font-family:Inter,sans-serif; font-style:normal; font-size:11.5px; font-weight:800; letter-spacing:0; text-transform:none; color:#c9b2a4; background:none; border:0; padding:0; }
+  .pcs-st button:hover { color:#ffb27a; }
+  .pce { width:100%; display:flex; align-items:center; gap:11px; text-align:left; padding:7px 10px; margin-bottom:5px; border-radius:14px; color:#fff;
+    background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.06); box-shadow:inset 3px 0 0 var(--ec); transition:background .15s, transform .15s; }
+  .pce:hover { background:color-mix(in srgb, var(--ec) 12%, transparent); transform:translateX(2px); }
+  .pce.live { background:color-mix(in srgb, var(--ec) 10%, rgba(255,255,255,.03)); border-color:color-mix(in srgb, var(--ec) 45%, transparent); }
+  .pce-e { width:32px; height:32px; flex:none; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:19px; background:color-mix(in srgb, var(--ec) 20%, transparent); }
+  .pce > div { min-width:0; } .pce b { display:block; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pce small { display:block; font-size:11.5px; color:#cbb6a9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pce small i { font-style:normal; font-weight:900; color:#ff6b78; }
+  /* le fil en direct */
+  .pcs-fil .pcs-st em { color:#9f8b80; }
+  .pcs-outils { position:sticky; top:-4px; z-index:2; padding:6px 0 8px; background:linear-gradient(180deg, #120b08 75%, transparent); }
+  .pcs-q { display:flex; align-items:center; gap:8px; height:40px; padding:0 10px 0 12px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,150,90,.2); }
+  .pcs-q:focus-within { border-color:#ff8a3a; box-shadow:0 0 0 3px rgba(255,138,58,.18); }
+  .pcs-q svg { width:17px; height:17px; flex:none; fill:none; stroke:#c9a28a; stroke-width:2.2; stroke-linecap:round; }
+  .pcs-q input { flex:1; min-width:0; height:100%; background:none !important; border:0 !important; outline:0; padding:0 !important; color:#fff; font:inherit; font-size:13.5px; box-shadow:none !important; }
+  kbd { display:inline-flex; align-items:center; justify-content:center; min-width:20px; height:20px; padding:0 6px; border-radius:6px; font-family:Inter,sans-serif; font-size:11px; font-weight:800;
+    color:#f3dccb; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); border-bottom-width:2px; }
+  .pcs-f { display:flex; gap:6px; margin-top:8px; }
+  .pcs-f button { flex:1; height:32px; border-radius:11px; font:inherit; font-size:12.5px; font-weight:800; color:#e8d4c7; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); }
+  .pcs-f button em { font-style:normal; opacity:.6; margin-left:2px; }
+  .pcs-f button.sel { color:#fff; background:var(--grad); border-color:transparent; box-shadow:0 4px 14px rgba(255,90,31,.35); }
+  .pcf { display:flex; align-items:center; gap:10px; padding:8px 10px 8px 8px; margin-bottom:3px; border-radius:14px; cursor:pointer; border:1px solid transparent; position:relative;
+    transition:background .15s, border-color .15s, transform .15s; animation:pcf-in .35s ease-out both; }
+  @keyframes pcf-in { from { opacity:0; transform:translateY(4px); } }
+  .pcf:hover, .pcf.vise { background:rgba(255,150,90,.09); border-color:rgba(255,150,90,.28); transform:translateX(2px); }
+  .pcf.rouge::before, .pcf.vert::before { content:""; position:absolute; left:0; top:10px; bottom:10px; width:3px; border-radius:2px; background:#ff3b4e; }
+  .pcf.vert::before { background:#16c784; }
+  .pcf.vieux { opacity:.55; }
+  .pcf-pin { width:36px; height:36px; flex:none; display:flex; align-items:center; justify-content:center; }
+  .pcf-pin .pin { width:28px !important; height:28px !important; border-width:2.5px !important; animation:none !important; }
+  .pcf-pin .pin svg { width:15px; height:15px; }
+  .pcf-t { flex:1; min-width:0; }
+  .pcf-t b { display:block; font-size:13.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pcf-t b u { text-decoration:none; font-size:11px; font-weight:800; color:#ffb3a8; margin-left:3px; } .pcf-t b s { text-decoration:none; color:#3ee0a0; margin-left:3px; }
+  .pcf-t small { display:block; font-size:11.5px; color:#bba597; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pcf > em { font-style:normal; font-size:11.5px; font-weight:800; color:#d3bcae; white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .pcf.neuf > em { color:#fff; background:#ff3b4e; padding:2px 7px; border-radius:8px; animation:pcf-neuf 1.6s ease-in-out infinite; }
+  .pcf.neuf.vert > em { background:#16c784; }
+  @keyframes pcf-neuf { 50% { box-shadow:0 0 12px rgba(255,59,78,.7); } }
+  .pcf-vide { padding:22px 10px; text-align:center; color:#b8a395; font-size:13.5px; }
+  /* pied : les onglets deviennent la barre de navigation de la colonne */
+  .pcs-pied { padding:20px 12px 8px; border-top:1px solid rgba(255,150,90,.14); background:linear-gradient(180deg, rgba(10,6,5,0), rgba(10,6,5,.9)); }
+  body.pc-l #pcs-pied #onglets { position:relative !important; left:auto !important; right:auto !important; bottom:auto !important; width:auto !important; margin:0; transform:none; }
+  .pcs-aide { display:flex; justify-content:space-between; gap:8px; margin-top:9px; }
+  .pcs-aide button { background:none; border:0; padding:3px 4px; font:inherit; font-size:11.5px; font-weight:700; color:#a8948a; display:inline-flex; align-items:center; gap:5px; }
+  .pcs-aide button:hover { color:#ffb27a; }
+  /* épingle visée depuis le fil */
+  .leaflet-marker-icon.pc-vise::after { content:""; position:absolute; left:50%; top:50%; width:58px; height:58px; margin:-29px 0 0 -29px; border-radius:50%; border:3px solid #fff;
+    box-shadow:0 0 0 3px rgba(255,138,58,.6), 0 0 26px rgba(255,138,58,.8); animation:pc-vise 1s ease-out infinite; pointer-events:none; }
+  @keyframes pc-vise { 0% { transform:scale(.6); opacity:1; } 100% { transform:scale(1.25); opacity:.2; } }
+  /* fiche express au survol */
+  #pc-survol { display:block; position:fixed; z-index:1650; pointer-events:none; min-width:190px; max-width:290px; padding:10px 12px 9px; border-radius:16px;
+    background:linear-gradient(180deg, rgba(46,27,19,.97), rgba(20,12,9,.97)); border:1px solid rgba(255,150,90,.32); box-shadow:0 14px 34px rgba(0,0,0,.6);
+    transform:translate(-50%, -100%) translateY(6px) scale(.96); opacity:0; visibility:hidden; transition:opacity .14s, transform .14s, visibility .14s; }
+  #pc-survol.vu { opacity:1; visibility:visible; transform:translate(-50%, -100%); }
+  #pc-survol.bas { transform:translate(-50%, 64px) scale(.96); } #pc-survol.bas.vu { transform:translate(-50%, 58px); }
+  .sv-h { display:flex; align-items:center; gap:7px; font-size:14px; font-weight:800; color:#fff; --sc:#ffae3b; }
+  .sv-h.danger { --sc:#ff3b4e; } .sv-h.sur { --sc:#16c784; }
+  .sv-pt { width:9px; height:9px; border-radius:50%; flex:none; background:var(--sc); box-shadow:0 0 8px var(--sc); }
+  .sv-n { font-size:13px; color:#f3e2d6; margin-top:4px; line-height:1.35; }
+  .sv-m { font-size:12px; color:#cdb8ab; margin-top:3px; } .sv-live { color:#ff6b78; }
+  .sv-c { font-size:10.5px; color:#9b877c; margin-top:6px; padding-top:5px; border-top:1px solid rgba(255,150,90,.14); }
+  /* menu du clic droit */
+  #pc-menu { position:fixed; z-index:2550; min-width:230px; padding:6px; border-radius:16px; background:linear-gradient(180deg, rgba(44,26,18,.98), rgba(20,12,9,.98));
+    border:1px solid rgba(255,150,90,.32); box-shadow:0 18px 44px rgba(0,0,0,.65); }
+  #pc-menu.vu { display:block; animation:pm-in .14s ease-out; }
+  @keyframes pm-in { from { opacity:0; transform:scale(.96); } }
+  .pm-h { padding:6px 10px 8px; font-size:11.5px; font-weight:800; color:#c9a892; border-bottom:1px solid rgba(255,150,90,.14); margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:260px; }
+  #pc-menu button { width:100%; display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:10px; background:none; border:0; font:inherit; font-size:13.5px; font-weight:700; color:#f6e7dc; text-align:left; }
+  #pc-menu button span { width:22px; text-align:center; }
+  #pc-menu button:hover { background:rgba(255,150,90,.14); color:#fff; }
+  #pc-menu button.fort { background:var(--grad); color:#fff; margin-bottom:3px; } #pc-menu button.fort:hover { filter:brightness(1.1); }
+  /* aide des raccourcis */
+  .kb-l { display:grid; grid-template-columns:1fr; gap:6px; }
+  .kb-l > div { display:flex; align-items:center; gap:12px; padding:9px 12px; border-radius:12px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06); font-size:14px; }
+  .kb-l kbd { min-width:58px; height:26px; font-size:12px; }
+  @media (prefers-reduced-motion: reduce) { .ph-h i, .pst.alerte, .pst.bump b, .pcf, .pcf.neuf > em, .leaflet-marker-icon.pc-vise::after { animation:none !important; } }
 </style>
 </head>
 <body>
@@ -3328,6 +3466,7 @@ function placerA(lat, lng){
   else if (cible === 'position') { partage.mode = 'manuel'; partage.lat = lat; partage.lng = lng; demarrerPartage(); }
 }
 carte.on('contextmenu', function(e){
+  if (typeof estPC === 'function' && estPC() && !document.body.classList.contains('trace') && !document.body.classList.contains('placement')) return menuPC(e);
   if (!estEquipe() || document.body.classList.contains('trace')) return;
   annulerModes(); if (estAdmin()) return selecteurRapide(e.latlng.lat, e.latlng.lng);
   cible = estMedic() ? 'blesse' : 'point'; placerA(e.latlng.lat, e.latlng.lng);
@@ -6493,6 +6632,211 @@ function fermerAnnonceT(){ ecrireLS('traboule1', '1'); var el = $('annonce-t'); 
   if (!lireLS('bienvenue9')) { ecrireLS('traboule1', '1'); return; }
   planifierFenetre(20, 'annonce', function(){ if (!lireLS('traboule1')) montrerAnnonceT(); });
 })();
+// ===================== V59 : VERSION ORDINATEUR — TABLEAU DE BORD EN DIRECT =====================
+// Grand écran (≥ 1100 px) : une colonne « en direct » à gauche (heure, état, chiffres, événements, fil des signalements),
+// la carte à droite. Survol d'une épingle = fiche express, clic droit = menu, raccourcis clavier.
+var PC = { on:false, filtre:'tout', q:'', menu:[], barre:null, statsAvant:{} };
+function pcLarge(){ return window.innerWidth >= 1100; }
+function txPC(fr, en){ return LANGUE === 'en' ? en : fr; }
+function ageCourt(ts){ var m = Math.floor((maintenant() - ts) / 60000); if (m < 1) return txPC('maintenant', 'now'); if (m < 60) return m + ' min'; return Math.floor(m/60) + ' h ' + String(m%60).padStart(2,'0'); }
+function quartierPC(lat, lng){
+  var k = lat.toFixed(4) + ',' + lng.toFixed(4); quartierPC.c = quartierPC.c || {};
+  if (quartierPC.c[k] === undefined) { var s = (typeof stationsProches === 'function') ? stationsProches(lat, lng, 1)[0] : null;
+    quartierPC.c[k] = s ? (s.d < 900 ? txPC('près de ', 'near ') + s.s.n : s.s.n + ' · ' + (s.d/1000).toFixed(1).replace('.', ',') + ' km') : ''; }
+  return quartierPC.c[k];
+}
+function construirePC(){
+  var en = LANGUE === 'en', s = document.createElement('aside'); s.id = 'pc-side'; s.setAttribute('aria-label', 'Traboule en direct');
+  s.innerHTML = '<div class="pcs-tete" id="pcs-tete"></div>'
+    + '<div class="pcs-corps" id="pcs-corps"><div class="pcs-heure" id="pcs-heure"></div>'
+    + '<div class="pcs-stats" id="pcs-stats"></div><div class="pcs-sec" id="pcs-evts"></div>'
+    + '<div class="pcs-sec pcs-fil"><div class="pcs-st"><span>'+txPC('Fil en direct', 'Live feed')+'</span><em id="pcs-nb"></em></div>'
+    + '<div class="pcs-outils"><label class="pcs-q"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>'
+    + '<input id="pcs-q" type="search" autocomplete="off" placeholder="'+txPC('Chercher : police, Bellecour, eau…', 'Search: police, Bellecour, water…')+'"><kbd>/</kbd></label>'
+    + '<div class="pcs-f" id="pcs-f"></div></div><div id="pcs-liste"></div></div></div>'
+    + '<div class="pcs-pied" id="pcs-pied"><div class="pcs-aide"><button onclick="pleinEcranPC()" title="F">⛶ '+txPC('Plein écran', 'Full screen')+'</button>'
+    + '<button onclick="aidePC()" title="?">⌨️ '+txPC('Raccourcis', 'Shortcuts')+' <kbd>?</kbd></button></div></div>';
+  document.body.appendChild(s);
+  var sv = document.createElement('div'); sv.id = 'pc-survol'; document.body.appendChild(sv);
+  var mn = document.createElement('div'); mn.id = 'pc-menu'; mn.setAttribute('role', 'menu'); document.body.appendChild(mn);
+  $('pcs-q').addEventListener('input', function(){ PC.q = this.value; dessinerFilPC(); });
+  $('pcs-q').addEventListener('keydown', function(e){ if (e.key === 'Escape') { this.value = ''; PC.q = ''; dessinerFilPC(); this.blur(); e.stopPropagation(); }
+    if (e.key === 'Enter') { var r = document.querySelector('#pcs-liste .pcf'); if (r) r.click(); } });
+}
+function modePC(){
+  var veut = pcLarge(); if (veut === PC.on) return;
+  PC.on = veut; document.body.classList.toggle('pc-l', veut);
+  if (!PC.barre) PC.barre = document.querySelector('#haut > .barre');
+  var og = $('onglets');
+  if (veut) { if (!$('pc-side')) construirePC(); $('pcs-tete').appendChild(PC.barre); $('pcs-pied').insertBefore(og, $('pcs-pied').firstChild); majPC(); }
+  else { $('haut').insertBefore(PC.barre, $('haut').firstChild); document.body.insertBefore(og, $('viseur')); cacherSurvolPC(); fermerMenuPC(); }
+  setTimeout(function(){ carte.invalidateSize({ pan:false }); desencombrerBientot(); }, 80);
+}
+function majPC(){ if (!PC.on) return; majHeurePC(); dessinerStatsPC(); dessinerEvtsPC(); dessinerFilPC(); accrocherSurvolPC(); }
+function majHeurePC(){
+  var el = $('pcs-heure'); if (!el) return;
+  var d = new Date(maintenant()), cfg = etat.config || {}, P = PHASES[cfg.phase], en = LANGUE === 'en';
+  var jour = d.toLocaleDateString(en ? 'en-GB' : 'fr-FR', { weekday:'long', day:'numeric', month:'long' });
+  var h = '<div class="ph-h">'+String(d.getHours()).padStart(2,'0')+'<i>:</i>'+String(d.getMinutes()).padStart(2,'0')+'</div>'
+    + '<div class="ph-d"><b>'+esc(jour)+'</b>'+(P ? '<span class="ph-p" style="--c:'+P.c+'" onclick="ouvrirInfos()">'+P.e+' '+esc((en && typeof PHASES_EN !== 'undefined' && PHASES_EN[cfg.phase]) || P.nom)
+    + (cfg.phase === 'avant' && cfg.rdvHeure ? ' · RDV '+esc(cfg.rdvHeure) : '')+'</span>' : '<span class="ph-p calme">🌙 '+txPC('Pas de manif en cours', 'No march right now')+'</span>')+'</div>';
+  if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
+}
+function dessinerStatsPC(){
+  var el = $('pcs-stats'); if (!el) return;
+  var dang = 0, surs = 0, police = 0, vehic = 0;
+  etat.points.forEach(function(p){ var g = (TYPES[p.type]||{}).g; if (g === 'danger') dang++; else if (g === 'sur') surs++;
+    if (p.type === 'police' || p.type === 'controle') { police++; vehic += p.vehicules || 0; } });
+  var medics = etat.medics.filter(function(m){ return m.statut !== 'pause'; }).length, bl = etat.blesses.filter(function(b){ return b.statut === 'attente'; }).length;
+  var nE = evtsVisibles().length;
+  var T = [['danger', '#ff3b4e', '⚠️', dang, txPC('à éviter', 'to avoid'), police ? police + ' police' + (vehic ? ' · ' + vehic + txPC(' véh.', ' veh.') : '') : txPC('rien de signalé', 'nothing reported'), "filtrePC('danger')"],
+           ['sur', '#16c784', '🚪', surs, txPC('sûrs', 'safe'), txPC('eau, sorties, abris', 'water, exits, shelters'), "filtrePC('sur')"],
+           ['medics', '#3ee0a0', '⛑️', medics, 'medics', txPC('sur le terrain', 'in the field'), 'ouvrirAutour()'],
+           estEquipe() ? ['blesses', bl ? '#ff3b4e' : '#8f7f77', '🤕', bl, txPC('blessé'+(bl > 1 ? 's' : ''), 'injured'), txPC('en attente', 'waiting'), 'ouvrirMedics()']
+                       : ['evts', '#ffae3b', '🗓️', nE, txPC('agenda', 'agenda'), txPC('événement'+(nE > 1 ? 's' : '') + ' à venir', 'upcoming event'+(nE > 1 ? 's' : '')), 'ouvrirAgenda()']];
+  var h = T.map(function(t){ var saute = PC.statsAvant[t[0]] !== undefined && PC.statsAvant[t[0]] !== t[3]; PC.statsAvant[t[0]] = t[3];
+    return '<button class="pst'+(saute ? ' bump' : '')+(t[0] === 'blesses' && t[3] ? ' alerte' : '')+'" style="--c:'+t[1]+'" onclick="'+t[6]+'" title="'+esc(t[4] + ' · ' + t[5])+'"><span class="pst-e">'+t[2]+'</span>'
+      + '<b>'+t[3]+'</b><span class="pst-t">'+t[4]+'</span></button>'; }).join('');
+  if (el.dataset.h !== h.replace(/ bump/g, '')) { el.innerHTML = h; el.dataset.h = h.replace(/ bump/g, ''); }
+}
+function filtrePC(f){ PC.filtre = PC.filtre === f ? 'tout' : f; dessinerFilPC(); var l = $('pcs-liste'); if (l) l.scrollIntoView({ behavior:'smooth', block:'start' }); }
+function dessinerEvtsPC(){
+  var el = $('pcs-evts'); if (!el) return;
+  var l = evtsVisibles().sort(function(a, b){ return a.debut - b.debut; }).slice(0, 3);
+  var h = !l.length ? '' : '<div class="pcs-st"><span>'+txPC('En ce moment & à venir', 'Now & coming up')+'</span><button onclick="ouvrirAgenda()">'+txPC('Agenda', 'Agenda')+' →</button></div>'
+    + l.map(function(v){ var C = CATS_EVT[v.cat] || CATS_EVT.autre, st = etatEvt(v);
+      return '<button class="pce '+st+'" style="--ec:'+C.c+'" onclick="allerEvtPC(\''+esc(v.id)+'\')"><span class="pce-e">'+esc(v.emoji || C.e)+'</span><div><b>'+esc(v.titre)+'</b><small>'
+        + (st === 'live' ? '<i>● '+txPC('EN COURS', 'LIVE')+'</i> · ' : esc(jourEvt(v.debut)) + ' · ') + esc(heuresEvt(v) + (v.lieu ? ' · ' + v.lieu : ''))+'</small></div></button>'; }).join('');
+  if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
+}
+function allerEvtPC(id){
+  var v = evenements().filter(function(x){ return String(x.id) === String(id); })[0]; if (!v) return;
+  if (v.lat !== undefined && v.lat !== null) carte.flyTo([v.lat, v.lng], Math.max(carte.getZoom(), 16), { duration:.8 });
+  ouvrirEvt(v.id);
+}
+function dessinerFilPC(){
+  var el = $('pcs-liste'); if (!el) return;
+  var q = PC.q.trim().toLowerCase(), n = { tout:0, danger:0, sur:0 };
+  var base = etat.points.filter(function(p){
+    if (!q) return true;
+    return ((TYPES[p.type]||TYPES.info).nom + ' ' + (p.note || '') + ' ' + quartierPC(p.lat, p.lng)).toLowerCase().indexOf(q) >= 0; });
+  base.forEach(function(p){ var g = (TYPES[p.type]||TYPES.info).g; n.tout++; if (g === 'danger') n.danger++; else n.sur++; });
+  var l = base.filter(function(p){ var g = (TYPES[p.type]||TYPES.info).g; return PC.filtre === 'tout' || (PC.filtre === 'danger' ? g === 'danger' : g !== 'danger'); })
+    .sort(function(a, b){ return b.ts - a.ts; });
+  $('pcs-f').innerHTML = [['tout', txPC('Tout', 'All')], ['danger', '🔴 ' + txPC('À éviter', 'Avoid')], ['sur', '🟢 ' + txPC('Sûr', 'Safe')]].map(function(f){
+    return '<button class="'+(PC.filtre === f[0] ? 'sel' : '')+'" onclick="PC.filtre=\''+f[0]+'\';dessinerFilPC()">'+f[1]+' <em>'+n[f[0]]+'</em></button>'; }).join('');
+  $('pcs-nb').textContent = etat.points.length ? etat.points.length + ' ' + txPC('signalement'+(etat.points.length > 1 ? 's' : ''), 'report'+(etat.points.length > 1 ? 's' : '')) : '';
+  var now = maintenant();
+  var h = l.slice(0, 60).map(function(p){ var t = TYPES[p.type] || TYPES.info, g = t.g, vieux = now - p.ts > 45*60000;
+    return '<div class="pcf '+(g === 'danger' ? 'rouge' : g === 'sur' ? 'vert' : 'neutre')+(now - p.ts < 5*60000 ? ' neuf' : '')+(vieux ? ' vieux' : '')+'" data-id="'+esc(p.id)+'" data-ts="'+p.ts+'"'
+      + ' onmouseenter="survolFilPC(this,1)" onmouseleave="survolFilPC(this,0)" onclick="allerPointPC(\''+esc(p.id)+'\')">'
+      + '<span class="pcf-pin">'+pinHtml(p.type)+'</span><div class="pcf-t"><b>'+esc(nomCourtType(p.type))+(p.vehicules ? ' <u>'+p.vehicules+txPC(' véh.', ' veh.')+'</u>' : '')+(p.confirme ? ' <s title="'+txPC('Confirmé', 'Confirmed')+'">✓</s>' : '')+'</b>'
+      + '<small>'+(p.note ? esc(p.note) + ' · ' : '')+esc(quartierPC(p.lat, p.lng))+'</small></div><em>'+ageCourt(p.ts)+'</em></div>'; }).join('');
+  if (!h) h = '<div class="pcf-vide">'+(q ? '🔍 ' + txPC('Rien ne correspond à « ', 'Nothing matches “') + esc(PC.q) + txPC(' »', '”') : '✨ ' + txPC('Rien de signalé pour l\'instant.', 'Nothing reported yet.'))+'</div>';
+  if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
+}
+function majAgesPC(){ document.querySelectorAll('#pcs-liste .pcf').forEach(function(r){ var e = r.querySelector('em'); if (e) e.textContent = ageCourt(+r.dataset.ts); }); }
+function pointPC(id){ return etat.points.filter(function(x){ return String(x.id) === String(id); })[0]; }
+function allerPointPC(id){
+  var p = pointPC(id); if (!p) return;
+  carte.flyTo([p.lat, p.lng], Math.max(carte.getZoom(), 16.5), { duration:.7 });
+  viserPC(id, true); setTimeout(function(){ viserPC(id, false); }, 2200);
+  ouvrirDetail(p.id);
+}
+function viserPC(id, on){ var m = marqueurs[id]; if (m && m._icon) { m._icon.classList.toggle('pc-vise', on); m.setZIndexOffset(on ? 6000 : ((TYPES[(pointPC(id)||{}).type]||{}).g === 'danger' ? 500 : 0)); } }
+function survolFilPC(el, on){ viserPC(el.dataset.id, !!on); }
+// survol d'une épingle sur la carte : petite fiche + la ligne du fil s'allume
+function accrocherSurvolPC(){
+  Object.keys(marqueurs).forEach(function(id){ var m = marqueurs[id]; if (m._pcS) return; m._pcS = 1;
+    m.on('mouseover', function(){ var p = pointPC(id); if (!p) return; montrerSurvolPC(m, htmlSurvolPoint(p));
+      var r = document.querySelector('#pcs-liste .pcf[data-id="'+CSS.escape(String(id))+'"]'); if (r) { r.classList.add('vise'); r.scrollIntoView({ block:'nearest', behavior:'smooth' }); } })
+     .on('mouseout', function(){ cacherSurvolPC(); document.querySelectorAll('#pcs-liste .pcf.vise').forEach(function(r){ r.classList.remove('vise'); }); }); });
+  Object.keys(evtMarqueurs).forEach(function(id){ var m = evtMarqueurs[id]; if (m._pcS) return; m._pcS = 1;
+    m.on('mouseover', function(){ var v = evenements().filter(function(x){ return String(x.id) === String(id); })[0]; if (v) montrerSurvolPC(m, htmlSurvolEvt(v)); }).on('mouseout', cacherSurvolPC); });
+}
+function htmlSurvolPoint(p){
+  var t = TYPES[p.type] || TYPES.info, g = t.g;
+  return '<div class="sv-h '+g+'"><span class="sv-pt"></span>'+esc(t.nom)+'</div>'
+    + (p.note ? '<div class="sv-n">'+esc(p.note)+'</div>' : '')
+    + '<div class="sv-m">🕐 '+esc(age(p.ts))+(p.vehicules ? ' · 🚐 '+p.vehicules+txPC(' véhicules', ' vehicles') : '')+(p.confirme ? ' · ✓ '+txPC('confirmé', 'confirmed') : '')+'</div>'
+    + '<div class="sv-m">📍 '+esc(quartierPC(p.lat, p.lng))+'</div><div class="sv-c">'+txPC('Clic : détails · clic droit : menu', 'Click: details · right-click: menu')+'</div>';
+}
+function htmlSurvolEvt(v){
+  var C = CATS_EVT[v.cat] || CATS_EVT.autre, st = etatEvt(v);
+  return '<div class="sv-h" style="--sc:'+C.c+'"><span class="sv-pt"></span>'+esc((v.emoji || C.e) + ' ' + v.titre)+'</div>'
+    + '<div class="sv-m">'+(st === 'live' ? '<b class="sv-live">● '+txPC('EN COURS', 'LIVE')+'</b> · ' : esc(jourEvt(v.debut)) + ' · ')+esc(heuresEvt(v))+'</div>'
+    + (v.lieu ? '<div class="sv-m">📍 '+esc(v.lieu)+'</div>' : '') + '<div class="sv-c">'+txPC('Clic : la fiche complète', 'Click: full details')+'</div>';
+}
+function montrerSurvolPC(m, html){
+  if (!window.matchMedia || !matchMedia('(hover: hover)').matches || document.body.classList.contains('trace')) return;
+  var el = $('pc-survol') || (function(){ var d = document.createElement('div'); d.id = 'pc-survol'; document.body.appendChild(d); return d; })();
+  var pt = carte.latLngToContainerPoint(m.getLatLng()), r = $('carte').getBoundingClientRect();
+  el.innerHTML = html; el.style.left = Math.round(r.left + pt.x) + 'px'; el.style.top = Math.round(r.top + pt.y - 42) + 'px';
+  el.classList.toggle('bas', r.top + pt.y < 230); el.classList.add('vu');
+}
+function cacherSurvolPC(){ var el = $('pc-survol'); if (el) el.classList.remove('vu'); }
+// clic droit : un vrai menu
+function menuPC(e){
+  var ll = e.latlng, lat = +ll.lat.toFixed(5), lng = +ll.lng.toFixed(5), it = [];
+  if (estAdmin()) it.push(['⚡', txPC('Signaler ici', 'Report here'), function(){ annulerModes(); selecteurRapide(ll.lat, ll.lng); }, 'fort']);
+  else if (estMedic()) it.push(['🤕', txPC('Blessé ici', 'Injured person here'), function(){ annulerModes(); cible = 'blesse'; placerA(ll.lat, ll.lng); }, 'fort']);
+  it.push(['🧭', txPC('Autour d\'ici', 'What\'s around here'), function(){ carte.setView(ll, Math.max(carte.getZoom(), 16)); ouvrirAutour(); }]);
+  it.push(['🔍', txPC('Zoomer ici', 'Zoom in here'), function(){ carte.flyTo(ll, Math.min(19, carte.getZoom() + 2), { duration:.6 }); }]);
+  it.push(['🚶', txPC('Y aller à pied', 'Walk there'), function(){ window.open('https://www.google.com/maps/dir/?api=1&destination=' + lat + ',' + lng + '&travelmode=walking', '_blank', 'noopener'); }]);
+  it.push(['📋', txPC('Copier les coordonnées', 'Copy coordinates'), function(){ var t = lat + ', ' + lng;
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ toast('📋 ' + t); }, function(){ toast(t); }); else toast(t); }]);
+  PC.menu = it;
+  var el = $('pc-menu'); if (!el) return;
+  el.innerHTML = '<div class="pm-h">📍 '+esc(quartierPC(ll.lat, ll.lng) || (lat + ', ' + lng))+'</div>'
+    + it.map(function(x, i){ return '<button role="menuitem" class="'+(x[3] || '')+'" onclick="choixMenuPC('+i+')"><span>'+x[0]+'</span>'+x[1]+'</button>'; }).join('');
+  var oe = e.originalEvent || {}, x = oe.clientX || 0, y = oe.clientY || 0;
+  el.classList.add('vu'); var w = el.offsetWidth, h = el.offsetHeight;
+  el.style.left = Math.min(x, window.innerWidth - w - 10) + 'px'; el.style.top = Math.min(y, window.innerHeight - h - 10) + 'px';
+  cacherSurvolPC();
+}
+function choixMenuPC(i){ var f = PC.menu[i] && PC.menu[i][2]; fermerMenuPC(); if (f) f(); }
+function fermerMenuPC(){ var el = $('pc-menu'); if (el) el.classList.remove('vu'); }
+document.addEventListener('mousedown', function(e){ var el = $('pc-menu'); if (el && el.classList.contains('vu') && !el.contains(e.target)) fermerMenuPC(); });
+carte.on('movestart zoomstart', function(){ fermerMenuPC(); cacherSurvolPC(); });
+// plein écran, aide et raccourcis
+function pleinEcranPC(){
+  try { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }
+  catch(e){ toast(txPC('Plein écran : touche F11', 'Full screen: press F11')); }
+}
+function aidePC(){
+  var K = [['?', txPC('Cette aide', 'This help')], ['/', txPC('Chercher dans le fil', 'Search the feed')], ['1 – 5', txPC('Les onglets (Infos, Carte, Autour…)', 'Tabs (Info, Map, Nearby…)')],
+           ['F', txPC('Plein écran', 'Full screen')], ['R', txPC('Recentrer sur Lyon', 'Back to Lyon')], ['M', txPC('Ma position', 'My location')],
+           ['L', txPC('Légende et filtres', 'Legend and filters')], ['A', txPC('Agenda', 'Agenda')], ['D', txPC('Vue 2D / 3D', '2D / 3D view')],
+           ['+ / −', txPC('Zoomer / dézoomer', 'Zoom in / out')], ['Échap', txPC('Fermer', 'Close')], [txPC('Clic droit', 'Right-click'), txPC('Menu sur la carte', 'Map menu')]];
+  ouvrir(entete('⌨️ ' + txPC('Raccourcis', 'Shortcuts'), txPC('Pour aller plus vite sur ordi.', 'Go faster on a computer.'))
+    + '<div class="kb-l">' + K.map(function(k){ return '<div><kbd>'+k[0]+'</kbd><span>'+k[1]+'</span></div>'; }).join('') + '</div>', 'raccourcis');
+}
+document.addEventListener('keydown', function(e){
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  var t = e.target; if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+  if ($('maint').classList.contains('vu') || $('bienvenue').classList.contains('vu') || document.body.classList.contains('splash-la')) return;
+  var k = e.key, fait = true;
+  if (k === '?') aidePC();
+  else if (k === '/' && PC.on) { $('pcs-q').focus(); $('pcs-q').select(); }
+  else if (/^[1-6]$/.test(k)) { var o = document.querySelectorAll('.onglet')[+k - 1]; if (o) o.click(); else fait = false; }
+  else if (k === 'f' || k === 'F') pleinEcranPC();
+  else if (k === 'r' || k === 'R') recentrer();
+  else if (k === 'm' || k === 'M') meLocaliser();
+  else if (k === 'l' || k === 'L') ouvrirLegende();
+  else if (k === 'a' || k === 'A') ouvrirAgenda();
+  else if (k === 'd' || k === 'D') basculer3D();
+  else if (k === '+' || k === '=') carte.zoomIn();
+  else if (k === '-' || k === '_') carte.zoomOut();
+  else if (k === 'Escape') { fermerMenuPC(); cacherSurvolPC(); fait = false; }
+  else fait = false;
+  if (fait) e.preventDefault();
+});
+// branchement : à chaque mise à jour des données, la colonne suit
+var appliquerAvantPC = appliquer;
+appliquer = function(j){ appliquerAvantPC(j); try { majPC(); } catch(e){ console.error(e); } };
+setInterval(function(){ if (PC.on && !document.hidden) { majHeurePC(); majAgesPC(); } }, 5000);
+window.addEventListener('resize', function(){ clearTimeout(modePC.t); modePC.t = setTimeout(modePC, 150); });
+modePC();
 </script>
 </body>
 </html>
