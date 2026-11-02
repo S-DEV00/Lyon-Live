@@ -2075,6 +2075,73 @@
 
   /* bandeau du message : 2 lignes maximum, le message complet s'ouvre en touchant */
   #ticker .t2 { display:-webkit-box !important; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
+  /* ================= v56 : carte coupée, nouvelle mise en page ================= */
+  .cp-logo { width:140px; height:150px; }
+  .cp-arche { width:108px; height:126px; }
+  .cp-rayons { position:absolute; left:50%; top:48%; width:360px; height:360px; margin:-180px 0 0 -180px; border-radius:50%; pointer-events:none;
+    background:conic-gradient(from 0deg, transparent 0 18deg, rgba(255,45,35,.42) 34deg, transparent 52deg 198deg, rgba(255,45,35,.42) 214deg, transparent 232deg);
+    -webkit-mask-image:radial-gradient(circle, #000 12%, transparent 62%); mask-image:radial-gradient(circle, #000 12%, transparent 62%); animation:sp-tour 2.4s linear infinite; }
+  .cp-t { font-size:min(54px, 15vw) !important; margin:6px 0 4px !important; }
+  .cp-x { font-size:15.5px !important; margin:0 0 12px !important; }
+  body:not(.splash-la) #maint.vu .m-boite.cp { animation:cp-secousse .4s 1.5s ease-out both; }
+  @keyframes cp-secousse { 20% { transform:translate(-5px,2px); } 40% { transform:translate(5px,-2px); } 60% { transform:translate(-3px,1px); } 80% { transform:translate(2px,0); } }
+  /* la carte d'étape */
+  .cp-step { width:100%; text-align:left; padding:14px 14px 12px; margin-bottom:10px; border-radius:22px 22px 16px 16px; position:relative; overflow:hidden;
+    background:linear-gradient(160deg, rgba(78,14,12,.94), rgba(28,8,8,.95)); border:1px solid rgba(255,80,70,.5); box-shadow:0 0 34px rgba(255,40,30,.22), inset 0 1px 0 rgba(255,170,160,.15); }
+  .cp-step.change { animation:cs-change .9s cubic-bezier(.2,1.3,.4,1); }
+  @keyframes cs-change { 0% { transform:scale(.96); box-shadow:0 0 0 4px rgba(255,210,63,.8), 0 0 50px rgba(255,210,63,.6); } 100% { transform:none; } }
+  .cs-top { display:flex; gap:13px; align-items:center; }
+  .cs-ic { position:relative; width:62px; height:62px; flex:none; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:29px;
+    background:radial-gradient(circle at 40% 32%, #ff7a6e, #c41a10 62%, #6e0b06); box-shadow:0 0 24px rgba(255,59,48,.6), inset 0 -4px 8px rgba(0,0,0,.3); }
+  .cs-ic::after { content:""; position:absolute; inset:-7px; border-radius:50%; border:2.5px dashed rgba(255,170,160,.55); animation:m-tourne 7s linear infinite; }
+  .cs-t { min-width:0; } .cs-t small { font-family:Anton,Impact,sans-serif; font-size:12.5px; letter-spacing:1.8px; color:#ff8a86; }
+  .cs-t b { display:block; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:25px; line-height:1.04; letter-spacing:.6px; text-transform:uppercase; color:#fff; margin:2px 0 4px; }
+  .cs-t em { display:block; font-style:normal; font-size:12.5px; line-height:1.35; color:#e9c9c3; font-variant-numeric:tabular-nums; }
+  .cs-piste { display:grid; grid-template-columns:repeat(6,1fr); gap:5px; margin:14px 0 9px; }
+  .cs-piste i { height:30px; border-radius:15px 15px 4px 4px; border:2px solid rgba(255,120,110,.32); border-bottom:0; background:rgba(0,0,0,.28);
+    display:flex; align-items:center; justify-content:center; font-style:normal; font-size:13px; font-weight:900; color:#fff; }
+  .cs-piste i.ok { background:linear-gradient(180deg,#2ee6a8,#0fa86a); border-color:#2ee6a8; box-shadow:0 0 10px rgba(22,199,132,.45); }
+  .cs-piste i.en { background:radial-gradient(80% 75% at 50% 100%, #ffc2b8, #ff3b30 58%, #a8150c); border-color:#ff6a5e; animation:cs-pouls 1.4s ease-in-out infinite; }
+  @keyframes cs-pouls { 50% { box-shadow:0 0 18px rgba(255,59,48,.9); } }
+  .cs-piste i.saute { opacity:.35; background:repeating-linear-gradient(-45deg, rgba(255,255,255,.12) 0 4px, transparent 4px 8px); }
+  .cs-piste i.arr { border-style:dashed; border-color:rgba(62,224,160,.55); background:rgba(22,199,132,.08); font-size:12px; }
+  .cs-ret { font-size:13px; font-weight:800; color:#d4f2e4; }
+  .cs-ecg { display:flex; align-items:center; gap:9px; margin-top:10px; padding-top:9px; border-top:1px solid rgba(255,120,110,.15); font-size:12px; color:#d9b8b2; }
+  .cs-ecg svg { width:64px; height:20px; flex:none; overflow:visible; }
+  .cs-ecg path { fill:none; stroke:#3ee0a0; stroke-width:2.2; stroke-linejoin:round; stroke-dasharray:60 140; animation:cs-ecg 1.7s linear infinite; filter:drop-shadow(0 0 3px #3ee0a0); }
+  @keyframes cs-ecg { from { stroke-dashoffset:200; } to { stroke-dashoffset:0; } }
+  .cs-ecg b { color:#7ff0c3; }
+  /* les 3 actions */
+  .cp-act { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; width:100%; margin-bottom:10px; position:relative; z-index:2; }
+  .cp-act button { display:flex; flex-direction:column; align-items:center; gap:2px; padding:12px 4px 11px; border-radius:18px 18px 12px 12px; color:#fff;
+    background:linear-gradient(180deg, rgba(52,16,14,.92), rgba(26,9,8,.94)); border:1px solid rgba(255,90,80,.35); transition:transform .15s; }
+  .cp-act button:active { transform:scale(.94); }
+  .cp-act span { font-size:25px; line-height:1.1; margin-bottom:3px; } .cp-act b { font-size:13px; } .cp-act small { font-size:11px; color:#d9b8b2; }
+  .cp-act button.ok { border-color:#16c784; background:linear-gradient(180deg, rgba(14,50,36,.92), rgba(8,26,19,.94)); } .cp-act button.ok small { color:#7ff0c3; }
+  /* réflexes en 3 cases */
+  .cp-mini { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; width:100%; margin-bottom:10px; position:relative; z-index:2; }
+  .cp-mini div { text-align:center; padding:10px 5px; border-radius:14px; background:rgba(34,11,10,.88); border:1px solid rgba(255,90,80,.2); }
+  .cp-mini span { display:block; font-size:21px; } .cp-mini b { display:block; font-size:12px; color:#fff; margin-top:3px; } .cp-mini small { display:block; font-size:10.5px; color:#cfaaa4; }
+  /* sections repliables */
+  .cp-det { width:100%; text-align:left; margin-bottom:10px; border-radius:18px 18px 14px 14px; background:linear-gradient(180deg, rgba(42,14,12,.88), rgba(22,9,8,.9));
+    border:1px solid rgba(255,80,70,.22); position:relative; z-index:2; }
+  .cp-det summary { list-style:none; cursor:pointer; padding:13px 14px; display:flex; align-items:center; justify-content:space-between;
+    font-family:Anton,Impact,sans-serif; font-size:14px; letter-spacing:1.3px; text-transform:uppercase; color:#ff9a95; }
+  .cp-det summary::-webkit-details-marker { display:none; }
+  .cp-det summary::after { content:"+"; font-family:Inter,sans-serif; font-size:20px; font-weight:800; color:#ff8a86; }
+  .cp-det[open] summary::after { content:"−"; }
+  .cp-det > div { padding:0 14px 10px; }
+  .cp-hop span small { display:block; font-size:11.5px; font-weight:600; color:#d9b8b2; margin-top:1px; } .cp-hop span small b { color:#7ff0c3; }
+  .cp-hop.proche { margin:0 -8px; padding:9px 8px; border-radius:12px; background:rgba(22,199,132,.12); border-top-color:transparent !important; }
+  .ch-l { display:flex; gap:11px; align-items:center; padding:7px 0; } .ch-l + .ch-l { border-top:1px solid rgba(255,120,110,.1); }
+  .ch-l > span { width:26px; height:26px; border-radius:50%; flex:none; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:900; background:#2a1513; border:2px solid rgba(255,120,110,.3); }
+  .ch-l.ok > span { background:#16c784; border-color:#16c784; color:#fff; } .ch-l.en > span { background:#ff3b30; border-color:#ff6a5e; }
+  .ch-l.saute { opacity:.45; } .ch-l.saute b { text-decoration:line-through; } .ch-l.avenir { opacity:.65; }
+  .ch-l b { display:block; font-size:14px; color:#fff; } .ch-l small { display:block; font-size:12px; color:#d9b8b2; }
+  .ch-l.ok small { color:#7ff0c3; } .ch-l.en small { color:#ff9a95; font-weight:700; }
+  @media (prefers-reduced-motion: reduce) { .cp-rayons, .cs-ic::after, .cs-piste i.en, .cs-ecg path, #maint.vu .m-boite.cp { animation:none !important; } }
+  body.leger .cp-rayons, body.eco .cp-rayons { display:none; }
 </style>
 </head>
 <body>
@@ -4104,8 +4171,9 @@ function majMaintenance(){
     if (el.dataset.h !== h) {
       if (o.k === 'securite' && el.dataset.mode === 'securite' && el.classList.contains('vu') && $('cp-etapes')) {
         var avant = el.dataset.etape, maintenant2 = String((o.etapes || []).length ? o.etapes[o.etapes.length - 1].i : 0);
-        $('cp-etapes').innerHTML = htmlEtapesCp(o); if ($('cp-x')) $('cp-x').textContent = texteMaint(o);
+        $('cp-etapes').innerHTML = htmlEtapesCp(o); if ($('cp-x')) $('cp-x').textContent = texteMaint(o); if ($('cp-histo')) $('cp-histo').innerHTML = htmlHistoCp(o);
         if (avant !== undefined && avant !== maintenant2) { var E = ETAPES_CP[+maintenant2]; toast((en ? 'New step: ' : 'Nouvelle étape : ') + E.e + ' ' + (en ? E.tEn : E.t));
+          var ce = $('cp-etapes'); ce.classList.remove('change'); void ce.offsetWidth; ce.classList.add('change');
           try { jouer('ding'); if (navigator.vibrate) navigator.vibrate(80); } catch(x){} }
         el.dataset.etape = maintenant2;
       } else { el.innerHTML = h; el.dataset.etape = String((o.etapes || []).length ? o.etapes[o.etapes.length - 1].i : 0); }
@@ -4116,7 +4184,7 @@ function majMaintenance(){
     el.classList.add('vu'); document.body.classList.add('maint-vu'); cacherSplash(); lancerTickMaint();
     if ($('bienvenue').classList.contains('vu')) $('bienvenue').classList.remove('vu');
   } else if (el.classList.contains('vu')) { el.classList.remove('vu'); el.dataset.h = ''; document.body.classList.remove('maint-vu');
-    maintVu = 0; ecrireLS('maintVu', '');
+    maintVu = 0; ecrireLS('maintVu', ''); ecrireLS('prevRetour', null);
     if (estEquipe() && M.ecran) toast('🛠️ Maintenance toujours active pour le public · touche le bandeau en bas pour la couper');
     else if (prec === 'securite' && typeof MOMENTS !== 'undefined') planifierFenetre(4, 'retour-carte', function(){ montrerMoment('retour'); });
     else if (prec === 'complet' && typeof MOMENTS !== 'undefined') planifierFenetre(4, 'retour-maj', function(){ montrerMoment('repart'); });
@@ -5498,17 +5566,29 @@ function etapesActives(o){ o = o || modeMaint(etat.config); return o.etapes && o
 function etapesPourSauver(){ var o = modeMaint(etat.config); return o.k === 'securite' && o.etapes.length ? o.etapes : [{ i:0, h:hhmm() }]; }
 function debutEtape(){ var l = etapesActives(), t = hhmmTs(l[l.length - 1].h); return t || debutCoupure(); }
 function htmlEtapesCp(o){
-  var en = LANGUE === 'en', l = etapesActives(o), cur = l[l.length - 1].i, fin = heureFin(o.fin), h = '';
-  var faites = {}; l.forEach(function(x){ faites[x.i] = x.h; });
-  h += '<div class="cp-st">'+(en ? 'Where we are' : 'Où on en est')+'<span class="cp-num">'+(en ? 'Step ' : 'Étape ')+(cur + 1)+'/'+ETAPES_CP.length+'</span></div>';
+  var en = LANGUE === 'en', l = etapesActives(o), cur = l[l.length - 1].i, fin = heureFin(o.fin), E = ETAPES_CP[cur], faites = {};
+  l.forEach(function(x){ faites[x.i] = x.h; });
+  var depuis = (en ? 'for ' : 'depuis ') + dureeTxt(Date.now() - (hhmmTs(faites[cur]) || debutCoupure()));
+  var piste = ETAPES_CP.map(function(X, i){
+    var st = i < cur ? (faites[i] !== undefined ? 'ok' : 'saute') : i === cur ? 'en' : '';
+    return '<i class="'+st+'"><span>'+(st === 'ok' ? '✓' : st === 'en' ? X.e : '')+'</span></i>'; }).join('') + '<i class="arr"><span>✅</span></i>';
+  return '<div class="cs-top"><div class="cs-ic"><span>'+E.e+'</span></div><div class="cs-t"><small>'+(en ? 'STEP ' : 'ÉTAPE ')+(cur + 1)+(en ? ' OF ' : ' SUR ')+ETAPES_CP.length+'</small>'
+    + '<b>'+(en ? E.tEn : E.t)+'</b><em><span id="cp-depuis">'+depuis+'</span> · '+(en ? E.xEn : E.x)+'</em></div></div>'
+    + '<div class="cs-piste">'+piste+'</div>'
+    + '<div class="cs-ret">'+(fin ? '⏱ '+(en ? 'Back around ' : 'Retour prévu vers ')+esc(o.fin)+' · '+(en ? 'in ' : 'dans ')+txtResteCourt(fin - Date.now())
+                                : '✅ '+(en ? 'The map comes back right here, by itself' : 'La carte revient ici même, toute seule'))+'</div>'
+    + '<div class="cs-ecg"><svg viewBox="0 0 120 24" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12H40l5-8 6 16 6-14 4 6H120"/></svg>'
+    + '<span><b>'+(en ? 'The team is on it' : 'L\'équipe est dessus')+'</b> · <span id="m-verif">'+(en ? 'checking automatically' : 'vérification automatique')+'</span></span></div>';
+}
+// toutes les étapes, avec l'heure (section repliable)
+function htmlHistoCp(o){
+  var en = LANGUE === 'en', l = etapesActives(o), cur = l[l.length - 1].i, faites = {}, h = '';
+  l.forEach(function(x){ faites[x.i] = x.h; });
   ETAPES_CP.forEach(function(E, i){
-    if (i < cur && faites[i] === undefined) return; // étape sautée
-    var etat2 = i < cur ? 'ok' : i === cur ? 'en' : '', t = en ? E.tEn : E.t, x = en ? E.xEn : E.x;
-    var sous = i < cur ? (en ? 'at ' : 'à ') + hhmmTxt(faites[i]) + ' · ' + x : i === cur ? '<span id="cp-depuis">' + (en ? 'for ' : 'depuis ') + dureeTxt(Date.now() - (hhmmTs(faites[i]) || debutCoupure())) + '</span> · ' + x : x;
-    h += '<div class="cp-et '+etat2+(i === cur ? ' neuf' : '')+'"><i>'+(i < cur ? '✓' : i === cur ? '' : E.e)+'</i><div><b>'+(i === cur ? E.e + ' ' : '')+t+'</b><small>'+sous+'</small></div></div>';
-  });
-  h += '<div class="cp-et fin"><i>✅</i><div><b>'+(en ? 'The map comes back' : 'Retour de la carte')+'</b><small>'
-    + (fin ? (en ? 'planned around ' : 'prévu vers ') + esc(o.fin) + (en ? ', right here' : ', ici même') : (en ? 'right here, by itself, no need to reload' : 'ici même, tout seul, sans recharger')) + '</small></div></div>';
+    var st = i < cur ? (faites[i] !== undefined ? 'ok' : 'saute') : i === cur ? 'en' : 'avenir';
+    h += '<div class="ch-l '+st+'"><span>'+(st === 'ok' ? '✓' : E.e)+'</span><div><b>'+(en ? E.tEn : E.t)+'</b><small>'
+      + (st === 'ok' ? (en ? 'done at ' : 'fait à ') + hhmmTxt(faites[i]) : st === 'saute' ? (en ? 'skipped' : 'pas nécessaire') : st === 'en' ? (en ? 'in progress since ' : 'en cours depuis ') + hhmmTxt(faites[i]) : (en ? E.xEn : E.x))
+      + '</small></div></div>'; });
   return h;
 }
 // admin : faire avancer (ou reculer) les étapes, publié tout de suite
@@ -5631,34 +5711,64 @@ function svgHerse(){
     + '<g class="cp-gyro"><path d="M50 9a10 10 0 0 1 20 0v3H50z" fill="#ff3b30"/><rect x="47" y="11" width="26" height="4" rx="1.5" fill="#3a1010"/></g></svg>';
 }
 function htmlCoupee(o){
-  var en = LANGUE === 'en', fin = heureFin(o.fin), t0 = debutCoupure();
-  var plan = document.querySelector('#splash .sp-plan'), fond = plan ? plan.outerHTML : '';
-  var urg = (PLAN.urgences || []).map(function(h){ return { n:String(h[0]).replace(/\s*\(urgences\)\s*/i, ''), la:h[1], lo:h[2] }; });
-  var etape = function(cls, ic, titre, sous, id){ return '<div class="cp-et '+cls+'"><i>'+ic+'</i><div><b>'+titre+'</b><small'+(id ? ' id="'+id+'"' : '')+'>'+sous+'</small></div></div>'; };
-  return '<div class="cp-fond">'+fond+'<div class="cp-scan"></div></div>'
+  var en = LANGUE === 'en', plan = document.querySelector('#splash .sp-plan'), prev = son.on && lireLS('prevRetour');
+  var tuile = function(id, e, t1, t2, f, cls){ return '<button'+(id ? ' id="'+id+'"' : '')+' class="'+(cls || '')+'" onclick="'+f+'"><span>'+e+'</span><b>'+t1+'</b><small>'+t2+'</small></button>'; };
+  return '<div class="cp-fond">'+(plan ? plan.outerHTML : '')+'<div class="cp-scan"></div></div>'
     + '<div class="m-boite cp">'
-    + '<div class="cp-logo"><div class="cp-halo"></div>'+svgHerse()+'</div>'
+    + '<div class="cp-logo"><div class="cp-rayons"></div><div class="cp-halo"></div>'+svgHerse()+'</div>'
     + '<div class="cp-etiq"><b></b>'+(en ? 'SAFETY CUT' : 'COUPURE DE SÉCURITÉ')+'</div>'
     + '<h1 class="cp-t"><span>'+(en ? 'MAP' : 'CARTE')+'</span><b data-t="'+(en ? 'OFF' : 'COUPÉE')+'">'+(en ? 'OFF' : 'COUPÉE')+'</b></h1>'
     + '<p class="cp-x" id="cp-x">'+esc(texteMaint(o))+'</p>'
-    + '<div class="cp-bloc" id="cp-etapes">' + htmlEtapesCp(o) + '</div>'
-    + '<div class="cp-bloc cp-faux"><div class="cp-st">'+(en ? 'Spot the fakes' : 'Repère les fausses infos')+'</div>'
+    + '<div class="cp-step" id="cp-etapes">'+htmlEtapesCp(o)+'</div>'
+    + '<div class="cp-act">'
+    + tuile('cp-prev', prev ? '✅' : '🔔', en ? 'Notify me' : 'Me prévenir', prev ? (en ? 'on' : 'activé') : (en ? 'when it\'s back' : 'au retour'), 'prevenirRetourCp()', prev ? 'ok' : '')
+    + tuile('', '📤', en ? 'Warn' : 'Prévenir', en ? 'my friends' : 'mes potes', 'partagerCoupure()')
+    + tuile('', '🏥', en ? 'Nearest' : 'Hôpital', en ? 'hospital' : 'le plus proche', 'hopProche()')
+    + '</div>'
+    + '<div class="cp-bloc cp-faux"><div class="cp-st">'+(en ? 'Watch out for fake info' : 'Attention aux fausses infos')+'</div>'
     + '<div class="cp-li"><span>📵</span><div>'+(en ? 'During the cut, <b>no « Traboule » info is real</b>, even from a friend.' : 'Pendant la coupure, <b>aucune info « Traboule » n\'est vraie</b>, même envoyée par un pote.')+'</div></div>'
     + '<div class="cp-li"><span>🔑</span><div>'+(en ? 'We will <b>never</b> ask for your code, your number or money.' : 'On ne te demandera <b>jamais</b> ton code, ton numéro ou de l\'argent.')+'</div></div>'
     + '<div class="cp-li"><span>✅</span><div>'+(en ? 'The map will come back <b>here only</b>, on this page.' : 'La carte reviendra <b>ici seulement</b>, sur cette page.')+'</div></div></div>'
-    + '<div class="cp-bloc"><div class="cp-st">'+(en ? 'Meanwhile' : 'Pendant ce temps')+'</div>'
-    + [[en ? 'Trust what you see around you' : 'Fie-toi à ce que tu vois autour de toi', '👀'], [en ? 'Stay with your group and follow the march' : 'Reste avec ton groupe et suis le cortège', '👥'],
-       [en ? 'Hurt? Find a medic or call 15 / 112' : 'Blessé·e ? Va vers un medic ou appelle le 15 / 112', '⛑️']].map(function(c, i){ return '<div class="cp-li num"><span>'+(i+1)+'</span><div>'+c[1]+' '+c[0]+'</div></div>'; }).join('')
-    + '</div>'
-    + (urg.length ? '<div class="cp-bloc"><div class="cp-st">'+(en ? 'Hospitals with A&E' : 'Hôpitaux avec urgences')+'</div>' + urg.map(function(h){
-        return '<a class="cp-hop" target="_blank" href="https://maps.apple.com/?daddr='+h.la+','+h.lo+'&dirflg=w"><i>H</i><span>'+esc(h.n)+'</span><em>'+(en ? 'Go' : 'Y aller')+' →</em></a>'; }).join('') + '</div>' : '')
-    + '<div class="m-verif"><b></b><span id="m-verif">'+(en ? 'Checking automatically' : 'Vérification automatique')+'</span></div>'
+    + '<div class="cp-mini">' + [['👀', en ? 'Trust your eyes' : 'Fie-toi à tes yeux', en ? 'not to rumours' : 'pas aux rumeurs'], ['👥', en ? 'Stay together' : 'Reste groupé·e', en ? 'follow the march' : 'suis le cortège'],
+        ['⛑️', en ? 'Hurt?' : 'Blessé·e ?', en ? 'medic, 15 or 112' : 'medic, 15 ou 112']].map(function(c){ return '<div><span>'+c[0]+'</span><b>'+c[1]+'</b><small>'+c[2]+'</small></div>'; }).join('') + '</div>'
+    + '<details class="cp-det" id="cp-det-hop"><summary>🏥 '+(en ? 'Hospitals with A&amp;E' : 'Hôpitaux avec urgences')+'</summary><div id="cp-hop">'+htmlHopCp(null)+'</div></details>'
+    + '<details class="cp-det"><summary>📜 '+(en ? 'All the steps' : 'Toutes les étapes')+'</summary><div id="cp-histo">'+htmlHistoCp(o)+'</div></details>'
     + '<div class="m-boutons"><button class="btn plein m-retry" onclick="maintReessayer(this)">↻ '+(en ? 'Check now' : 'Vérifier maintenant')+'</button>'
     + '<button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(en ? 'Safety tips' : 'Les bons réflexes')+'</button>'
     + '<div class="appels" style="margin:0"><a href="tel:112">112<span>'+(en ? 'Emergency' : 'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div></div>'
     + '<button class="m-equipe" onclick="ouvrirConnexion()">🔑 '+(en ? 'Team access' : 'Accès équipe')+'</button>'
     + '<small class="m-signe">'+logoTraboule('cps')+'Traboule</small></div>';
 }
+// hôpitaux : triés du plus proche au plus loin si on connaît la position (calculé sur le téléphone)
+function htmlHopCp(pos){
+  var en = LANGUE === 'en', l = (PLAN.urgences || []).map(function(h){ return { n:String(h[0]).replace(/\s*\(urgences\)\s*/i, ''), la:h[1], lo:h[2], d: pos ? carte.distance(pos, [h[1], h[2]]) : null }; });
+  if (pos) l.sort(function(a, b){ return a.d - b.d; });
+  return l.map(function(h, i){
+    return '<a class="cp-hop'+(pos && i === 0 ? ' proche' : '')+'" target="_blank" href="https://maps.apple.com/?daddr='+h.la+','+h.lo+'&dirflg=w"><i>H</i><span>'+esc(h.n)
+      + (pos ? '<small>'+(h.d < 1000 ? Math.round(h.d / 10) * 10 + ' m' : (h.d / 1000).toFixed(1).replace('.', ',') + ' km')+' · 🚶 '+Math.max(1, Math.round(h.d / 75))+' min'
+        + (i === 0 ? ' · <b>'+(en ? 'nearest' : 'le plus proche')+'</b>' : '')+'</small>' : '')
+      + '</span><em>'+(en ? 'Go' : 'Y aller')+' →</em></a>'; }).join('');
+}
+function hopProche(){
+  var d = $('cp-det-hop'); if (d) d.open = true;
+  var voir = function(){ if (d) d.scrollIntoView({ behavior:'smooth', block:'start' }); };
+  if (!navigator.geolocation) return voir();
+  toast(LANGUE === 'en' ? 'Finding your position…' : 'Recherche de ta position…');
+  navigator.geolocation.getCurrentPosition(function(p){ if ($('cp-hop')) $('cp-hop').innerHTML = htmlHopCp([p.coords.latitude, p.coords.longitude]); voir(); },
+    function(){ toast(LANGUE === 'en' ? 'Position unavailable: here is the list' : 'Position indisponible : voici la liste'); voir(); }, { timeout:8000, maximumAge:60000 });
+}
+function prevenirRetourCp(){
+  prevenirRetour();
+  var b = $('cp-prev'); if (b) { b.classList.add('ok'); b.querySelector('span').textContent = '✅'; b.querySelector('small').textContent = LANGUE === 'en' ? 'on' : 'activé'; }
+}
+function partagerCoupure(){
+  var t = LANGUE === 'en'
+    ? '⛔ The Traboule map is switched off for safety.\nDon\'t forward info going around in its name: it will come back directly in the app.\n' + (urlAppli || '')
+    : '⛔ La carte Traboule est coupée par sécurité.\nNe relaie pas les infos qui circulent en son nom : elle reviendra directement sur l\'appli.\n' + (urlAppli || '');
+  if (navigator.share) navigator.share({ text:t }).catch(function(){});
+  else if (navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ toast(LANGUE === 'en' ? 'Message copied' : 'Message copié, colle-le dans tes groupes'); });
+}
+
 // ===================== V44 : FICHE BLOCUS =====================
 // Métro le plus proche, l'ampleur du mouvement ce jour-là, réflexes blocus, affiche story à partager.
 function stationsProches(lat, lng, n){
