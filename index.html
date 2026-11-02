@@ -1954,7 +1954,7 @@
   @media (prefers-reduced-motion: reduce) { .cp-fond .sp-plan, .cp-scan::after, .cp-halo, .cp-gyro path, .cp-t b::before, .cp-t b::after, .cp-et.en i { animation:none !important; }
     #maint.vu .cp-herse, #maint.vu .cp-cadenas { animation:none !important; } }
 
-  /* ================= v52 : maintenance — on rénove la traboule ================= */
+  /* ================= v52 : mise à jour (fond et titres communs) ================= */
   #maint[data-mode="complet"] { background:#0d0806; }
   #maint[data-mode="complet"]::before { background:radial-gradient(circle at 50% 14%, rgba(255,138,58,.3) 0%, transparent 44%), radial-gradient(circle at 50% 110%, rgba(255,106,31,.16), transparent 50%) !important; z-index:1; }
   .tv-fond { position:fixed !important; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
@@ -1966,17 +1966,7 @@
   .tv-grille { position:absolute; inset:0; opacity:.5; background-image:linear-gradient(rgba(255,154,74,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,154,74,.07) 1px, transparent 1px);
     background-size:26px 26px; -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 30%, #000, transparent 85%); mask-image:radial-gradient(ellipse 80% 60% at 50% 30%, #000, transparent 85%); }
   #maint .m-boite.tv { position:relative; z-index:2; padding-top:4px; }
-  .tv-logo { position:relative; width:170px; height:172px; margin:4px auto 0; display:flex; align-items:flex-end; justify-content:center; }
   .tv-halo { position:absolute; left:50%; top:48%; width:240px; height:240px; margin:-120px 0 0 -120px; border-radius:50%; background:radial-gradient(circle, rgba(255,138,58,.32), transparent 62%); }
-  .tv-arche { --p:.5; width:150px; height:161px; overflow:visible; filter:drop-shadow(0 12px 30px rgba(255,106,31,.4)); }
-  .tv-lum { transform-box:view-box; transform-origin:70px 150px; transform:scale(var(--p)); transition:transform 1s ease; animation:tv-neon 2.6s steps(1) infinite; }
-  @keyframes tv-neon { 0%, 18%, 22%, 63%, 66%, 100% { opacity:1; } 20% { opacity:.35; } 64% { opacity:.6; } }
-  .tv-arche g.tv-roue { transform-box:fill-box; transform-origin:center; animation:tv-tourne 4s linear infinite; }
-  @keyframes tv-tourne { to { transform:rotate(360deg); } }
-  .tv-soud { animation:tv-soud .35s steps(2) infinite; filter:drop-shadow(0 0 4px #ffe9a0) drop-shadow(0 0 8px #ff9a2b); }
-  @keyframes tv-soud { 50% { opacity:.3; r:2; } }
-  .tv-e { fill:#ffe08a; opacity:0; animation:tv-etinc 1.2s ease-out infinite; }
-  @keyframes tv-etinc { 0% { opacity:1; transform:translate(0,0); } 100% { opacity:0; transform:translate(var(--dx), calc(var(--dy) + 26px)); } }
   .tv-etiq { display:inline-flex; align-items:center; gap:8px; margin:10px 0 2px; padding:6px 13px; border-radius:20px; background:rgba(255,154,43,.14); border:1px solid rgba(255,154,43,.5);
     color:#ffc46e; font-family:Anton,Impact,sans-serif; font-size:13px; letter-spacing:1.6px; }
   .tv-etiq b { width:8px; height:8px; border-radius:50%; background:#ffae3b; box-shadow:0 0 10px #ffae3b; animation:bl2-pt 1s ease-in-out infinite; }
@@ -1987,32 +1977,9 @@
     padding:13px 14px; margin-bottom:10px; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
   .tv-st { font-family:Anton,Impact,sans-serif; font-size:13px; letter-spacing:1.4px; text-transform:uppercase; color:#ffa064; margin-bottom:9px; }
   .tv-st::before { content:""; display:inline-block; width:8px; height:7px; margin-right:7px; border:2px solid #ff8a3a; border-bottom:0; border-radius:6px 6px 0 0; }
-  .tv-l1 { display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
-  .tv-l1 span { font-family:Anton,Impact,sans-serif; font-size:13px; letter-spacing:1.4px; text-transform:uppercase; color:#ffa064; }
-  .tv-l1 b { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:32px; line-height:1; color:#fff; font-variant-numeric:tabular-nums; text-shadow:0 0 18px rgba(255,138,58,.5); }
-  .tv-pts { animation:bl2-pt 1.2s ease-in-out infinite; }
-  .tv-l2 { font-size:13px; color:#ffc9a0; font-weight:700; margin-top:3px; }
-  .tv-l3 { font-size:12px; color:#bfa497; margin-top:8px; text-align:center; font-style:italic; }
-  /* progression : une rangée d'arcades qui s'allument */
-  .tv-arcs { display:flex; gap:5px; margin-top:12px; height:30px; align-items:flex-end; }
-  .tv-arcs i { flex:1; height:100%; border-radius:14px 14px 3px 3px; border:2px solid rgba(255,150,90,.25); border-bottom-width:0; background:rgba(0,0,0,.25); transition:background .6s, border-color .6s, box-shadow .6s; }
-  .tv-arcs i.on { border-color:#ff9a2b; background:radial-gradient(80% 70% at 50% 100%, #fff1c4, #ffb84d 45%, #ff6a1f 100%); box-shadow:0 0 12px rgba(255,138,58,.7); }
-  .tv-arcs i.va { border-color:#ff9a2b; animation:tv-va 1s ease-in-out infinite; }
-  @keyframes tv-va { 50% { background:rgba(255,154,43,.35); box-shadow:0 0 10px rgba(255,138,58,.5); } }
-  .tv-arcs.indet i { animation:tv-indet 2.2s ease-in-out infinite; animation-delay:calc(var(--k) * .14s); }
-  @keyframes tv-indet { 0%, 60%, 100% { background:rgba(0,0,0,.25); border-color:rgba(255,150,90,.25); box-shadow:none; }
-    20%, 35% { background:radial-gradient(80% 70% at 50% 100%, #fff1c4, #ffb84d 45%, #ff6a1f 100%); border-color:#ff9a2b; box-shadow:0 0 12px rgba(255,138,58,.7); } }
-  /* me prévenir */
-  .tv-prev { width:100%; display:flex; align-items:center; gap:12px; text-align:left; padding:12px 14px; margin-bottom:10px; border-radius:18px; color:#fff;
-    background:linear-gradient(135deg, rgba(255,138,58,.2), rgba(255,90,31,.08)); border:1.5px dashed rgba(255,154,74,.6); position:relative; z-index:2; }
-  .tv-prev > span { font-size:24px; } .tv-prev > div { flex:1; } .tv-prev b { display:block; font-size:15px; } .tv-prev small { display:block; font-size:12px; color:#e6c7b4; margin-top:1px; }
-  .tv-prev em { font-style:normal; font-size:13px; font-weight:900; padding:7px 12px; border-radius:12px; background:var(--grad); color:#fff; }
-  .tv-prev.ok { border-style:solid; border-color:#16c784; background:linear-gradient(135deg, rgba(22,199,132,.18), rgba(22,199,132,.05)); }
-  .tv-prev.ok em { background:#16c784; } .tv-prev.ok > span { animation:ob-cloche 2.2s ease-in-out infinite; display:inline-block; transform-origin:50% 10%; }
   #maint[data-mode="complet"] .m-verif, #maint[data-mode="complet"] .m-boutons, #maint[data-mode="complet"] .m-equipe, #maint[data-mode="complet"] .m-signe { position:relative; z-index:2; }
   body.leger .tv-fond, body.eco .tv-fond { display:none; }
-  @media (prefers-reduced-motion: reduce) { .tv-fond .sp-plan path { animation:none !important; stroke-dashoffset:0 !important; }
-    .tv-lum, .tv-arche g.tv-roue, .tv-soud, .tv-e, .tv-arcs i, .tv-etiq b, .tv-pts { animation:none !important; } }
+  @media (prefers-reduced-motion: reduce) { .tv-fond .sp-plan path { animation:none !important; stroke-dashoffset:0 !important; } .tv-etiq b { animation:none !important; } }
 
   /* ================= v53 : étapes de la coupure ================= */
   .cp-num { float:right; font-family:Inter,sans-serif; font-size:11px; font-weight:900; letter-spacing:.5px; padding:3px 8px; border-radius:10px; background:rgba(255,59,48,.2); color:#ffb3ae; margin-top:-2px; }
@@ -2142,6 +2109,115 @@
   .ch-l.ok small { color:#7ff0c3; } .ch-l.en small { color:#ff9a95; font-weight:700; }
   @media (prefers-reduced-motion: reduce) { .cp-rayons, .cs-ic::after, .cs-piste i.en, .cs-ecg path, #maint.vu .m-boite.cp { animation:none !important; } }
   body.leger .cp-rayons, body.eco .cp-rayons { display:none; }
+
+  /* ================= v57 : mise à jour — épinglée ou qui bloque l'app ================= */
+  /* écran « On prépare la suite » */
+  .pr-logo { position:relative; width:180px; height:178px; margin:2px auto 0; display:flex; align-items:flex-end; justify-content:center; }
+  .pr-radar { position:absolute; left:50%; top:50%; width:300px; height:300px; margin:-150px 0 0 -150px; border-radius:50%; pointer-events:none;
+    background:conic-gradient(from 0deg, transparent 0 300deg, rgba(255,154,58,.05) 320deg, rgba(255,170,80,.4) 360deg);
+    -webkit-mask-image:radial-gradient(circle, #000 30%, transparent 64%); mask-image:radial-gradient(circle, #000 30%, transparent 64%); animation:sp-tour 4.5s linear infinite; }
+  .pr-radar::after { content:""; position:absolute; inset:28%; border-radius:50%; border:1px dashed rgba(255,170,100,.22); }
+  .pr-arche { width:158px; height:170px; overflow:visible; position:relative; filter:drop-shadow(0 12px 30px rgba(255,106,31,.42)); }
+  .pr-trace { stroke-dasharray:1 1; animation:pr-trace 7s ease-in-out infinite; }
+  @keyframes pr-trace { 0% { stroke-dashoffset:1; opacity:1; } 55%, 88% { stroke-dashoffset:0; opacity:1; } 96%, 100% { stroke-dashoffset:0; opacity:0; } }
+  .pr-pin { opacity:0; animation:7s cubic-bezier(.3,1.5,.5,1) infinite; }
+  .pr-pin.p1 { animation-name:pr-pin1; } .pr-pin.p2 { animation-name:pr-pin2; } .pr-pin.p3 { animation-name:pr-pin3; }
+  @keyframes pr-pin1 { 0%, 16% { opacity:0; transform:translateY(-34px); } 22%, 88% { opacity:1; transform:none; } 96%, 100% { opacity:0; transform:none; } }
+  @keyframes pr-pin2 { 0%, 32% { opacity:0; transform:translateY(-34px); } 38%, 88% { opacity:1; transform:none; } 96%, 100% { opacity:0; transform:none; } }
+  @keyframes pr-pin3 { 0%, 50% { opacity:0; transform:translateY(-34px); } 56%, 88% { opacity:1; transform:none; } 96%, 100% { opacity:0; transform:none; } }
+  .pr-onde { fill:none; stroke:#ffd23f; stroke-width:1.4; transform-box:fill-box; transform-origin:center; animation:pr-onde 1.8s ease-out infinite; }
+  @keyframes pr-onde { 0% { transform:scale(.4); opacity:.9; } 100% { transform:scale(2.2); opacity:0; } }
+  .pr-pings { position:absolute; inset:0; -webkit-mask-image:radial-gradient(ellipse 85% 65% at 50% 32%, #000 25%, transparent 82%); mask-image:radial-gradient(ellipse 85% 65% at 50% 32%, #000 25%, transparent 82%); }
+  .pr-pings i { position:absolute; width:8px; height:8px; margin:-4px 0 0 -4px; border-radius:50%; background:#ffb84d; box-shadow:0 0 10px #ff8a3a; opacity:0; animation:pr-ping 7.7s ease-out infinite; }
+  .pr-pings i::after { content:""; position:absolute; inset:-4px; border-radius:50%; border:1.5px solid #ffb84d; animation:inherit; animation-name:pr-ping-o; }
+  @keyframes pr-ping { 0%, 4% { opacity:0; transform:scale(.3); } 8%, 40% { opacity:.9; transform:none; } 52%, 100% { opacity:0; } }
+  @keyframes pr-ping-o { 0%, 6% { transform:scale(.5); opacity:0; } 9% { opacity:1; } 30%, 100% { transform:scale(3.4); opacity:0; } }
+  .pr-t { font-size:min(52px, 14vw) !important; }
+  .pr-t b { display:inline-block; }
+  /* compte à rebours + parcours */
+  .pr-compte { text-align:center; padding:15px 16px 14px; border-color:rgba(255,160,90,.38); box-shadow:0 0 30px rgba(255,106,31,.16), inset 0 1px 0 rgba(255,200,150,.12); }
+  .pr-k { font-family:Anton,Impact,sans-serif; font-size:13px; letter-spacing:2px; text-transform:uppercase; color:#ffa064; }
+  .pr-v { font-family:Anton,Impact,sans-serif; font-size:50px; line-height:1.05; color:#fff; font-variant-numeric:tabular-nums; letter-spacing:1px; text-shadow:0 0 22px rgba(255,138,58,.55); margin:2px 0 1px; }
+  .pr-v.long { font-size:30px; text-transform:uppercase; margin:6px 0 4px; background:linear-gradient(180deg,#ffe0a8,#ff9a2b 60%,#ff5a1f); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .pr-s { font-size:13.5px; color:#ffcfa6; font-weight:700; } .pr-s b { color:#fff; }
+  .pr-route { --p:0; position:relative; height:40px; margin:14px 6px 2px 4px; }
+  .pr-route .pr-base, .pr-route .pr-fait { position:absolute; left:0; right:14px; top:27px; height:3px; border-radius:2px;
+    background:repeating-linear-gradient(90deg, rgba(255,170,110,.35) 0 6px, transparent 6px 11px); }
+  .pr-route .pr-fait { right:auto; width:calc(var(--p) * (100% - 14px)); background:linear-gradient(90deg, #ffd23f, #ff7a2b); box-shadow:0 0 10px rgba(255,138,58,.7); transition:width 1s linear; }
+  .pr-route b { position:absolute; top:23px; width:11px; height:11px; margin-left:-5.5px; border-radius:50%; background:#2a170e; border:2px solid rgba(255,170,110,.45); transition:all .5s; }
+  .pr-route b.on { background:#ffd23f; border-color:#fff3c4; box-shadow:0 0 10px #ffb84d; }
+  .pr-route em { position:absolute; right:-4px; top:6px; font-size:22px; font-style:normal; animation:pr-saute 1.6s ease-in-out infinite; }
+  @keyframes pr-saute { 0%, 100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
+  .pr-route .pr-moi { position:absolute; top:4px; left:calc(var(--p) * (100% - 14px)); margin-left:-12px; width:24px; height:24px; border-radius:50% 50% 50% 4px; transform:rotate(-45deg);
+    background:var(--grad); box-shadow:0 0 12px rgba(255,106,31,.8); display:flex; align-items:center; justify-content:center; font-size:12px; transition:left 1s linear; }
+  .pr-route .pr-moi { font-size:0; } .pr-route .pr-moi::before { content:"✊"; font-size:12px; transform:rotate(45deg); }
+  .pr-route.indet .pr-moi { animation:pr-marche 5s ease-in-out infinite; }
+  .pr-route.indet .pr-fait { animation:pr-marche-l 5s ease-in-out infinite; }
+  @keyframes pr-marche { 0% { left:0; } 85%, 100% { left:calc(100% - 14px); } }
+  @keyframes pr-marche-l { 0% { width:0; } 85%, 100% { width:calc(100% - 14px); } }
+  /* le dossier caviardé */
+  .pr-dossier { position:relative; overflow:hidden; }
+  .pr-l { display:grid; grid-template-columns:24px 82px 1fr; align-items:center; gap:6px; padding:6px 0; font-size:13px; }
+  .pr-l + .pr-l { border-top:1px solid rgba(255,150,90,.1); }
+  .pr-l span { font-size:16px; } .pr-l small { color:#d8b9a6; font-weight:700; font-size:12.5px; }
+  .pr-l i { display:block; height:13px; width:var(--w); border-radius:3px; position:relative; overflow:hidden; background:#060403; box-shadow:inset 0 0 0 1px rgba(255,150,90,.18); }
+  .pr-l i::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg, transparent, rgba(255,170,90,.38), transparent); transform:translateX(-100%); animation:pr-lueur 2.6s ease-in-out infinite; animation-delay:inherit; }
+  @keyframes pr-lueur { 60%, 100% { transform:translateX(100%); } }
+  .pr-tampon { position:absolute; right:12px; top:12px; padding:4px 10px; border:2.5px solid #ff6a3a; border-radius:7px; color:#ff7a4a; font-family:Anton,Impact,sans-serif;
+    font-size:15px; letter-spacing:1.6px; text-transform:uppercase; transform:rotate(-9deg); opacity:.92; background:rgba(255,90,40,.08); box-shadow:0 0 14px rgba(255,90,40,.25);
+    animation:pr-tampon 7s ease-in-out infinite; }
+  @keyframes pr-tampon { 0%, 6% { transform:rotate(-9deg) scale(1.9); opacity:0; } 11% { transform:rotate(-9deg) scale(.94); opacity:.95; } 14%, 100% { transform:rotate(-9deg) scale(1); opacity:.92; } }
+  /* les actions et le « en attendant », version orange */
+  #maint .cp-act small, #maint .cp-mini small, #maint .pr-l small { margin-top:0; }
+  .pr-act.deux { grid-template-columns:repeat(2,1fr); }
+  .pr-act button { background:linear-gradient(180deg, rgba(58,30,16,.92), rgba(28,15,9,.94)); border-color:rgba(255,150,80,.38); }
+  .pr-act small { color:#e2c2ab !important; }
+  .pr-mini div { background:rgba(36,20,12,.88); border-color:rgba(255,150,80,.22); } .pr-mini small { color:#d1b3a0; }
+  #maint[data-mode="complet"] .cp-act, #maint[data-mode="complet"] .cp-mini { position:relative; z-index:2; }
+  body:not(.splash-la) #maint.vu .pr .pr-logo { animation:pr-arrive .9s cubic-bezier(.2,1.3,.4,1) both; }
+  @keyframes pr-arrive { from { transform:translateY(16px) scale(.86); opacity:0; } }
+  /* bandeau épinglé (la carte reste utilisable) */
+  #m-band.mb-bandeau { --mc:#ff8a3a; border-radius:20px; padding:10px 12px 10px 10px; border:1px solid rgba(255,150,90,.32);
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='24' viewBox='0 0 30 24'%3E%3Cpath d='M3 24V12a12 12 0 0 1 24 0v12' fill='none' stroke='%23ffb27a' stroke-opacity='.07' stroke-width='1.3'/%3E%3C/svg%3E") 100% 100% / 30px 24px repeat-x, linear-gradient(135deg, rgba(56,30,17,.96), rgba(20,12,9,.96));
+    box-shadow:0 8px 24px rgba(0,0,0,.5), 0 0 22px rgba(255,120,40,.18), inset 0 1px 0 rgba(255,190,140,.16); }
+  #m-band.mb-bandeau::before { display:none; }
+  #m-band.mb-bandeau::after { height:2.5px; background:linear-gradient(90deg, transparent, #ffd23f, #ff7a2b, transparent); }
+  #m-band.mb-bandeau .mb-ic { width:42px; height:48px; border-radius:21px 21px 9px 9px; color:#fff2dd; border:2px solid transparent;
+    background:radial-gradient(75% 45% at 50% 100%, #ffc27a 0%, rgba(255,138,58,.45) 45%, transparent 100%) padding-box, linear-gradient(180deg, #170b07, #2a140b) padding-box,
+               linear-gradient(160deg, #ffd9a0, #ff8a3a 55%, #b8400f) border-box; box-shadow:0 0 14px rgba(255,138,58,.45); }
+  #m-band .mb-sync { width:21px; height:21px; animation:m-tourne 2.6s linear infinite; filter:drop-shadow(0 0 4px rgba(255,190,120,.8)); }
+  #m-band .mb-tag { display:block; font-family:Anton,Impact,sans-serif; font-size:11.5px; letter-spacing:1.3px; text-transform:uppercase; color:#ffa86a; margin-bottom:1px; }
+  #m-band.mb-bandeau .mb-t b { font-size:14.5px; color:#fff6ee; }
+  #m-band.mb-bandeau .mb-t span { color:#e3cdbf; }
+  #m-band.mb-bandeau .mb-r { display:flex; flex-direction:column; align-items:center; padding:5px 9px 6px; border-radius:12px; background:rgba(255,138,58,.16); border:1px solid rgba(255,150,90,.35);
+    font-family:Anton,Impact,sans-serif; font-weight:400; font-size:15px; letter-spacing:.5px; color:#fff; line-height:1.1; }
+  #m-band .mb-r small { font-family:Inter,sans-serif; font-weight:800; font-size:9.5px; letter-spacing:.6px; text-transform:uppercase; color:#ffb27a; }
+  /* admin : choix de l'apparence avec mini maquettes */
+  .m-look { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-bottom:6px; }
+  .m-look > button { display:flex; flex-direction:column; align-items:center; text-align:center; gap:3px; padding:10px 8px 11px; border-radius:18px; color:#fff;
+    background:rgba(255,255,255,.04); border:2px solid rgba(255,150,90,.18); transition:transform .15s, border-color .2s, background .2s; }
+  .m-look > button:active { transform:scale(.96); }
+  .m-look > button.sel { border-color:#ff8a3a; background:linear-gradient(180deg, rgba(255,138,58,.18), rgba(255,138,58,.05)); box-shadow:0 0 18px rgba(255,120,40,.25); }
+  .m-look b { font-size:14px; margin-top:6px; } .m-look small { font-size:11.5px; line-height:1.3; color:#cdb7aa; }
+  .ml-tel { position:relative; width:64px; height:104px; border-radius:12px; border:2px solid #4a3a33; overflow:hidden; flex:none;
+    background:linear-gradient(rgba(255,150,90,.08) 1px, transparent 1px) 0 0 / 10px 10px, linear-gradient(90deg, rgba(255,150,90,.08) 1px, transparent 1px) 0 0 / 10px 10px, #17110e; }
+  .ml-tel::after { content:""; position:absolute; left:16px; right:16px; bottom:4px; height:3px; border-radius:2px; background:#4a3a33; }
+  .ml-band { position:absolute; left:4px; right:4px; top:6px; height:17px; border-radius:6px; background:linear-gradient(135deg, #4a2614, #22130b); border:1px solid #ff8a3a; box-shadow:0 0 8px rgba(255,138,58,.5); }
+  .ml-band u { position:absolute; left:3px; top:3px; width:9px; height:9px; border-radius:5px 5px 2px 2px; background:#ff8a3a; }
+  .ml-band s { position:absolute; left:15px; right:4px; top:5px; height:2.5px; border-radius:2px; background:#ffcfa6; box-shadow:0 4px 0 rgba(255,207,166,.5); }
+  .ml-pin { position:absolute; width:8px; height:8px; border-radius:50% 50% 50% 0; transform:rotate(-45deg); background:#ff5a3a; box-shadow:0 0 6px #ff5a3a; }
+  .m-look > button.sel .ml-band { animation:ml-band 2s ease-in-out infinite; }
+  @keyframes ml-band { 50% { box-shadow:0 0 14px rgba(255,170,80,.9); } }
+  .ml-tel.bloc { background:radial-gradient(circle at 50% 28%, rgba(255,138,58,.35), transparent 55%), #120a07; border-color:#5a3a2c; display:flex; flex-direction:column; align-items:center; }
+  .ml-arche { width:22px; height:24px; margin-top:12px; border-radius:11px 11px 0 0; border:4px solid #ff7a2b; border-bottom:0; box-shadow:0 0 10px rgba(255,138,58,.6); }
+  .ml-tel em { font-family:Anton,Impact,sans-serif; font-style:normal; font-size:8px; line-height:1.05; letter-spacing:.4px; color:#fff; margin-top:6px; }
+  .ml-tel em b { color:#ffa64a; font-size:9px; font-weight:400; }
+  .ml-l { width:44px; height:3px; border-radius:2px; background:rgba(255,207,166,.35); margin-top:6px; } .ml-l.c { width:30px; margin-top:4px; }
+  .m-look > button.sel .ml-arche { animation:ml-arche 1.6s ease-in-out infinite; }
+  @keyframes ml-arche { 50% { box-shadow:0 0 18px rgba(255,170,80,1); } }
+  body.leger .pr-pings, body.eco .pr-pings, body.leger .pr-radar, body.eco .pr-radar { display:none; }
+  @media (prefers-reduced-motion: reduce) { .pr-radar, .pr-pin, .pr-onde, .pr-trace, .pr-pings i, .pr-pings i::after, .pr-l i::after, .pr-tampon, .pr-route em, .pr-route.indet .pr-moi, .pr-route.indet .pr-fait,
+    #m-band .mb-sync, .ml-band, .ml-arche { animation:none !important; } .pr-pin { opacity:1; } .pr-tampon { opacity:.92; } }
 </style>
 </head>
 <body>
@@ -3998,16 +4074,18 @@ function dessinerGestion(rafraichir){
 var maintVu = 0, maintCheck = 0, maintMinuteur = null, maintApercu = false, brouillonMaint = null, bandeauMinuteur = null;
 var MODES_MAINT = {
   aucune:   { e:'✅', nom:'Aucune', d:'Carte normale pour tout le monde', c:'#16c784' },
-  complet:  { e:'🛠️', nom:'Mise à jour', d:'Carte cachée, écran « On revient vite »', ecran:true, c:'#ffae3b', public:'le public ne voit pas la carte',
-              texte:'La carte est en maintenance. Elle reviendra toute seule, pas besoin de recharger.',
-              en:'The map is being updated. It will come back by itself, no need to do anything.',
-              modeles:[['🔄 Nouveautés', 'On met la carte à jour avec de nouvelles fonctions. Elle revient toute seule, pas besoin de recharger.'],
-                       ['⏸ Pause', 'La carte est en pause pour le moment. Elle reviendra avant le prochain rendez-vous.']] },
-  bandeau:  { e:'📢', nom:'Bandeau', d:'Carte visible, message en haut de l\'écran', c:'#4f7cff', public:'le public voit un bandeau',
+  complet:  { e:'🗺️', nom:'Mise à jour · bloque l\'app', d:'Écran « On prépare la suite », la carte est cachée', ecran:true, c:'#ff8a3a', public:'le public voit « On prépare la suite »', bouton:'🔒 Bloquer l\'app',
+              texte:'Nous préparons les prochains points de mobilisation. Reviens dans quelques heures pour avoir toutes les infos.',
+              en:'We\'re preparing the next mobilisation points. Come back in a few hours to get all the info.',
+              modeles:[['🗺️ Prochains points', 'Nous préparons les prochains points de mobilisation. Reviens dans quelques heures pour avoir toutes les infos.'],
+                       ['🌙 Pour demain', 'Les infos pour demain arrivent ce soir. Reviens dans quelques heures, tout sera dans l\'agenda.'],
+                       ['🤫 Ça se prépare', 'Le prochain rendez-vous se prépare en ce moment. Reviens un peu plus tard pour le découvrir.']] },
+  bandeau:  { e:'📌', nom:'Mise à jour · épinglée', d:'La carte reste utilisable, un bandeau est épinglé en haut', c:'#ffae3b', public:'le public voit un bandeau épinglé', bouton:'📌 Épingler le bandeau',
               titre:'Mise à jour en cours', titreEn:'Update in progress',
               texte:'Petite mise à jour en cours : certaines infos peuvent avoir quelques minutes de retard.',
               en:'Small update in progress: some info may be a few minutes late.',
-              modeles:[['📶 Réseau saturé', 'Le réseau est saturé dans le cortège : la carte se met à jour plus lentement.'],
+              modeles:[['🗺️ Prochains points', 'On prépare les prochains points de mobilisation : les infos arrivent dans quelques heures.'],
+                       ['📶 Réseau saturé', 'Le réseau est saturé dans le cortège : la carte se met à jour plus lentement.'],
                        ['⏳ Retard', 'On rattrape le retard : certaines infos peuvent dater de quelques minutes.']] },
   verif:    { e:'🔎', nom:'Vérification', d:'Carte visible, signalements cachés', c:'#16c784', public:'le public ne voit pas les signalements',
               titre:'On vérifie les signalements', titreEn:'Checking the reports',
@@ -4023,7 +4101,9 @@ var MODES_MAINT = {
               en:'We switched the map off for safety. Don\'t trust info shared in our name until it is back.',
               modeles:[['🔐 Compte piraté', 'Quelqu\'un a publié de fausses infos en notre nom. La carte est coupée le temps de tout vérifier.']] }
 };
-var ORDRE_MAINT = ['aucune','complet','bandeau','verif','fin','securite'];
+// Les boutons de l'écran admin : « Mise à jour » regroupe ses deux apparences (épinglée / bloque l'app)
+var GROUPES_MAINT = [['aucune'], ['complet','bandeau'], ['verif'], ['fin'], ['securite']];
+var GROUPE_MAJ = { e:'🔄', nom:'Mise à jour', d:'Épinglée en haut, ou écran qui bloque l\'app', c:'#ff8a3a' };
 // Lit le mode en cours dans la config : { k, texte, fin }
 function modeMaint(cfg){
   cfg = cfg || {};
@@ -4062,7 +4142,7 @@ function txtResteCourt(ms){
 }
 function htmlMaint(o){
   if (o.k === 'securite') return htmlCoupee(o);
-  if (o.k === 'complet') return htmlTravaux(o);
+  if (o.k === 'complet') return htmlPrepa(o);
   var en = LANGUE==='en', k = o.k, fin = heureFin(o.fin);
   var etiq = k==='fin' ? (en?'See you soon':'À bientôt') : k==='securite' ? (en?'Safety cut':'Coupure de sécurité') : (en?'Maintenance in progress':'Maintenance en cours');
   var titre = k==='fin' ? (en ? 'THANK <b>YOU ALL</b>' : 'MERCI <b>À TOUS</b>') : k==='securite' ? (en ? 'MAP <b>OFF</b>' : 'CARTE <b>COUPÉE</b>') : (en ? 'BE RIGHT <b>BACK</b>' : 'ON REVIENT <b>VITE</b>');
@@ -4102,7 +4182,7 @@ function htmlMaint(o){
 function tickMaint(){
   var el = $('maint'); if (!el.classList.contains('vu')) { clearInterval(maintMinuteur); maintMinuteur = null; return; }
   if ($('cp-depuis')) $('cp-depuis').textContent = (LANGUE === 'en' ? 'for ' : 'depuis ') + dureeTxt(Date.now() - debutEtape());
-  if ($('tv-arcs')) majTravaux();
+  if ($('pr-route')) majPrepa();
   var o = maintApercu ? lireApercuMaint() : modeMaint(etat.config), fin = heureFin(o.fin), en = LANGUE==='en';
   if (fin && $('m-reste')) {
     $('m-reste').textContent = txtReste(fin - Date.now());
@@ -4128,12 +4208,15 @@ function majBandeauMaint(o, apercu){
   var M = MODES_MAINT[o.k] || MODES_MAINT.bandeau, en = LANGUE==='en', fin = heureFin(o.fin);
   var titre = o.k === 'fin' ? (en ? 'The protest is over' : 'La manif est terminée') : (en ? M.titreEn : M.titre);
   var sous = o.k === 'fin' ? (en ? 'Thanks everyone · tap to see the next meetups' : 'Merci à tout le monde · touche pour voir les prochains rendez-vous') : texteMaint(o);
-  var h = '<span class="mb-ic"><span>'+M.e+'</span></span><div class="mb-t"><b>'+esc(titre)+'</b><span>'+esc(sous)+'</span></div>'
-    + (fin && o.k !== 'fin' ? '<span class="mb-r" id="mb-reste">'+txtResteCourt(fin - Date.now())+'</span>' : '');
+  var epi = o.k === 'bandeau';
+  var h = (epi ? '<span class="mb-ic"><svg class="mb-sync" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12A7.5 7.5 0 0 1 6.3 16.9M4.5 12A7.5 7.5 0 0 1 17.7 7.1"/><path d="M18.2 3v4.4h-4.4M5.8 21v-4.4h4.4"/></svg></span>'
+             : '<span class="mb-ic"><span>'+M.e+'</span></span>')
+    + '<div class="mb-t">'+(epi ? '<small class="mb-tag">📌 '+(en ? 'Pinned' : 'Épinglé')+' · '+(en ? 'Traboule team' : 'équipe Traboule')+'</small>' : '')+'<b>'+esc(titre)+'</b><span>'+esc(sous)+'</span></div>'
+    + (fin && o.k !== 'fin' ? '<span class="mb-r" id="mb-reste">'+(epi ? '<small>'+(en ? 'left' : 'encore')+'</small>' : '')+txtResteCourt(fin - Date.now())+'</span>' : '');
   if (b.dataset.h !== h) { b.innerHTML = h; b.dataset.h = h; }
   b.className = 'verre vu mb-' + o.k;
   clearInterval(bandeauMinuteur); bandeauMinuteur = null;
-  if (fin && o.k !== 'fin') bandeauMinuteur = setInterval(function(){ var r = $('mb-reste'); if (r) r.textContent = txtResteCourt(fin - Date.now()); }, 15000);
+  if (fin && o.k !== 'fin') bandeauMinuteur = setInterval(function(){ var r = $('mb-reste'); if (r) r.innerHTML = (epi ? '<small>'+(en ? 'left' : 'encore')+'</small>' : '') + txtResteCourt(fin - Date.now()); }, 15000);
 }
 function ouvrirInfoMaint(){
   var o = modeMaint(etat.config), en = LANGUE==='en';
@@ -4155,7 +4238,7 @@ function majMaintenance(){
   maintCheck = Date.now();
   document.body.classList.toggle('maint-admin', o.k !== 'aucune' && estEquipe());
   if ($('bm-txt')) { $('bm-txt').textContent = txtAdminMaint(o); $('bm-e').textContent = M.e;
-    var bm = document.querySelector('.bandeau-maint'); if (bm) { bm.style.background = M.c; bm.style.color = (o.k === 'bandeau' || o.k === 'securite') ? '#fff' : '#140d00'; } }
+    var bm = document.querySelector('.bandeau-maint'); if (bm) { bm.style.background = M.c; bm.style.color = o.k === 'securite' ? '#fff' : '#140d00'; } }
   // Fin d'une vérification / coupure : les signalements reviennent sans pluie de « nouveau signalement »
   if (!estEquipe() && (prec === 'verif' || prec === 'securite') && o.k !== 'verif' && o.k !== 'securite') {
     etat.points.forEach(function(p){ vus['p'+p.id] = 1; });
@@ -4187,7 +4270,7 @@ function majMaintenance(){
     maintVu = 0; ecrireLS('maintVu', ''); ecrireLS('prevRetour', null);
     if (estEquipe() && M.ecran) toast('🛠️ Maintenance toujours active pour le public · touche le bandeau en bas pour la couper');
     else if (prec === 'securite' && typeof MOMENTS !== 'undefined') planifierFenetre(4, 'retour-carte', function(){ montrerMoment('retour'); });
-    else if (prec === 'complet' && typeof MOMENTS !== 'undefined') planifierFenetre(4, 'retour-maj', function(){ montrerMoment('repart'); });
+    else if (prec === 'complet' && o.k !== 'bandeau' && typeof MOMENTS !== 'undefined') planifierFenetre(4, 'retour-maj', function(){ montrerMoment('pret'); });
     else { toast(en ? '✅ The map is back!' : '✅ La carte est de retour !'); try { jouer('message'); } catch(e){} }
     if (!lireLS('bienvenue9') && !estEquipe()) setTimeout(montrerBienvenue, 300); }
   else if (o.k === 'aucune' && lireLS('maintVu')) ecrireLS('maintVu', '');
@@ -4215,20 +4298,30 @@ function dessinerMaint(){
     + '<div class="m-statut'+(o.k !== 'aucune' ? ' on' : '')+'" style="--mc:'+A.c+'"><span class="e">'+A.e+'</span><div><b>'+(o.k === 'aucune' ? 'Carte visible par tout le monde' : 'En ce moment : ' + A.nom)+'</b><small>'
     + (o.k === 'aucune' ? 'Aucune maintenance en cours' : A.d + (o.fin ? ' · retour vers ' + esc(o.fin) : ''))+'</small></div></div>'
     + (o.k === 'securite' ? htmlEtapesAdmin(o, true) : '')
-    + '<label class="l">Mode</label><div class="m-modes">' + ORDRE_MAINT.map(function(k){ var X = MODES_MAINT[k];
-        return '<button class="m-mode'+(b.k === k ? ' sel' : '')+(o.k === k ? ' live' : '')+'" style="--mc:'+X.c+'" onclick="choisirModeMaint(\''+k+'\')"><span class="e">'+X.e+'</span><b>'+X.nom+'</b><small>'+X.d+'</small></button>'; }).join('') + '</div>';
+    + '<label class="l">Mode</label><div class="m-modes">' + GROUPES_MAINT.map(function(g){
+        var X = g.length > 1 ? GROUPE_MAJ : MODES_MAINT[g[0]], dans = function(k){ return g.indexOf(k) >= 0; };
+        var k = dans(b.k) ? b.k : g.length > 1 ? (dans(o.k) ? o.k : 'complet') : g[0];
+        return '<button class="m-mode'+(dans(b.k) ? ' sel' : '')+(dans(o.k) ? ' live' : '')+'" style="--mc:'+X.c+'" onclick="choisirModeMaint(\''+k+'\')"><span class="e">'+X.e+'</span><b>'+X.nom+'</b><small>'+X.d+'</small></button>'; }).join('') + '</div>';
+  var maj = b.k === 'complet' || b.k === 'bandeau';
+  // Mise à jour : deux apparences, avec une mini maquette de ce que voit le public
+  if (maj) h += '<label class="l">Apparence</label><div class="m-look">'
+    + '<button class="'+(b.k === 'bandeau' ? 'sel' : '')+'" onclick="choisirModeMaint(\'bandeau\')"><div class="ml-tel epi"><i class="ml-band"><u></u><s></s></i><i class="ml-pin" style="left:30%;top:52%"></i><i class="ml-pin" style="left:62%;top:68%"></i><i class="ml-pin" style="left:48%;top:36%"></i></div>'
+    + '<b>📌 Épinglée</b><small>La carte reste utilisable, un bandeau reste en haut</small></button>'
+    + '<button class="'+(b.k === 'complet' ? 'sel' : '')+'" onclick="choisirModeMaint(\'complet\')"><div class="ml-tel bloc"><i class="ml-arche"></i><em>ON PRÉPARE<br><b>LA SUITE</b></em><i class="ml-l"></i><i class="ml-l c"></i></div>'
+    + '<b>🔒 Bloque l\'app</b><small>« On prépare les prochains points, reviens dans quelques heures »</small></button></div>';
   if (b.k !== 'aucune') {
     h += '<div class="maint-form"><label class="l">Message pour le public</label>'
       + '<div class="chips">' + (M.modeles || []).map(function(m, i){ return '<button onclick="$(\'mt-txt\').value=MODES_MAINT[\''+b.k+'\'].modeles['+i+'][1]">'+m[0]+'</button>'; }).join('')
       + '<button onclick="$(\'mt-txt\').value=\'\'">↺ Texte par défaut</button></div>'
       + '<textarea id="mt-txt" maxlength="200" placeholder="'+esc(M.texte)+'">'+esc(b.texte || '')+'</textarea>'
-      + '<label class="l">'+(b.k === 'fin' ? 'Prochaine carte en direct (facultatif)' : 'Retour prévu')+'</label>'
-      + '<div class="chips"><button onclick="finDans(15)">+15 min</button><button onclick="finDans(30)">+30 min</button><button onclick="finDans(60)">+1 h</button><button onclick="finDans(120)">+2 h</button><button onclick="$(\'mt-fin\').value=\'\'">Sans heure</button></div>'
-      + '<input id="mt-fin" maxlength="20" placeholder="ex : 9h30 (compte à rebours automatique)" value="'+esc(b.fin || '')+'"></div>';
+      + '<label class="l">'+(b.k === 'fin' ? 'Prochaine carte en direct (facultatif)' : b.k === 'complet' ? 'Les infos arrivent vers' : 'Retour prévu')+'</label>'
+      + '<div class="chips">' + (b.k === 'complet' ? [60, 120, 180, 240] : [15, 30, 60, 120]).map(function(m){ return '<button onclick="finDans('+m+')">+'+(m < 60 ? m + ' min' : m/60 + ' h')+'</button>'; }).join('')
+      + '<button onclick="$(\'mt-fin\').value=\'\'">Sans heure</button></div>'
+      + '<input id="mt-fin" maxlength="20" placeholder="ex : '+(b.k === 'complet' ? '18h30, ou vide = « quelques heures »' : '9h30 (compte à rebours automatique)')+'" value="'+esc(b.fin || '')+'"></div>';
     if (b.k === 'securite' && o.k !== 'securite') h += htmlEtapesAdmin(o, false);
   }
   h += '<div class="rangee">' + (b.k !== 'aucune' ? '<button class="btn plein" onclick="apercuMaint()">'+ic('oeil')+'Aperçu</button>' : '')
-    + '<button class="btn rose plein" id="mt-go" onclick="sauverMaintenance()">'+(b.k === o.k && b.k === 'aucune' ? 'Enregistrer' : b.k === 'aucune' ? 'Remettre la carte normale' : 'Activer « '+M.nom+' »')+'</button></div>'
+    + '<button class="btn rose plein" id="mt-go" onclick="sauverMaintenance()">'+(b.k === o.k && b.k === 'aucune' ? 'Enregistrer' : b.k === 'aucune' ? 'Remettre la carte normale' : M.bouton || 'Activer « '+M.nom+' »')+'</button></div>'
     + '<div class="rangee"><button class="btn plein" onclick="brouillonMaint=null;dessinerGestion()">Retour</button></div>'
     + '<div class="sous" style="margin-top:8px">Quand tu remets la carte normale, les gens la voient revenir toute seule, sans recharger.</div>';
   ouvrir(h, 'gestion-maint');
@@ -5621,72 +5714,109 @@ function debutMaint(){
   if (c.ts && modeMaint(c).k === 'complet') l.push(c.ts);
   return Math.min.apply(null, l);
 }
-function svgChantier(){
-  var etinc = ''; for (var i = 0; i < 7; i++) etinc += '<circle class="tv-e" r="1.6" cx="92" cy="40" style="--dx:'+(8 + (i*13) % 22)+'px;--dy:'+(-14 + (i*9) % 26)+'px;animation-delay:'+(i*.17).toFixed(2)+'s"/>';
-  return '<svg class="tv-arche" viewBox="0 0 140 150" aria-hidden="true"><defs>'
-    + '<linearGradient id="tvA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb82e"/><stop offset=".5" stop-color="#ff6a1f"/><stop offset="1" stop-color="#e3301c"/></linearGradient>'
-    + '<radialGradient id="tvL" cx=".5" cy=".75" r=".55"><stop offset="0" stop-color="#fffbe8"/><stop offset=".3" stop-color="#ffe08f"/><stop offset=".65" stop-color="#ff9a2b" stop-opacity=".75"/><stop offset="1" stop-color="#ff6a1f" stop-opacity="0"/></radialGradient>'
-    + '<clipPath id="tvC"><path d="M32 150V68A38 38 0 0 1 108 68V150Z"/></clipPath></defs>'
-    + '<path d="M20 150V68A50 50 0 0 1 120 68V150Z" fill="url(#tvA)"/>'
-    + '<path d="M32 150V68A38 38 0 0 1 108 68V150Z" fill="#160a06"/>'
-    + '<g clip-path="url(#tvC)"><ellipse class="tv-lum" cx="70" cy="150" rx="48" ry="62" fill="url(#tvL)"/></g>'
-    // échafaudage
-    + '<g class="tv-echaf" stroke="#d9c7b4" stroke-width="3" stroke-linecap="round" fill="none">'
-    + '<path d="M12 150V34M128 150V34"/><path d="M8 62H132M8 104H132" stroke="#a88a6c" stroke-width="5"/>'
-    + '<path d="M12 104L40 62M128 104L100 62M12 150L40 104M128 150L100 104" stroke-width="2" opacity=".8"/></g>'
-    + '<g fill="#ffd23f"><rect x="6" y="58" width="128" height="7" rx="2"/><rect x="6" y="100" width="128" height="7" rx="2"/></g>'
-    + '<g fill="#14110a"><path d="M14 58h7l-4 7h-7zM34 58h7l-4 7h-7zM54 58h7l-4 7h-7zM74 58h7l-4 7h-7zM94 58h7l-4 7h-7zM114 58h7l-4 7h-7z"/>'
-    + '<path d="M14 100h7l-4 7h-7zM34 100h7l-4 7h-7zM54 100h7l-4 7h-7zM74 100h7l-4 7h-7zM94 100h7l-4 7h-7zM114 100h7l-4 7h-7z"/></g>'
-    // roue dentée + étincelles de soudure
-    + '<g transform="translate(30 30)"><g class="tv-roue"><circle r="11" fill="#2a1a12" stroke="#ff9a2b" stroke-width="3"/>'
-    + [0,45,90,135,180,225,270,315].map(function(a){ return '<rect x="-2.5" y="-16" width="5" height="6" rx="1" fill="#ff9a2b" transform="rotate('+a+')"/>'; }).join('')
-    + '<circle r="4" fill="#ff9a2b"/></g></g>'
-    + '<circle class="tv-soud" cx="92" cy="40" r="3.2" fill="#fffbe8"/>' + etinc + '</svg>';
+// ===================== V57 : MISE À JOUR QUI BLOQUE L'APP (« on prépare la suite ») =====================
+// L'orga prépare les prochains points de mobilisation : une carte se dessine dans l'arche, les points tombent un à un.
+function svgPrepa(){
+  var pin = function(n, x, y, gros){
+    return '<g transform="translate('+x+' '+y+')"><ellipse class="pr-onde" rx="8" ry="2.6"/><g class="pr-pin p'+n+'"><g transform="scale('+(gros ? 1.25 : 1)+')">'
+      + '<path d="M0 0C-5-6-9-10-9-15a9 9 0 0 1 18 0c0 5-4 9-9 15z" fill="url(#prP)" stroke="#2a0f05" stroke-width="1.2"/>'
+      + '<circle cy="-15" r="5.4" fill="#1a0b05"/><text y="-11.6" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="9" fill="#ffd27a">?</text></g></g></g>'; };
+  var trace = 'M36 146C44 130 56 132 58 120S80 104 78 92S72 74 84 66';
+  return '<svg class="pr-arche" viewBox="0 0 140 150" aria-hidden="true"><defs>'
+    + '<linearGradient id="prA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb82e"/><stop offset=".5" stop-color="#ff6a1f"/><stop offset="1" stop-color="#e3301c"/></linearGradient>'
+    + '<linearGradient id="prP" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe0a0"/><stop offset=".5" stop-color="#ff7a2b"/><stop offset="1" stop-color="#d42a14"/></linearGradient>'
+    + '<radialGradient id="prG" cx=".5" cy=".62" r=".62"><stop offset="0" stop-color="#ff8a3a" stop-opacity=".3"/><stop offset="1" stop-color="#ff8a3a" stop-opacity="0"/></radialGradient>'
+    + '<clipPath id="prC"><path d="M28 150V68A42 42 0 0 1 112 68V150Z"/></clipPath>'
+    + '<mask id="prM" maskUnits="userSpaceOnUse" x="0" y="0" width="140" height="150"><path class="pr-trace" d="'+trace+'" fill="none" stroke="#fff" stroke-width="8" pathLength="1"/></mask></defs>'
+    + '<path d="M14 150V68A56 56 0 0 1 126 68V150Z" fill="url(#prA)"/>'
+    + '<path d="M28 150V68A42 42 0 0 1 112 68V150Z" fill="#150a06"/>'
+    + '<g clip-path="url(#prC)"><rect x="20" y="20" width="100" height="130" fill="url(#prG)"/>'
+    + '<path d="M20 84H120M20 104H120M20 124H120M20 144H120M50 20V150M70 20V150M92 20V150M28 58L112 138M30 136L106 52" stroke="#ffb27a" stroke-opacity=".15" stroke-width="1.2" fill="none"/>'
+    // la Saône et le Rhône qui se rejoignent à la Confluence
+    + '<g fill="none" stroke-linecap="round" stroke="#4f8cff" stroke-opacity=".5"><path d="M44 26C52 64 40 98 64 152" stroke-width="5"/><path d="M98 26C90 74 106 106 64 152" stroke-width="6.5"/></g>'
+    // le parcours se dessine, puis les points tombent
+    + '<path d="'+trace+'" fill="none" stroke="#ffd23f" stroke-width="2.8" stroke-dasharray=".1 5.5" stroke-linecap="round" mask="url(#prM)"/>'
+    + pin(1, 58, 120) + pin(2, 78, 92) + pin(3, 84, 66, true) + '</g></svg>';
 }
-function htmlTravaux(o){
-  var en = LANGUE === 'en', fin = heureFin(o.fin), plan = document.querySelector('#splash .sp-plan');
-  var arcs = ''; for (var i = 0; i < 10; i++) arcs += '<i style="--k:'+i+'"></i>';
+function htmlPrepa(o){
+  var en = LANGUE === 'en', fin = heureFin(o.fin), plan = document.querySelector('#splash .sp-plan'), prev = son.on && lireLS('prevRetour');
+  var pings = [[16,20],[78,14],[28,56],[86,44],[10,82],[68,78],[48,30]].map(function(p, i){ return '<i style="left:'+p[0]+'%;top:'+p[1]+'%;animation-delay:'+(i * 1.1).toFixed(1)+'s"></i>'; }).join('');
   var pro = (typeof evenements === 'function') ? evenements().filter(function(v){ return etatEvt(v) !== 'passe'; }).slice(0, 3) : [];
-  var compte = fin
-    ? '<div class="tv-l1"><span>'+(en ? 'Back in' : 'Retour dans')+'</span><b id="tv-reste">'+txtReste(fin - Date.now())+'</b></div><div class="tv-l2">⏱ '+(en ? 'Planned around ' : 'Prévu vers ')+esc(o.fin)+'</div>'
-    : '<div class="tv-l1"><span>'+(en ? 'Working on it' : 'On s\'en occupe')+'</span><b class="tv-pts">…</b></div><div class="tv-l2">'+(en ? 'It comes back by itself, no need to reload' : 'Elle revient toute seule, pas besoin de recharger')+'</div>';
-  return '<div class="tv-fond">'+(plan ? plan.outerHTML : '')+'<div class="tv-grille"></div></div>'
-    + '<div class="m-boite tv">'
-    + '<div class="tv-logo"><div class="tv-halo"></div>'+svgChantier()+'</div>'
-    + '<div class="tv-etiq"><b></b>'+(en ? 'UPDATE IN PROGRESS' : 'MISE À JOUR EN COURS')+'</div>'
-    + '<h1 class="tv-t">'+(en ? 'BE RIGHT <b>BACK</b>' : 'ON REVIENT <b>VITE</b>')+'</h1>'
+  var tuile = function(id, e, t1, t2, f, cls){ return '<button id="'+id+'" class="'+(cls || '')+'" onclick="'+f+'"><span>'+e+'</span><b>'+t1+'</b><small>'+t2+'</small></button>'; };
+  var lignes = [['📍', en ? 'Place' : 'Lieu', 74], ['🕐', en ? 'Time' : 'Heure', 32], ['🗺️', en ? 'Route' : 'Parcours', 88], ['✊', en ? 'Watchword' : 'Mot d\'ordre', 60]];
+  var route = '<div class="pr-route'+(fin ? '' : ' indet')+'" id="pr-route" style="--p:.03"><i class="pr-base"></i><i class="pr-fait"></i>'
+    + [25, 50, 75].map(function(x){ return '<b style="left:'+x+'%" data-x="'+x+'"></b>'; }).join('') + '<em>📍</em><span class="pr-moi">✊</span></div>';
+  return '<div class="tv-fond">'+(plan ? plan.outerHTML : '')+'<div class="tv-grille"></div><div class="pr-pings">'+pings+'</div></div>'
+    + '<div class="m-boite tv pr">'
+    + '<div class="pr-logo"><div class="pr-radar"></div><div class="tv-halo"></div>'+svgPrepa()+'</div>'
+    + '<div class="tv-etiq"><b></b>'+(en ? 'GETTING READY' : 'PRÉPARATION EN COURS')+'</div>'
+    + '<h1 class="tv-t pr-t">'+(en ? 'WHAT\'S <b>NEXT</b>' : 'ON PRÉPARE <b>LA SUITE</b>')+'</h1>'
     + '<p class="tv-x">'+esc(texteMaint(o))+'</p>'
-    + '<div class="tv-bloc tv-compte">' + compte
-    + '<div class="tv-arcs'+(fin ? '' : ' indet')+'" id="tv-arcs">'+arcs+'</div>'
-    + '<div class="tv-l3">'+(en ? 'We\'re relighting the end of the passage…' : 'On rallume la lumière au bout de la traboule…')+'</div></div>'
-    + '<button class="tv-prev'+(son.on && lireLS('prevRetour') ? ' ok' : '')+'" id="tv-prev" onclick="prevenirRetour()"><span>🔔</span><div><b>'+(en ? 'Notify me when it\'s back' : 'Me prévenir au retour')+'</b><small>'
-      + (en ? 'Sound + vibration, keep the app open' : 'Son + vibration, garde l\'appli ouverte')+'</small></div><em>'+(son.on && lireLS('prevRetour') ? '✓' : (en ? 'On' : 'Activer'))+'</em></button>'
-    + (pro.length ? '<div class="tv-bloc"><div class="tv-st">'+(en ? 'Coming up' : 'Prochains rendez-vous')+'</div>' + pro.map(function(v){
+    // quand reviennent les infos
+    + '<div class="tv-bloc pr-compte"><div class="pr-k">'+(fin ? (en ? 'Info in' : 'Les infos dans') : (en ? 'Info coming' : 'Les infos arrivent'))+'</div>'
+    + '<div class="pr-v'+(fin ? '' : ' long')+'" id="pr-reste">'+(fin ? txtReste(fin - Date.now()) : (en ? 'in a few hours' : 'dans quelques heures'))+'</div>'
+    + '<div class="pr-s">'+(fin ? '⏰ '+(en ? 'Come back around ' : 'Reviens vers ')+'<b>'+esc(o.fin)+'</b>' : (en ? 'This screen opens by itself when it\'s ready' : 'L\'écran s\'ouvre tout seul quand c\'est prêt'))+'</div>'
+    + route + '</div>'
+    // le dossier du prochain rendez-vous, encore caviardé
+    + '<div class="tv-bloc pr-dossier"><div class="tv-st">'+(en ? 'Next meetup' : 'Prochain rendez-vous')+'</div><span class="pr-tampon">'+(en ? 'Coming soon' : 'Bientôt ici')+'</span>'
+    + lignes.map(function(l, i){ return '<div class="pr-l"><span>'+l[0]+'</span><small>'+l[1]+'</small><i style="--w:'+l[2]+'%;animation-delay:'+(i * .3).toFixed(1)+'s"></i></div>'; }).join('') + '</div>'
+    // ce qu'on peut faire en attendant
+    + '<div class="cp-act pr-act'+(fin ? '' : ' deux')+'">'
+    + tuile('tv-prev', prev ? '✅' : '🔔', en ? 'Notify me' : 'Me prévenir', prev ? (en ? 'on' : 'activé') : (en ? 'sound + buzz' : 'son + vibration'), 'prevenirPrepa()', prev ? 'ok' : '')
+    + (fin ? tuile('pr-rappel', '⏰', en ? 'Reminder' : 'Rappel', (en ? 'at ' : 'à ') + esc(o.fin), 'rappelPrepa()') : '')
+    + tuile('pr-part', '📤', en ? 'Spread it' : 'Faire passer', en ? 'to your friends' : 'à tes potes', 'partagerPrepa()') + '</div>'
+    + (pro.length ? '<div class="tv-bloc"><div class="tv-st">'+(en ? 'Already planned' : 'Déjà au programme')+'</div>' + pro.map(function(v){
         var C = CATS_EVT[v.cat] || CATS_EVT.autre;
         return '<button class="m-evt" style="--ec:'+C.c+'" onclick="ouvrirEvt(\''+esc(v.id)+'\')"><span>'+esc(v.emoji || C.e)+'</span><div><b>'+esc(v.titre)+'</b><small>'
           + esc(jourEvt(v.debut) + ' · ' + heuresEvt(v) + (v.lieu ? ' · ' + v.lieu : ''))+'</small></div></button>'; }).join('') + '</div>' : '')
+    + '<div class="cp-mini pr-mini"><div><span>🔋</span><b>'+(en ? 'Charge up' : 'Charge ton tel')+'</b><small>'+(en ? 'be ready' : 'pour être prêt·e')+'</small></div>'
+    + '<div><span>👥</span><b>'+(en ? 'Your group' : 'Ton groupe')+'</b><small>'+(en ? 'get organised' : 'organisez-vous')+'</small></div>'
+    + '<div><span>🤫</span><b>'+(en ? 'Stay discreet' : 'Reste discret·e')+'</b><small>'+(en ? 'no rumours' : 'pas de rumeurs')+'</small></div></div>'
     + '<div class="m-verif"><b></b><span id="m-verif">'+(en ? 'Checking automatically' : 'Vérification automatique')+'</span></div>'
     + '<div class="m-boutons"><button class="btn plein m-retry" onclick="maintReessayer(this)">↻ '+(en ? 'Check now' : 'Vérifier maintenant')+'</button>'
     + '<button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(en ? 'Safety tips' : 'Les bons réflexes')+'</button>'
     + '<div class="appels" style="margin:0"><a href="tel:112">112<span>'+(en ? 'Emergency' : 'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div></div>'
     + '<button class="m-equipe" onclick="ouvrirConnexion()">🔑 '+(en ? 'Team access' : 'Accès équipe')+'</button>'
-    + '<small class="m-signe">'+logoTraboule('tvs')+'Traboule</small></div>';
+    + '<small class="m-signe">'+logoTraboule('prs')+'Traboule</small></div>';
 }
-// avance : les arcades s'allument, la lumière grandit, le compte à rebours défile
-function majTravaux(){
-  var o = maintApercu ? lireApercuMaint() : modeMaint(etat.config), fin = heureFin(o.fin), el = $('tv-arcs'), svg = document.querySelector('.tv-arche');
-  if (!fin) { if (svg) svg.style.setProperty('--p', .75); return; }
-  var d = debutMaint(), p = Math.max(.04, Math.min(1, (Date.now() - d) / Math.max(60000, fin - d)));
-  if ($('tv-reste')) $('tv-reste').textContent = txtReste(fin - Date.now());
-  var n = Math.floor(p * 10);
-  el.querySelectorAll('i').forEach(function(a, i){ a.className = i < n ? 'on' : i === n ? 'va' : ''; });
-  if (svg) svg.style.setProperty('--p', (.45 + .55 * p).toFixed(3));
+// le temps passe : le petit poing avance sur le parcours, les étapes s'allument
+function majPrepa(){
+  var o = maintApercu ? lireApercuMaint() : modeMaint(etat.config), fin = heureFin(o.fin), r = $('pr-route');
+  if (!fin || !r) return;
+  var d = debutMaint(), p = Math.max(.03, Math.min(1, (Date.now() - d) / Math.max(60000, fin - d)));
+  var v = $('pr-reste'); if (v) { v.textContent = txtReste(fin - Date.now()); v.classList.toggle('long', fin - Date.now() <= 0); }
+  r.style.setProperty('--p', p.toFixed(4));
+  r.querySelectorAll('b').forEach(function(b){ b.classList.toggle('on', p * 100 >= +b.dataset.x); });
 }
-function prevenirRetour(){
+function oMaintVue(){ return maintApercu ? lireApercuMaint() : modeMaint(etat.config); }
+function prevenirPrepa(){
+  prevenirRetour(LANGUE === 'en' ? '🔔 We\'ll let you know as soon as the info is out' : '🔔 On te prévient dès que les infos sont là');
+  var b = $('tv-prev'); if (b) { b.classList.add('ok'); b.querySelector('span').textContent = '✅'; b.querySelector('small').textContent = LANGUE === 'en' ? 'on' : 'activé'; }
+}
+// rappel dans l'agenda du téléphone, à l'heure prévue
+function rappelPrepa(){
+  var o = oMaintVue(), fin = heureFin(o.fin), en = LANGUE === 'en'; if (!fin) return;
+  function f(ts){ return new Date(ts).toISOString().replace(/[-:]/g, '').replace(/\.\d+/, ''); }
+  var titre = en ? 'Traboule: the next mobilisation points are out' : 'Traboule : les prochains points de mobilisation sont là';
+  var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Traboule//FR','BEGIN:VEVENT','UID:prepa-'+fin+'@traboule','DTSTAMP:'+f(Date.now()),
+    'DTSTART:'+f(fin),'DTEND:'+f(fin + 15*60000),'SUMMARY:'+titre,'DESCRIPTION:'+(urlAppli || ''),
+    'BEGIN:VALARM','TRIGGER:PT0M','ACTION:DISPLAY','DESCRIPTION:'+titre,'END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  var a = document.createElement('a'); a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics); a.download = 'traboule-rappel.ics';
+  document.body.appendChild(a); a.click(); a.remove();
+  var b = $('pr-rappel'); if (b) { b.classList.add('ok'); b.querySelector('span').textContent = '✅'; }
+  toast(en ? '⏰ Open the file to add the reminder' : '⏰ Ouvre le fichier pour ajouter le rappel à ton agenda');
+}
+function partagerPrepa(){
+  var o = oMaintVue(), en = LANGUE === 'en';
+  var t = en ? '✊ Traboule is preparing the next mobilisation points.\nThe info comes out ' + (o.fin ? 'around ' + o.fin : 'in a few hours') + ', keep the app close:\n' + (urlAppli || '')
+             : '✊ Traboule prépare les prochains points de mobilisation.\nLes infos tombent ' + (o.fin ? 'vers ' + o.fin : 'dans quelques heures') + ', garde l\'appli sous la main :\n' + (urlAppli || '');
+  if (navigator.share) navigator.share({ text:t }).catch(function(){});
+  else if (navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ toast(en ? 'Message copied' : 'Message copié, colle-le dans tes groupes'); });
+}
+function prevenirRetour(msg){
   debloquerSon(); if (!son.on) { son.on = true; ecrireLS('son6', '1'); try { majBoutonSon(); } catch(e){} }
   ecrireLS('prevRetour', '1'); jouer('ding'); try { if (navigator.vibrate) navigator.vibrate(60); } catch(e){}
-  var b = $('tv-prev'); if (b) { b.classList.add('ok'); b.querySelector('em').textContent = '✓'; }
-  toast(LANGUE === 'en' ? '🔔 We\'ll let you know as soon as it\'s back' : '🔔 On te prévient dès que c\'est fini');
+  toast(msg || (LANGUE === 'en' ? '🔔 We\'ll let you know as soon as it\'s back' : '🔔 On te prévient dès que c\'est fini'));
 }
 // ===================== V51 : CARTE COUPÉE =====================
 // La traboule est fermée : une grille tombe sur l'arche, le plan de Lyon s'éteint, et on explique quoi faire.
@@ -6114,8 +6244,9 @@ var MOMENTS = {
   dispersion: { e:'🚪', c:'#ff3b4e', son:'alerte', t:'<b>DISPER-<br>SION</b>', tEn:'<b>DISPER-<br>SAL</b>',
                 x:'Reste groupé·e et ne traîne pas. Les sorties sûres sont en vert sur la carte.', xEn:'Stay together, don\'t hang around. Safe exits are green on the map.',
                 b:['🧭 Sortie sûre la plus proche', '🧭 Nearest safe exit', 'ouvrirAutour()'] },
-  repart:     { e:'✨', c:'#ff6a1f', son:'ding', conf:true, t:'C\'EST<br><b>REPARTI</b>', tEn:'WE\'RE<br><b>BACK</b>',
-                x:'La carte est à jour. Merci d\'avoir patienté, bonne route !', xEn:'The map is up to date. Thanks for waiting, take care out there!' },
+  pret:       { e:'📍', c:'#ff6a1f', son:'ding', conf:true, t:'C\'EST<br><b>PRÊT</b>', tEn:'IT\'S<br><b>READY</b>',
+                x:'Les infos sont là : regarde l\'agenda et la carte pour les prochains points de mobilisation.', xEn:'The info is out: check the agenda and the map for the next mobilisation points.',
+                b:['📅 Voir l\'agenda', '📅 See the agenda', 'ouvrirAgenda()'] },
   retour:     { e:'✅', c:'#16c784', son:'message', t:'CARTE<br><b>DE RETOUR</b>', tEn:'MAP<br><b>IS BACK</b>',
                 x:'On a tout vérifié : les infos de la carte sont de nouveau fiables. Merci d\'avoir attendu.', xEn:'We checked everything: the map can be trusted again. Thanks for waiting.' },
   fin:        { e:'❤️', c:'#16c784', son:'concert', conf:true, t:'MERCI<br><b>À TOUS</b>', tEn:'THANK<br><b>YOU ALL</b>',
