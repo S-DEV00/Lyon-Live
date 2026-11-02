@@ -2494,6 +2494,45 @@
   body.pc-l #clin.pc { right:96px; }
   #clin.pc .cl-boite { margin:0; }
   @media (prefers-reduced-motion: reduce) { .cl-ecran, .cl-oeil, .cl-smile, .cl-etin { animation:none !important; } .cl-smile { transform:none; } }
+
+  /* ================= v63 : version ordinateur — les pages deviennent de vraies pages ================= */
+  /* grande fenêtre au-dessus de la carte, contenu en colonnes (2 ou 3 selon la largeur) */
+  body.pc-l .feuille.large { left:calc(var(--side) + 22px) !important; right:22px !important; width:auto !important; top:22px; bottom:22px !important; max-height:none !important;
+    padding:0 30px 30px !important; border-radius:30px !important; transform:translateY(26px) scale(.985); opacity:0; visibility:hidden;
+    transition:transform .32s cubic-bezier(.2,.9,.25,1), opacity .22s ease, visibility 0s linear .32s;
+    box-shadow:0 30px 90px rgba(0,0,0,.75), 0 0 0 1px rgba(255,150,90,.12), inset 0 1px 0 rgba(255,190,140,.12); }
+  body.pc-l .feuille.large.ouverte { transform:none; opacity:1; visibility:visible; transition:transform .32s cubic-bezier(.2,.9,.25,1), opacity .22s ease, visibility 0s; }
+  body.pc-l.page-large #voile { background:rgba(4,3,3,.58) !important; -webkit-backdrop-filter:blur(5px) saturate(.8) !important; backdrop-filter:blur(5px) saturate(.8) !important; }
+  /* en-tête collé en haut pendant qu'on fait défiler */
+  .feuille.large .entete-f { position:sticky; top:0; z-index:6; margin:0 -30px 16px; padding:24px 30px 16px; align-items:center;
+    background:linear-gradient(180deg, #211612 0%, #1d1411 78%, rgba(29,20,17,0)); }
+  .feuille.large .entete-f h2 { font-size:44px !important; letter-spacing:1px; }
+  .feuille.large .entete-f .sous { font-size:15px; max-width:760px; }
+  .feuille.large .entete-f .fermer { width:42px; height:42px; }
+  .feuille.large .entete-f .fermer svg { width:19px; height:19px; }
+  .feuille.large .entete-f::after { content:"Échap"; position:absolute; right:84px; top:50%; transform:translateY(-50%); font-size:11px; font-weight:800; color:#8f7b70;
+    padding:3px 7px; border-radius:6px; border:1px solid rgba(255,255,255,.12); }
+  .feuille.large::-webkit-scrollbar { width:10px; } .feuille.large::-webkit-scrollbar-thumb { background:rgba(255,150,90,.28); border-radius:5px; border:2px solid transparent; background-clip:padding-box; }
+  /* les colonnes */
+  .pc-cols { columns:360px 3; column-gap:24px; }
+  .pc-sec { break-inside:avoid; display:flow-root; margin-bottom:18px; padding:2px 0; }
+  .pc-sec.coupe { break-inside:auto; }
+  .pc-sec > * { break-inside:avoid; }
+  .pc-sec > .l:first-child, .pc-sec > .section-titre:first-child, .pc-sec > .g-titre:first-child { margin-top:0 !important; }
+  .feuille.large .rangee { margin-top:8px; }
+  .feuille.large .btn { cursor:pointer; }
+  /* quelques pages, réglées à la main */
+  .feuille.large .kb-l { grid-template-columns:1fr 1fr; }
+  .feuille.large[data-vue="gestion"] .pc-sec:first-child { column-span:all; }
+  .feuille.large[data-vue="infos"] .pc-cols { columns:auto; display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1.15fr); gap:30px; align-items:start; }
+  .feuille.large[data-vue="infos"] .pc-sec { margin:0; }
+  .feuille.large[data-vue="infos"] .pc-sec + .pc-sec { position:sticky; top:96px; }
+  .feuille.large[data-vue="gestion"] .pc-sec:first-child { display:grid; grid-template-columns:minmax(0, 1.3fr) minmax(0, 1fr); gap:14px; align-items:start; }
+  .feuille.large .carte-c { margin-top:0; margin-bottom:12px; }
+  /* panneaux à côté de la carte : l'en-tête reste visible aussi */
+  body.pc-l .feuille:not(.large) .entete-f { position:sticky; top:-18px; z-index:6; margin:-18px -22px 10px; padding:18px 22px 10px;
+    background:linear-gradient(180deg, #211612 0%, #1f1513 80%, rgba(31,21,19,0)); }
+  @media (prefers-reduced-motion: reduce) { body.pc-l .feuille.large, body.pc-l .feuille.large.ouverte { transition:none; } }
 </style>
 </head>
 <body>
@@ -6999,6 +7038,37 @@ function envoyerLienPC(){
   if (!connu || Date.now() > new Date('2026-12-01T00:00:00').getTime()) return;
   setTimeout(function(){ planifierFenetre(40, 'clin-pc', function(){ if (!lireLS('clinPC1')) montrerClin(false); }); }, 2500);
 })();
+// ===================== V63 : LES PAGES EN VERSION ORDINATEUR =====================
+// Sur grand écran, les pages à lire (infos, conseils, agenda, gestion…) s'ouvrent en grande fenêtre, en colonnes.
+// Celles qui pilotent la carte (légende, autour, fiches, formulaires) restent en panneau à côté de la carte.
+var VUES_LARGES = { infos:1, conseils:1, reflexes:1, agenda:1, gestion:1, medics:1, confort:1, 'gestion-maint':1, 'gestion-prep':1, 'gestion-bilan':1,
+  'evt-gestion':1, equipe:1, plus:1, raccourcis:1, menage:1, 'blocus-serie':1, liste:1, qr:1 };
+function pagePC(){
+  var f = $('feuille'); if (!f) return;
+  var large = !!(PC.on && VUES_LARGES[f.dataset.vue]);
+  if (!large) {
+    if (f.classList.contains('large')) { f.style.transition = 'none'; f.classList.remove('large'); void f.offsetWidth; f.style.transition = ''; }
+    document.body.classList.remove('page-large'); return;
+  }
+  f.classList.add('large'); document.body.classList.add('page-large');
+  var enfants = [].slice.call(f.children).filter(function(el){ return !el.classList.contains('poignee') && !el.classList.contains('entete-f') && !el.classList.contains('pc-cols'); });
+  if (!enfants.length) return;
+  var cols = document.createElement('div'), sec = null; cols.className = 'pc-cols';
+  // Infos : à gauche le résumé et les événements, à droite les messages ; ailleurs, une section par titre
+  var debut = f.dataset.vue === 'infos' ? '.onglets-i' : 'label.l, .section-titre, .g-titre, .grille-titre, .agenda-jour';
+  enfants.forEach(function(el){
+    if (!sec || el.matches(debut)) { sec = document.createElement('div'); sec.className = 'pc-sec'; cols.appendChild(sec); }
+    sec.appendChild(el);
+  });
+  f.appendChild(cols);
+  // une section très longue a le droit de passer d'une colonne à l'autre (entre ses blocs, jamais au milieu d'un bloc)
+  if (f.dataset.vue !== 'infos') cols.querySelectorAll('.pc-sec').forEach(function(x){ if (x.offsetHeight > 420 || x.children.length >= 6) x.classList.add('coupe'); });
+}
+var ouvrirAvantPC = ouvrir, rafraichirAvantPC = rafraichirFeuille, fermerAvantPC = fermer;
+ouvrir = function(html, vue){ ouvrirAvantPC(html, vue); try { pagePC(); } catch(e){ console.error(e); } };
+rafraichirFeuille = function(html){ var f = $('feuille'), y = f.scrollTop; rafraichirAvantPC(html); try { pagePC(); f.scrollTop = y; } catch(e){ console.error(e); } };
+fermer = function(){ fermerAvantPC(); document.body.classList.remove('page-large'); };
+$('voile').onclick = function(){ fermer(); };
 </script>
 </body>
 </html>
