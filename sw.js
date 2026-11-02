@@ -2,7 +2,7 @@
 // Page et config : réseau d'abord (toujours la dernière version), cache si le réseau rame (> 4 s) ou est coupé.
 // Fichiers lourds (plan de Lyon, Leaflet, lycées, sons, icônes) : servis depuis le cache, mis à jour en arrière-plan.
 var V = 'll-v37-traboule';
-var LOURDS = /\/(plan\.js|leaflet\.js|leaflet\.css|ecoles\.json|batiments\.txt|concert\.mp3|blocus\.mp3|icone-\d+\.png|logo\.svg|partage\.jpg|manifest\.json)(\?.*)?$/;
+var LOURDS = /\/(plan\.js|leaflet\.js|leaflet\.css|ecoles\.json|batiments\.txt|concert\d*\.mp3|blocus\.mp3|icone-\d+\.png|logo\.svg|partage\.jpg|manifest\.json)(\?.*)?$/;
 self.addEventListener('install', function(e){ self.skipWaiting(); });
 self.addEventListener('activate', function(e){
   e.waitUntil(caches.keys().then(function(ks){ return Promise.all(ks.filter(function(k){ return k !== V; }).map(function(k){ return caches.delete(k); })); }).then(function(){ return self.clients.claim(); }));

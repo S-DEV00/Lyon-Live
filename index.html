@@ -5555,20 +5555,28 @@ function boucleEq(){
 
 // ----- Son des concerts (concert.mp3), joué à l'ouverture d'une fiche concert si le son est activé -----
 // Même chose pour les blocus (blocus.mp3).
+// Concerts : 3 sons. À chaque fiche on démarre sur le suivant, puis ils s'enchaînent (une fois chacun) avant de s'arrêter.
 var audioConcert = null, audioFichier = '';
-function lancerConcert(f){
+var SONS_CONCERT = ['concert.mp3', 'concert2.mp3', 'concert3.mp3'], sonConcertN = Math.floor(Math.random() * 3), sonsEnchaines = 0;
+function estSonConcert(f){ return SONS_CONCERT.indexOf(f) >= 0; }
+function lancerConcert(f, suite){
   f = f || audioFichier || 'concert.mp3';
+  if (estSonConcert(f) && !suite) { f = SONS_CONCERT[sonConcertN++ % SONS_CONCERT.length]; sonsEnchaines = 1; }
   try {
-    if (!audioConcert || audioFichier !== f) { if (audioConcert) audioConcert.pause(); audioConcert = new Audio(f); audioFichier = f; audioConcert.preload = 'auto'; audioConcert.onended = majBoutonConcert; }
+    if (!audioConcert || audioFichier !== f) { if (audioConcert) audioConcert.pause(); audioConcert = new Audio(f); audioFichier = f; audioConcert.preload = 'auto'; audioConcert.onended = finSonConcert; }
     audioConcert.currentTime = 0; audioConcert.volume = .85;
     var pr = audioConcert.play(); if (pr && pr.catch) pr.catch(function(){});
     document.body.classList.add('concert-son');
-    if (f === 'concert.mp3' && brancherAnalyseur()) setTimeout(boucleEq, 60);
+    if (estSonConcert(f) && brancherAnalyseur()) setTimeout(boucleEq, 60);
   } catch(e){}
   majBoutonConcert();
 }
+function finSonConcert(){
+  if (estSonConcert(audioFichier) && sonsEnchaines < SONS_CONCERT.length) { sonsEnchaines++; lancerConcert(SONS_CONCERT[sonConcertN++ % SONS_CONCERT.length], true); return; }
+  majBoutonConcert();
+}
 function stopConcert(){ if (audioConcert && !audioConcert.paused) audioConcert.pause(); document.body.classList.remove('concert-son'); majBoutonConcert(); }
-function basculerConcert(f){ if (audioConcert && !audioConcert.paused && audioFichier === f) stopConcert(); else lancerConcert(f); }
+function basculerConcert(f){ if (audioConcert && !audioConcert.paused && (audioFichier === f || estSonConcert(f) && estSonConcert(audioFichier))) stopConcert(); else lancerConcert(f); }
 function majBoutonConcert(){ var b = $('cc-son'); if (!b) return; var on = audioConcert && !audioConcert.paused && !audioConcert.ended;
   if (b.classList.contains('bl')) { b.querySelector('.bls-ic').innerHTML = svgSonBl(on); b.querySelector('.bls-t b').textContent = on ? 'Couper le son' : 'Écouter le son';
     b.querySelector('.bls-t small').textContent = on ? 'le son du blocus tourne' : 'l\'ambiance du blocus'; } else b.textContent = on ? '⏸ Couper le son' : '🔊 Écouter le son';
