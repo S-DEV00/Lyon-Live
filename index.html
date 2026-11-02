@@ -2616,6 +2616,51 @@
   .btn.cc-son.bl.on .bls-eq i { opacity:1; animation:cc-eq .55s ease-in-out infinite; }
   .bls-eq i:nth-child(2) { animation-delay:-.18s !important; } .bls-eq i:nth-child(3) { animation-delay:-.36s !important; } .bls-eq i:nth-child(4) { animation-delay:-.1s !important; } .bls-eq i:nth-child(5) { animation-delay:-.27s !important; }
   @media (prefers-reduced-motion: reduce) { .btn.cc-son.bl.on .bls-ic, .btn.cc-son.bl.on .bls-eq i, .blm-alerte > span { animation:none !important; } }
+  /* ================= v66 : un logo par type d'événement ================= */
+  /* sur la carte : l'objet (banderole, mégaphone, bulles, fumigène, enceinte, calendrier), le badge date, le nom en grand au zoom */
+  .evt-pin.lgp { position:relative; width:56px; height:60px; }
+  .evt-pin.lgp::after { display:none; }
+  .lgp-obj { position:absolute; left:0; top:0; width:56px; height:44px; filter:drop-shadow(0 3px 5px rgba(0,0,0,.75)); }
+  .lgp-obj::before { content:""; position:absolute; left:-4px; right:-4px; top:-2px; bottom:-2px; border-radius:50%; pointer-events:none;
+    background:radial-gradient(closest-side, color-mix(in srgb, var(--ec) 42%, transparent), transparent); }
+  .lgp-obj svg, .lg-mini svg, .lg-s svg, .eh-lg svg { display:block; overflow:visible; position:relative; }
+  .lgp-obj svg { width:56px; height:44px; }
+  .lgp-halo { position:absolute; left:50%; top:22px; width:64px; height:64px; margin:-32px 0 0 -32px; border-radius:50%; pointer-events:none; opacity:0; }
+  .lgp.live .lgp-halo { border:3px solid var(--ec); box-shadow:0 0 18px var(--ec); animation:bl2-onde 1.8s ease-out infinite; }
+  .lgp-quand { position:absolute; left:50%; top:41px; transform:translateX(-50%); white-space:nowrap; font-size:9px; font-weight:900; letter-spacing:.5px; line-height:1;
+    padding:4px 7px; border-radius:9px; background:#14110a; color:var(--ec); border:1.5px solid var(--ec); box-shadow:0 3px 8px rgba(0,0,0,.6); }
+  .lgp.live .lgp-quand { background:#e8202e; color:#fff; border-color:#fff; display:flex; align-items:center; gap:4px; }
+  .lgp-quand i { width:6px; height:6px; border-radius:50%; background:#fff; animation:bl2-pt 1s ease-in-out infinite; }
+  .evt-pin.lgp .evt-etiq { left:62px; top:9px; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:15px; letter-spacing:.6px; color:var(--ec); text-transform:uppercase;
+    text-shadow:0 0 3px #000, 0 0 3px #000, 0 2px 6px #000; max-width:150px; }
+  body.zoom-14 .evt-pin.lgp .evt-etiq { display:block; }
+  .leaflet-marker-icon:active .evt-pin.lgp { transform:scale(.92); }
+  /* ce qui bouge quand c'est en cours (et toujours dans la fiche) */
+  .lg .lg-ban, .lg .lg-hp, .lg .lg-flamme, .lg .lg-fumee circle, .lg .lg-pts circle, .lg .lg-notes text { transform-box:fill-box; transform-origin:50% 50%; }
+  .lg-ondes path { opacity:.4; }
+  .lg-on .lg-ban { animation:lg-flotte 1.4s ease-in-out infinite; }
+  @keyframes lg-flotte { 0%, 100% { transform:skewY(-2.5deg); } 50% { transform:skewY(2.5deg) translateY(1px); } }
+  .lg-on .lg-ondes path { animation:lg-onde 1.2s ease-out infinite; }
+  .lg-on .lg-ondes path:nth-child(2) { animation-delay:.2s; } .lg-on .lg-ondes path:nth-child(3) { animation-delay:.4s; }
+  @keyframes lg-onde { 0% { opacity:.15; } 30% { opacity:1; } 100% { opacity:.15; } }
+  .lg-on .lg-pts circle { animation:lg-pt 1s ease-in-out infinite; }
+  .lg-on .lg-pts circle:nth-child(2) { animation-delay:.15s; } .lg-on .lg-pts circle:nth-child(3) { animation-delay:.3s; }
+  @keyframes lg-pt { 0%, 60%, 100% { transform:none; } 30% { transform:translateY(-3px); } }
+  .lg-on .lg-flamme { transform-origin:50% 100%; animation:lg-flamme .22s ease-in-out infinite alternate; }
+  @keyframes lg-flamme { from { transform:scale(.9,.82); } to { transform:scale(1.05,1.12); } }
+  .lg-on .lg-fumee circle { animation:lg-fume 2.4s ease-out infinite; }
+  .lg-on .lg-fumee circle:nth-child(2) { animation-delay:-.6s; } .lg-on .lg-fumee circle:nth-child(3) { animation-delay:-1.2s; } .lg-on .lg-fumee circle:nth-child(4) { animation-delay:-1.8s; }
+  @keyframes lg-fume { 0% { transform:translate(-4px,6px) scale(.5); opacity:.7; } 100% { transform:translate(6px,-8px) scale(1.5); opacity:0; } }
+  .lg-on .lg-hp { animation:lg-boum .47s ease-in-out infinite; }
+  @keyframes lg-boum { 0%, 100% { transform:scale(1); } 30% { transform:scale(1.12); } }
+  .lg-on .lg-notes text { animation:lg-note 1.6s ease-in-out infinite; } .lg-on .lg-notes text:nth-child(2) { animation-delay:.8s; }
+  @keyframes lg-note { 0%, 100% { transform:translateY(0); opacity:.95; } 50% { transform:translateY(-4px); opacity:.45; } }
+  /* dans les listes, le choix du type et la fiche */
+  .lg-mini { display:block; line-height:0; } .lg-mini svg { width:42px; height:33px; filter:drop-shadow(0 2px 4px #0009); }
+  .pce-e .lg-mini svg { width:28px; height:22px; filter:none; }
+  .evt-cats button .lg-s { font-size:0; line-height:0; } .evt-cats button .lg-s svg { width:44px; height:34px; }
+  .evt-hero .eh-e.eh-lg { font-size:0; line-height:0; margin:12px 0 10px; } .eh-lg svg { width:88px; height:69px; filter:drop-shadow(0 6px 14px #000a); }
+  @media (prefers-reduced-motion: reduce) { .lg *, .lgp.live .lgp-halo, .lgp-quand i { animation:none !important; } }
 </style>
 </head>
 <body>
@@ -4781,7 +4826,7 @@ function sauverMaintenance(){
 var ORDRE_LBL = ['.evt-etiq', '.info-etiq', '.scene-nom.g', '.st-nom', '.scene-nom.s', '.scene-nom.p', '.ecole-nom.fac', '.ecole-nom.lycee', '.repere span', '.nomrue span'];
 function desencombrer(){
   var pris = [];
-  document.querySelectorAll('#haut .barre > *, #ticker.vu, #compteurs .pastille, #flottants button, #onglets, .leaflet-marker-icon .pin, .evt-pin .ep-c, .evt-pin .bl2-barre, #carte .station, #carte .hosto').forEach(function(el){
+  document.querySelectorAll('#haut .barre > *, #ticker.vu, #compteurs .pastille, #flottants button, #onglets, .leaflet-marker-icon .pin, .evt-pin .ep-c, .evt-pin .bl2-barre, .evt-pin .lgp-obj, #carte .station, #carte .hosto').forEach(function(el){
     var r = el.getBoundingClientRect(); if (r.width) pris.push(r); });
   var H = window.innerHeight, W = window.innerWidth;
   ORDRE_LBL.forEach(function(sel){
@@ -5308,7 +5353,7 @@ function ligneEvt(v, admin){
   return '<button class="evt-ligne '+st+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':v.cat==='sauvage'?' sauvage':'')+'" style="--ec:'+C.c+'" onclick="'+(admin ? 'editerEvt' : 'ouvrirEvt')+'(\''+v.id+'\')">'
     + '<div class="el-d"><span>'+JOURS_C[d.getDay()]+'</span><b>'+d.getDate()+'</b><span>'+MOIS_C[d.getMonth()]+'</span></div>'
     + '<div class="el-t"><b>'+esc(v.titre)+'</b><small>'+(st==='live' ? '<span class="el-live">● En cours</span> · ' : '')+heuresEvt(v)+(v.lieu ? ' · '+esc(v.lieu) : '')+'</small></div>'
-    + '<div class="el-e">'+(admin ? '✏️' : esc(v.emoji||C.e))+'</div></button>';
+    + '<div class="el-e">'+(admin ? '✏️' : iconeListeEvt(v))+'</div></button>';
 }
 function listeAgenda(l, admin){
   var h = '', jour = '', live = l.filter(function(v){ return etatEvt(v) === 'live'; });
@@ -5332,7 +5377,7 @@ function ouvrirEvt(id){
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, st = etatEvt(v);
   var h = '<div class="entete-f" style="margin-bottom:6px"><div></div><button class="fermer" onclick="fermer()" aria-label="Fermer">'+ic('fermer')+'</button></div>'
     + '<div class="evt-hero'+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':v.cat==='sauvage'?' sauvage':'')+'" style="--ec:'+C.c+'">'+(v.cat==='fete' ? decorConcert(v) : v.cat==='blocus' ? decorBlocus(v) : v.cat==='rassemb' ? decorRasso() : v.cat==='sauvage' ? decorSauvageEvt(v) : '')+'<div class="eh-top"><span class="evt-cat">'+C.nom+'</span><span class="evt-etat'+(st==='live'?' live':'')+'">'+(st==='live' ? '● EN COURS' : st==='passe' ? 'TERMINÉ' : 'À VENIR')+'</span></div>'
-    + '<div class="eh-e">'+esc(v.emoji||C.e)+'</div>' + (v.cat === 'blocus' ? titreBlocusHtml(v) : '<h3'+(v.titre.length > 26 ? ' class="long"' : '')+'>'+esc(v.titre)+'</h3>')
+    + (LOGO_PIN[v.cat] && !v.emoji ? '<div class="eh-e eh-lg lg-on">'+logoEvt(v.cat, v)+'</div>' : '<div class="eh-e">'+esc(v.emoji||C.e)+'</div>') + (v.cat === 'blocus' ? titreBlocusHtml(v) : '<h3'+(v.titre.length > 26 ? ' class="long"' : '')+'>'+esc(v.titre)+'</h3>')
     + '<div class="evt-infos"><div>'+calMini(v.debut)+'<div>'+jourEvt(v.debut)+'<small>'+heuresEvt(v)+'</small></div></div>'
     + (v.lieu ? '<div><span>📍</span><div>'+esc(v.lieu)+infoDistance(v)+'</div></div>' : '')
     + (v.cat === 'sauvage' && butSv(v) ? '<div class="sv-but"><span>'+butSv(v).e+'</span><div><small>OBJECTIF</small>'+esc(butSv(v).nom)+'</div></div>' : '') + '</div>'
@@ -5559,7 +5604,7 @@ function formulaireEvt(){
   var b = brouillonEvt, C = CATS_EVT[b.cat] || CATS_EVT.autre;
   var h = entete(b.id ? 'Modifier l\'événement' : 'Nouvel événement', 'Enregistré directement, visible par tout le monde.')
     + '<label class="l">Type</label><div class="evt-cats">' + Object.keys(CATS_EVT).map(function(k){ var c = CATS_EVT[k];
-        return '<button class="'+(b.cat===k?'sel':'')+'" style="--ec:'+c.c+'" onclick="lireFormEvt();brouillonEvt.cat=\''+k+'\';formulaireEvt()"><span>'+c.e+'</span>'+c.nom+'</button>'; }).join('') + '</div>'
+        return '<button class="'+(b.cat===k?'sel':'')+'" style="--ec:'+c.c+'" onclick="lireFormEvt();brouillonEvt.cat=\''+k+'\';formulaireEvt()"><span class="lg-s">'+logoEvt(k)+'</span>'+c.nom+'</button>'; }).join('') + '</div>'
     + (b.cat === 'sauvage' ? '<label class="l">Dans quel but ?</label><div class="evt-cats sv-buts">' + Object.keys(BUTS_SV).map(function(k){ var x = BUTS_SV[k];
         return '<button class="'+(b.but===k?'sel':'')+'" style="--ec:#ff8a1f" onclick="lireFormEvt();brouillonEvt.but=\''+k+'\';formulaireEvt()"><span>'+x.e+'</span>'+x.nom+'</button>'; }).join('') + '</div>'
         + '<input id="ev-but" maxlength="50" placeholder="Préciser (facultatif) : ex. Bloquer le périph nord" value="'+esc(b.butTxt||'')+'" style="margin-top:6px">'
@@ -6928,7 +6973,7 @@ function dessinerEvtsPC(){
   var l = evtsVisibles().sort(function(a, b){ return a.debut - b.debut; }).slice(0, 3);
   var h = !l.length ? '' : '<div class="pcs-st"><span>'+txPC('En ce moment & à venir', 'Now & coming up')+'</span><button onclick="ouvrirAgenda()">'+txPC('Agenda', 'Agenda')+' →</button></div>'
     + l.map(function(v){ var C = CATS_EVT[v.cat] || CATS_EVT.autre, st = etatEvt(v);
-      return '<button class="pce '+st+'" style="--ec:'+C.c+'" onclick="allerEvtPC(\''+esc(v.id)+'\')"><span class="pce-e">'+esc(v.emoji || C.e)+'</span><div><b>'+esc(v.titre)+'</b><small>'
+      return '<button class="pce '+st+'" style="--ec:'+C.c+'" onclick="allerEvtPC(\''+esc(v.id)+'\')"><span class="pce-e">'+iconeListeEvt(v)+'</span><div><b>'+esc(v.titre)+'</b><small>'
         + (st === 'live' ? '<i>● '+txPC('EN COURS', 'LIVE')+'</i> · ' : esc(jourEvt(v.debut)) + ' · ') + esc(heuresEvt(v) + (v.lieu ? ' · ' + v.lieu : ''))+'</small></div></button>'; }).join('');
   if (el.dataset.h !== h) { el.innerHTML = h; el.dataset.h = h; }
 }
@@ -7289,6 +7334,69 @@ function boutonSonBlocus(){
   return '<button class="btn plein cc-son bl" id="cc-son" onclick="basculerConcert(\'blocus.mp3\')"><span class="bls-ic">' + svgSonBl(false) + '</span>'
     + '<span class="bls-t"><b>Écouter le son</b><small>l\'ambiance du blocus</small></span><span class="bls-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></button>';
 }
+// ===================== V66 : UN LOGO PAR TYPE D'ÉVÉNEMENT =====================
+// Comme la barrière du blocus : chaque type a son objet. Manif = banderole, rassemblement = mégaphone, AG = bulles,
+// action = fumigène, soirée = enceinte, autre = calendrier. Sur la carte, dans l'agenda, la colonne ordi, la fiche et le choix du type.
+var LOGO_PIN = { manif:1, rassemb:1, ag:1, action:1, fete:1, autre:1 };
+document.body.insertAdjacentHTML('afterbegin', '<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>'
+  + '<linearGradient id="lgMa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff8cca"/><stop offset="1" stop-color="#e02f7e"/></linearGradient>'
+  + '<linearGradient id="lgRa" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc463"/><stop offset="1" stop-color="#ff7a00"/></linearGradient>'
+  + '<linearGradient id="lgAg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7d9fff"/><stop offset="1" stop-color="#3a5ce0"/></linearGradient>'
+  + '<linearGradient id="lgFl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6c2"/><stop offset=".45" stop-color="#ffb02e"/><stop offset="1" stop-color="#ff3b1f"/></linearGradient>'
+  + '<linearGradient id="lgNe" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2bd6"/><stop offset=".5" stop-color="#7a5cff"/><stop offset="1" stop-color="#00e0ff"/></linearGradient>'
+  + '<pattern id="lgRay" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="4.5" height="9" fill="#ffd23f"/><rect x="4.5" width="4.5" height="9" fill="#14110a"/></pattern>'
+  + '</defs></svg>');
+function logoEvt(cat, v){
+  var d = v && v.debut ? new Date(v.debut) : new Date(), A = 'font-family="Anton,Impact,sans-serif" text-anchor="middle"', s = '';
+  if (cat === 'manif') s = '<rect x="4" y="2" width="3.6" height="41" rx="1.8" fill="#d9b48a" stroke="#2a1a10" stroke-width="1.2"/><rect x="48.4" y="2" width="3.6" height="41" rx="1.8" fill="#d9b48a" stroke="#2a1a10" stroke-width="1.2"/>'
+    + '<g class="lg-ban"><path d="M7 6C17 2 25 10 35 6S47 4 49 6V27C41 31 33 23 23 27S11 29 7 27Z" fill="url(#lgMa)" stroke="#3a0f24" stroke-width="1.4"/>'
+    + '<text x="28" y="21.6" '+A+' font-size="12" letter-spacing=".8" fill="#fff" stroke="#3a0f24" stroke-width=".6" paint-order="stroke">MANIF</text></g>';
+  else if (cat === 'rassemb') s = '<path d="M15 25L12.5 37Q12.3 38.5 13.8 38.5H17.5Q18.8 38.5 19 37.2L21 26Z" fill="#3b2a22" stroke="#140c08" stroke-width="1.2"/>'
+    + '<rect x="5" y="14" width="10" height="12" rx="2.5" fill="#efe7da" stroke="#140c08" stroke-width="1.4"/>'
+    + '<path d="M14 14.5L32.5 5.5Q35 4.5 35 7.5V32.5Q35 35.5 32.5 34.5L14 25.5Z" fill="url(#lgRa)" stroke="#140c08" stroke-width="1.4"/>'
+    + '<path d="M20 12V28" stroke="#fff" stroke-opacity=".55" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="35" cy="20" rx="3.2" ry="14.5" fill="#4a2600" stroke="#140c08" stroke-width="1.3"/>'
+    + '<g class="lg-ondes" fill="none" stroke="#ffb347" stroke-width="2.6" stroke-linecap="round"><path d="M41 14Q44 20 41 26"/><path d="M45.5 9.5Q50.5 20 45.5 30.5"/><path d="M50 5Q57 20 50 35"/></g>';
+  else if (cat === 'ag') s = '<path d="M3 8Q3 3 8 3H32Q37 3 37 8V21Q37 26 32 26H17L9.5 33L11 26H8Q3 26 3 21Z" fill="url(#lgAg)" stroke="#0c1838" stroke-width="1.5"/>'
+    + '<text x="20" y="20" '+A+' font-size="14" letter-spacing=".8" fill="#fff">AG</text>'
+    + '<path d="M30 17Q30 13 34 13H49Q53 13 53 17V26Q53 30 49 30H47L49.5 36L41.5 30H34Q30 30 30 26Z" fill="#fff" stroke="#0c1838" stroke-width="1.5"/>'
+    + '<g class="lg-pts" fill="#4f7cff"><circle cx="36" cy="21.5" r="2"/><circle cx="41.5" cy="21.5" r="2"/><circle cx="47" cy="21.5" r="2"/></g>';
+  else if (cat === 'action') s = '<circle cx="26" cy="10" r="11" fill="#ff3b1f" opacity=".22"/>'
+    + '<g class="lg-fumee"><circle cx="36" cy="10" r="7" fill="#ff5a6a" opacity=".55"/><circle cx="44" cy="5.5" r="6" fill="#ff7a88" opacity=".42"/><circle cx="50" cy="14" r="4.5" fill="#ff5a6a" opacity=".35"/><circle cx="41" cy="18" r="4" fill="#ff8a96" opacity=".3"/></g>'
+    + '<g transform="rotate(12 20 40)"><rect x="15" y="20" width="10" height="21" rx="2.4" fill="#2b1517" stroke="#110607" stroke-width="1.3"/><rect x="15" y="26" width="10" height="6" fill="#ff3b4e"/>'
+    + '<rect x="16" y="16" width="8" height="5" rx="1.2" fill="#77777d" stroke="#110607" stroke-width="1"/>'
+    + '<g class="lg-flamme"><path d="M20 0C27 7 28.5 12 20 17C11.5 12 13 7 20 0Z" fill="url(#lgFl)"/><path d="M20 6C23.3 9.6 23.4 12 20 14.6C16.6 12 16.7 9.6 20 6Z" fill="#fffbe0"/></g></g>';
+  else if (cat === 'fete') s = '<rect x="12" y="2" width="32" height="40" rx="5" fill="#140a1e" stroke="url(#lgNe)" stroke-width="2.6"/>'
+    + '<circle cx="28" cy="11" r="4.6" fill="#24163a" stroke="#00e0ff" stroke-width="1.5"/><circle cx="28" cy="11" r="1.7" fill="#00e0ff"/>'
+    + '<g class="lg-hp"><circle cx="28" cy="28.5" r="10.5" fill="#24163a" stroke="#ff2bd6" stroke-width="2"/><circle cx="28" cy="28.5" r="6.2" fill="#3a2454" stroke="#7a5cff" stroke-width="1.3"/><circle cx="28" cy="28.5" r="2.5" fill="#ff2bd6"/></g>'
+    + '<g class="lg-notes" font-family="system-ui,sans-serif" font-weight="800"><text x="1" y="17" font-size="12" fill="#ff2bd6">♪</text><text x="46" y="12" font-size="11" fill="#00e0ff">♫</text></g>';
+  else if (cat === 'blocus') s = '<rect x="7" y="2.5" width="8" height="6" rx="3" fill="#ff8a00" stroke="#14110a" stroke-width="1.2"/><rect x="41" y="2.5" width="8" height="6" rx="3" fill="#ff8a00" stroke="#14110a" stroke-width="1.2"/>'
+    + '<rect x="10" y="26" width="4.5" height="15" rx="1" fill="#d8d0b8" stroke="#14110a" stroke-width="1.2"/><rect x="41.5" y="26" width="4.5" height="15" rx="1" fill="#d8d0b8" stroke="#14110a" stroke-width="1.2"/>'
+    + '<rect x="3" y="8" width="50" height="19" rx="3.5" fill="url(#lgRay)" stroke="#14110a" stroke-width="1.6"/><rect x="14" y="12.5" width="28" height="10" rx="2" fill="#fff" stroke="#14110a" stroke-width="1.2"/>'
+    + '<text x="28" y="20.7" '+A+' font-size="8" letter-spacing=".5" fill="#14110a">BLOCUS</text>';
+  else if (cat === 'sauvage') s = '<circle cx="28" cy="22" r="18" fill="#1a0f06" stroke="#ff8a1f" stroke-width="3"/>'
+    + '<path d="M31 7L18.5 25H26.5L23.5 38L37.5 18H29.5Z" fill="#ffd23f" stroke="#1a0f06" stroke-width="1.2" stroke-linejoin="round"/>';
+  else s = '<rect x="10" y="5" width="36" height="37" rx="5" fill="#fbfbf7" stroke="#0b2a1c" stroke-width="1.5"/>'
+    + '<path d="M10 10Q10 5 15 5H41Q46 5 46 10V15.5H10Z" fill="#16c784" stroke="#0b2a1c" stroke-width="1.5"/>'
+    + '<text x="28" y="13.6" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="900" font-size="7.5" letter-spacing=".6" fill="#fff">' + MOIS_C[d.getMonth()].toUpperCase() + '</text>'
+    + '<text x="28" y="36.5" '+A+' font-size="19" fill="#132019">' + d.getDate() + '</text>'
+    + '<rect x="17" y="1.5" width="3.2" height="7.5" rx="1.6" fill="#d9dfdb" stroke="#0b2a1c" stroke-width="1.1"/><rect x="35.8" y="1.5" width="3.2" height="7.5" rx="1.6" fill="#d9dfdb" stroke="#0b2a1c" stroke-width="1.1"/>';
+  return '<svg class="lg lg-' + (cat || 'autre') + '" viewBox="0 0 56 44" aria-hidden="true">' + s + '</svg>';
+}
+// dans une liste : l'emoji choisi s'il y en a un, sinon le logo du type
+function iconeListeEvt(v){ return v.emoji ? esc(v.emoji) : '<span class="lg-mini">' + logoEvt(CATS_EVT[v.cat] ? v.cat : 'autre', v) + '</span>'; }
+// sur la carte
+var iconeEvtAvantLogos = iconeEvt;
+iconeEvt = function(v){
+  if (!LOGO_PIN[v.cat]) return iconeEvtAvantLogos(v);
+  var C = CATS_EVT[v.cat], d = new Date(v.debut), live = etatEvt(v) === 'live';
+  var quand = live ? '<i></i>EN COURS'
+    : v.cat === 'autre' ? (v.journee ? 'JOURNÉE' : heure(v.debut).toUpperCase())   // le calendrier montre déjà le jour
+    : JOURS_C[d.getDay()].toUpperCase() + ' ' + (v.journee ? d.getDate() + '/' + (d.getMonth() + 1) : heure(v.debut).toUpperCase());
+  return L.divIcon({ className:'', iconSize:[56, 60], iconAnchor:[28, 42],
+    html:'<div class="evt-pin lgp lgp-' + v.cat + (live ? ' live' : '') + '" style="--ec:' + C.c + '"><div class="lgp-halo"></div>'
+      + '<div class="lgp-obj' + (live ? ' lg-on' : '') + '">' + logoEvt(v.cat, v) + '</div><div class="lgp-quand">' + quand + '</div>'
+      + '<div class="evt-etiq">' + esc(v.titre) + '</div></div>' });
+};
 </script>
 </body>
 </html>
