@@ -2218,6 +2218,50 @@
   body.leger .pr-pings, body.eco .pr-pings, body.leger .pr-radar, body.eco .pr-radar { display:none; }
   @media (prefers-reduced-motion: reduce) { .pr-radar, .pr-pin, .pr-onde, .pr-trace, .pr-pings i, .pr-pings i::after, .pr-l i::after, .pr-tampon, .pr-route em, .pr-route.indet .pr-moi, .pr-route.indet .pr-fait,
     #m-band .mb-sync, .ml-band, .ml-arche { animation:none !important; } .pr-pin { opacity:1; } .pr-tampon { opacity:.92; } }
+
+  /* ================= v58 : version ordinateur ================= */
+  #btn-pc { display:none; }
+  @media (min-width: 900px) {
+    :root { --pc-pan:min(470px, 40vw); }
+    /* en-tête : les bandeaux gardent une largeur de lecture */
+    #ticker, #m-band { max-width:620px; }
+    body.peut-installer #btn-pc { display:flex; align-items:center; gap:6px; height:34px; padding:0 13px; border-radius:17px; border:1px solid rgba(255,150,90,.35);
+      background:linear-gradient(180deg, rgba(255,138,58,.22), rgba(255,90,31,.1)); color:#ffd9b8; font:inherit; font-size:13px; font-weight:800; cursor:pointer; }
+    body.peut-installer #btn-pc:hover { background:var(--grad); color:#fff; }
+    /* la barre du bas devient un dock centré */
+    #onglets { left:calc(50% - 330px) !important; right:auto !important; width:660px; }
+    #live-evt { right:auto !important; width:460px; }
+    #reseau { left:calc(50% - 270px); right:auto; width:540px; }
+    #barre-mode { left:calc(50% - 300px); right:auto; width:600px; }
+    #rapide { left:calc(50% - 340px); right:auto; width:680px; }
+    #proxi, #aide { left:calc(50% - 290px); right:auto; width:580px; }
+    /* les pages s'ouvrent en panneau sur le côté : la carte reste visible */
+    .feuille { left:16px !important; right:auto !important; top:16px; bottom:auto !important; width:var(--pc-pan); max-height:calc(100vh - 32px) !important; border-radius:28px !important;
+      border:1px solid rgba(255,150,90,.22) !important; padding:18px 22px 26px !important; transform:translateX(calc(-100% - 40px));
+      box-shadow:0 24px 70px rgba(0,0,0,.75), 0 0 0 1px rgba(0,0,0,.4); scrollbar-width:thin; scrollbar-color:rgba(255,150,90,.35) transparent; }
+    .feuille.ouverte { transform:none; }
+    .feuille::before { border-radius:28px 28px 0 0 !important; }
+    .feuille .poignee { display:none !important; }
+    .feuille::-webkit-scrollbar { width:8px; } .feuille::-webkit-scrollbar-thumb { background:rgba(255,150,90,.3); border-radius:4px; }
+    #voile { background:rgba(4,4,8,.3) !important; -webkit-backdrop-filter:none !important; backdrop-filter:none !important; }
+    /* la présentation tient dans une carte au centre */
+    #bienvenue.accueil { align-items:center !important; justify-content:center !important;
+      background:radial-gradient(circle at 50% 30%, rgba(255,106,31,.16), transparent 55%), #070506 !important; }
+    #bienvenue.accueil .ob { width:min(460px, 100%); height:min(900px, calc(100vh - 40px)); border-radius:32px; overflow:hidden; background:#09090b;
+      border:1px solid rgba(255,150,90,.22); box-shadow:0 30px 90px rgba(0,0,0,.8), 0 0 70px rgba(255,106,31,.14); }
+    .ob-bas { padding-bottom:20px !important; }
+    #maint { scrollbar-width:thin; scrollbar-color:rgba(255,150,90,.35) transparent; }
+    .pc-cache { display:none !important; }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    button, .onglet, .rond, a.btn, [onclick], summary, label { cursor:pointer; }
+    .btn:hover { filter:brightness(1.12); }
+    .onglet:hover { color:#ffd0a8; } .onglet:hover svg.ic { filter:drop-shadow(0 0 5px rgba(255,138,58,.7)); }
+    .rond:hover { filter:brightness(1.25); }
+    .feuille .btn:active, .onglet:active { transform:scale(.97); }
+    .astuce-pc { display:block; }
+  }
+  .astuce-pc { display:none; }
 </style>
 </head>
 <body>
@@ -2253,6 +2297,7 @@
   <div class="barre verre">
     <div id="titre" class="anton"><span class="tt">Traboule</span></div>
     <span id="role-badge"></span>
+    <button id="btn-pc" onclick="installerAppli()" title="Installer Traboule sur cet ordinateur">💻 Installer</button>
     <div id="direct"><span id="point-direct"></span><span id="maj">…</span></div>
     <button id="btn-son" onclick="basculerSon()" aria-label="Son"></button>
   </div>
@@ -3128,7 +3173,7 @@ function ouvrirConseils(){
     + '<div class="rangee" style="margin-top:0"><button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ Les bons réflexes</button><button class="btn plein" onclick="ouvrirQR()">🔳 QR code</button></div>'
     + '<div class="appels"><a href="tel:112">112<span>Urgences</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div>'
     + '<div class="rangee"><button class="btn plein" onclick="partagerAppli()">'+ic('partage')+'Partager l\'appli</button><button class="btn plein" onclick="ouvrirAutour()">'+ic('boussole')+'Autour de moi</button></div>'
-    + boutonConfort()
+    + boutonPC() + boutonConfort()
     + '<div class="carte-c"><h3>'+ic('alerte')+'Urgences</h3><b>112</b> urgences · <b>15</b> SAMU · <b>114</b> par SMS si tu ne peux pas parler. Hôpitaux avec urgences = carrés rouges <b>H</b> sur la carte.</div>'
     + '<div class="carte-c"><h3>'+ic('equipe')+'En groupe</h3>Ne reste jamais seul·e. Convenez d\'un point de rendez-vous si vous êtes séparé·es.</div>'
     + '<div class="carte-c"><h3>'+ic('medic')+'Street medics</h3>Les croix vertes qui bougent sur la carte sont des medics en direct. Va vers eux si tu es blessé·e ou si tu vois quelqu\'un en difficulté.</div>'
@@ -5300,7 +5345,7 @@ function ouvrirConseilsEN(){
     + '<div class="langue"><button onclick="changerLangue(\'fr\')">🇫🇷 Français</button><button class="sel">🇬🇧 English</button></div>'
     + '<div class="rangee" style="margin-top:0"><button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ Safety tips</button><button class="btn plein" onclick="ouvrirQR()">🔳 QR code</button></div>'
     + '<div class="appels"><a href="tel:112">112<span>Emergency</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div>'
-    + '<div class="rangee"><button class="btn plein" onclick="partagerAppli()">'+ic('partage')+'Share the app</button><button class="btn plein" onclick="ouvrirAutour()">'+ic('boussole')+'Nearby</button></div>'
+    + '<div class="rangee"><button class="btn plein" onclick="partagerAppli()">'+ic('partage')+'Share the app</button><button class="btn plein" onclick="ouvrirAutour()">'+ic('boussole')+'Nearby</button></div>' + boutonPC()
     + boutonConfort()
     + '<div class="carte-c"><h3>'+ic('alerte')+'Emergency</h3><b>112</b> emergency · <b>15</b> ambulance · <b>114</b> by text if you can\'t speak. Hospitals with ER = red <b>H</b> squares on the map.</div>'
     + '<div class="carte-c"><h3>'+ic('carte')+'How to read the map</h3><b style="color:#ff6b7a">Red = avoid</b> (police, kettling, tear gas, blocked streets). <b style="color:#3ee0a0">Green = safe</b> (medics, water, exits, meeting points). A faded point is old info.</div>'
@@ -5477,7 +5522,7 @@ function ecransB(){
       + '<div><span>📵</span><b>'+txB('Marche sans réseau','Works without signal')+'</b><small>'+txB('Le plan de Lyon est dans l’appli. Garde-la ouverte.','The Lyon map is inside the app. Keep it open.')+'</small></div>'
       + '<div><span>🙈</span><b>'+txB('Pas de visages','No faces')+'</b><small>'+txB('Floute les gens sur tes photos et vidéos.','Blur people in your photos and videos.')+'</small></div>'
       + '<div><span>🆘</span><b>'+txB('Urgence : 112','Emergency: 112')+'</b><small>'+txB('15 pour le SAMU, 114 par SMS. Dans Conseils.','15 for ambulance, 114 by text. In Tips.')+'</small></div></div>'
-      + (std ? '' : '<div class="ob-ajout">📲 <span>'+txB('Ajoute l’appli à ton écran d’accueil : touche <b>Partager</b> puis <b>Sur l’écran d’accueil</b>.','Add the app to your home screen: tap <b>Share</b> then <b>Add to Home Screen</b>.')+'</span></div>') },
+      + (std ? '' : estPC() ? '<div class="ob-ajout">💻 <span>'+txB('Sur ordi : clique sur <b>Installer</b> en haut de la carte (Chrome, Edge) pour avoir Traboule comme une vraie appli.','On a computer: click <b>Install</b> at the top of the map (Chrome, Edge) to get Traboule as a real app.')+'</span></div>' : '<div class="ob-ajout">📲 <span>'+txB('Ajoute l’appli à ton écran d’accueil : touche <b>Partager</b> puis <b>Sur l’écran d’accueil</b>.','Add the app to your home screen: tap <b>Share</b> then <b>Add to Home Screen</b>.')+'</span></div>') },
     { k:'alertes', titre:txB('Reste prévenu·e','Stay alerted'), html:
         '<div class="ob-cloche">🔔</div>'
       + '<label class="ob-opt"><div><b>'+txB('Sons d’alerte','Alert sounds')+'</b><small>'+txB('Un son à chaque nouveau signalement ou message urgent','A sound for each new report or urgent message')+'</small></div><input type="checkbox" id="ob-son" '+(son.on?'checked':'')+'></label>'
@@ -5572,6 +5617,47 @@ setTimeout(cacherSplash, 5000);
 setTimeout(boucleChargement, (eco ? 45 : RAFRAICHIR_S) * 1000);
 setInterval(majHorloge, 5000);
 document.addEventListener('visibilitychange', function(){ if (!document.hidden) charger(); });
+// ===================== V58 : VERSION ORDINATEUR =====================
+// Grand écran + souris : pages en panneau sur le côté, raccourcis clavier, installation comme une appli (Chrome, Edge).
+function estPC(){ try { return matchMedia('(min-width: 900px) and (hover: hover) and (pointer: fine)').matches; } catch(e){ return false; } }
+function estInstallee(){ return window.navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches); }
+var invitInstall = null;
+window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); invitInstall = e; if (!estInstallee()) document.body.classList.add('peut-installer'); });
+window.addEventListener('appinstalled', function(){ invitInstall = null; document.body.classList.remove('peut-installer'); toast(LANGUE === 'en' ? '💻 Traboule is installed' : '💻 Traboule est installée sur ton ordi'); });
+function installerAppli(){
+  if (invitInstall) { var p = invitInstall; invitInstall = null; p.prompt();
+    (p.userChoice || Promise.resolve()).then(function(){ document.body.classList.remove('peut-installer'); }); return; }
+  toast(LANGUE === 'en' ? 'In Chrome or Edge: click the ⊕ install icon on the right of the address bar' : 'Dans Chrome ou Edge : clique sur l\'icône ⊕ « Installer » à droite de la barre d\'adresse');
+}
+function boutonPC(){
+  if (!estPC() || estInstallee()) return '';
+  var en = LANGUE === 'en';
+  return '<button class="conf-b" onclick="installerAppli()"><span>💻</span><div><b>'+(en ? 'Install on this computer' : 'Installer sur cet ordi')+'</b><small>'
+    + (en ? 'Opens in its own window, like an app' : 'S\'ouvre dans sa propre fenêtre, comme une appli')+'</small></div><em>›</em></button>';
+}
+document.addEventListener('keydown', function(e){
+  var t = e.target, saisie = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT');
+  // Entrée dans le formulaire de connexion
+  if (e.key === 'Enter' && t && (t.id === 'mdp' || t.id === 'pseudo') && $('go')) { e.preventDefault(); connexion(); return; }
+  if (e.key === 'Escape') {
+    if ($('moment') && $('moment').classList.contains('vu')) return fermerMoment();
+    if ($('feuille').classList.contains('ouverte')) return fermer();
+    if (document.body.classList.contains('trace') || document.body.classList.contains('placement')) { try { annulerModes(); } catch(x){} return; }
+    return;
+  }
+  if (saisie) return;
+  // la présentation se feuillette avec les flèches
+  var B = $('bienvenue');
+  if (B && B.classList.contains('vu') && B.classList.contains('accueil')) {
+    if (e.key === 'ArrowRight') { var n = ecransB().length; if (pageB < n - 1) allerB(pageB + 1); }
+    else if (e.key === 'ArrowLeft') allerB(pageB - 1);
+  }
+});
+if (estPC()) document.body.classList.add('pc');
+// une astuce, une seule fois, pour l'équipe sur ordi
+setTimeout(function(){ if (estPC() && estEquipe() && !lireLS('astucePC')) { ecrireLS('astucePC', '1');
+  toast(estAdmin() ? '💡 Sur ordi : clic droit sur la carte pour signaler vite · Échap pour fermer' : '💡 Sur ordi : clic droit sur la carte pour signaler un blessé · Échap pour fermer'); } }, 7000);
+
 // ===================== V55 : CONFORT =====================
 // Texte (3 tailles), contraste plein soleil, écran toujours allumé, vibrations, boutons à gauche, batterie.
 var CONF = { texte: +(lireLS('texte55') || (lireLS('grand8') === '1' ? 1 : 0)), contraste: lireLS('contraste55') === '1', ecran: lireLS('ecran55') === '1',
