@@ -2400,6 +2400,67 @@
   .kb-l > div { display:flex; align-items:center; gap:12px; padding:9px 12px; border-radius:12px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06); font-size:14px; }
   .kb-l kbd { min-width:58px; height:26px; font-size:12px; }
   @media (prefers-reduced-motion: reduce) { .ph-h i, .pst.alerte, .pst.bump b, .pcf, .pcf.neuf > em, .leaflet-marker-icon.pc-vise::after { animation:none !important; } }
+
+  /* ================= v60 : démarrage fluide sur grand écran ================= */
+  /* les grandes couches du démarrage sont préparées une seule fois : l'ouverture de l'arche ne redessine plus tout */
+  #splash .sp-logo svg { will-change:transform; }
+  #splash .sp-plan, #splash .sp-flash { will-change:transform, opacity; }
+  @media (min-width: 900px) {
+    #splash .sp-plan path { filter:none !important; }
+    #splash .sp-radar { width:110vmax; height:110vmax; margin:-55vmax 0 0 -55vmax; mix-blend-mode:normal; }
+    body.splash-la #carte { transform:none !important; }
+    #carte { transition:none !important; }
+    .pcf.neuf > em { animation:none !important; box-shadow:0 0 10px rgba(255,59,78,.55); }
+  }
+
+  /* ================= v61 : écrans plein écran sur toute la fenêtre (ordinateur) ================= */
+  .mw-g, .mw-d { display:contents; }
+  @media (min-width: 1000px) {
+    #maint { padding:44px clamp(32px, 5vw, 80px) 36px !important; }
+    #maint .m-boite { max-width:1240px !important; width:100%; display:grid !important; grid-template-columns:minmax(0, 1.05fr) minmax(380px, 1fr);
+      column-gap:clamp(40px, 5.5vw, 96px); align-items:start; margin:auto; }
+    #maint .mw-g { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; text-align:left; position:sticky; top:0; padding-top:6px; min-height:calc(100vh - 140px); }
+    #maint .mw-d { display:flex; flex-direction:column; align-items:stretch; min-width:0; padding-top:10px; }
+    #maint .m-equipe { grid-column:1 / -1; justify-self:center; margin-top:18px; }
+    #maint .m-signe { grid-column:1 / -1; justify-self:center; }
+    /* le héros en grand, à gauche */
+    #maint .mw-g h1 { font-size:clamp(64px, 6.6vw, 112px) !important; line-height:.92 !important; text-align:left !important; margin:16px 0 16px !important; align-items:flex-start !important; }
+    #maint .mw-g p { font-size:clamp(18px, 1.45vw, 22px) !important; max-width:560px !important; text-align:left !important; line-height:1.48 !important; }
+    #maint .mw-g .pr-logo { width:270px; height:262px; margin:0 0 0 -14px; justify-content:flex-start; }
+    #maint .mw-g .pr-arche { width:236px; height:254px; }
+    #maint .mw-g .pr-radar { width:440px; height:440px; margin:-220px 0 0 -220px; }
+    #maint .mw-g .tv-halo { width:340px; height:340px; margin:-170px 0 0 -170px; }
+    #maint .mw-g .cp-logo { width:210px; height:220px; margin:0 0 0 -10px; }
+    #maint .mw-g .cp-arche { width:166px; height:193px; }
+    #maint .mw-g .cp-step { max-width:580px; margin-top:6px; }
+    #maint .mw-g .m-anim { transform:scale(1.25); transform-origin:left center; margin:10px 0 18px; }
+    #maint .mw-g .tv-etiq, #maint .mw-g .cp-etiq, #maint .mw-g .m-etat { font-size:14px; }
+    /* à droite : les infos et les actions */
+    #maint .mw-d .m-boutons { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    #maint .mw-d .m-boutons .appels { grid-column:1 / -1; }
+    #maint .mw-d .m-verif { justify-content:flex-start; }
+    #maint .mw-d .pr-compte .pr-v { font-size:64px; }
+    #maint .mw-d .cp-act button, #maint .mw-d .pr-act button { padding:14px 6px 13px; }
+  }
+  @media (min-width: 1000px) and (max-height: 760px) {
+    #maint .mw-g .pr-logo { width:200px; height:196px; } #maint .mw-g .pr-arche { width:176px; height:190px; }
+    #maint .mw-g h1 { font-size:clamp(56px, 5.6vw, 92px) !important; }
+  }
+  /* la présentation : une grande carte en deux colonnes */
+  @media (min-width: 1000px) {
+    #bienvenue.accueil .ob { width:min(1180px, calc(100vw - 64px)) !important; height:min(780px, calc(100vh - 48px)) !important; }
+    .ob.large .ob-haut { padding:22px 40px 0; }
+    .ob.large .ob-corps { display:grid; grid-template-columns:minmax(0, .95fr) minmax(0, 1.05fr); column-gap:56px; align-items:center; padding:20px 56px; }
+    .ob.large .obw-g h1 { font-size:clamp(64px, 7vw, 104px); margin-top:0; }
+    .ob.large .obw-g h2 { font-size:clamp(40px, 4.2vw, 64px); line-height:.98; }
+    .ob.large .obw-g .ob-num { font-size:14px; }
+    .ob.large .obw-g .ob-sous { font-size:20px; }
+    .ob.large .obw-d { min-width:0; }
+    .ob.large .ob-carte { height:min(420px, 48vh); }
+    .ob.large .ob-bas { flex-direction:row-reverse; align-items:center; justify-content:space-between; padding:14px 56px 28px; background:none; }
+    .ob.large .ob-bas .btn { width:auto; min-width:280px; }
+    .ob.large .ob-bas .ob-ret { min-width:0; }
+  }
 </style>
 </head>
 <body>
@@ -4330,8 +4391,8 @@ function htmlMaint(o){
   var en = LANGUE==='en', k = o.k, fin = heureFin(o.fin);
   var etiq = k==='fin' ? (en?'See you soon':'À bientôt') : k==='securite' ? (en?'Safety cut':'Coupure de sécurité') : (en?'Maintenance in progress':'Maintenance en cours');
   var titre = k==='fin' ? (en ? 'THANK <b>YOU ALL</b>' : 'MERCI <b>À TOUS</b>') : k==='securite' ? (en ? 'MAP <b>OFF</b>' : 'CARTE <b>COUPÉE</b>') : (en ? 'BE RIGHT <b>BACK</b>' : 'ON REVIENT <b>VITE</b>');
-  var h = '<div class="m-boite"><div class="m-anim"><i></i><i></i><i></i><div class="m-rond"><span>'+(k==='fin' ? '🏁' : k==='securite' ? '🚨' : '⚙️')+'</span></div></div>'
-    + '<div class="m-etat"><b></b>'+etiq+'</div><h1>'+titre+'</h1><p>'+esc(texteMaint(o))+'</p>';
+  var h = '<div class="m-boite"><div class="mw-g"><div class="m-anim"><i></i><i></i><i></i><div class="m-rond"><span>'+(k==='fin' ? '🏁' : k==='securite' ? '🚨' : '⚙️')+'</span></div></div>'
+    + '<div class="m-etat"><b></b>'+etiq+'</div><h1>'+titre+'</h1><p>'+esc(texteMaint(o))+'</p></div><div class="mw-d">';
   // compte à rebours
   var l1 = k==='fin' ? (en?'Live map again in':'Carte en direct dans') : (en?'Back in':'Retour dans');
   if (fin) h += '<div class="m-compte"><div class="m-l1"><span>'+l1+'</span><b id="m-reste">'+txtReste(fin-Date.now())+'</b></div><div class="m-l2">⏱ '+(en?'Planned around ':'Prévu vers ')+esc(o.fin)+'</div><div class="m-barre"><i id="m-prog"></i></div></div>';
@@ -4359,7 +4420,7 @@ function htmlMaint(o){
                    : '<button class="btn plein m-retry" onclick="maintReessayer(this)">↻ '+(en?'Check now':'Vérifier maintenant')+'</button>')
     + '<button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(en?'Safety tips':'Les bons réflexes')+'</button>'
     + '<div class="appels" style="margin:0"><a href="tel:112">112<span>'+(en?'Emergency':'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div></div>'
-    + '<button class="m-equipe" onclick="ouvrirConnexion()">🔑 '+(en ? 'Team access' : 'Accès équipe')+'</button>'
+    + '</div><button class="m-equipe" onclick="ouvrirConnexion()">🔑 '+(en ? 'Team access' : 'Accès équipe')+'</button>'
     + '<small class="m-signe">'+logoTraboule('ms')+'Traboule</small></div>';
   return h;
 }
@@ -5972,11 +6033,11 @@ function htmlPrepa(o){
   var route = '<div class="pr-route'+(fin ? '' : ' indet')+'" id="pr-route" style="--p:.03"><i class="pr-base"></i><i class="pr-fait"></i>'
     + [25, 50, 75].map(function(x){ return '<b style="left:'+x+'%" data-x="'+x+'"></b>'; }).join('') + '<em>📍</em><span class="pr-moi">✊</span></div>';
   return '<div class="tv-fond">'+(plan ? plan.outerHTML : '')+'<div class="tv-grille"></div><div class="pr-pings">'+pings+'</div></div>'
-    + '<div class="m-boite tv pr">'
+    + '<div class="m-boite tv pr"><div class="mw-g">'
     + '<div class="pr-logo"><div class="pr-radar"></div><div class="tv-halo"></div>'+svgPrepa()+'</div>'
     + '<div class="tv-etiq"><b></b>'+(en ? 'GETTING READY' : 'PRÉPARATION EN COURS')+'</div>'
     + '<h1 class="tv-t pr-t">'+(en ? 'WHAT\'S <b>NEXT</b>' : 'ON PRÉPARE <b>LA SUITE</b>')+'</h1>'
-    + '<p class="tv-x">'+esc(texteMaint(o))+'</p>'
+    + '<p class="tv-x">'+esc(texteMaint(o))+'</p></div><div class="mw-d">'
     // quand reviennent les infos
     + '<div class="tv-bloc pr-compte"><div class="pr-k">'+(fin ? (en ? 'Info in' : 'Les infos dans') : (en ? 'Info coming' : 'Les infos arrivent'))+'</div>'
     + '<div class="pr-v'+(fin ? '' : ' long')+'" id="pr-reste">'+(fin ? txtReste(fin - Date.now()) : (en ? 'in a few hours' : 'dans quelques heures'))+'</div>'
@@ -6001,7 +6062,7 @@ function htmlPrepa(o){
     + '<div class="m-boutons"><button class="btn plein m-retry" onclick="maintReessayer(this)">↻ '+(en ? 'Check now' : 'Vérifier maintenant')+'</button>'
     + '<button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(en ? 'Safety tips' : 'Les bons réflexes')+'</button>'
     + '<div class="appels" style="margin:0"><a href="tel:112">112<span>'+(en ? 'Emergency' : 'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div></div>'
-    + '<button class="m-equipe" onclick="ouvrirConnexion()">🔑 '+(en ? 'Team access' : 'Accès équipe')+'</button>'
+    + '</div><button class="m-equipe" onclick="ouvrirConnexion()">🔑 '+(en ? 'Team access' : 'Accès équipe')+'</button>'
     + '<small class="m-signe">'+logoTraboule('prs')+'Traboule</small></div>';
 }
 // le temps passe : le petit poing avance sur le parcours, les étapes s'allument
@@ -6069,12 +6130,12 @@ function htmlCoupee(o){
   var en = LANGUE === 'en', plan = document.querySelector('#splash .sp-plan'), prev = son.on && lireLS('prevRetour');
   var tuile = function(id, e, t1, t2, f, cls){ return '<button'+(id ? ' id="'+id+'"' : '')+' class="'+(cls || '')+'" onclick="'+f+'"><span>'+e+'</span><b>'+t1+'</b><small>'+t2+'</small></button>'; };
   return '<div class="cp-fond">'+(plan ? plan.outerHTML : '')+'<div class="cp-scan"></div></div>'
-    + '<div class="m-boite cp">'
+    + '<div class="m-boite cp"><div class="mw-g">'
     + '<div class="cp-logo"><div class="cp-rayons"></div><div class="cp-halo"></div>'+svgHerse()+'</div>'
     + '<div class="cp-etiq"><b></b>'+(en ? 'SAFETY CUT' : 'COUPURE DE SÉCURITÉ')+'</div>'
     + '<h1 class="cp-t"><span>'+(en ? 'MAP' : 'CARTE')+'</span><b data-t="'+(en ? 'OFF' : 'COUPÉE')+'">'+(en ? 'OFF' : 'COUPÉE')+'</b></h1>'
     + '<p class="cp-x" id="cp-x">'+esc(texteMaint(o))+'</p>'
-    + '<div class="cp-step" id="cp-etapes">'+htmlEtapesCp(o)+'</div>'
+    + '<div class="cp-step" id="cp-etapes">'+htmlEtapesCp(o)+'</div></div><div class="mw-d">'
     + '<div class="cp-act">'
     + tuile('cp-prev', prev ? '✅' : '🔔', en ? 'Notify me' : 'Me prévenir', prev ? (en ? 'on' : 'activé') : (en ? 'when it\'s back' : 'au retour'), 'prevenirRetourCp()', prev ? 'ok' : '')
     + tuile('', '📤', en ? 'Warn' : 'Prévenir', en ? 'my friends' : 'mes potes', 'partagerCoupure()')
@@ -6091,7 +6152,7 @@ function htmlCoupee(o){
     + '<div class="m-boutons"><button class="btn plein m-retry" onclick="maintReessayer(this)">↻ '+(en ? 'Check now' : 'Vérifier maintenant')+'</button>'
     + '<button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(en ? 'Safety tips' : 'Les bons réflexes')+'</button>'
     + '<div class="appels" style="margin:0"><a href="tel:112">112<span>'+(en ? 'Emergency' : 'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div></div>'
-    + '<button class="m-equipe" onclick="ouvrirConnexion()">🔑 '+(en ? 'Team access' : 'Accès équipe')+'</button>'
+    + '</div><button class="m-equipe" onclick="ouvrirConnexion()">🔑 '+(en ? 'Team access' : 'Accès équipe')+'</button>'
     + '<small class="m-signe">'+logoTraboule('cps')+'Traboule</small></div>';
 }
 // hôpitaux : triés du plus proche au plus loin si on connaît la position (calculé sur le téléphone)
@@ -6837,6 +6898,15 @@ appliquer = function(j){ appliquerAvantPC(j); try { majPC(); } catch(e){ console
 setInterval(function(){ if (PC.on && !document.hidden) { majHeurePC(); majAgesPC(); } }, 5000);
 window.addEventListener('resize', function(){ clearTimeout(modePC.t); modePC.t = setTimeout(modePC, 150); });
 modePC();
+// la présentation sur grand écran : le titre à gauche, le contenu à droite
+function bienvenueLarge(){
+  var c = $('ob-corps'); if (!c || window.innerWidth < 1000) return;
+  var g = document.createElement('div'), d = document.createElement('div'); g.className = 'obw-g'; d.className = 'obw-d';
+  [].slice.call(c.children).forEach(function(el){ (el.matches('h1, h2, .ob-num, .ob-sous') ? g : d).appendChild(el); });
+  c.appendChild(g); c.appendChild(d); c.parentNode.classList.add('large');
+}
+var dessinerBienvenueAvantPC = dessinerBienvenue;
+dessinerBienvenue = function(){ dessinerBienvenueAvantPC(); try { bienvenueLarge(); } catch(e){} };
 </script>
 </body>
 </html>
