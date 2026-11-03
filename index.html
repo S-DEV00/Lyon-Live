@@ -2834,6 +2834,13 @@
   body.pc .cc2-scene { width:80%; }
   body.leger .cc2-ciel i, body.leger .cc2-ville .cc2-fen { animation:none; }
   @media (prefers-reduced-motion: reduce) { .cc2 *, .cc2-enseigne, .vy *, .vy, .co-ic { animation:none !important; } }
+  /* ================= v69 : remettre les blocus d'hier ================= */
+  .bh-src { display:flex; gap:12px; align-items:center; padding:12px 14px; border-radius:16px; margin:12px 0 4px; background:linear-gradient(135deg, #ffd23f1f, #ff6a1f14); border:1px solid #ffd23f55; }
+  .bh-src > span { font-size:24px; flex:none; }
+  .bh-src b { display:block; color:#ffd23f; font-size:15px; }
+  .bh-src small { display:block; color:var(--doux); font-size:12.5px; margin-top:2px; }
+  .bs-it.retire { opacity:.5; } .bs-it.retire b { text-decoration:line-through; }
+  .btn.bh-b { border-color:#ffd23f88; background:linear-gradient(135deg, #ffd23f22, #ff6a1f22); }
 </style>
 </head>
 <body>
@@ -4275,7 +4282,7 @@ function onglet(icone, nom, action, cls, badgeId){
 }
 // L'onglet de la fiche ouverte s'allume (petite arche de lumière)
 var VUES_ONGLET = { infos:['infos'], carte:['legende','liste'], boussole:['autour'], bouclier:['conseils','reflexes'], cadenas:['connexion'], medic:['medics'],
-  reglages:['gestion','gestion-maint','gestion-prep','equipe','blocus-serie','evt-form','popup-form','plus'] };
+  reglages:['gestion','gestion-maint','gestion-prep','equipe','blocus-serie','blocus-hier','evt-form','popup-form','plus'] };
 function majOngletActif(){
   var f = $('feuille'), v = f.classList.contains('ouverte') ? (f.dataset.vue || '') : '';
   document.querySelectorAll('#onglets .onglet').forEach(function(b){ var l = VUES_ONGLET[b.dataset.o] || []; b.classList.toggle('sel', !!v && l.indexOf(v) >= 0); });
@@ -5754,6 +5761,7 @@ function gererEvenements(){
   var tous = evenements(), avenir = tous.filter(function(v){ return etatEvt(v) !== 'passe'; }), passes = tous.length - avenir.length;
   ouvrir(entete('🗓️ Événements', 'Ils restent sur la carte et dans l\'agenda jusqu\'à leur fin, sans rien confirmer. Ensuite ils disparaissent tout seuls.')
     + '<div class="rangee" style="margin-top:4px"><button class="btn rose plein" onclick="nouvelEvt()">'+ic('plus')+'Nouvel événement</button><button class="btn plein" onclick="ouvrirBlocusSerie()">🚧 Blocus en série</button></div>'
+    + '<div class="rangee" style="margin-top:0"><button class="btn plein bh-b" onclick="ouvrirBlocusHier()">↺ Remettre les blocus d’hier</button></div>'
     + suggestionsEvt()
     + (avenir.length ? listeAgenda(avenir, true) : '<div class="vide" style="padding:14px">Aucun événement à venir.</div>')
     + (passes ? '<div class="sous" style="margin-top:6px">'+passes+' événement'+(passes>1?'s':'')+' terminé'+(passes>1?'s':'')+', retiré'+(passes>1?'s':'')+' automatiquement au prochain enregistrement.</div>' : '')
@@ -6719,6 +6727,7 @@ function dessinerBlocusSerie(){
     + '<div class="bs-ligne"><label>Jour<input type="date" id="bs-jour" value="'+esc(bs.jour)+'" onchange="bsLire();dessinerBlocusSerie()"></label>'
     + '<label>Début<input type="time" id="bs-h1" value="'+esc(bs.hDebut)+'" onchange="bsLire()"></label>'
     + '<label>Fin<input type="time" id="bs-h2" value="'+esc(bs.hFin)+'" onchange="bsLire()" placeholder="—"></label></div>'
+    + '<div class="rangee" style="margin-top:10px"><button class="btn plein bh-b" onclick="ouvrirBlocusHier()">↺ Remettre les blocus d’hier</button></div>'
     + '<label class="l">'+jourTxt+' · '+items.length+' lycée'+(items.length > 1 ? 's' : '')+'</label>'
     + items.map(function(e){ var d = bsDeja(e);
         return '<div class="bs-it'+(d ? ' deja' : '')+'"><span>🚧</span><div><b>'+esc(bsCourt(e.n))+(!d && (BLOCUS_PRET.nouveaux || []).indexOf(e.n) >= 0 ? ' <em class="bs-nv">NOUVEAU</em>' : '')+'</b><small>'+(d ? '✓ déjà sur la carte' : esc(bsLieu(e.n)))+'</small></div>'
@@ -7363,7 +7372,7 @@ function envoyerLienPC(){
 // Sur grand écran, les pages à lire (infos, conseils, agenda, gestion…) s'ouvrent en grande fenêtre, en colonnes.
 // Celles qui pilotent la carte (légende, autour, fiches, formulaires) restent en panneau à côté de la carte.
 var VUES_LARGES = { infos:1, conseils:1, reflexes:1, agenda:1, gestion:1, medics:1, confort:1, 'gestion-maint':1, 'gestion-prep':1, 'gestion-bilan':1,
-  'evt-gestion':1, equipe:1, plus:1, raccourcis:1, menage:1, 'blocus-serie':1, liste:1, qr:1 };
+  'evt-gestion':1, equipe:1, plus:1, raccourcis:1, menage:1, 'blocus-serie':1, 'blocus-hier':1, liste:1, qr:1 };
 function pagePC(){
   var f = $('feuille'); if (!f) return;
   var large = !!(PC.on && VUES_LARGES[f.dataset.vue]);
@@ -7804,6 +7813,106 @@ boucleEq = function(){
   var basse = data[1] / 255; hero.style.setProperty('--beat', (basse * basse).toFixed(3));
   rafEq = requestAnimationFrame(boucleEq);
 };
+// ===================== V69 : REMETTRE LES BLOCUS D'HIER =====================
+// Recopie pour le jour choisi les blocus du dernier jour qui en avait : mêmes lycées, même heure, un appui pour publier.
+var BH_AUTO = '2026-11-03', bh = null;
+function bhHHMM(ts){ var d = new Date(ts); return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); }
+function bhFrequent(l){ var c = {}, m = '', n = 0; l.forEach(function(x){ x = x || ''; c[x] = (c[x] || 0) + 1; if (c[x] > n) { n = c[x]; m = x; } }); return m; }
+// Les blocus de chaque jour (serveur), gardés aussi sur le téléphone : le serveur efface les vieux au bout de 24 h
+function bhJours(){
+  var m = {}; try { m = JSON.parse(lireLS('blocusMemo') || '{}') || {}; } catch(e){ m = {}; }
+  var srv = {};
+  evenements().forEach(function(v){ if (v.cat !== 'blocus' || v.lat === undefined) return; var j = isoJour(v.debut); (srv[j] = srv[j] || []).push(v); });
+  Object.keys(srv).forEach(function(j){ m[j] = srv[j]; });
+  var out = {}; Object.keys(m).sort().slice(-4).forEach(function(j){ out[j] = m[j]; });
+  ecrireLS('blocusMemo', JSON.stringify(out));
+  return out;
+}
+// Le dernier jour avant « cible » qui avait des blocus (sinon : la liste « Blocus en série » de ce jour-là)
+function bhSource(cible){
+  var J = bhJours(), jours = Object.keys(J).filter(function(j){ return j < cible; }).sort(), j = jours[jours.length - 1], liste = null, depuis = 'carte';
+  if (j) liste = J[j].map(function(v){ return { titre:v.titre, lieu:v.lieu || '', texte:v.texte || '', lat:v.lat, lng:v.lng,
+    h1:v.journee ? '' : bhHHMM(v.debut), h2:v.fin && !v.journee ? bhHHMM(v.fin) : '', journee:v.journee ? 1 : 0 }; });
+  else {
+    bsCharger();
+    if (bs && bs.jour < cible && ECOLES) { j = bs.jour; depuis = 'liste';
+      liste = bs.noms.map(bsEcole).filter(Boolean).map(function(e){ return { titre:bsTitre(e).slice(0, 60), lieu:bsLieu(e.n), texte:'',
+        lat:Math.round(e.c[0]*1e5)/1e5, lng:Math.round(e.c[1]*1e5)/1e5, h1:bs.hDebut || '07:30', h2:bs.hFin || '', journee:0 }; }); }
+  }
+  if (!liste || !liste.length) return null;
+  // pas deux fois le même lycée
+  var u = []; liste.forEach(function(x){ if (!u.some(function(y){ return distance([x.lat, x.lng], [y.lat, y.lng]) < 80; })) u.push(x); });
+  u.sort(function(a, b){ return String(a.titre).localeCompare(String(b.titre), 'fr'); });
+  return { jour:j, depuis:depuis, liste:u };
+}
+function bhDeja(x, jour){ return evenements().some(function(v){ return v.cat === 'blocus' && isoJour(v.debut) === jour && v.lat !== undefined && distance([v.lat, v.lng], [x.lat, x.lng]) < 80; }); }
+function ouvrirBlocusHier(jour){
+  var cible = jour || isoJour(maintenant()), src = bhSource(cible);
+  bh = { cible:cible, src:src, retires:{}, h1:'07:30', h2:'' };
+  if (src) { bh.h1 = bhFrequent(src.liste.map(function(x){ return x.h1; })) || '07:30'; bh.h2 = bhFrequent(src.liste.map(function(x){ return x.h2; })); }
+  dessinerBlocusHier();
+}
+function bhLire(){ if ($('bh-h1')) { bh.h1 = $('bh-h1').value || '07:30'; bh.h2 = $('bh-h2').value || ''; } }
+function bhJour(){ bhLire(); var j = $('bh-jour').value; if (!j) return; var h1 = bh.h1, h2 = bh.h2; ouvrirBlocusHier(j); bh.h1 = h1; bh.h2 = h2; dessinerBlocusHier(); }
+function bhBascule(i){ bhLire(); bh.retires[i] = !bh.retires[i]; dessinerBlocusHier(); }
+function dessinerBlocusHier(){
+  var s = bh.src, cibleTxt = jourEvt(new Date(bh.cible + 'T12:00').getTime());
+  var h = entete('↺ Remettre les blocus d’hier', 'Les mêmes lycées que la dernière fois, recopiés pour le jour choisi. Vérifie la liste, puis publie : rien ne sera publié deux fois.');
+  h += '<div class="bs-ligne"><label>Pour le jour<input type="date" id="bh-jour" value="'+esc(bh.cible)+'" onchange="bhJour()"></label>'
+    + '<label>Début<input type="time" id="bh-h1" value="'+esc(bh.h1)+'" onchange="bhLire()"></label>'
+    + '<label>Fin<input type="time" id="bh-h2" value="'+esc(bh.h2)+'" onchange="bhLire()"></label></div>';
+  if (!s) {
+    h += '<div class="vide" style="padding:16px 10px">Aucun blocus trouvé avant ce jour.<br>Crée-les avec « 🚧 Blocus en série ».</div>'
+      + '<div class="rangee"><button class="btn plein" onclick="gererEvenements()">Retour</button><button class="btn plein" onclick="ouvrirBlocusSerie()">🚧 Blocus en série</button></div>';
+  } else {
+    var srcTxt = jourEvt(new Date(s.jour + 'T12:00').getTime()), aPub = 0;
+    var lignes = s.liste.map(function(x, i){
+      var d = bhDeja(x, bh.cible), r = !d && !!bh.retires[i]; if (!d && !r) aPub++;
+      return '<div class="bs-it'+(d ? ' deja' : '')+(r ? ' retire' : '')+'"><span>🚧</span><div><b>'+esc(String(x.titre).replace(/^Blocus\s+/i, ''))+'</b><small>'+(d ? '✓ déjà sur la carte' : r ? 'retiré, ne sera pas publié' : esc(x.lieu))+'</small></div>'
+        + (d ? '' : '<button class="btn petit" onclick="bhBascule('+i+')" aria-label="'+(r ? 'Remettre' : 'Retirer')+'">'+(r ? '↺' : '✕')+'</button>') + '</div>'; }).join('');
+    h += '<div class="bh-src"><span>🗓️</span><div><b>'+srcTxt+' : '+s.liste.length+' blocus</b><small>'+(s.depuis === 'carte' ? 'ceux qui étaient sur la carte' : 'ta liste « Blocus en série »')+' · recopiés pour '+(cibleTxt === 'Aujourd\'hui' ? 'aujourd’hui' : cibleTxt === 'Demain' ? 'demain' : cibleTxt)+'</small></div></div>'
+      + '<label class="l">'+cibleTxt+' · '+s.liste.length+' lycée'+(s.liste.length > 1 ? 's' : '')+'</label>' + lignes
+      + '<div class="rangee"><button class="btn plein" onclick="gererEvenements()">Retour</button>'
+      + '<button class="btn rose plein" id="bh-go" '+(aPub ? '' : 'disabled ')+'onclick="bhPublier()">'+(aPub ? 'Publier '+aPub+' blocus' : 'Tout est publié ✓')+'</button></div>'
+      + '<div class="sous" style="margin-top:8px">Sans heure de fin, un blocus reste affiché 3 h. Les blocus déjà terminés sont enlevés du serveur pour faire de la place.</div>';
+  }
+  var f = $('feuille'); if (f.dataset.vue === 'blocus-hier' && f.classList.contains('ouverte')) rafraichirFeuille(h); else ouvrir(h, 'blocus-hier');
+}
+function bhPublier(){
+  bhLire(); var s = bh.src; if (!s) return;
+  var base = Date.now().toString(36);
+  var nouveaux = s.liste.filter(function(x, i){ return !bh.retires[i] && !bhDeja(x, bh.cible); }).map(function(x, i){
+    var debut = new Date(bh.cible + 'T' + (x.journee ? '00:00' : bh.h1 || '07:30')).getTime(), fin = x.journee ? new Date(bh.cible + 'T23:59').getTime() : bh.h2 ? new Date(bh.cible + 'T' + bh.h2).getTime() : 0;
+    if (fin && fin <= debut) fin = 0;
+    var v = { id:'h' + base + i, cat:'blocus', emoji:'🚧', titre:String(x.titre).slice(0, 60), debut:debut, lieu:String(x.lieu || '').slice(0, 60), texte:String(x.texte || '').slice(0, 400), lat:x.lat, lng:x.lng };
+    if (fin) v.fin = fin; if (x.journee) v.journee = 1; return v; });
+  if (!nouveaux.length) return toast('Tout est déjà sur la carte');
+  if (!nouveaux[0].debut) return toast('Choisis le jour et l\'heure');
+  // les blocus terminés ne s'affichent plus : on les retire pour laisser la place (le serveur a une taille limite)
+  var garde = evenements().filter(function(v){ return !(v.cat === 'blocus' && etatEvt(v) === 'passe'); });
+  if (JSON.stringify(garde.concat(nouveaux)).length > 6300) garde = garde.filter(function(v){ return etatEvt(v) !== 'passe'; });
+  $('bh-go').disabled = true; $('bh-go').textContent = '…';
+  enregistrerEvts(garde.concat(nouveaux), nouveaux.length + ' blocus remis sur la carte 🚧').then(function(){ try { jouer('blocus'); } catch(e){} })
+    .catch(function(e){ if ($('bh-go')) { $('bh-go').disabled = false; $('bh-go').textContent = 'Réessayer'; } erreurEquipe(e); });
+}
+// Ce matin, les admins voient la liste prête dès qu'ils ouvrent l'appli (une fois)
+(function(){
+  var n = 0;
+  (function att(){
+    if (++n > 900) return;
+    if (!estAdmin() || !etat.derniereMaj) return setTimeout(att, 700);
+    bhJours();
+    var auj = isoJour(maintenant());
+    if (auj !== BH_AUTO || lireLS('bh-propose-' + auj) || maintenant() > new Date(auj + 'T15:00').getTime()) return;
+    if (!ECOLES) { chargerEcoles(); return setTimeout(att, 700); }
+    // passe avant les annonces et pop-ups (c'est urgent le matin), après l'écran d'accueil
+    planifierFenetre(15, 'blocus-hier', function(){
+      var src = bhSource(auj); if (!src || !src.liste.some(function(x){ return !bhDeja(x, auj); })) return;
+      ecrireLS('bh-propose-' + auj, '1'); ouvrirBlocusHier(auj);
+      setTimeout(function(){ toast('🚧 Les blocus d’hier sont prêts pour aujourd’hui : vérifie et publie'); }, 600);
+    });
+  })();
+})();
 </script>
 </body>
 </html>
