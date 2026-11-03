@@ -2841,6 +2841,64 @@
   .bh-src small { display:block; color:var(--doux); font-size:12.5px; margin-top:2px; }
   .bs-it.retire { opacity:.5; } .bs-it.retire b { text-decoration:line-through; }
   .btn.bh-b { border-color:#ffd23f88; background:linear-gradient(135deg, #ffd23f22, #ff6a1f22); }
+  /* ================= v70 : établissement fermé ================= */
+  /* le logo : le panneau FERMÉ se balance, le cadenas bouge ; dans la fiche, le rideau descend d'abord */
+  .lg .lg-pan, .lg .lg-cad, .lg .lg-rideau { transform-box:fill-box; transform-origin:50% 0; }
+  .lg-on .lg-pan { animation:lg-balance 2.6s ease-in-out infinite; }
+  .lg-on .lg-cad { animation:lg-cadenas 2.6s ease-in-out -.5s infinite; }
+  .lgp-ferme:not(.live) .lg-pan { animation:lg-balance-doux 4.5s ease-in-out infinite; }
+  @keyframes lg-balance { 0%, 100% { transform:rotate(-5deg); } 50% { transform:rotate(5deg); } }
+  @keyframes lg-balance-doux { 0%, 100% { transform:rotate(-2.5deg); } 50% { transform:rotate(2.5deg); } }
+  @keyframes lg-cadenas { 0%, 100% { transform:rotate(5deg); } 50% { transform:rotate(-5deg); } }
+  .eh-lg.fe-lg .lg-rideau { animation:lg-rideau .9s cubic-bezier(.55,0,.8,.4) both; }
+  @keyframes lg-rideau { 0% { transform:translateY(-27px); } 78% { transform:translateY(0); } 88% { transform:translateY(-1.8px); } 100% { transform:translateY(0); } }
+  .eh-lg.fe-lg .lg-pan { animation:lg-pan-in .55s .85s cubic-bezier(.3,1.5,.5,1) both, lg-balance 2.6s 1.4s ease-in-out infinite; }
+  @keyframes lg-pan-in { from { transform:translateY(-16px) rotate(-22deg); opacity:0; } to { transform:rotate(-5deg); opacity:1; } }
+  .eh-lg.fe-lg .lg-cad { animation:lg-cad-in .4s 1.2s cubic-bezier(.3,1.6,.5,1) both, lg-cadenas 2.6s 1.6s ease-in-out infinite; }
+  @keyframes lg-cad-in { from { transform:scale(0); opacity:0; } to { transform:rotate(5deg); opacity:1; } }
+  /* la fiche : rideau de fer en fond, tampon « FERMÉ », nom en grand */
+  .evt-hero.fe { background:linear-gradient(170deg, #2c3546 0%, #191e29 55%, #12151c 100%); border:1px solid #a9bcd655; }
+  .evt-hero.fe::before { background:radial-gradient(circle, #ff3b4e40, transparent 70%); }
+  .evt-hero.fe .fe-lames { position:absolute; inset:0; pointer-events:none; opacity:.55;
+    background:repeating-linear-gradient(180deg, #ffffff0d 0 2px, transparent 2px 9px, #0000004d 9px 11px);
+    -webkit-mask:linear-gradient(180deg, #000, #0000 70%); mask:linear-gradient(180deg, #000, #0000 70%); }
+  .evt-hero.fe .evt-cat { background:#0009; border:1px solid #a9bcd666; }
+  .evt-hero.fe .evt-etat.live { background:#ff3b4e; }
+  .fe-scene { display:flex; justify-content:center; }
+  .evt-hero .eh-e.eh-lg.fe-lg { margin:10px 0 6px; } .eh-lg.fe-lg svg { width:136px; height:107px; filter:drop-shadow(0 8px 16px #000c); }
+  .evt-hero.fe .fe-tampon { position:absolute; right:2px; top:22px; font-family:Anton,Impact,sans-serif; font-size:21px; letter-spacing:2px; line-height:1.2; color:#ff4a55;
+    border:3px solid #ff4a55; border-radius:8px; padding:1px 9px; box-shadow:inset 0 0 0 2px #191e29, inset 0 0 0 3.5px #ff4a5599; text-shadow:0 0 10px #ff4a5566;
+    transform:rotate(-14deg); opacity:.92; animation:fe-tamp .45s 1.45s cubic-bezier(.2,1.6,.4,1) both; }
+  @keyframes fe-tamp { from { transform:rotate(-14deg) scale(2.6); opacity:0; } to { transform:rotate(-14deg) scale(1); opacity:.92; } }
+  .bl-kick.fe-kick { color:#d6e0ee; } .bl-kick.fe-kick i { background:repeating-linear-gradient(180deg, #d6e0ee 0 2px, #5d6a7e 2px 4px); }
+  .evt-hero.fe h3.fe-nom { font-size:44px; line-height:1.04; margin:0 0 14px; white-space:nowrap; letter-spacing:.6px; color:#eef3fa; text-shadow:0 3px 0 #0b0e14, 0 0 24px #a9bcd655; }
+  .evt-hero.fe h3.fe-nom.multi { white-space:normal; line-height:1.02; }
+  .evt-hero.fe .evt-infos > div { background:#a9bcd614; border:1px solid #a9bcd633; }
+  .evt-desc.fe-mot { background:linear-gradient(160deg, #1d2330, #151922); border:1px solid #a9bcd644; white-space:normal; }
+  .evt-desc.fe-mot b { display:block; font-size:12px; letter-spacing:.9px; text-transform:uppercase; color:#cfdbec; margin-bottom:5px; }
+  /* le mouvement du jour : bloqués + fermés */
+  .bl-bloc.fe-mvt { background:linear-gradient(160deg, #1a1f2a, #13161d); border-color:#a9bcd640; } .fe-mvt .bl-st, .bl-st.fe-st { color:#d6e0ee; }
+  .fe-chiffres { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:2px 0 11px; }
+  .fe-chiffres > div { display:flex; align-items:center; gap:9px; border-radius:14px; padding:8px 12px; }
+  .fe-chiffres .b { background:#ffd23f14; border:1px solid #ffd23f44; } .fe-chiffres .f { background:#a9bcd614; border:1px solid #a9bcd655; }
+  .fe-chiffres b { font-family:Anton,Impact,sans-serif; font-weight:400; font-size:40px; line-height:.95; } .fe-chiffres .b b { color:#ffd23f; } .fe-chiffres .f b { color:#e6edf7; }
+  .fe-chiffres span { font-size:14px; font-weight:800; color:#fff; }
+  .bl-chips button.f { background:#a9bcd61a; border-color:#a9bcd666; color:#e2e9f3; }
+  .bl-chips button.f.ici { background:#dfe7f2; border-color:#dfe7f2; color:#12151c; box-shadow:0 0 14px #a9bcd666; }
+  .fe-mvt .btn { background:#a9bcd61a; border-color:#a9bcd655; color:#e2e9f3; }
+  .bl-conseils.fe3 div { background:#a9bcd612; border-color:#a9bcd640; } .bl-conseils.fe3 b { color:#dbe5f2; }
+  /* dans la fiche d'un blocus : les lycées fermés le même jour */
+  .bl-fe { display:flex; gap:10px; align-items:flex-start; background:#a9bcd612; border:1px solid #a9bcd644; border-radius:14px; padding:9px 11px; margin:-2px 0 11px; }
+  .bl-fe > span { font-size:20px; line-height:1.2; } .bl-fe b { display:block; font-size:13.5px; color:#e2e9f3; margin-bottom:6px; } .bl-fe .bl-chips { margin:0; }
+  /* Blocus en série : bloqué ou fermé, lycée par lycée */
+  .bs-it > .bs-type { flex:none; min-width:0; }
+  .bs-type { display:flex; flex:none; border-radius:11px; overflow:hidden; border:1px solid #ffffff26; background:#0004; }
+  .bs-type button { width:33px; height:34px; padding:0; font-size:16px; line-height:1; background:transparent; border:0; opacity:.38; filter:grayscale(1); }
+  .bs-type button.sel { opacity:1; filter:none; background:#ffd23f2e; }
+  .bs-it.fe { border-color:#a9bcd666; } .bs-it.fe .bs-type button.sel { background:#a9bcd640; }
+  .bs-it.fe > span { background:linear-gradient(#3d4658, #262c38); box-shadow:inset 0 0 0 2px #a9bcd6; }
+  .bs-it.fe small { color:#c9d5e6; } .bs-it.fe.deja small { color:#3ee0a0; }
+  @media (prefers-reduced-motion: reduce) { .lg-ferme *, .evt-hero.fe .fe-tampon { animation:none !important; } }
 </style>
 </head>
 <body>
@@ -3589,6 +3647,7 @@ function resumeSplash(){
   if (pts.length) l.push(pts.length + (en ? ' report' : ' signalement') + (pts.length > 1 ? 's' : '') + (dg ? ' (' + dg + (en ? ' to avoid' : ' à éviter') + ')' : ''));
   if (md) l.push(md + ' medic' + (md > 1 ? 's' : ''));
   if (bl) l.push(bl + ' blocus');
+  var fe = ev.filter(function(v){ return v.cat === 'ferme'; }).length; if (fe) l.push(fe + (en ? ' closed' : ' fermé' + (fe > 1 ? 's' : '')));
   return l.length ? '✓ ' + l.join(' · ') : (en ? '✓ Nothing reported right now' : '✓ Rien de signalé pour l\'instant');
 }
 function cacherSplash(){ var s = $('splash'); if (!s || s.classList.contains('parti') || s._fin) return;
@@ -5532,7 +5591,7 @@ function pastilleEvt(){
   var l = evtsVisibles(); if (!l.length) return '';
   var v = l[0], C = CATS_EVT[v.cat] || CATS_EVT.autre, live = etatEvt(v) === 'live';
   if (!live && v.debut - maintenant() > 7*86400000) return '';
-  return '<span class="pastille verre evt-chip'+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':v.cat==='sauvage'?' sauvage':'')+'" style="--ec:'+C.c+'" onclick="ouvrirEvt(\''+v.id+'\')">'+esc(v.emoji||C.e)+' <b>'+(live ? 'EN COURS' : (jourEvt(v.debut) === 'Aujourd\'hui' ? (v.journee ? 'auj.' : heure(v.debut)) : JOURS_C[new Date(v.debut).getDay()] + ' ' + (v.journee ? new Date(v.debut).getDate()+'/'+(new Date(v.debut).getMonth()+1) : heure(v.debut))))+'</b> '+esc(v.titre.length > 22 ? v.titre.slice(0,21)+'…' : v.titre)+(l.length > 1 ? ' <span style="opacity:.6">+'+(l.length-1)+'</span>' : '')+'</span>';
+  return '<span class="pastille verre evt-chip'+(v.cat==='fete'?' concert':v.cat==='blocus'?' blocus':v.cat==='rassemb'?' rassemb':v.cat==='sauvage'?' sauvage':'')+'" style="--ec:'+C.c+'" onclick="ouvrirEvt(\''+v.id+'\')">'+esc(v.emoji||C.e)+' <b>'+(live ? (v.cat === 'ferme' ? 'FERMÉ' : 'EN COURS') : (jourEvt(v.debut) === 'Aujourd\'hui' ? (v.journee ? 'auj.' : heure(v.debut)) : JOURS_C[new Date(v.debut).getDay()] + ' ' + (v.journee ? new Date(v.debut).getDate()+'/'+(new Date(v.debut).getMonth()+1) : heure(v.debut))))+'</b> '+esc(v.titre.length > 22 ? v.titre.slice(0,21)+'…' : v.titre)+(l.length > 1 ? ' <span style="opacity:.6">+'+(l.length-1)+'</span>' : '')+'</span>';
 }
 function ligneEvt(v, admin){
   var C = CATS_EVT[v.cat] || CATS_EVT.autre, d = new Date(v.debut), st = etatEvt(v);
@@ -6607,7 +6666,7 @@ function blocBlocus(v){
     if (aGeo) l.sort(function(a, b){ return (a.lat === undefined ? 1e9 : carte.distance([v.lat, v.lng], [a.lat, a.lng])) - (b.lat === undefined ? 1e9 : carte.distance([v.lat, v.lng], [b.lat, b.lng])); });
     h += '<div class="bl-bloc bl-mvt"><div class="bl-st">🚧 Le mouvement</div>'
       + '<div class="bl-gros"><b id="bl-n" data-n="'+l.length+'">'+l.length+'</b><span>lycées bloqués '+esc(quandTxt(v.debut))+'<small>Tu n\'es pas seul·e. Du plus proche au plus loin :</small></span></div>'
-      + '<div class="bl-chips">' + l.map(function(x){ return '<button class="'+(x.id === v.id ? 'ici' : '')+(etatEvt(x) === 'live' ? ' live' : '')+'" onclick="ouvrirEvt(\''+x.id+'\')">'+esc(String(x.titre).replace(/^Blocus\s+/i, ''))+'</button>'; }).join('') + '</div>'
+      + '<div class="bl-chips">' + l.map(function(x){ return '<button class="'+(x.id === v.id ? 'ici' : '')+(etatEvt(x) === 'live' ? ' live' : '')+'" onclick="ouvrirEvt(\''+x.id+'\')">'+esc(String(x.titre).replace(/^Blocus\s+/i, ''))+'</button>'; }).join('') + '</div>' + fermesBlocus(v)
       + '<div class="rangee" style="margin-top:0"><button class="btn plein" onclick="voirBlocusJour(\''+v.id+'\')">🗺️ Sur la carte</button><button class="btn plein" onclick="copierBlocusJour(\''+v.id+'\')">📋 Copier la liste</button></div></div>';
   }
   h += '<div class="bl-st" id="bl-reflexes" style="margin:14px 0 9px;scroll-margin-top:70px">🛡️ Les réflexes blocus</div><div class="bl-conseils bl6">'
@@ -6687,23 +6746,24 @@ function partagerAffiche(){
   var a = document.createElement('a'); a.href = URL.createObjectURL(affiche.blob); a.download = affiche.nom; document.body.appendChild(a); a.click(); a.remove(); toast('Affiche enregistrée');
 }
 // ===================== V43 : BLOCUS EN SÉRIE =====================
-// Plusieurs lycées d'un coup, même jour, même heure. Liste préparée pour lundi 2 novembre (à compléter).
-var BLOCUS_PRET = { v:2, jour:'2026-11-02', hDebut:'07:30', hFin:'', noms:['Lycée général et technologique Édouard Herriot','Lycée Juliette Récamier','Lycée Docteur Charles Mérieux',
-  'Lycée Pierre Brossolette','Lycée Jean Perrin','Cité Scolaire Parc Chabrières','Lycée Ampère','Cité scolaire Antoine de Saint-Exupéry',
-  'Lycée La Martinière Diderot - Site Diderot','Lycée de Saint-Just','Lycée général et technologique Marcel Sembat',
-  // ajoutés avec la 2e liste (1/11 au soir)
-  'Lycée général et technologique Jean-Paul Sartre','Cité Scolaire Internationale de Lyon','Lycée Auguste et Louis Lumière','Cité scolaire Lacassagne',
-  'Lycée Edouard Branly','Lycée Polyvalent Jacques Brel','Lycée général et technologique Frédéric Faÿs'] };
-BLOCUS_PRET.nouveaux = BLOCUS_PRET.noms.slice(11);
+// Plusieurs lycées d'un coup, même jour, même heure, chacun bloqué ou fermé. Liste préparée pour mercredi 4 novembre.
+var BLOCUS_PRET = { v:3, jour:'2026-11-04', hDebut:'07:30', hFin:'',
+  noms:['Lycée Pierre Brossolette','Lycée La Martinière Diderot - Site Diderot','Lycée général et technologique Jean-Paul Sartre','Lycée Juliette Récamier',
+    'Cité scolaire Antoine de Saint-Exupéry','Lycée général et technologique Frédéric Faÿs','Lycée Ampère','Cité scolaire Lacassagne'],
+  // fermés par la direction (le reste : bloqué)
+  types:{ 'Cité scolaire Antoine de Saint-Exupéry':'ferme', 'Lycée général et technologique Frédéric Faÿs':'ferme', 'Lycée Ampère':'ferme', 'Cité scolaire Lacassagne':'ferme' },
+  msg:'🚧 Mercredi : 4 blocus et 4 lycées fermés sont prêts, vérifie et publie' };
+BLOCUS_PRET.nouveaux = [];
 var bs = null;
 function bsCharger(){
   try { bs = JSON.parse(lireLS('blocusSerie') || 'null'); } catch(e){ bs = null; }
-  if (!bs) bs = JSON.parse(JSON.stringify(BLOCUS_PRET));
-  // nouvelle version de la liste préparée : on ajoute ce qui manque sans rien retirer
-  if ((bs.v || 1) < BLOCUS_PRET.v && bs.jour === BLOCUS_PRET.jour) {
-    BLOCUS_PRET.noms.forEach(function(n){ if (bs.noms.indexOf(n) < 0) bs.noms.push(n); });
-    bs.v = BLOCUS_PRET.v; bsSauver();
+  if (bs && (bs.v || 1) < BLOCUS_PRET.v) {
+    // même jour : on ajoute ce qui manque sans rien retirer ; nouveau jour préparé : il remplace l'ancienne liste
+    if (bs.jour === BLOCUS_PRET.jour) { BLOCUS_PRET.noms.forEach(function(n){ if (bs.noms.indexOf(n) < 0) bs.noms.push(n); }); bs.types = Object.assign({}, bs.types || {}, BLOCUS_PRET.types); bs.v = BLOCUS_PRET.v; bsSauver(); }
+    else bs = null;
   }
+  if (!bs) { bs = JSON.parse(JSON.stringify(BLOCUS_PRET)); delete bs.msg; delete bs.nouveaux; bsSauver(); }
+  bs.types = bs.types || {};
 }
 function bsSauver(){ ecrireLS('blocusSerie', JSON.stringify(bs)); }
 function bsNorm(t){ return String(t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
@@ -6713,32 +6773,40 @@ function bsLieu(n){ return n.replace(/^Lycée (général|professionnel|polyvalen
 function bsCourt(n){ return bsLieu(n).replace(/^Lycée (de |du |des )?/i, '').replace(/^Cité scolaire /i, '').replace(/^Docteur /, '').replace(/^Antoine de /, '').replace(/^La Martinière Diderot · Diderot$/, 'Martinière Diderot').replace(/^(Édouard|Edouard|Juliette|Pierre|Marcel|Frédéric) /, '')
     .replace(/^Internationale de Lyon$/, 'CSI (Cité internationale)').replace(/^Auguste et Louis Lumière$/, 'Lumière'); }
 function bsTitre(e){ return 'Blocus ' + bsCourt(e.n); }
-function bsDeja(e){ return evenements().some(function(v){ return v.cat === 'blocus' && isoJour(v.debut) === bs.jour && v.lat !== undefined && distance([v.lat, v.lng], e.c) < 80; }); }
+function bsType(n){ return (bs.types || {})[n] === 'ferme' ? 'ferme' : 'blocus'; }
+// déjà publié ce jour-là à cet endroit (bloqué ou fermé) : renvoie l'événement
+function bsDeja(e){ return evenements().filter(function(v){ return (v.cat === 'blocus' || v.cat === 'ferme') && isoJour(v.debut) === bs.jour && v.lat !== undefined && distance([v.lat, v.lng], e.c) < 80; })[0]; }
 function ouvrirBlocusSerie(){
   bsCharger();
   if (!ECOLES) { toast('Chargement des lycées…'); chargerEcoles(); return setTimeout(function(){ if (ECOLES) ouvrirBlocusSerie(); }, 1500); }
   dessinerBlocusSerie();
 }
 function bsLire(){ if ($('bs-jour')) { bs.jour = $('bs-jour').value || bs.jour; bs.hDebut = $('bs-h1').value || '07:30'; bs.hFin = $('bs-h2').value || ''; bsSauver(); } }
+function bsCompte(nb, nf){ return (nb ? nb + ' blocus' : '') + (nb && nf ? ' + ' : '') + (nf ? nf + ' fermé' + (nf > 1 ? 's' : '') : ''); }
 function dessinerBlocusSerie(){
-  var items = bs.noms.map(bsEcole).filter(Boolean), nouveaux = items.filter(function(e){ return !bsDeja(e); }).length;
+  var items = bs.noms.map(bsEcole).filter(Boolean), aPub = items.filter(function(e){ return !bsDeja(e); });
+  var nb = aPub.filter(function(e){ return bsType(e.n) === 'blocus'; }).length, nf = aPub.length - nb;
+  var tf = items.filter(function(e){ var d = bsDeja(e); return (d ? d.cat : bsType(e.n)) === 'ferme'; }).length, tb = items.length - tf;
   var jourTxt = jourEvt(new Date(bs.jour + 'T12:00').getTime());
-  var h = entete('🚧 Blocus en série', 'Les lycées, le jour et l\'heure : tout part d\'un coup sur la carte et dans l\'agenda. Tu peux revenir compléter la liste, rien ne sera publié deux fois.')
+  var h = entete('🚧 Blocus en série', 'Les lycées, le jour et l\'heure : tout part d\'un coup sur la carte. Touche 🚧 ou 🔒 pour dire si le lycée est bloqué ou fermé. Rien ne sera publié deux fois.')
     + '<div class="bs-ligne"><label>Jour<input type="date" id="bs-jour" value="'+esc(bs.jour)+'" onchange="bsLire();dessinerBlocusSerie()"></label>'
     + '<label>Début<input type="time" id="bs-h1" value="'+esc(bs.hDebut)+'" onchange="bsLire()"></label>'
     + '<label>Fin<input type="time" id="bs-h2" value="'+esc(bs.hFin)+'" onchange="bsLire()" placeholder="—"></label></div>'
     + '<div class="rangee" style="margin-top:10px"><button class="btn plein bh-b" onclick="ouvrirBlocusHier()">↺ Remettre les blocus d’hier</button></div>'
-    + '<label class="l">'+jourTxt+' · '+items.length+' lycée'+(items.length > 1 ? 's' : '')+'</label>'
-    + items.map(function(e){ var d = bsDeja(e);
-        return '<div class="bs-it'+(d ? ' deja' : '')+'"><span>🚧</span><div><b>'+esc(bsCourt(e.n))+(!d && (BLOCUS_PRET.nouveaux || []).indexOf(e.n) >= 0 ? ' <em class="bs-nv">NOUVEAU</em>' : '')+'</b><small>'+(d ? '✓ déjà sur la carte' : esc(bsLieu(e.n)))+'</small></div>'
-          + '<button class="btn petit" onclick="bsRetirer(\''+esc(e.n).replace(/'/g, '&#39;')+'\')" aria-label="Retirer">✕</button></div>'; }).join('')
+    + '<label class="l">'+jourTxt+' · '+tb+' bloqué'+(tb > 1 ? 's' : '')+(tf ? ' · '+tf+' fermé'+(tf > 1 ? 's' : '') : '')+'</label>'
+    + items.map(function(e){ var d = bsDeja(e), t = d ? d.cat : bsType(e.n), q = esc(e.n).replace(/'/g, '&#39;');
+        return '<div class="bs-it'+(d ? ' deja' : '')+(t === 'ferme' ? ' fe' : '')+'"><span>'+(t === 'ferme' ? '🔒' : '🚧')+'</span><div><b>'+esc(bsCourt(e.n))+(!d && (BLOCUS_PRET.nouveaux || []).indexOf(e.n) >= 0 ? ' <em class="bs-nv">NOUVEAU</em>' : '')+'</b>'
+          + '<small>'+(d ? '✓ déjà sur la carte' + (t === 'ferme' ? ' · fermé' : '') : (t === 'ferme' ? 'Fermé toute la journée' : esc(bsLieu(e.n))))+'</small></div>'
+          + (d ? '' : '<div class="bs-type" role="group" aria-label="Bloqué ou fermé"><button class="'+(t === 'blocus' ? 'sel' : '')+'" onclick="bsMettreType(\''+q+'\',\'blocus\')" aria-label="Bloqué">🚧</button><button class="'+(t === 'ferme' ? 'sel' : '')+'" onclick="bsMettreType(\''+q+'\',\'ferme\')" aria-label="Fermé">🔒</button></div>')
+          + '<button class="btn petit" onclick="bsRetirer(\''+q+'\')" aria-label="Retirer">✕</button></div>'; }).join('')
     + '<label class="l">Ajouter un lycée</label><input id="bs-cherche" placeholder="ex : Lumière, Saxe, Branly…" oninput="bsChercher()" autocomplete="off"><div class="bs-res" id="bs-res"></div>'
     + '<div class="rangee"><button class="btn plein" onclick="gererEvenements()">Retour</button>'
-    + '<button class="btn rose plein" id="bs-go" '+(nouveaux ? '' : 'disabled ')+'onclick="bsPublier()">'+(nouveaux ? 'Publier '+nouveaux+' blocus' : 'Tout est publié ✓')+'</button></div>'
-    + '<div class="sous" style="margin-top:8px">Sans heure de fin, un blocus reste affiché 3 h. Le jour même, il passe « en direct » sur la carte.</div>';
+    + '<button class="btn rose plein" id="bs-go" '+(aPub.length ? '' : 'disabled ')+'onclick="bsPublier()">'+(aPub.length ? 'Publier '+bsCompte(nb, nf) : 'Tout est publié ✓')+'</button></div>'
+    + '<div class="sous" style="margin-top:8px">Sans heure de fin, un blocus reste affiché 3 h. Un lycée fermé reste affiché toute la journée.</div>';
   var f = $('feuille'); if (f.dataset.vue === 'blocus-serie' && f.classList.contains('ouverte')) rafraichirFeuille(h); else ouvrir(h, 'blocus-serie');
 }
-function bsRetirer(nom){ bsLire(); bs.noms = bs.noms.filter(function(n){ return n !== nom; }); bsSauver(); dessinerBlocusSerie(); }
+function bsMettreType(nom, t){ bsLire(); if (t === 'ferme') bs.types[nom] = 'ferme'; else delete bs.types[nom]; bsSauver(); dessinerBlocusSerie(); }
+function bsRetirer(nom){ bsLire(); bs.noms = bs.noms.filter(function(n){ return n !== nom; }); delete bs.types[nom]; bsSauver(); dessinerBlocusSerie(); }
 function bsAjouter(nom){ bsLire(); if (bs.noms.indexOf(nom) < 0) bs.noms.push(nom); bsSauver(); dessinerBlocusSerie(); toast('Ajouté'); }
 function bsChercher(){
   var q = bsNorm($('bs-cherche').value).trim(), r = $('bs-res'); if (!r) return;
@@ -6753,23 +6821,32 @@ function bsPublier(){
   if (!debut) return toast('Choisis le jour et l\'heure');
   if (fin && fin <= debut) fin = 0;
   var base = Date.now().toString(36), nouveaux = bs.noms.map(bsEcole).filter(function(e){ return e && !bsDeja(e); }).map(function(e, i){
-    var v = { id:'b' + base + i, cat:'blocus', emoji:'🚧', titre:bsTitre(e).slice(0, 60), debut:debut, lieu:bsLieu(e.n), texte:'', lat:Math.round(e.c[0]*1e5)/1e5, lng:Math.round(e.c[1]*1e5)/1e5 };
+    var lat = Math.round(e.c[0]*1e5)/1e5, lng = Math.round(e.c[1]*1e5)/1e5;
+    if (bsType(e.n) === 'ferme') return { id:'f' + base + i, cat:'ferme', emoji:'', titre:(bsCourt(e.n) + ' fermé').slice(0, 60), debut:new Date(bs.jour + 'T00:00').getTime(), fin:new Date(bs.jour + 'T23:59').getTime(), journee:1, lieu:bsLieu(e.n), texte:'', lat:lat, lng:lng };
+    var v = { id:'b' + base + i, cat:'blocus', emoji:'🚧', titre:bsTitre(e).slice(0, 60), debut:debut, lieu:bsLieu(e.n), texte:'', lat:lat, lng:lng };
     if (fin) v.fin = fin; return v; });
   if (!nouveaux.length) return toast('Tout est déjà publié');
+  // les blocus et fermetures terminés ne s'affichent plus : on les retire pour laisser la place (le serveur a une taille limite)
+  var garde = evenements().filter(function(v){ return !((v.cat === 'blocus' || v.cat === 'ferme') && etatEvt(v) === 'passe'); });
+  if (JSON.stringify(garde.concat(nouveaux)).length > 6300) garde = garde.filter(function(v){ return etatEvt(v) !== 'passe'; });
+  var nb = nouveaux.filter(function(v){ return v.cat === 'blocus'; }).length, nf = nouveaux.length - nb;
   $('bs-go').disabled = true; $('bs-go').textContent = '…';
-  enregistrerEvts(evenements().concat(nouveaux), nouveaux.length + ' blocus publiés 🚧').then(function(){ try { jouer('blocus'); } catch(e){} })
+  enregistrerEvts(garde.concat(nouveaux), 'Publié : ' + bsCompte(nb, nf) + ' 🚧').then(function(){ try { jouer(nb ? 'blocus' : 'ferme'); } catch(e){} })
     .catch(function(e){ if ($('bs-go')) { $('bs-go').disabled = false; $('bs-go').textContent = 'Réessayer'; } erreurEquipe(e); });
 }
-// Les admins voient la liste préparée dès qu'ils ouvrent l'appli (une fois), jusqu'au jour du blocus à midi
+// Les admins voient la liste préparée dès qu'ils ouvrent l'appli (une fois), jusqu'au jour J à midi
 (function(){
   if (lireLS('bs2-propose-v' + BLOCUS_PRET.v)) return;
-  var n = 0;
+  var n = 0, ch = 0;
   (function att(){
-    if (++n > 120 || Date.now() > new Date(BLOCUS_PRET.jour + 'T12:00').getTime()) return;
-    var occupe = !etat.derniereMaj || !ECOLES || !fenetreLibre() || FILE_FEN.length;
-    if (!estAdmin() || occupe) return setTimeout(att, 700);
-    ecrireLS('bs2-propose-v' + BLOCUS_PRET.v, '1'); ouvrirBlocusSerie();
-    setTimeout(function(){ toast('🚧 ' + BLOCUS_PRET.nouveaux.length + ' lycées ajoutés pour lundi : vérifie et publie'); }, 600);
+    if (++n > 900 || Date.now() > new Date(BLOCUS_PRET.jour + 'T12:00').getTime()) return;
+    if (!estAdmin() || !etat.derniereMaj) return setTimeout(att, 700);
+    if (!ECOLES) { if (!ch++) chargerEcoles(); return setTimeout(att, 700); }
+    planifierFenetre(14, 'blocus-serie', function(){
+      if (lireLS('bs2-propose-v' + BLOCUS_PRET.v)) return;
+      ecrireLS('bs2-propose-v' + BLOCUS_PRET.v, '1'); ouvrirBlocusSerie();
+      setTimeout(function(){ toast(BLOCUS_PRET.msg); }, 600);
+    });
   })();
 })();
 // ===================== V42 : MANIF DU JEUDI 5 NOVEMBRE =====================
@@ -7822,7 +7899,7 @@ function bhFrequent(l){ var c = {}, m = '', n = 0; l.forEach(function(x){ x = x 
 function bhJours(){
   var m = {}; try { m = JSON.parse(lireLS('blocusMemo') || '{}') || {}; } catch(e){ m = {}; }
   var srv = {};
-  evenements().forEach(function(v){ if (v.cat !== 'blocus' || v.lat === undefined) return; var j = isoJour(v.debut); (srv[j] = srv[j] || []).push(v); });
+  evenements().forEach(function(v){ if ((v.cat !== 'blocus' && v.cat !== 'ferme') || v.lat === undefined) return; var j = isoJour(v.debut); (srv[j] = srv[j] || []).push(v); });
   Object.keys(srv).forEach(function(j){ m[j] = srv[j]; });
   var out = {}; Object.keys(m).sort().slice(-4).forEach(function(j){ out[j] = m[j]; });
   ecrireLS('blocusMemo', JSON.stringify(out));
@@ -7831,13 +7908,13 @@ function bhJours(){
 // Le dernier jour avant « cible » qui avait des blocus (sinon : la liste « Blocus en série » de ce jour-là)
 function bhSource(cible){
   var J = bhJours(), jours = Object.keys(J).filter(function(j){ return j < cible; }).sort(), j = jours[jours.length - 1], liste = null, depuis = 'carte';
-  if (j) liste = J[j].map(function(v){ return { titre:v.titre, lieu:v.lieu || '', texte:v.texte || '', lat:v.lat, lng:v.lng,
+  if (j) liste = J[j].map(function(v){ return { cat:v.cat === 'ferme' ? 'ferme' : 'blocus', titre:v.titre, lieu:v.lieu || '', texte:v.texte || '', lat:v.lat, lng:v.lng,
     h1:v.journee ? '' : bhHHMM(v.debut), h2:v.fin && !v.journee ? bhHHMM(v.fin) : '', journee:v.journee ? 1 : 0 }; });
   else {
     bsCharger();
     if (bs && bs.jour < cible && ECOLES) { j = bs.jour; depuis = 'liste';
-      liste = bs.noms.map(bsEcole).filter(Boolean).map(function(e){ return { titre:bsTitre(e).slice(0, 60), lieu:bsLieu(e.n), texte:'',
-        lat:Math.round(e.c[0]*1e5)/1e5, lng:Math.round(e.c[1]*1e5)/1e5, h1:bs.hDebut || '07:30', h2:bs.hFin || '', journee:0 }; }); }
+      liste = bs.noms.map(bsEcole).filter(Boolean).map(function(e){ var fe = bsType(e.n) === 'ferme'; return { cat:fe ? 'ferme' : 'blocus', titre:(fe ? bsCourt(e.n) + ' fermé' : bsTitre(e)).slice(0, 60), lieu:bsLieu(e.n), texte:'',
+        lat:Math.round(e.c[0]*1e5)/1e5, lng:Math.round(e.c[1]*1e5)/1e5, h1:fe ? '' : bs.hDebut || '07:30', h2:fe ? '' : bs.hFin || '', journee:fe ? 1 : 0 }; }); }
   }
   if (!liste || !liste.length) return null;
   // pas deux fois le même lycée
@@ -7845,11 +7922,11 @@ function bhSource(cible){
   u.sort(function(a, b){ return String(a.titre).localeCompare(String(b.titre), 'fr'); });
   return { jour:j, depuis:depuis, liste:u };
 }
-function bhDeja(x, jour){ return evenements().some(function(v){ return v.cat === 'blocus' && isoJour(v.debut) === jour && v.lat !== undefined && distance([v.lat, v.lng], [x.lat, x.lng]) < 80; }); }
+function bhDeja(x, jour){ return evenements().some(function(v){ return (v.cat === 'blocus' || v.cat === 'ferme') && isoJour(v.debut) === jour && v.lat !== undefined && distance([v.lat, v.lng], [x.lat, x.lng]) < 80; }); }
 function ouvrirBlocusHier(jour){
   var cible = jour || isoJour(maintenant()), src = bhSource(cible);
   bh = { cible:cible, src:src, retires:{}, h1:'07:30', h2:'' };
-  if (src) { bh.h1 = bhFrequent(src.liste.map(function(x){ return x.h1; })) || '07:30'; bh.h2 = bhFrequent(src.liste.map(function(x){ return x.h2; })); }
+  if (src) { var bls = src.liste.filter(function(x){ return x.cat !== 'ferme'; }); bh.h1 = bhFrequent(bls.map(function(x){ return x.h1; })) || '07:30'; bh.h2 = bhFrequent(bls.map(function(x){ return x.h2; })); }
   dessinerBlocusHier();
 }
 function bhLire(){ if ($('bh-h1')) { bh.h1 = $('bh-h1').value || '07:30'; bh.h2 = $('bh-h2').value || ''; } }
@@ -7868,9 +7945,10 @@ function dessinerBlocusHier(){
     var srcTxt = jourEvt(new Date(s.jour + 'T12:00').getTime()), aPub = 0;
     var lignes = s.liste.map(function(x, i){
       var d = bhDeja(x, bh.cible), r = !d && !!bh.retires[i]; if (!d && !r) aPub++;
-      return '<div class="bs-it'+(d ? ' deja' : '')+(r ? ' retire' : '')+'"><span>🚧</span><div><b>'+esc(String(x.titre).replace(/^Blocus\s+/i, ''))+'</b><small>'+(d ? '✓ déjà sur la carte' : r ? 'retiré, ne sera pas publié' : esc(x.lieu))+'</small></div>'
+      return '<div class="bs-it'+(d ? ' deja' : '')+(r ? ' retire' : '')+(x.cat === 'ferme' ? ' fe' : '')+'"><span>'+(x.cat === 'ferme' ? '🔒' : '🚧')+'</span><div><b>'+esc(x.cat === 'ferme' ? nomFerme(x) + ' · fermé' : String(x.titre).replace(/^Blocus\s+/i, ''))+'</b><small>'+(d ? '✓ déjà sur la carte' : r ? 'retiré, ne sera pas publié' : esc(x.lieu))+'</small></div>'
         + (d ? '' : '<button class="btn petit" onclick="bhBascule('+i+')" aria-label="'+(r ? 'Remettre' : 'Retirer')+'">'+(r ? '↺' : '✕')+'</button>') + '</div>'; }).join('');
-    h += '<div class="bh-src"><span>🗓️</span><div><b>'+srcTxt+' : '+s.liste.length+' blocus</b><small>'+(s.depuis === 'carte' ? 'ceux qui étaient sur la carte' : 'ta liste « Blocus en série »')+' · recopiés pour '+(cibleTxt === 'Aujourd\'hui' ? 'aujourd’hui' : cibleTxt === 'Demain' ? 'demain' : cibleTxt)+'</small></div></div>'
+    var nfe = s.liste.filter(function(x){ return x.cat === 'ferme'; }).length;
+    h += '<div class="bh-src"><span>🗓️</span><div><b>'+srcTxt+' : '+bsCompte(s.liste.length - nfe, nfe)+'</b><small>'+(s.depuis === 'carte' ? 'ceux qui étaient sur la carte' : 'ta liste « Blocus en série »')+' · recopiés pour '+(cibleTxt === 'Aujourd\'hui' ? 'aujourd’hui' : cibleTxt === 'Demain' ? 'demain' : cibleTxt)+'</small></div></div>'
       + '<label class="l">'+cibleTxt+' · '+s.liste.length+' lycée'+(s.liste.length > 1 ? 's' : '')+'</label>' + lignes
       + '<div class="rangee"><button class="btn plein" onclick="gererEvenements()">Retour</button>'
       + '<button class="btn rose plein" id="bh-go" '+(aPub ? '' : 'disabled ')+'onclick="bhPublier()">'+(aPub ? 'Publier '+aPub+' blocus' : 'Tout est publié ✓')+'</button></div>'
@@ -7885,11 +7963,12 @@ function bhPublier(){
     var debut = new Date(bh.cible + 'T' + (x.journee ? '00:00' : bh.h1 || '07:30')).getTime(), fin = x.journee ? new Date(bh.cible + 'T23:59').getTime() : bh.h2 ? new Date(bh.cible + 'T' + bh.h2).getTime() : 0;
     if (fin && fin <= debut) fin = 0;
     var v = { id:'h' + base + i, cat:'blocus', emoji:'🚧', titre:String(x.titre).slice(0, 60), debut:debut, lieu:String(x.lieu || '').slice(0, 60), texte:String(x.texte || '').slice(0, 400), lat:x.lat, lng:x.lng };
+    if (x.cat === 'ferme') { v.cat = 'ferme'; v.emoji = ''; v.journee = 1; v.debut = new Date(bh.cible + 'T00:00').getTime(); v.fin = new Date(bh.cible + 'T23:59').getTime(); return v; }
     if (fin) v.fin = fin; if (x.journee) v.journee = 1; return v; });
   if (!nouveaux.length) return toast('Tout est déjà sur la carte');
   if (!nouveaux[0].debut) return toast('Choisis le jour et l\'heure');
   // les blocus terminés ne s'affichent plus : on les retire pour laisser la place (le serveur a une taille limite)
-  var garde = evenements().filter(function(v){ return !(v.cat === 'blocus' && etatEvt(v) === 'passe'); });
+  var garde = evenements().filter(function(v){ return !((v.cat === 'blocus' || v.cat === 'ferme') && etatEvt(v) === 'passe'); });
   if (JSON.stringify(garde.concat(nouveaux)).length > 6300) garde = garde.filter(function(v){ return etatEvt(v) !== 'passe'; });
   $('bh-go').disabled = true; $('bh-go').textContent = '…';
   enregistrerEvts(garde.concat(nouveaux), nouveaux.length + ' blocus remis sur la carte 🚧').then(function(){ try { jouer('blocus'); } catch(e){} })
@@ -7897,14 +7976,14 @@ function bhPublier(){
 }
 // Ce matin, les admins voient la liste prête dès qu'ils ouvrent l'appli (une fois)
 (function(){
-  var n = 0;
+  var n = 0, bhCh = 0;
   (function att(){
     if (++n > 900) return;
     if (!estAdmin() || !etat.derniereMaj) return setTimeout(att, 700);
     bhJours();
     var auj = isoJour(maintenant());
     if (auj !== BH_AUTO || lireLS('bh-propose-' + auj) || maintenant() > new Date(auj + 'T15:00').getTime()) return;
-    if (!ECOLES) { chargerEcoles(); return setTimeout(att, 700); }
+    if (!ECOLES) { if (!bhCh++) chargerEcoles(); return setTimeout(att, 700); }
     // passe avant les annonces et pop-ups (c'est urgent le matin), après l'écran d'accueil
     planifierFenetre(15, 'blocus-hier', function(){
       var src = bhSource(auj); if (!src || !src.liste.some(function(x){ return !bhDeja(x, auj); })) return;
@@ -7913,6 +7992,160 @@ function bhPublier(){
     });
   })();
 })();
+// ===================== V70 : ÉTABLISSEMENT FERMÉ =====================
+// Nouveau type « Fermé » : façade du lycée, rideau de fer baissé, panneau FERMÉ qui se balance, cadenas.
+// Sur la carte, dans les listes, la fiche, le choix du type et « Blocus en série » (chaque lycée : bloqué ou fermé).
+CATS_EVT = (function(){ var o = {}; Object.keys(CATS_EVT).forEach(function(k){ o[k] = CATS_EVT[k]; if (k === 'blocus') o.ferme = { nom:'Fermé', e:'🔒', c:'#a9bcd6' }; }); return o; })();
+LOGO_PIN.ferme = 1;
+document.body.insertAdjacentHTML('afterbegin', '<svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>'
+  + '<linearGradient id="lgSt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef2f8"/><stop offset=".55" stop-color="#b3bfcf"/><stop offset="1" stop-color="#7c899d"/></linearGradient>'
+  + '<linearGradient id="lgFac" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#505a6e"/><stop offset="1" stop-color="#2b313e"/></linearGradient>'
+  + '<linearGradient id="lgPan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4a55"/><stop offset="1" stop-color="#c8101e"/></linearGradient>'
+  + '<clipPath id="lgPorte"><rect x="15" y="15.5" width="26" height="26"/></clipPath>'
+  + '</defs></svg>');
+function svgFerme(){
+  var A = 'font-family="Anton,Impact,sans-serif" text-anchor="middle"', lames = '';
+  for (var y = 18; y < 39; y += 2.6) lames += 'M15 ' + y.toFixed(1) + 'H41';
+  return '<path d="M3.5 13.5L28 2.5L52.5 13.5Z" fill="#5b6579" stroke="#0b0e14" stroke-width="1.4" stroke-linejoin="round"/>'
+    + '<circle cx="28" cy="9.2" r="2.3" fill="#151922" stroke="#93a3bb" stroke-width=".9"/>'
+    + '<rect x="6" y="12.5" width="44" height="29.5" rx="1.5" fill="url(#lgFac)" stroke="#0b0e14" stroke-width="1.4"/>'
+    + '<g fill="#151922" stroke="#93a3bb" stroke-width=".8"><rect x="8.5" y="16.5" width="4.5" height="6.5" rx=".6"/><rect x="43" y="16.5" width="4.5" height="6.5" rx=".6"/><rect x="8.5" y="27" width="4.5" height="6.5" rx=".6"/><rect x="43" y="27" width="4.5" height="6.5" rx=".6"/></g>'
+    + '<rect x="15" y="15.5" width="26" height="26" fill="#07090d"/>'
+    + '<g clip-path="url(#lgPorte)"><g class="lg-rideau"><rect x="15" y="15.5" width="26" height="26" fill="url(#lgSt)"/>'
+    + '<path d="' + lames + '" stroke="#5d6a7e" stroke-width=".85"/><rect x="15" y="38.8" width="26" height="2.7" fill="#6b778b" stroke="#0b0e14" stroke-width=".7"/></g></g>'
+    + '<rect x="15" y="15.5" width="26" height="26" fill="none" stroke="#0b0e14" stroke-width="1.2"/>'
+    + '<g class="lg-pan"><path d="M20 15.6L22.6 20.8M36 15.6L33.4 20.8" stroke="#dfe6f0" stroke-width="1.1" stroke-dasharray="1.4 .8"/>'
+    + '<rect x="10.5" y="20.3" width="35" height="11" rx="2.2" fill="url(#lgPan)" stroke="#2a0508" stroke-width="1.3"/>'
+    + '<rect x="12.2" y="21.9" width="31.6" height="7.8" rx="1.3" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width=".7"/>'
+    + '<text x="28" y="28.9" ' + A + ' font-size="8.8" letter-spacing=".7" fill="#fff">FERMÉ</text></g>'
+    + '<g class="lg-cad"><path d="M25.3 35.2V33.1Q25.3 30.4 28 30.4Q30.7 30.4 30.7 33.1V35.2" fill="none" stroke="#e2e7ee" stroke-width="1.7"/>'
+    + '<rect x="23.6" y="34.2" width="8.8" height="7.2" rx="1.6" fill="#ffc23a" stroke="#3a2600" stroke-width="1.1"/>'
+    + '<circle cx="28" cy="37.2" r="1.05" fill="#3a2600"/><rect x="27.55" y="37.5" width=".9" height="2.1" fill="#3a2600"/></g>';
+}
+var logoEvtAvantFerme = logoEvt;
+logoEvt = function(cat, v){ return cat === 'ferme' ? '<svg class="lg lg-ferme" viewBox="0 0 56 44" aria-hidden="true">' + svgFerme() + '</svg>' : logoEvtAvantFerme(cat, v); };
+// dans les listes : toujours le logo (pas le cadenas emoji)
+var iconeListeEvtAvantFerme = iconeListeEvt;
+iconeListeEvt = function(v){ return v.cat === 'ferme' ? '<span class="lg-mini">' + logoEvt('ferme', v) + '</span>' : iconeListeEvtAvantFerme(v); };
+// « Saint-Exupéry fermé » → « Saint-Exupéry »
+function nomFerme(v){
+  var n = String(v.titre || '').trim().replace(/^(ferm[ée]e?s?|fermeture)\s*[:·-]?\s*/i, '').replace(/\s*[:·-]?\s*(ferm[ée]e?s?|fermeture)$/i, '').trim();
+  if (!n) n = String(v.lieu || '').trim();
+  return n || 'Établissement';
+}
+function kickFerme(v){
+  var st = etatEvt(v), t = typeBlocus(v), en = LANGUE === 'en';
+  if (en) return (t === 'Fac' ? 'University' : 'School') + ' closed' + (st === 'live' ? ' today' : st === 'passe' ? '' : ' ' + (jourEvt(v.debut) === 'Demain' ? 'tomorrow' : new Date(v.debut).toLocaleDateString('en-GB', { weekday:'long' })));
+  return t + (t === 'Fac' ? ' fermée' : ' fermé') + (st === 'live' ? ' aujourd’hui' : st === 'passe' ? '' : ' ' + quandTxt(v.debut));
+}
+// sur la carte : le badge dit « FERMÉ » (et le jour tant que ce n'est pas aujourd'hui)
+var iconeEvtAvantFerme = iconeEvt;
+iconeEvt = function(v){
+  if (v.cat !== 'ferme') return iconeEvtAvantFerme(v);
+  var C = CATS_EVT.ferme, d = new Date(v.debut), live = etatEvt(v) === 'live', en = LANGUE === 'en';
+  var quand = live ? '<i></i>' + (en ? 'CLOSED' : 'FERMÉ') : (en ? 'CLOSED ' : 'FERMÉ ') + (en ? ['SUN','MON','TUE','WED','THU','FRI','SAT'][d.getDay()] : JOURS_C[d.getDay()].toUpperCase());
+  return L.divIcon({ className:'', iconSize:[56, 60], iconAnchor:[28, 42],
+    html:'<div class="evt-pin lgp lgp-ferme' + (live ? ' live' : '') + '" style="--ec:' + C.c + '"><div class="lgp-halo"></div>'
+      + '<div class="lgp-obj' + (live ? ' lg-on' : '') + '">' + logoEvt('ferme', v) + '</div><div class="lgp-quand">' + quand + '</div>'
+      + '<div class="evt-etiq">' + esc(nomFerme(v)) + '</div></div>' });
+};
+// Le mouvement du jour : lycées bloqués et établissements fermés
+function etabsJour(v){ return evenements().filter(function(x){ return (x.cat === 'blocus' || x.cat === 'ferme') && isoJour(x.debut) === isoJour(v.debut) && etatEvt(x) !== 'passe'; }); }
+function nomEtab(x){ return x.cat === 'ferme' ? nomFerme(x) : String(x.titre).replace(/^Blocus\s+/i, ''); }
+function mouvementFerme(v){
+  var l = etabsJour(v), bl = l.filter(function(x){ return x.cat === 'blocus'; }), fe = l.filter(function(x){ return x.cat === 'ferme'; });
+  if (l.length < 2) return '';
+  var tri = function(a, b){ return nomEtab(a).localeCompare(nomEtab(b), 'fr'); };
+  var puce = function(x){ return '<button class="' + (x.cat === 'ferme' ? 'f' : '') + (x.id === v.id ? ' ici' : '') + '" onclick="ouvrirEvt(\'' + x.id + '\')">' + (x.cat === 'ferme' ? '🔒 ' : '🚧 ') + esc(nomEtab(x)) + '</button>'; };
+  return '<div class="bl-bloc fe-mvt"><div class="bl-st">✊ Le mouvement ' + esc(quandTxt(v.debut)) + '</div>'
+    + '<div class="fe-chiffres"><div class="b"><b>' + bl.length + '</b><span>bloqué' + (bl.length > 1 ? 's' : '') + '</span></div><div class="f"><b>' + fe.length + '</b><span>fermé' + (fe.length > 1 ? 's' : '') + '</span></div></div>'
+    + '<div class="bl-chips fe-chips">' + fe.sort(tri).map(puce).join('') + bl.sort(tri).map(puce).join('') + '</div>'
+    + '<div class="rangee" style="margin-top:0"><button class="btn plein" onclick="voirEtabsJour(\'' + v.id + '\')">🗺️ Sur la carte</button><button class="btn plein" onclick="copierEtabsJour(\'' + v.id + '\')">📋 Copier la liste</button></div></div>';
+}
+function voirEtabsJour(id){
+  var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
+  var l = etabsJour(v).filter(function(x){ return x.lat !== undefined && x.lat !== null; }); if (!l.length) return;
+  fermer(); carte.flyToBounds(L.latLngBounds(l.map(function(x){ return [x.lat, x.lng]; })), { padding:[80, 80], maxZoom:15, duration:1.2 });
+}
+function texteEtabsJour(v){
+  var l = etabsJour(v), tri = function(a, b){ return nomEtab(a).localeCompare(nomEtab(b), 'fr'); };
+  var bl = l.filter(function(x){ return x.cat === 'blocus'; }).sort(tri), fe = l.filter(function(x){ return x.cat === 'ferme'; }).sort(tri);
+  return '✊ ' + jourEvt(v.debut).toUpperCase()
+    + (bl.length ? '\n\n🚧 BLOQUÉS (' + bl.length + ')\n' + bl.map(function(x){ return '• ' + nomEtab(x) + (x.journee ? '' : ' · ' + heure(x.debut)); }).join('\n') : '')
+    + (fe.length ? '\n\n🔒 FERMÉS (' + fe.length + ')\n' + fe.map(function(x){ return '• ' + nomEtab(x); }).join('\n') : '')
+    + '\n\nEn direct sur Traboule : ' + (urlAppli || '');
+}
+function copierEtabsJour(id){
+  var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
+  var t = texteEtabsJour(v);
+  if (navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ toast('Liste copiée'); }, function(){ toast('Copie impossible'); });
+  else if (navigator.share) navigator.share({ text:t }).catch(function(){});
+}
+// la fiche d'un établissement fermé
+var ouvrirEvtAvantFerme = ouvrirEvt;
+ouvrirEvt = function(id){
+  var v = evenements().filter(function(x){ return x.id === id; })[0];
+  if (!v || v.cat !== 'ferme') return ouvrirEvtAvantFerme(id);
+  var C = CATS_EVT.ferme, st = etatEvt(v), en = LANGUE === 'en', aGeo = v.lat !== undefined && v.lat !== null;
+  clearInterval(evtMinuteur);
+  var h = '<div class="entete-f" style="margin-bottom:6px"><div></div><button class="fermer" onclick="fermer()" aria-label="Fermer">' + ic('fermer') + '</button></div>'
+    + '<div class="evt-hero fe" style="--ec:' + C.c + '"><div class="fe-lames" aria-hidden="true"></div>'
+    + '<div class="eh-top"><span class="evt-cat">🔒 ' + (en ? 'Closed' : 'Fermé') + '</span><span class="evt-etat' + (st === 'live' ? ' live' : '') + '">'
+      + (st === 'live' ? (en ? '● TODAY' : '● AUJOURD’HUI') : st === 'passe' ? (en ? 'OVER' : 'TERMINÉ') : (en ? 'COMING UP' : 'À VENIR')) + '</span></div>'
+    + '<div class="fe-scene"><div class="eh-e eh-lg lg-on fe-lg">' + logoEvt('ferme', v) + '</div><div class="fe-tampon" aria-hidden="true">' + (en ? 'CLOSED' : 'FERMÉ') + '</div></div>'
+    + '<div class="bl-kick fe-kick"><i></i>' + esc(kickFerme(v)) + '</div>'
+    + '<h3 class="bl-nom fe-nom" id="bl-nom">' + esc(nomFerme(v)).split(' ').map(function(w){ return w.indexOf('-') > 0 ? '<span class="nw">' + w + '</span>' : w; }).join(' ') + '</h3>'
+    + '<div class="evt-infos"><div>' + calMini(v.debut) + '<div>' + jourEvt(v.debut) + '<small>' + (v.journee ? (en ? 'All day' : 'Toute la journée') : heuresEvt(v)) + '</small></div></div>'
+    + (v.lieu ? '<div><span>📍</span><div>' + esc(v.lieu) + infoDistance(v) + '</div></div>' : '') + '</div>'
+    + '</div>'
+    + (v.texte ? '<div class="evt-desc fe-mot"><b>📣 ' + (en ? 'From the organisers' : 'Le mot de l’orga') + '</b>' + esc(v.texte) + '</div>' : '')
+    + mouvementFerme(v)
+    + '<div class="bl-st fe-st" style="margin:14px 0 9px">🔒 ' + (en ? 'What it means' : 'Ce que ça change') + '</div><div class="bl-conseils fe3">'
+    + (en ? [['🏫','No classes','the school stays shut all day'], ['📱','Check the ENT','Pronote, emails: official info'], ['🚧','Blockades','the day’s list is just above']]
+          : [['🏫','Pas de cours','sur place, de toute la journée'], ['📱','Vérifie l’ENT','Pronote, mails : les infos officielles'], ['🚧','Les blocus','du jour, juste au-dessus']])
+      .map(function(c){ return '<div>' + c[0] + '<b>' + c[1] + '</b><span>' + c[2] + '</span></div>'; }).join('') + '</div>'
+    + '<div class="rangee">' + (aGeo ? '<button class="btn plein" onclick="fermer();carte.flyTo([' + v.lat + ',' + v.lng + '],16)">' + ic('carte') + (en ? 'On the map' : 'Sur la carte') + '</button>' : '')
+    + '<button class="btn rose plein" onclick="partagerEvt(\'' + v.id + '\')">' + ic('partage') + (en ? 'Share' : 'Partager') + '</button></div>'
+    + (estAdmin() ? '<div class="rangee"><button class="btn plein" onclick="editerEvt(\'' + v.id + '\')">✏️ Modifier</button></div>' : '');
+  ouvrir(h, 'evt');
+  ajusterNomBlocus(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajusterNomBlocus);
+  if (son.on) setTimeout(function(){ jouer('ferme'); }, 250);
+};
+// le son : le rideau de fer qui descend, puis le cadenas
+var jouerAvantFerme = jouer;
+jouer = function(nom){
+  if (nom !== 'ferme') return jouerAvantFerme(nom);
+  if (!son.on || !son.ctx) return;
+  try {
+    var c = son.ctx; if (c.state === 'suspended') c.resume();
+    var t = c.currentTime, n = Math.floor(c.sampleRate * .75), buf = c.createBuffer(1, n, c.sampleRate), d = buf.getChannelData(0);
+    for (var i = 0; i < n; i++) { var p = i / n, cl = Math.pow(Math.abs(Math.sin(i / c.sampleRate * Math.PI * (26 - 12 * p))), 6); d[i] = (Math.random() * 2 - 1) * (.25 + .75 * cl) * Math.min(1, p * 8) * (1 - p * .35); }
+    var src = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain(); src.buffer = buf; f.type = 'bandpass'; f.Q.value = 1.4;
+    f.frequency.setValueAtTime(1500, t); f.frequency.exponentialRampToValueAtTime(420, t + .75); g.gain.value = .55;
+    src.connect(f); f.connect(g); g.connect(c.destination); src.start(t);
+    kick(.76); clap(.77); note(1900, .98, .07, 'square', .05); note(2600, 1.03, .09, 'square', .05);
+  } catch(e){}
+};
+// le formulaire : « Fermé » = toute la journée, et « Blocus X » devient « X fermé »
+var formulaireEvtAvantFerme = formulaireEvt;
+formulaireEvt = function(){
+  var b = brouillonEvt;
+  if (b && b.cat === 'ferme' && !b._fe) { b._fe = 1; if (!b.id) b.journee = true; if (/^Blocus\s+/i.test(b.titre || '')) b.titre = b.titre.replace(/^Blocus\s+/i, '') + ' fermé'; }
+  if (b && b.cat !== 'ferme' && b._fe) { b._fe = 0; if (/\sfermé$/i.test(b.titre || '') && b.cat === 'blocus') b.titre = 'Blocus ' + b.titre.replace(/\s+fermé$/i, ''); }
+  return formulaireEvtAvantFerme();
+};
+// dans la fiche d'un blocus : les établissements fermés le même jour, et « Copier la liste » les inclut
+function fermesBlocus(v){
+  var fe = etabsJour(v).filter(function(x){ return x.cat === 'ferme'; }); if (!fe.length) return '';
+  return '<div class="bl-fe"><span>🔒</span><div><b>+ ' + fe.length + ' établissement' + (fe.length > 1 ? 's' : '') + ' fermé' + (fe.length > 1 ? 's' : '') + ' ' + esc(quandTxt(v.debut)) + '</b><div class="bl-chips">'
+    + fe.map(function(x){ return '<button class="f" onclick="ouvrirEvt(\'' + x.id + '\')">🔒 ' + esc(nomFerme(x)) + '</button>'; }).join('') + '</div></div></div>';
+}
+var copierBlocusJourAvantFerme = copierBlocusJour;
+copierBlocusJour = function(id){
+  var v = evenements().filter(function(x){ return x.id === id; })[0];
+  if (v && etabsJour(v).some(function(x){ return x.cat === 'ferme'; })) return copierEtabsJour(id);
+  return copierBlocusJourAvantFerme(id);
+};
 </script>
 </body>
 </html>
