@@ -7002,7 +7002,7 @@ function ouvrirJ5(){
 // « Voir sur la carte » : le parcours (ou le tracé publié par l'équipe s'il y en a un autre) en plein écran
 function voirParcoursJ5(){
   fermer(); majParcoursManif(true);
-  var t = (etat.traces || []).filter(function(x){ return x.type === 'cortege' && !routeCorrespond(x) && !tracePerimee(x); })[0];
+  var t = (etat.traces || []).filter(function(x){ return traceDuJour(x) && !routeCorrespond(x); })[0];
   carte.flyToBounds(L.latLngBounds(t ? t.coords : J5.parcours.coords), { padding:[70, 70], maxZoom:16, duration:1.1 });
   toast(t ? (LANGUE === 'en' ? 'Route published by the team' : 'Parcours publié par l’équipe')
           : (LANGUE === 'en' ? 'Planned route (it can change on the day)' : 'Parcours prévu (il peut changer le jour J)'));
@@ -8288,6 +8288,8 @@ function routeCorrespond(t){
 }
 // un ancien tracé « Parcours 7/11 » publié avant la correction du parcours : on l'ignore (le bon parcours s'affiche à la place)
 function tracePerimee(t){ return /^Parcours 7\/11/.test((t && t.note) || '') && !routeCorrespond(t); }
+// seul un tracé de cortège publié le jour de la manif remplace le parcours prévu (pas ceux des manifs d'avant)
+function traceDuJour(t){ return (t.type === 'cortege' || t.type === 'prevu') && !tracePerimee(t) && isoJour(t.cree || t.ts) === isoJour(J5.debut); }
 function optsParcoursJ5(){
   var en = LANGUE === 'en', P = J5.parcours, st = j5Etat();
   return { rues:P.rues, etapes:P.etapes, clic:ouvrirJ5,
@@ -8298,7 +8300,7 @@ function optsParcoursJ5(){
 var calqueParcoursM = L.layerGroup().addTo(carte), cleParcoursM = '';
 function majParcoursManif(force){
   var P = J5.parcours, n = maintenant();
-  var montrer = !!P && n < J5.fin + 3600000 && filtre !== 'danger' && !(etat.traces || []).some(function(t){ return (t.type === 'cortege' || t.type === 'prevu') && !tracePerimee(t); });
+  var montrer = !!P && n < J5.fin + 3600000 && filtre !== 'danger' && !(etat.traces || []).some(function(t){ return traceDuJour(t) || routeCorrespond(t); });
   var cle = montrer ? ['on', eco, LANGUE, j5Etat(), j5Jour(), document.body.classList.contains('leger')].join(':') : 'off';
   if (cle === cleParcoursM && !force) return;
   cleParcoursM = cle; calqueParcoursM.clearLayers();
