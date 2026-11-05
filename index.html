@@ -2954,6 +2954,83 @@
   .j5-pt.mid { display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:900; color:#fff; background:#ff9a2b; box-shadow:0 0 0 4px #ff9a2b44; }
   .pm-tl .j5-et small em { font-style:normal; font-weight:800; color:#ffb27a; }
   @media (prefers-reduced-motion: reduce) { .pc-halo, .pc-comete, .pc-bout.dep > i::after, .pm-flux, .pm-comete, .pm-halo, .pm-onde { animation:none !important; } .pc-comete, .pm-comete { display:none; } }
+  /* ================= v72 : « mise à jour en cours » et fiche de la manif, boostées ================= */
+  .mj-hero { position:relative; border-radius:20px; overflow:hidden; margin:2px 0 12px; box-shadow:0 10px 30px #000a, 0 0 0 1px #4f7cff55; }
+  .mj-illus { display:block; width:100%; height:auto; }
+  .mj-route { stroke-dasharray:100; animation:mj-trace 4.4s cubic-bezier(.45,0,.3,1) infinite; }
+  @keyframes mj-trace { 0% { stroke-dashoffset:100; } 62%, 88% { stroke-dashoffset:0; } 100% { stroke-dashoffset:0; opacity:0; } }
+  .mj-pin { transform-box:fill-box; transform-origin:50% 100%; animation:mj-pin 4.4s ease-out infinite; animation-delay:var(--d); opacity:0; }
+  @keyframes mj-pin { 0% { opacity:0; transform:translateY(-16px) scale(.6); } 8% { opacity:1; transform:none; } 11% { transform:scale(1.15); } 14%, 70% { opacity:1; transform:none; } 86%, 100% { opacity:0; } }
+  .mj-crayon { animation:mj-crayon 4.4s linear infinite; }
+  @keyframes mj-crayon { 0%, 62% { opacity:1; } 75%, 100% { opacity:0; } }
+  .mj-sync { transform-box:fill-box; transform-origin:50% 50%; animation:mj-tourne 1.6s linear infinite; }
+  @keyframes mj-tourne { to { transform:rotate(360deg); } }
+  .mj-scan { animation:mj-scan 3.2s ease-in-out infinite; }
+  @keyframes mj-scan { from { transform:translateX(0); } to { transform:translateX(560px); } }
+  .mj-pv .mj-ok { stroke-dasharray:12; stroke-dashoffset:12; animation:mj-ok 6s ease-out infinite; animation-delay:var(--d); }
+  @keyframes mj-ok { 0%, 10% { stroke-dashoffset:12; } 22%, 85% { stroke-dashoffset:0; } 100% { stroke-dashoffset:12; } }
+  .mj-live { position:absolute; left:12px; top:12px; display:flex; align-items:center; gap:7px; padding:5px 10px; border-radius:20px; background:#0b1020cc; border:1px solid #9db8ff55;
+    font-size:10.5px; font-weight:900; letter-spacing:1.2px; color:#dfe7ff; }
+  .mj-live i { width:8px; height:8px; border-radius:50%; background:#ff8a3a; box-shadow:0 0 0 0 #ff8a3a; animation:sp-live 1.4s infinite; }
+  .mj-msg { font-size:19px; line-height:1.38; font-weight:800; margin:0 2px 12px; white-space:pre-wrap; }
+  .mj-cd { display:flex; align-items:center; gap:14px; padding:12px 14px; border-radius:20px; margin-bottom:12px; background:linear-gradient(140deg, #1f2b52, #141a2c); border:1px solid #4f7cff44; }
+  .mj-anneau { width:86px; height:86px; flex:none; }
+  .mj-cd-t small { display:block; font-size:11px; font-weight:800; letter-spacing:.6px; text-transform:uppercase; color:#9db8ff; }
+  .mj-cd-t b { display:block; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:42px; line-height:1.05; color:#fff; font-variant-numeric:tabular-nums; }
+  .mj-cd-t b i { font-style:normal; font-size:22px; color:#9db8ff; margin:0 3px; }
+  .mj-cd-t b em { font-style:normal; font-size:20px; color:#ff8a3a; margin-left:6px; vertical-align:14px; }
+  .mj-cd-t span { display:block; font-size:12.5px; font-weight:700; color:#c9d5f5; margin-top:2px; }
+  .mj-ok-l { display:grid; gap:6px; margin-bottom:12px; }
+  .mj-ok-l div { display:flex; align-items:center; gap:10px; font-size:13.5px; font-weight:700; color:#e6ecff; padding:9px 12px; border-radius:14px; background:#ffffff0a; border:1px solid #ffffff12; }
+  .mj-ok-l span { font-size:17px; }
+  .mj-prev, .mj-manif { display:flex; align-items:center; gap:12px; width:100%; text-align:left; margin:0 0 10px; padding:12px 14px; border-radius:18px; color:var(--txt);
+    background:linear-gradient(135deg, #2a1d10, #1b140c); border:1.5px dashed #ffae3b88; }
+  .mj-prev > span, .mj-manif > span { font-size:24px; flex:none; }
+  .mj-prev div, .mj-manif div { flex:1; min-width:0; } .mj-prev b, .mj-manif b { display:block; font-size:15px; } .mj-prev small, .mj-manif small { display:block; font-size:12px; color:var(--doux); margin-top:1px; }
+  .mj-prev em { font-style:normal; width:30px; height:30px; flex:none; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:900; background:#ffae3b; color:#1a1003; }
+  .mj-prev.on { border-style:solid; border-color:#16c784; background:linear-gradient(135deg, #0f2a1f, #0d1a14); } .mj-prev.on em { background:#16c784; color:#04140d; }
+  .mj-prev.on > span { animation:mj-cloche 2.4s ease-in-out infinite; transform-origin:50% 0; }
+  @keyframes mj-cloche { 0%, 70%, 100% { transform:rotate(0); } 75% { transform:rotate(18deg); } 82% { transform:rotate(-14deg); } 89% { transform:rotate(8deg); } }
+  .mj-manif { border:1.5px solid #ff6a1f88; background:linear-gradient(135deg, #3a1608, #1d0d07); } .mj-manif svg { width:18px; height:18px; opacity:.7; flex:none; }
+  /* la fiche de la manif */
+  .j5-haut.j5-boost { padding-bottom:92px; }
+  .cg { position:absolute; left:0; right:0; bottom:0; height:78px; pointer-events:none;
+    background:radial-gradient(70% 120% at 50% 100%, #ffb46acc 0%, #ff6a1f88 35%, transparent 75%); }
+  .cg::before { content:""; position:absolute; inset:auto 0 0 0; height:8px; background:#1a0a05; }
+  .cg svg { position:absolute; left:0; right:0; bottom:6px; width:100%; height:66px; }
+  .cg-rang { animation:cg-avance 26s linear infinite; }
+  @keyframes cg-avance { from { transform:translateX(0); } to { transform:translateX(-400px); } }
+  .cg-rang.b { animation-name:cg-avance-b; } @keyframes cg-avance-b { from { transform:translateX(400px); } to { transform:translateX(0); } }
+  .cg-p { fill:#1a0703; animation:cg-pas .55s ease-in-out infinite alternate; animation-delay:var(--d); }
+  @keyframes cg-pas { from { translate:0 0; } to { translate:0 -2px; } }
+  .cg-bras, .cg-mat { stroke:#240b04; stroke-width:2.6; stroke-linecap:round; fill:none; }
+  .cg-mat { stroke-width:1.8; }
+  .cg-dr { fill:#ffd27a; transform-box:fill-box; transform-origin:0 50%; animation:cg-flotte 1.2s ease-in-out infinite alternate; } .cg-dr.b { fill:#ff3b4e; }
+  @keyframes cg-flotte { from { transform:skewY(-6deg) scaleX(.9); } to { transform:skewY(6deg); } }
+  .cg-tissu { fill:#fff1e2; stroke:#240b04; stroke-width:1.5; }
+  .cg-ban { animation:cg-pas .55s ease-in-out infinite alternate; }
+  .cg-ban text { font-family:Anton,Impact,sans-serif; font-size:11px; letter-spacing:.8px; fill:#c2330f; }
+  .j5-cd > div { position:relative; overflow:hidden; background:linear-gradient(#00000059 50%, #0000007a 50%); box-shadow:inset 0 1px 0 #ffffff22, 0 6px 16px #0006; }
+  .j5-cd > div::after { content:""; position:absolute; left:0; right:0; top:calc(50% - 10px); height:1px; background:#00000073; box-shadow:0 1px 0 #ffffff14; }
+  .j5-cd b { text-shadow:0 2px 10px #0008; }
+  .j5-cd .tic b { animation:j5-flip .5s cubic-bezier(.3,1.4,.5,1); transform-origin:50% 60%; }
+  @keyframes j5-flip { from { transform:perspective(200px) rotateX(-80deg); opacity:.3; } to { transform:none; opacity:1; } }
+  .pm-stats div i { display:block; font-style:normal; font-size:17px; margin-bottom:4px; }
+  .pm-tete { filter:drop-shadow(0 2px 6px #000c); }
+  .pm-et { cursor:pointer; padding:6px 8px 6px 4px; margin:0 -8px 0 -4px; border-radius:14px; transition:background .2s; }
+  .pm-et:active { background:#ffffff10; }
+  .pm-et .j5-pt { background:var(--ec) !important; box-shadow:0 0 0 4px color-mix(in srgb, var(--ec) 30%, transparent) !important; border-color:#fff; }
+  .pm-et .pm-go { margin-left:auto; font-size:22px; font-weight:300; color:var(--doux); padding-left:6px; }
+  .pm-tl .j5-ligne { background:linear-gradient(var(--a, #ff6a1f), var(--b, #ff2e63)); opacity:.85; }
+  .pm-tl .j5-ligne::after { background:linear-gradient(transparent, #fff, transparent); opacity:.7; }
+  body.leger .cg-rang, body.leger .cg-p, body.leger .mj-scan { animation:none; }
+  @media (prefers-reduced-motion: reduce) { .mj-illus *, .cg *, .mj-prev.on > span, .j5-cd .tic b { animation:none !important; } .mj-pin { opacity:1; } .mj-route { stroke-dashoffset:0; } .mj-crayon { display:none; } }
+  .mp-cmp { display:grid; gap:8px; }
+  .mp-cmp > div { padding:12px 14px; border-radius:16px; }
+  .mp-cmp small { display:block; font-size:11px; font-weight:900; letter-spacing:.8px; text-transform:uppercase; margin-bottom:3px; }
+  .mp-cmp b { display:block; font-size:15px; } .mp-cmp span { display:block; font-size:12.5px; color:var(--doux); margin-top:2px; }
+  .mp-old { background:#ff3b4e14; border:1px solid #ff3b4e55; } .mp-old small { color:#ff8a95; } .mp-old s { color:#ff8a95; }
+  .mp-new { background:#16c78414; border:1px solid #16c78466; } .mp-new small { color:#3ee0a0; }
 </style>
 </head>
 <body>
@@ -4766,7 +4843,7 @@ function dessinerGestion(rafraichir){
     + '</div>';
   h += '<button class="prep5" style="margin:4px 0 4px;border-color:#ffd23f88;background:linear-gradient(135deg,#ffd23f22,#ff6a1f22)" onclick="gererEvenements()"><span>🗓️</span><div><b>Événements, blocus, concerts</b><small>'+(nEvt ? nEvt+' à venir · ' : '')+'Créer ou modifier</small></div>'+ic('fleche')+'</button>';
   if (Date.now() < J5.fin)
-    h += '<button class="prep5" onclick="prep5Demande()"><span>📣</span><div><b>Préparer la manif du '+J5.jour+'</b><small>Rendez-vous, pop-up d\'annonce et parcours rue par rue en 1 tap</small></div>'+ic('fleche')+'</button>';
+    h += '<button class="prep5" onclick="prep5Demande()"><span>📣</span><div><b>Préparer la manif du '+J5.jour+'</b><small>'+(typeof prepManifPerimee === 'function' && prepManifPerimee() ? '⚠️ Ancien parcours publié : touche pour tout mettre à jour' : 'Rendez-vous, pop-up d\'annonce et parcours rue par rue en 1 tap')+'</small></div>'+ic('fleche')+'</button>';
   h += '<div class="g-titre">Rendez-vous</div>';
   h += '<div class="rdv-form"><input id="rdv-h" maxlength="20" placeholder="14h" value="'+esc(cfg.rdvHeure||'')+'"><input id="rdv-t" maxlength="120" placeholder="Place Bellecour, côté statue" value="'+esc(cfg.rdvTexte||'')+'"></div>'
     + '<label class="interrupteur"><span>'+(cfg.rdvLat ? 'Placé sur la carte · déplacer au centre de l\'écran' : 'Placer au centre de l\'écran')+'</span><input id="rdv-c" type="checkbox"></label>'
@@ -8373,6 +8450,162 @@ function miniPlanParcours(P){
     + '<rect width="'+W+'" height="'+H+'" fill="url(#'+u+'v)" pointer-events="none"/></svg>';
   return h;
 }
+// ===================== V72 : « MISE À JOUR EN COURS » ET FICHE DE LA MANIF, BOOSTÉES =====================
+// La fiche du bandeau épinglé : une carte qui se prépare sous tes yeux, le compte à rebours en anneau à la seconde,
+// « Préviens-moi quand c'est prêt », et ce qui reste utile pendant ce temps.
+function illusMaint(k){
+  var u = 'mj' + Math.random().toString(36).slice(2, 6);
+  var fond = '<defs><linearGradient id="'+u+'f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f2b52"/><stop offset="1" stop-color="#121829"/></linearGradient>'
+    + '<linearGradient id="'+u+'r" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffc23a"/><stop offset=".5" stop-color="#ff6a1f"/><stop offset="1" stop-color="#ff2e63"/></linearGradient>'
+    + '<linearGradient id="'+u+'s" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#9db8ff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'
+    + '<clipPath id="'+u+'c"><rect width="320" height="150" rx="18"/></clipPath></defs>'
+    + '<g clip-path="url(#'+u+'c)"><rect width="320" height="150" fill="url(#'+u+'f)"/>'
+    + '<path d="M-10 105C40 90 60 140 110 160" stroke="#3d64b8" stroke-opacity=".55" stroke-width="22" fill="none"/>'
+    + '<g stroke="#ffffff" stroke-opacity=".08" stroke-width="7" stroke-linecap="round"><path d="M0 40H320M0 95H320M60 0V150M150 0V150M245 0V150"/></g>'
+    + '<g stroke="#ffffff" stroke-opacity=".05" stroke-width="3"><path d="M0 18H320M0 68H320M0 122H320M30 0V150M105 0V150M200 0V150M290 0V150M0 150L170 0"/></g>';
+  var fin = '<rect class="mj-scan" x="-120" y="0" width="120" height="150" fill="url(#'+u+'s)"/></g>';
+  if (k === 'verif') {
+    var pins = [[70, 52], [128, 104], [196, 46], [262, 92]].map(function(p, i){
+      return '<g class="mj-pv" style="--d:'+(i * .55).toFixed(2)+'s" transform="translate('+p[0]+' '+p[1]+')"><path d="M0 0C-9-10-9-22 0-24C9-22 9-10 0 0Z" fill="#ff3b4e" stroke="#0b1020" stroke-width="2"/>'
+        + '<circle cy="-15" r="6.5" fill="#0b1020"/><path class="mj-ok" d="M-3.5-15L-1-12.3L3.8-17.5" stroke="#3ee0a0" stroke-width="2.4" fill="none" stroke-linecap="round"/></g>'; }).join('');
+    return '<svg class="mj-illus" viewBox="0 0 320 150" aria-hidden="true">' + fond + pins
+      + '<g class="mj-loupe"><animateMotion dur="6s" repeatCount="indefinite" path="M70 40C120 20 130 110 128 92S180 20 196 34S250 120 262 80S120 40 70 40"/><circle r="22" fill="#9db8ff" fill-opacity=".12" stroke="#dfe7ff" stroke-width="5"/><path d="M16 16L32 32" stroke="#dfe7ff" stroke-width="8" stroke-linecap="round"/></g>' + fin + '</svg>';
+  }
+  var route = 'M36 118C80 112 92 76 132 74S196 84 214 58S262 30 288 32';
+  return '<svg class="mj-illus" viewBox="0 0 320 150" aria-hidden="true">' + fond
+    + '<path d="'+route+'" stroke="#000" stroke-opacity=".45" stroke-width="11" fill="none" stroke-linecap="round"/>'
+    + '<path class="mj-route" d="'+route+'" stroke="url(#'+u+'r)" stroke-width="6" fill="none" stroke-linecap="round" pathLength="100"/>'
+    + [[36, 118, '#ffc23a', '📍', 0], [132, 74, '#ffd23f', '🚧', 1], [214, 58, '#ff6a1f', '📣', 2], [288, 32, '#ff2e63', '🏁', 3]].map(function(p){
+        return '<g transform="translate('+p[0]+' '+p[1]+')"><g class="mj-pin" style="--d:'+(.45 + p[4] * .55).toFixed(2)+'s"><circle r="13" fill="#0b1020" stroke="'+p[2]+'" stroke-width="3"/><text y="5" text-anchor="middle" font-size="13">'+p[3]+'</text></g></g>'; }).join('')
+    + '<g class="mj-crayon"><animateMotion dur="4.4s" repeatCount="indefinite" path="'+route+'" keyPoints="0;1;1" keyTimes="0;.62;1" calcMode="linear"/><path d="M0 0L-6 -16L6 -16Z" fill="#ffd27a"/><rect x="-6" y="-46" width="12" height="30" rx="2" fill="#ff8a3a" stroke="#3a1a08" stroke-width="1.5"/><path d="M-2 -4L0 0L2 -4Z" fill="#3a1a08"/></g>'
+    + '<g transform="translate(292 118)"><circle r="16" fill="#0b1020" stroke="#9db8ff" stroke-opacity=".5" stroke-width="2"/>'
+    + '<g class="mj-sync" fill="none" stroke="#9db8ff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 0A8 8 0 0 1-5.7 5.7M-8 0A8 8 0 0 1 5.7-5.7"/><path d="M6.8-9.6V-5.2H2.4M-6.8 9.6V5.2H-2.4"/></g></g>'
+    + fin + '</svg>';
+}
+function debutMaint(fin){ var t = (etat.config || {}).ts; return t && t < Date.now() && t > fin - 12 * 3600000 ? t : fin - 3 * 3600000; }
+function htmlCompteMaint(fin, debut){
+  var en = LANGUE === 'en', ms = Math.max(0, fin - Date.now()), s = Math.floor(ms / 1000), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
+  var p = Math.max(0, Math.min(1, (Date.now() - debut) / Math.max(1, fin - debut))), C = 2 * Math.PI * 52;
+  return '<svg class="mj-anneau" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="#ffffff14" stroke-width="9"/>'
+    + '<circle cx="60" cy="60" r="52" fill="none" stroke="url(#mjAn)" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'" stroke-dashoffset="'+(C * (1 - p)).toFixed(1)+'" transform="rotate(-90 60 60)"/>'
+    + '<defs><linearGradient id="mjAn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9db8ff"/><stop offset="1" stop-color="#ff8a3a"/></linearGradient></defs></svg>'
+    + '<div class="mj-cd-t"><small>'+(en ? 'back to normal in' : 'retour à la normale dans')+'</small>'
+    + '<b>'+(ms <= 0 ? (en ? 'any minute' : 'd’une minute à l’autre') : (h ? h + '<i>h</i>' + String(m).padStart(2, '0') : m + '<i>min</i>') + '<em>' + String(sec).padStart(2, '0') + '</em>')+'</b>'
+    + '<span>'+(en ? 'planned at ' : 'prévu à ')+heure(fin)+'</span></div>';
+}
+var mjMinuteur = null;
+var ouvrirInfoMaintAvantBoost = ouvrirInfoMaint;
+ouvrirInfoMaint = function(){
+  var o = modeMaint(etat.config), en = LANGUE === 'en';
+  if (o.k !== 'bandeau' && o.k !== 'verif') return ouvrirInfoMaintAvantBoost();
+  var M = MODES_MAINT[o.k], fin = heureFin(o.fin), debut = fin ? debutMaint(fin) : 0, prevenu = lireLS('maintPrevenir') === cleMaint(o);
+  var manif = typeof J5 !== 'undefined' && j5Etat() === 'avant';
+  var h = entete((o.k === 'verif' ? '🔎 ' : '📌 ') + (en ? M.titreEn : M.titre), en ? 'Message from the Traboule team' : 'Message de l\'équipe Traboule')
+    + '<div class="mj-hero mj-'+o.k+'">' + illusMaint(o.k)
+    + '<div class="mj-live"><i></i>'+(o.k === 'verif' ? (en ? 'CHECKING' : 'VÉRIFICATION EN COURS') : (en ? 'IN PROGRESS' : 'ÇA SE PRÉPARE'))+'</div></div>'
+    + '<div class="mj-msg">'+esc(texteMaint(o))+'</div>'
+    + (fin ? '<div class="mj-cd" id="mj-cd">'+htmlCompteMaint(fin, debut)+'</div>' : '')
+    + '<div class="mj-ok-l">'
+    + (o.k === 'verif'
+      ? '<div><span>🗺️</span>'+(en ? 'The map, metro and hospitals stay visible' : 'Le plan, le métro et les hôpitaux restent visibles')+'</div><div><span>🙈</span>'+(en ? 'Reports are hidden while we check them' : 'Les signalements sont cachés le temps de les vérifier')+'</div>'
+      : '<div><span>✅</span>'+(en ? 'The map stays usable' : 'La carte reste utilisable')+'</div><div><span>⏳</span>'+(en ? 'Some info may be a few minutes late' : 'Certaines infos peuvent avoir un peu de retard')+'</div>')
+    + '</div>'
+    + '<button class="mj-prev'+(prevenu ? ' on' : '')+'" id="mj-prev" onclick="prevenirFinMaint()"><span>'+(prevenu ? '🔔' : '🔕')+'</span><div><b>'+(prevenu ? (en ? 'You’ll be told' : 'Tu seras prévenu·e') : (en ? 'Tell me when it’s ready' : 'Préviens-moi quand c’est prêt'))+'</b>'
+    + '<small>'+(prevenu ? (en ? 'A big screen pops up the moment it’s back' : 'Un grand écran s’affiche dès que c’est de retour') : (en ? 'Keep Traboule open, we’ll show it in big' : 'Garde Traboule ouvert, on te l’affiche en grand'))+'</small></div><em>'+(prevenu ? '✓' : '+')+'</em></button>'
+    + (manif ? '<button class="mj-manif" onclick="ouvrirJ5()"><span>✊</span><div><b>'+(en ? J5.nomEn : J5.nom)+' · '+(en ? J5.courtEn : J5.court)+' '+J5.heure+'</b><small>'+(en ? 'Route, countdown, bag to pack' : 'Le parcours, le compte à rebours, le sac à préparer')+'</small></div>'+ic('fleche')+'</button>' : '')
+    + '<div class="rangee"><button class="btn rose plein" onclick="ouvrirReflexes()">🛡️ '+(en ? 'Safety tips' : 'Les bons réflexes')+'</button><button class="btn plein" onclick="fermer()">OK</button></div>';
+  ouvrir(h, 'info-maint');
+  clearInterval(mjMinuteur);
+  if (fin) mjMinuteur = setInterval(function(){
+    var f = $('feuille'), c = $('mj-cd'); if (!c || f.dataset.vue !== 'info-maint' || !f.classList.contains('ouverte')) { clearInterval(mjMinuteur); return; }
+    c.innerHTML = htmlCompteMaint(fin, debut);
+  }, 1000);
+};
+function prevenirFinMaint(){
+  var o = modeMaint(etat.config), cle = cleMaint(o), on = lireLS('maintPrevenir') === cle;
+  ecrireLS('maintPrevenir', on ? '' : cle);
+  try { if (navigator.vibrate) navigator.vibrate(15); } catch(e){}
+  if (!on) { try { jouer('ding'); } catch(e){} toast(LANGUE === 'en' ? '🔔 We’ll tell you as soon as it’s ready' : '🔔 On te prévient dès que c’est prêt'); }
+  ouvrirInfoMaint();
+}
+// la mise à jour épinglée se termine : « C'EST PRÊT » en grand pour ceux qui l'ont demandé
+var majMaintenanceAvantBoost = majMaintenance;
+majMaintenance = function(){
+  var avant = majMaintenance.prec || 'aucune', r = majMaintenanceAvantBoost.apply(this, arguments), apres = modeMaint(etat.config).k;
+  if ((avant === 'bandeau' || avant === 'verif') && apres === 'aucune' && lireLS('maintPrevenir')) {
+    ecrireLS('maintPrevenir', '');
+    planifierFenetre(4, 'pret-maint', function(){ montrerMoment(avant === 'verif' ? 'retour' : 'pret'); });
+  }
+  return r;
+};
+
+// ----- La fiche de la manif : cortège animé, compte à rebours façon tableau d'affichage, tête de cortège sur le plan, étapes cliquables -----
+function cortegeSvg(){
+  var g = '', i, x, h, r = function(k){ return ((k * 9301 + 49297) % 233280) / 233280; };
+  for (i = 0; i < 16; i++) {
+    x = 10 + i * 25 + r(i) * 8; h = .82 + r(i + 7) * .3;
+    g += '<g class="cg-p" style="--d:-'+(r(i + 3) * .9).toFixed(2)+'s" transform="translate('+x.toFixed(1)+' 64) scale('+h.toFixed(2)+')"><path d="M-5 0L-3.8-15L-5.5-27Q0-31 5.5-27L3.8-15L5 0H2L0-12L-2 0Z"/><circle cy="-34" r="5"/>'
+      + (i % 5 === 1 ? '<path class="cg-bras" d="M3-26L9-38"/><path d="M9-38V-62" class="cg-mat"/><path d="M9-62L27-56L9-50Z" class="cg-dr'+(i % 2 ? ' b' : '')+'"/>' : '')
+      + (i % 5 === 3 ? '<path class="cg-bras" d="M-3-26L-7-42M3-26L7-42"/>' : '') + '</g>';
+  }
+  g += '<g class="cg-ban" transform="translate(178 22)"><path d="M0 4V38M74 4V38" class="cg-mat"/><rect x="-2" y="2" width="78" height="20" rx="3" class="cg-tissu"/><text x="37" y="16.5" text-anchor="middle">'+esc((LANGUE === 'en' ? J5.courtEn : J5.court).toUpperCase() + ' ' + J5.heure.toUpperCase() + ' ✊')+'</text></g>';
+  return '<div class="cg" aria-hidden="true"><svg viewBox="0 0 400 66" preserveAspectRatio="xMidYMax slice"><g class="cg-rang">'+g+'</g><g class="cg-rang b" transform="translate(400 0)">'+g+'</g></svg></div>';
+}
+var ouvrirJ5AvantBoost = ouvrirJ5;
+ouvrirJ5 = function(){
+  ouvrirJ5AvantBoost();
+  var f = $('feuille'), haut = f.querySelector('.j5-haut'); if (!haut) return;
+  haut.classList.add('j5-boost'); haut.insertAdjacentHTML('beforeend', cortegeSvg());
+  var P = J5.parcours, cum = cumulsTrace(P.coords), Lt = cum[cum.length-1];
+  // étapes aux couleurs du tracé, chacune ouvre la carte à cet endroit
+  f.querySelectorAll('.pm-tl .j5-et').forEach(function(el, k){
+    var e = P.etapes[k]; if (!e) return; var c = couleurPm(cum[e.i] / Lt);
+    el.style.setProperty('--ec', c); el.classList.add('pm-et'); el.setAttribute('role', 'button');
+    el.insertAdjacentHTML('beforeend', '<span class="pm-go">›</span>');
+    el.onclick = function(){ voirEtapeJ5(k); };
+  });
+  f.querySelectorAll('.pm-tl .j5-ligne').forEach(function(l, k){
+    var a = P.etapes[k], b = P.etapes[k + 1]; if (!a || !b) return;
+    l.style.setProperty('--a', couleurPm(cum[a.i] / Lt)); l.style.setProperty('--b', couleurPm(cum[b.i] / Lt));
+  });
+  // chiffres avec icônes
+  ['🚶', '⏱️', '🕑'].forEach(function(e, k){ var d = f.querySelectorAll('.pm-stats > div')[k]; if (d) d.insertAdjacentHTML('afterbegin', '<i>'+e+'</i>'); });
+  // la tête de cortège qui avance sur le mini-plan
+  var svg = f.querySelector('.pm-svg'), route = svg && svg.querySelector('.pm-comete');
+  if (route && !document.body.classList.contains('leger')) {
+    var id = 'pmr' + Math.random().toString(36).slice(2, 6); route.setAttribute('id', id);
+    svg.insertAdjacentHTML('beforeend', '<g class="pm-tete"><circle r="11" fill="#fff" stroke="#ff6a1f" stroke-width="3"/><text y="4.5" text-anchor="middle" font-size="12">✊</text>'
+      + '<animateMotion dur="9s" repeatCount="indefinite" rotate="0" keyPoints="0;1;1" keyTimes="0;.85;1" calcMode="linear"><mpath href="#'+id+'"/></animateMotion></g>');
+  }
+};
+function voirEtapeJ5(k){
+  var P = J5.parcours, e = P.etapes[k]; if (!e) return;
+  fermer(); majParcoursManif(true);
+  carte.flyTo(P.coords[e.i], 16, { duration:1.1 });
+  toast((k + 1) + ' · ' + (LANGUE === 'en' ? e.tEn : e.t));
+}
+// Admins : le pop-up ou le tracé de samedi publiés avant la correction du parcours (rue Garibaldi) → on propose de tout remplacer en un geste
+function prepManifPerimee(){
+  if (!estAdmin() || typeof J5 === 'undefined' || maintenant() > J5.fin) return false;
+  var pop = (etat.popups || []).some(function(p){ return p.titre === MANIF5.popup.titre && /rue Garibaldi/i.test(p.texte || '') && !/Claude-Bernard/i.test(p.texte || ''); });
+  return pop || (etat.traces || []).some(tracePerimee);
+}
+function ouvrirMajPrepManif(){
+  ouvrir(entete('⚠️ Ancien parcours publié', 'Le pop-up et le tracé de samedi ont été publiés avant la correction.')
+    + '<div class="mp-cmp"><div class="mp-old"><small>Publié</small><b>Gambetta → <s>rue Garibaldi</s> → Berthelot</b><span>2,2 km</span></div>'
+    + '<div class="mp-new"><small>Le bon parcours</small><b>Gambetta → quai Claude-Bernard → Berthelot</b><span>3,5 km · comme le 5 novembre</span></div></div>'
+    + '<p class="sous" style="margin:10px 2px 12px">Un appui remplace le pop-up et le tracé sur le serveur. Tout le monde verra le nouveau pop-up, même ceux qui avaient déjà vu l\'ancien.</p>'
+    + '<div class="rangee"><button class="btn plein" onclick="fermer()">Plus tard</button><button class="btn rose plein" id="prep5-go" onclick="prep5()">Tout mettre à jour</button></div>', 'gestion-prep');
+}
+(function(){
+  var n = 0, fait = false;
+  (function att(){
+    if (fait || ++n > 900) return;
+    if (!etat.derniereMaj || !estAdmin()) return setTimeout(att, 1500);
+    if (!prepManifPerimee()) return setTimeout(att, 4000);
+    fait = true; planifierFenetre(13, 'prep-perimee', function(){ if (prepManifPerimee()) ouvrirMajPrepManif(); });
+  })();
+})();
 </script>
 </body>
 </html>
