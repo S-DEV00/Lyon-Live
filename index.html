@@ -6075,14 +6075,14 @@ function ouvrirConseilsEN(){
 var MANIF5 = {
   rdv: { phase:'avant', rdvHeure:'Sam. 7/11 · 14h', rdvTexte:'Manufacture des Tabacs (8e), cours Albert-Thomas → place Jean-Macé', rdvLat:45.74915, rdvLng:4.86045 },
   popup: { titre:'Manif samedi 7 novembre', emoji:'📣', style:'important', cible:'tous', bouton:'Voir le départ', heures:12, lat:45.74915, lng:4.86045,
-    texte:'Manif samedi à 14h.\nDépart de la Manufacture des Tabacs (cours Albert-Thomas, Lyon 8e), arrivée place Jean-Macé (Lyon 7e).\nParcours : cours Gambetta, rue Garibaldi, avenue Berthelot (2,2 km). Il peut changer : suis la carte en direct.\nViens accompagné·e, garde ton tel chargé, de l\'eau et du sérum phy. Urgence : 112.' },
-  trace: { type:'cortege', note:'Parcours 7/11 : Manufacture des Tabacs → cours Gambetta → rue Garibaldi → avenue Berthelot → Jean-Macé' }
+    texte:'Manif samedi à 14h.\nDépart de la Manufacture des Tabacs (cours Albert-Thomas, Lyon 8e), arrivée place Jean-Macé (Lyon 7e).\nParcours : cours Gambetta (Garibaldi, Saxe-Gambetta), quai Claude-Bernard, avenue Berthelot (3,5 km). Il peut changer : suis la carte en direct.\nViens accompagné·e, garde ton tel chargé, de l\'eau et du sérum phy. Urgence : 112.' },
+  trace: { type:'cortege', note:'Parcours 7/11 : Manufacture des Tabacs → cours Gambetta → quai Claude-Bernard → avenue Berthelot → Jean-Macé' }
 };
 function prep5Demande(){
   ouvrir(entete('Manif du ' + J5.jour, 'Ce bouton remplit la carte pour tout le monde :')
     + '<div class="prep5-liste"><div>📍 <b>Rendez-vous</b> : ' + esc(MANIF5.rdv.rdvHeure) + ', devant la Manufacture des Tabacs (cours Albert-Thomas) → place Jean-Macé (reste affiché jusqu\'à ce que tu le changes)</div>'
     + '<div>📣 <b>Pop-up d\'annonce</b> pour tout le monde (12 h)</div>'
-    + '<div>〰️ <b>Parcours du cortège</b>, rue par rue : cours Gambetta, rue Garibaldi, avenue Berthelot (2,2 km, 6 h)</div></div>'
+    + '<div>〰️ <b>Parcours du cortège</b>, rue par rue : cours Gambetta (Garibaldi, Saxe-Gambetta), quai Claude-Bernard, avenue Berthelot (3,5 km, 6 h)</div></div>'
     + '<p style="font-size:13px;opacity:.7;line-height:1.4">Le parcours prévu est déjà sur la carte pour tout le monde, même sans ce bouton. Le pop-up et le tracé publiés ici s\'effacent tout seuls après quelques heures : tape une fois maintenant, puis encore une fois le matin de la manif. Pas de doublons, l\'ancien est remplacé. Si le vrai parcours est différent, trace-le à la main : le parcours prévu s\'efface alors tout seul.</p>'
     + '<div class="rangee"><button class="btn plein" onclick="dessinerGestion()">Annuler</button><button class="btn rose plein" id="prep5-go" onclick="prep5()">Préparer</button></div>', 'gestion-prep');
 }
@@ -6907,24 +6907,25 @@ function bsPublier(){
 // ===================== V42 : LA MANIF MISE EN AVANT (5 nov., puis samedi 7 nov.) =====================
 // Compte à rebours, sac à préparer, affiche à partager, et les grands moments de la manif en plein écran.
 // La manif mise en avant : pastille, fiche, affiche, agenda, préparation de la carte. Le 5 novembre est passé : place au samedi 7.
-// Parcours tracé rue par rue sur OpenStreetMap (milieu de la chaussée), comme celui autorisé le samedi 31 octobre.
+// Parcours tracé rue par rue sur OpenStreetMap (milieu de la chaussée) : le même que la manif du jeudi 5 novembre.
 var J5 = { id:'7nov', debut:Date.UTC(2026,10,7,13,0), fin:Date.UTC(2026,10,7,16,30), finJour:Date.UTC(2026,10,7,22,59), heure:'14h',
   jour:'samedi 7 novembre', jourEn:'Saturday 7 November', court:'sam.', courtEn:'Sat', date:'7 nov.', dateEn:'7 Nov',
   nom:'Manif samedi', nomEn:'Saturday march', titre:'LA MANIF<br><b>DE SAMEDI</b>', titreEn:'SATURDAY<br><b>MARCH</b>',
   affJour:'SAMEDI', affDate:'7 NOV.', affSous:'MANIF · LYON', sac:'sac7', splash:'✊ Jour J · Manif · 14h',
   depart:'Manufacture des Tabacs', departQ:'cours Albert-Thomas · Lyon 8e', arrivee:'Place Jean-Macé', arriveeQ:'Lyon 7e',
   parcours:{
-    coords:[[45.74938,4.86029],[45.74941,4.86022],[45.7495,4.85996],[45.74956,4.85979],[45.74959,4.8597],[45.74963,4.85959],[45.74969,4.85941],[45.74974,4.85926],[45.74978,4.85903],[45.74981,4.85887],[45.74998,4.85838],[45.75001,4.85827],[45.75025,4.85756],[45.75037,4.85722],[45.75045,4.85696],[45.75061,4.85651],[45.75086,4.85581],[45.75098,4.85548],[45.75109,4.85519],[45.75148,4.85402],[45.75156,4.85379],[45.75161,4.85365],[45.75151,4.85366],[45.75141,4.85368],[45.75123,4.85371],[45.75114,4.85372],[45.75078,4.85379],[45.75061,4.85382],[45.75051,4.85386],[45.75038,4.8539],[45.75032,4.85391],[45.74985,4.85393],[45.74975,4.85391],[45.7497,4.85389],[45.74917,4.85356],[45.74908,4.8535],[45.74902,4.85344],[45.74824,4.85257],[45.74806,4.85233],[45.74795,4.85218],[45.74762,4.8517],[45.74745,4.85145],[45.74708,4.85093],[45.74683,4.85056],[45.74657,4.85018],[45.74643,4.84998],[45.74633,4.8499],[45.7459,4.84948],[45.74563,4.84923],[45.74547,4.8491],[45.74524,4.84886],[45.7451,4.84875],[45.74498,4.84864],[45.74417,4.8479],[45.74398,4.84773],[45.74389,4.8476],[45.74347,4.84722],[45.7435,4.84713],[45.74352,4.84706],[45.74372,4.84645],[45.74385,4.84603],[45.74457,4.8438],[45.74466,4.84351],[45.74485,4.84292],[45.74494,4.84264],[45.74512,4.84209],[45.7452,4.84184],[45.74556,4.84212]],
+    coords:[[45.74938,4.86029],[45.74941,4.86022],[45.7495,4.85996],[45.74956,4.85979],[45.74959,4.8597],[45.74963,4.85959],[45.74969,4.85941],[45.74974,4.85926],[45.74978,4.85903],[45.74981,4.85887],[45.74998,4.85838],[45.75001,4.85827],[45.75025,4.85756],[45.75037,4.85722],[45.75045,4.85696],[45.75061,4.85651],[45.75086,4.85581],[45.75098,4.85548],[45.75109,4.85519],[45.75148,4.85402],[45.75156,4.85379],[45.75161,4.85365],[45.75209,4.85224],[45.75276,4.85034],[45.75412,4.84637],[45.75531,4.84299],[45.75538,4.84286],[45.75547,4.84263],[45.75624,4.84035],[45.75572,4.84002],[45.75407,4.83875],[45.75201,4.83709],[45.75191,4.83694],[45.75027,4.83568],[45.74961,4.83508],[45.74885,4.83448],[45.74874,4.83436],[45.74822,4.83394],[45.74781,4.83364],[45.74592,4.83953],[45.7452,4.84184],[45.74534,4.84199],[45.74556,4.8421]],
     // [nom, premier point, dernier point] : sert aux noms écrits le long du tracé
-    rues:[['Cours Albert-Thomas',0,6],['Cours Gambetta',6,21],['Rue Garibaldi',21,56],['Avenue Berthelot',56,66],['Place Jean-Macé',66,67]],
+    rues:[['Cours Albert-Thomas',0,6],['Cours Gambetta',6,28],['Quai Claude-Bernard',28,38],['Avenue Berthelot',38,40],['Place Jean-Macé',40,42]],
     etapes:[
       { i:0, h:'14h', t:'Départ · Manufacture des Tabacs', tEn:'Start · Manufacture des Tabacs', s:'Cours Albert-Thomas · Ⓜ Sans-Souci (D) à 5 min', sEn:'Cours Albert-Thomas · Ⓜ Sans-Souci (D), 5 min away' },
-      { i:21, t:'Cours Gambetta, puis à gauche', tEn:'Cours Gambetta, then left', s:'Rue Garibaldi, au métro Garibaldi', sEn:'Rue Garibaldi, at Garibaldi metro' },
-      { i:56, t:'Rue Garibaldi, puis à droite', tEn:'Rue Garibaldi, then right', s:'Avenue Berthelot, vers Jean-Macé', sEn:'Avenue Berthelot, towards Jean-Macé' },
-      { i:67, t:'Arrivée · Place Jean-Macé', tEn:'Finish · Place Jean-Macé', s:'Ⓜ Jean Macé (B) · gare Jean-Macé', sEn:'Ⓜ Jean Macé (B) · Jean-Macé station', arr:1 }
+      { i:24, t:'Cours Gambetta, tout droit', tEn:'Cours Gambetta, straight on', s:'Garibaldi, puis Saxe-Gambetta', sEn:'past Garibaldi, then Saxe-Gambetta' },
+      { i:28, t:'Quai Claude-Bernard, à gauche', tEn:'Quai Claude-Bernard, turn left', s:'au pont de la Guillotière, le long du Rhône', sEn:'at Pont de la Guillotière, along the Rhône' },
+      { i:38, t:'Avenue Berthelot, à gauche', tEn:'Avenue Berthelot, turn left', s:'au pont Gallieni, vers Jean-Macé', sEn:'at Pont Gallieni, towards Jean-Macé' },
+      { i:42, t:'Arrivée · Place Jean-Macé', tEn:'Finish · Place Jean-Macé', s:'Ⓜ Jean Macé (B) · gare Jean-Macé', sEn:'Ⓜ Jean Macé (B) · Jean-Macé station', arr:1 }
     ],
-    source:'C’est le parcours autorisé le samedi 31 octobre (même départ, même arrivée) : cours Gambetta, rue Garibaldi, avenue Berthelot.',
-    sourceEn:'This is the route allowed on Saturday 31 October (same start and finish): cours Gambetta, rue Garibaldi, avenue Berthelot.'
+    source:'C’est le même parcours que la manif du jeudi 5 novembre : cours Gambetta (Garibaldi, Saxe-Gambetta), quai Claude-Bernard, avenue Berthelot.',
+    sourceEn:'Same route as the Thursday 5 November march: cours Gambetta (Garibaldi, Saxe-Gambetta), quai Claude-Bernard, avenue Berthelot.'
   }
 };
 function j5Etat(){ var n = maintenant(); return n > J5.finJour ? 'passe' : n >= J5.fin ? 'fini' : n >= J5.debut ? 'live' : 'avant'; }
@@ -7001,7 +7002,7 @@ function ouvrirJ5(){
 // « Voir sur la carte » : le parcours (ou le tracé publié par l'équipe s'il y en a un autre) en plein écran
 function voirParcoursJ5(){
   fermer(); majParcoursManif(true);
-  var t = (etat.traces || []).filter(function(x){ return x.type === 'cortege' && !routeCorrespond(x); })[0];
+  var t = (etat.traces || []).filter(function(x){ return x.type === 'cortege' && !routeCorrespond(x) && !tracePerimee(x); })[0];
   carte.flyToBounds(L.latLngBounds(t ? t.coords : J5.parcours.coords), { padding:[70, 70], maxZoom:16, duration:1.1 });
   toast(t ? (LANGUE === 'en' ? 'Route published by the team' : 'Parcours publié par l’équipe')
           : (LANGUE === 'en' ? 'Planned route (it can change on the day)' : 'Parcours prévu (il peut changer le jour J)'));
@@ -7010,7 +7011,7 @@ function agendaJ5(){
   function f(ts){ return new Date(ts).toISOString().replace(/[-:]/g, '').replace(/\.\d+/, ''); }
   var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Traboule//FR','BEGIN:VEVENT','UID:manif-'+J5.id+'@traboule','DTSTAMP:'+f(Date.now()),
     'DTSTART:'+f(J5.debut),'DTEND:'+f(J5.fin),'SUMMARY:'+J5.nom+' · Lyon','LOCATION:'+J5.depart+' (Lyon 8e) → '+J5.arrivee+' (Lyon 7e)',
-    'DESCRIPTION:Départ '+J5.heure+' de la '+J5.depart+' (cours Albert-Thomas)\\, arrivée '+J5.arrivee.toLowerCase()+'. Parcours prévu : cours Gambetta\\, rue Garibaldi\\, avenue Berthelot. Carte en direct : '+(urlAppli||''),
+    'DESCRIPTION:Départ '+J5.heure+' de la '+J5.depart+' (cours Albert-Thomas)\\, arrivée '+J5.arrivee.toLowerCase()+'. Parcours prévu : cours Gambetta (Garibaldi\\, Saxe-Gambetta)\\, quai Claude-Bernard\\, avenue Berthelot. Carte en direct : '+(urlAppli||''),
     'BEGIN:VALARM','TRIGGER:-PT1H','ACTION:DISPLAY','DESCRIPTION:Manif dans 1 h','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
   var a = document.createElement('a'); a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics); a.download = 'manif-'+J5.id+'.ics';
   document.body.appendChild(a); a.click(); a.remove(); toast('Rappel 1 h avant inclus');
@@ -7065,7 +7066,7 @@ function montrerAfficheJ5(blob, url){
     + '<div class="sous" style="margin-top:8px">Sur iPhone, tu peux aussi appuyer longtemps sur l\'image puis « Enregistrer dans Photos ».</div>', 'affiche');
 }
 function partagerAfficheJ5(){
-  var texte = J5.jour.replace(/^./, function(c){ return c.toUpperCase(); }) + ', ' + J5.heure + ' : manif, de la ' + J5.depart + ' à la ' + J5.arrivee.toLowerCase() + ' (cours Gambetta, rue Garibaldi, avenue Berthelot). Je serai là ✊ Carte en direct : ' + (urlAppli || '');
+  var texte = J5.jour.replace(/^./, function(c){ return c.toUpperCase(); }) + ', ' + J5.heure + ' : manif, de la ' + J5.depart + ' à la ' + J5.arrivee.toLowerCase() + ' (cours Gambetta, quai Claude-Bernard, avenue Berthelot). Je serai là ✊ Carte en direct : ' + (urlAppli || '');
   try {
     var f = new File([afficheBlob], 'traboule-' + J5.id + '.jpg', { type:'image/jpeg' });
     if (navigator.canShare && navigator.canShare({ files:[f] })) { navigator.share({ files:[f], text:texte }).catch(function(){}); return; }
@@ -8285,6 +8286,8 @@ function routeCorrespond(t){
   var P = J5.parcours && J5.parcours.coords, c = t && t.coords; if (!P || !c || c.length !== P.length) return false;
   return distance(c[0], P[0]) < 40 && distance(c[c.length-1], P[P.length-1]) < 40;
 }
+// un ancien tracé « Parcours 7/11 » publié avant la correction du parcours : on l'ignore (le bon parcours s'affiche à la place)
+function tracePerimee(t){ return /^Parcours 7\/11/.test((t && t.note) || '') && !routeCorrespond(t); }
 function optsParcoursJ5(){
   var en = LANGUE === 'en', P = J5.parcours, st = j5Etat();
   return { rues:P.rues, etapes:P.etapes, clic:ouvrirJ5,
@@ -8295,7 +8298,7 @@ function optsParcoursJ5(){
 var calqueParcoursM = L.layerGroup().addTo(carte), cleParcoursM = '';
 function majParcoursManif(force){
   var P = J5.parcours, n = maintenant();
-  var montrer = !!P && n < J5.fin + 3600000 && filtre !== 'danger' && !(etat.traces || []).some(function(t){ return t.type === 'cortege' || t.type === 'prevu'; });
+  var montrer = !!P && n < J5.fin + 3600000 && filtre !== 'danger' && !(etat.traces || []).some(function(t){ return (t.type === 'cortege' || t.type === 'prevu') && !tracePerimee(t); });
   var cle = montrer ? ['on', eco, LANGUE, j5Etat(), j5Jour(), document.body.classList.contains('leger')].join(':') : 'off';
   if (cle === cleParcoursM && !force) return;
   cleParcoursM = cle; calqueParcoursM.clearLayers();
@@ -8304,7 +8307,7 @@ function majParcoursManif(force){
 var dessinerTraceAvantBeau = dessinerTrace;
 dessinerTrace = function(t, calque){
   if (t.type !== 'cortege' && t.type !== 'prevu') return dessinerTraceAvantBeau(t, calque);
-  if (filtre === 'danger') return;
+  if (filtre === 'danger' || tracePerimee(t)) return;
   var officiel = routeCorrespond(t);
   if (!officiel && (maintenant() - t.ts) > VIEUX_MIN * 60000) return dessinerTraceAvantBeau(t, calque);  // vieux tracé : rendu discret
   dessinerParcoursBeau(t.coords, calque, officiel ? optsParcoursJ5() : { clic:function(){ ouvrirTrace(t.id); } });
@@ -8363,7 +8366,8 @@ function miniPlanParcours(P){
   h += '<circle cx="'+X(a)+'" cy="'+Y(a)+'" r="12" fill="none" stroke="'+GRAD_PM[0]+'" stroke-width="2" class="pm-onde"/><circle cx="'+X(a)+'" cy="'+Y(a)+'" r="7" fill="#fff" stroke="'+GRAD_PM[0]+'" stroke-width="4"/>'
     + '<text class="pm-bout" x="'+(+X(a) + 4)+'" y="'+(+Y(a) + 25)+'" text-anchor="end">'+(LANGUE === 'en' ? 'START' : 'DÉPART')+' '+J5.heure.toUpperCase()+'</text>'
     + '<circle cx="'+X(b)+'" cy="'+Y(b)+'" r="9" fill="#fff" stroke="'+GRAD_PM[2]+'" stroke-width="4"/><text x="'+X(b)+'" y="'+(+Y(b) + 4)+'" text-anchor="middle" font-size="10">🏁</text>'
-    + '<text class="pm-bout" x="'+(+X(b) - 15)+'" y="'+(+Y(b) + 4)+'" text-anchor="end">'+(LANGUE === 'en' ? 'FINISH' : 'ARRIVÉE')+'</text>'
+    + (function(){ var q = surTrace(c, cum, Math.max(0, Lt - 250)).ll, droite = +X(b) >= +X(q);   // « ARRIVÉE » dans le prolongement de l'arrivée
+        return '<text class="pm-bout" x="'+(+X(b) + (droite ? 15 : -15))+'" y="'+(+Y(b) + 4)+'" text-anchor="'+(droite ? 'start' : 'end')+'">'+(LANGUE === 'en' ? 'FINISH' : 'ARRIVÉE')+'</text>'; })()
     + '<rect width="'+W+'" height="'+H+'" fill="url(#'+u+'v)" pointer-events="none"/></svg>';
   return h;
 }
