@@ -2899,6 +2899,61 @@
   .bs-it.fe > span { background:linear-gradient(#3d4658, #262c38); box-shadow:inset 0 0 0 2px #a9bcd6; }
   .bs-it.fe small { color:#c9d5e6; } .bs-it.fe.deja small { color:#3ee0a0; }
   @media (prefers-reduced-motion: reduce) { .lg-ferme *, .evt-hero.fe .fe-tampon { animation:none !important; } }
+  /* ================= v71 : le parcours de la manif, bien tracé ================= */
+  .pc-halo { animation:pc-respire 2.6s ease-in-out infinite; }
+  @keyframes pc-respire { 0%, 100% { stroke-opacity:.12; } 50% { stroke-opacity:.26; } }
+  .pc-comete { stroke-dasharray:26 1100; animation:pc-comete 6s linear infinite; }
+  .pc-comete.large { stroke-dasharray:60 1100; animation-name:pc-comete-l; }
+  @keyframes pc-comete { from { stroke-dashoffset:26; } to { stroke-dashoffset:-1000; } }
+  @keyframes pc-comete-l { from { stroke-dashoffset:60; } to { stroke-dashoffset:-1000; } }
+  .pc-km { position:absolute; transform:translate(-50%, -50%); white-space:nowrap; font-size:10px; font-weight:900; letter-spacing:.4px; padding:2px 6px; border-radius:8px;
+    background:#0b0b10; color:#ffd9b8; border:1.5px solid #ff6a1f; box-shadow:0 2px 6px #000a; }
+  .pc-rue { position:absolute; transform:translate(-50%, -50%) rotate(var(--a)) translateY(-17px); white-space:nowrap; pointer-events:none;
+    font-family:Anton,Impact,sans-serif; font-size:13px; letter-spacing:1.2px; text-transform:uppercase; color:#ffe2c6;
+    text-shadow:0 0 3px #000, 0 0 3px #000, 0 1px 6px #000; }
+  body:not(.zoom-14) .pc-rue, body:not(.zoom-14) .pc-km { display:none; }
+  .pc-et { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:900; color:#fff;
+    background:var(--c); border:2.5px solid #fff; box-shadow:0 2px 8px #000b, 0 0 0 3px #0b0b10; }
+  .pc-bout { position:relative; width:100%; height:100%; }
+  .pc-bout > i { position:absolute; inset:0; border-radius:50%; display:flex; align-items:center; justify-content:center; font-style:normal; font-size:15px; }
+  .pc-bout.dep > i { background:#fff; border:5px solid #ffc23a; box-shadow:0 2px 8px #000b; }
+  .pc-bout.dep > i::after { content:""; position:absolute; inset:-9px; border-radius:50%; border:2.5px solid #ffc23a; animation:pc-onde 1.8s ease-out infinite; }
+  .pc-bout.arr > i { background:#fff; border:4px solid #ff2e63; box-shadow:0 2px 8px #000b; }
+  @keyframes pc-onde { from { transform:scale(.6); opacity:1; } to { transform:scale(1.7); opacity:0; } }
+  .pc-bul { position:absolute; left:50%; bottom:calc(100% + 9px); transform:translateX(-50%); white-space:nowrap; text-align:center; pointer-events:none;
+    padding:5px 10px 6px; border-radius:12px; background:#0b0b10f0; border:1.5px solid #ffc23a; box-shadow:0 4px 14px #000c; }
+  .pc-bul::after { content:""; position:absolute; left:50%; top:100%; margin-left:-6px; border:6px solid transparent; border-top-color:#ffc23a; }
+  .pc-bout.arr .pc-bul { border-color:#ff2e63; } .pc-bout.arr .pc-bul::after { border-top-color:#ff2e63; }
+  .pc-bul b { display:block; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:14px; letter-spacing:1px; color:#ffc23a; line-height:1.1; }
+  .pc-bout.arr .pc-bul b { color:#ff6b8f; }
+  .pc-bul small { display:block; font-size:11px; font-weight:700; color:#fff; margin-top:1px; }
+  body:not(.zoom-15) .pc-bul small { display:none; }
+  .pc-bul.d, .pc-bul.g { bottom:auto; top:50%; transform:translateY(-50%); }
+  .pc-bul.d { left:calc(100% + 11px); } .pc-bul.g { left:auto; right:calc(100% + 11px); }
+  .pc-bul.d::after, .pc-bul.g::after { top:50%; margin:-6px 0 0; }
+  .pc-bul.d::after { left:auto; right:100%; border-top-color:transparent; border-right-color:#ffc23a; }
+  .pc-bul.g::after { left:100%; border-top-color:transparent; border-left-color:#ffc23a; }
+  .pc-bout.arr .pc-bul.d::after { border-right-color:#ff2e63; border-top-color:transparent; } .pc-bout.arr .pc-bul.g::after { border-left-color:#ff2e63; border-top-color:transparent; }
+  body.leger .pc-halo, body.leger .pc-bout.dep > i::after { animation:none; }
+  /* la fiche : mini-plan, chiffres, étapes */
+  .pm-plan { position:relative; display:block; width:100%; padding:0; margin:2px 0 10px; border:1px solid #ffffff1a; border-radius:18px; overflow:hidden; background:#15151b; cursor:pointer; }
+  .pm-svg { display:block; width:100%; height:auto; }
+  .pm-zoom { position:absolute; right:8px; bottom:8px; font-size:11.5px; font-weight:800; padding:5px 9px; border-radius:10px; background:#000a; color:#fff; border:1px solid #ffffff33; }
+  .pm-rue { font-family:Anton,Impact,sans-serif; font-size:10px; letter-spacing:.8px; fill:#ffe2c6; text-anchor:middle; paint-order:stroke; stroke:#15151b; stroke-width:3px; }
+  .pm-st { font-size:8.5px; font-weight:800; fill:#cfd6ff; paint-order:stroke; stroke:#15151b; stroke-width:3px; }
+  .pm-bout { font-family:Anton,Impact,sans-serif; font-size:11px; letter-spacing:1px; fill:#fff; paint-order:stroke; stroke:#15151b; stroke-width:3.5px; }
+  .pm-flux { animation:pm-flux 1.2s linear infinite; }
+  @keyframes pm-flux { to { stroke-dashoffset:-14; } }
+  .pm-comete { stroke-dasharray:40 1100; animation:pc-comete-l 4.5s linear infinite; }
+  .pm-halo { animation:pc-respire 2.6s ease-in-out infinite; }
+  .pm-onde { transform-box:fill-box; transform-origin:50% 50%; animation:pc-onde 1.8s ease-out infinite; }
+  .pm-stats { display:grid; grid-template-columns:repeat(3, 1fr); gap:7px; margin:0 0 12px; }
+  .pm-stats div { text-align:center; padding:9px 4px 8px; border-radius:14px; background:#ff6a1f14; border:1px solid #ff6a1f40; }
+  .pm-stats b { display:block; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:21px; line-height:1; color:#ffd27a; }
+  .pm-stats span { display:block; font-size:10.5px; font-weight:800; letter-spacing:.4px; color:var(--doux); margin-top:4px; }
+  .j5-pt.mid { display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:900; color:#fff; background:#ff9a2b; box-shadow:0 0 0 4px #ff9a2b44; }
+  .pm-tl .j5-et small em { font-style:normal; font-weight:800; color:#ffb27a; }
+  @media (prefers-reduced-motion: reduce) { .pc-halo, .pc-comete, .pc-bout.dep > i::after, .pm-flux, .pm-comete, .pm-halo, .pm-onde { animation:none !important; } .pc-comete, .pm-comete { display:none; } }
 </style>
 </head>
 <body>
@@ -4710,8 +4765,8 @@ function dessinerGestion(rafraichir){
     + tuile(messagesInfos().length, 'messages', '#9a9aa5', 'ouvrirInfos()')
     + '</div>';
   h += '<button class="prep5" style="margin:4px 0 4px;border-color:#ffd23f88;background:linear-gradient(135deg,#ffd23f22,#ff6a1f22)" onclick="gererEvenements()"><span>🗓️</span><div><b>Événements, blocus, concerts</b><small>'+(nEvt ? nEvt+' à venir · ' : '')+'Créer ou modifier</small></div>'+ic('fleche')+'</button>';
-  if (Date.now() < new Date(2026, 10, 5, 20).getTime())
-    h += '<button class="prep5" onclick="prep5Demande()"><span>📣</span><div><b>Préparer la manif du jeudi 5 novembre</b><small>Rendez-vous, pop-up d\'annonce et parcours en 1 tap</small></div>'+ic('fleche')+'</button>';
+  if (Date.now() < J5.fin)
+    h += '<button class="prep5" onclick="prep5Demande()"><span>📣</span><div><b>Préparer la manif du '+J5.jour+'</b><small>Rendez-vous, pop-up d\'annonce et parcours rue par rue en 1 tap</small></div>'+ic('fleche')+'</button>';
   h += '<div class="g-titre">Rendez-vous</div>';
   h += '<div class="rdv-form"><input id="rdv-h" maxlength="20" placeholder="14h" value="'+esc(cfg.rdvHeure||'')+'"><input id="rdv-t" maxlength="120" placeholder="Place Bellecour, côté statue" value="'+esc(cfg.rdvTexte||'')+'"></div>'
     + '<label class="interrupteur"><span>'+(cfg.rdvLat ? 'Placé sur la carte · déplacer au centre de l\'écran' : 'Placer au centre de l\'écran')+'</span><input id="rdv-c" type="checkbox"></label>'
@@ -6015,33 +6070,33 @@ function ouvrirConseilsEN(){
     + '<div class="rangee" style="margin-bottom:10px"><button class="btn plein" onclick="fermer();montrerBienvenue()">👋 See the intro again</button></div><div class="rangee" style="margin:-4px 0 10px"><button class="btn plein" onclick="fermer();montrerAnnonceT()">🏛️ Why « Traboule »?</button></div>', 'conseils');
 }
 
-// ===== Préréglage manif du 5 novembre =====
+// ===== Préréglage de la manif mise en avant (samedi 7 novembre) =====
+// La Manufacture des Tabacs est au 6 cours Albert-Thomas (Lyon 8e) : le rendez-vous est devant, sur le cours.
 var MANIF5 = {
-  rdv: { phase:'avant', rdvHeure:'Jeu. 5/11 · 10h30', rdvTexte:'Manufacture des Tabacs (3e) → place Bellecour', rdvLat:45.7490, rdvLng:4.8695 },
-  popup: { titre:'Manif jeudi 5 novembre', emoji:'📣', style:'important', cible:'tous', bouton:'Voir le départ', heures:12, lat:45.7490, lng:4.8695,
-    texte:'Grève et manif intersyndicale.\nDépart 10h30 de la Manufacture des Tabacs (Lyon 3e), arrivée place Bellecour (Lyon 2e).\nLe parcours exact peut changer : suis la carte en direct.\nViens accompagné·e, garde ton tel chargé, de l\'eau et du sérum phy. Urgence : 112.' },
-  trace: { type:'cortege', note:'Parcours indicatif 5/11 (Manufacture → Bellecour), à confirmer',
-    coords:[[45.7490,4.8695],[45.7532,4.8699],[45.7535,4.8600],[45.7537,4.8500],[45.7537,4.8437],[45.7553,4.8412],[45.7563,4.8370],[45.7578,4.8320]] }
+  rdv: { phase:'avant', rdvHeure:'Sam. 7/11 · 14h', rdvTexte:'Manufacture des Tabacs (8e), cours Albert-Thomas → place Jean-Macé', rdvLat:45.74915, rdvLng:4.86045 },
+  popup: { titre:'Manif samedi 7 novembre', emoji:'📣', style:'important', cible:'tous', bouton:'Voir le départ', heures:12, lat:45.74915, lng:4.86045,
+    texte:'Manif samedi à 14h.\nDépart de la Manufacture des Tabacs (cours Albert-Thomas, Lyon 8e), arrivée place Jean-Macé (Lyon 7e).\nParcours : cours Gambetta, rue Garibaldi, avenue Berthelot (2,2 km). Il peut changer : suis la carte en direct.\nViens accompagné·e, garde ton tel chargé, de l\'eau et du sérum phy. Urgence : 112.' },
+  trace: { type:'cortege', note:'Parcours 7/11 : Manufacture des Tabacs → cours Gambetta → rue Garibaldi → avenue Berthelot → Jean-Macé' }
 };
 function prep5Demande(){
-  ouvrir(entete('Manif du jeudi 5 novembre', 'Ce bouton remplit la carte pour tout le monde :')
-    + '<div class="prep5-liste"><div>📍 <b>Rendez-vous</b> : jeudi 5/11 · 10h30, Manufacture des Tabacs → Bellecour (reste affiché jusqu\'à ce que tu le changes)</div>'
+  ouvrir(entete('Manif du ' + J5.jour, 'Ce bouton remplit la carte pour tout le monde :')
+    + '<div class="prep5-liste"><div>📍 <b>Rendez-vous</b> : ' + esc(MANIF5.rdv.rdvHeure) + ', devant la Manufacture des Tabacs (cours Albert-Thomas) → place Jean-Macé (reste affiché jusqu\'à ce que tu le changes)</div>'
     + '<div>📣 <b>Pop-up d\'annonce</b> pour tout le monde (12 h)</div>'
-    + '<div>〰️ <b>Parcours indicatif</b> du cortège (6 h, à corriger si le vrai parcours est différent)</div></div>'
-    + '<p style="font-size:13px;opacity:.7;line-height:1.4">Le pop-up et le parcours s\'effacent tout seuls après quelques heures. Le plus simple : tape une fois maintenant, puis encore une fois le matin du 5. Pas de doublons, l\'ancien est remplacé.</p>'
+    + '<div>〰️ <b>Parcours du cortège</b>, rue par rue : cours Gambetta, rue Garibaldi, avenue Berthelot (2,2 km, 6 h)</div></div>'
+    + '<p style="font-size:13px;opacity:.7;line-height:1.4">Le parcours prévu est déjà sur la carte pour tout le monde, même sans ce bouton. Le pop-up et le tracé publiés ici s\'effacent tout seuls après quelques heures : tape une fois maintenant, puis encore une fois le matin de la manif. Pas de doublons, l\'ancien est remplacé. Si le vrai parcours est différent, trace-le à la main : le parcours prévu s\'efface alors tout seul.</p>'
     + '<div class="rangee"><button class="btn plein" onclick="dessinerGestion()">Annuler</button><button class="btn rose plein" id="prep5-go" onclick="prep5()">Préparer</button></div>', 'gestion-prep');
 }
 function prep5(){
   var b = $('prep5-go'); if (b) { b.disabled = true; b.textContent = 'En cours…'; }
   var m = etat.mdp, nom = etat.pseudo || '';
-  var vieux = (etat.traces||[]).filter(function(t){ return /^Parcours indicatif 5\/11/.test(t.note||''); }).map(function(t){ return ['supprimerTrace', t.id]; })
-    .concat((etat.popups||[]).filter(function(p){ return p.titre === MANIF5.popup.titre; }).map(function(p){ return ['supprimerPopup', p.id]; }));
+  var vieux = (etat.traces||[]).filter(function(t){ return /^Parcours (indicatif )?\d+\/11/.test(t.note||''); }).map(function(t){ return ['supprimerTrace', t.id]; })
+    .concat((etat.popups||[]).filter(function(p){ return p.titre === MANIF5.popup.titre || p.titre === 'Manif jeudi 5 novembre'; }).map(function(p){ return ['supprimerPopup', p.id]; }));
   var ch = Promise.resolve();
   vieux.forEach(function(v){ ch = ch.then(function(){ return serveur(v[0], m, v[1]); }); });
   ch.then(function(){ return serveur('majConfig', m, MANIF5.rdv); })
-    .then(function(){ return serveur('ajouterTrace', m, Object.assign({ par:nom }, MANIF5.trace)); })
+    .then(function(){ return serveur('ajouterTrace', m, Object.assign({ par:nom, coords:J5.parcours.coords }, MANIF5.trace)); })
     .then(function(){ return serveur('publierPopup', m, Object.assign({ par:nom }, MANIF5.popup)); })
-    .then(function(j){ appliquer(j); dessinerGestion(); toast('Manif du 5 novembre prête ✅'); jouer('ding'); })
+    .then(function(j){ appliquer(j); dessinerGestion(); toast('Manif du ' + J5.jour + ' prête ✅'); jouer('ding'); })
     .catch(function(e){ erreurEquipe(e); if (b) { b.disabled = false; b.textContent = 'Réessayer'; } });
 }
 function tuile(n, nom, c, action){ return '<button class="tuile-s" '+(action?'onclick="'+action+'"':'')+' style="--tc:'+c+'"><b>'+n+'</b><span>'+nom+'</span></button>'; }
@@ -6849,20 +6904,39 @@ function bsPublier(){
     });
   })();
 })();
-// ===================== V42 : MANIF DU JEUDI 5 NOVEMBRE =====================
+// ===================== V42 : LA MANIF MISE EN AVANT (5 nov., puis samedi 7 nov.) =====================
 // Compte à rebours, sac à préparer, affiche à partager, et les grands moments de la manif en plein écran.
-var J5 = { debut:Date.UTC(2026,10,5,9,30), fin:Date.UTC(2026,10,5,15,0), finJour:Date.UTC(2026,10,5,22,59), heure:'10h30',
-  depart:'Manufacture des Tabacs', departQ:'Lyon 3e', arrivee:'Place Bellecour', arriveeQ:'Lyon 2e' };
+// La manif mise en avant : pastille, fiche, affiche, agenda, préparation de la carte. Le 5 novembre est passé : place au samedi 7.
+// Parcours tracé rue par rue sur OpenStreetMap (milieu de la chaussée), comme celui autorisé le samedi 31 octobre.
+var J5 = { id:'7nov', debut:Date.UTC(2026,10,7,13,0), fin:Date.UTC(2026,10,7,16,30), finJour:Date.UTC(2026,10,7,22,59), heure:'14h',
+  jour:'samedi 7 novembre', jourEn:'Saturday 7 November', court:'sam.', courtEn:'Sat', date:'7 nov.', dateEn:'7 Nov',
+  nom:'Manif samedi', nomEn:'Saturday march', titre:'LA MANIF<br><b>DE SAMEDI</b>', titreEn:'SATURDAY<br><b>MARCH</b>',
+  affJour:'SAMEDI', affDate:'7 NOV.', affSous:'MANIF · LYON', sac:'sac7', splash:'✊ Jour J · Manif · 14h',
+  depart:'Manufacture des Tabacs', departQ:'cours Albert-Thomas · Lyon 8e', arrivee:'Place Jean-Macé', arriveeQ:'Lyon 7e',
+  parcours:{
+    coords:[[45.74938,4.86029],[45.74941,4.86022],[45.7495,4.85996],[45.74956,4.85979],[45.74959,4.8597],[45.74963,4.85959],[45.74969,4.85941],[45.74974,4.85926],[45.74978,4.85903],[45.74981,4.85887],[45.74998,4.85838],[45.75001,4.85827],[45.75025,4.85756],[45.75037,4.85722],[45.75045,4.85696],[45.75061,4.85651],[45.75086,4.85581],[45.75098,4.85548],[45.75109,4.85519],[45.75148,4.85402],[45.75156,4.85379],[45.75161,4.85365],[45.75151,4.85366],[45.75141,4.85368],[45.75123,4.85371],[45.75114,4.85372],[45.75078,4.85379],[45.75061,4.85382],[45.75051,4.85386],[45.75038,4.8539],[45.75032,4.85391],[45.74985,4.85393],[45.74975,4.85391],[45.7497,4.85389],[45.74917,4.85356],[45.74908,4.8535],[45.74902,4.85344],[45.74824,4.85257],[45.74806,4.85233],[45.74795,4.85218],[45.74762,4.8517],[45.74745,4.85145],[45.74708,4.85093],[45.74683,4.85056],[45.74657,4.85018],[45.74643,4.84998],[45.74633,4.8499],[45.7459,4.84948],[45.74563,4.84923],[45.74547,4.8491],[45.74524,4.84886],[45.7451,4.84875],[45.74498,4.84864],[45.74417,4.8479],[45.74398,4.84773],[45.74389,4.8476],[45.74347,4.84722],[45.7435,4.84713],[45.74352,4.84706],[45.74372,4.84645],[45.74385,4.84603],[45.74457,4.8438],[45.74466,4.84351],[45.74485,4.84292],[45.74494,4.84264],[45.74512,4.84209],[45.7452,4.84184],[45.74556,4.84212]],
+    // [nom, premier point, dernier point] : sert aux noms écrits le long du tracé
+    rues:[['Cours Albert-Thomas',0,6],['Cours Gambetta',6,21],['Rue Garibaldi',21,56],['Avenue Berthelot',56,66],['Place Jean-Macé',66,67]],
+    etapes:[
+      { i:0, h:'14h', t:'Départ · Manufacture des Tabacs', tEn:'Start · Manufacture des Tabacs', s:'Cours Albert-Thomas · Ⓜ Sans-Souci (D) à 5 min', sEn:'Cours Albert-Thomas · Ⓜ Sans-Souci (D), 5 min away' },
+      { i:21, t:'Cours Gambetta, puis à gauche', tEn:'Cours Gambetta, then left', s:'Rue Garibaldi, au métro Garibaldi', sEn:'Rue Garibaldi, at Garibaldi metro' },
+      { i:56, t:'Rue Garibaldi, puis à droite', tEn:'Rue Garibaldi, then right', s:'Avenue Berthelot, vers Jean-Macé', sEn:'Avenue Berthelot, towards Jean-Macé' },
+      { i:67, t:'Arrivée · Place Jean-Macé', tEn:'Finish · Place Jean-Macé', s:'Ⓜ Jean Macé (B) · gare Jean-Macé', sEn:'Ⓜ Jean Macé (B) · Jean-Macé station', arr:1 }
+    ],
+    source:'C’est le parcours autorisé le samedi 31 octobre (même départ, même arrivée) : cours Gambetta, rue Garibaldi, avenue Berthelot.',
+    sourceEn:'This is the route allowed on Saturday 31 October (same start and finish): cours Gambetta, rue Garibaldi, avenue Berthelot.'
+  }
+};
 function j5Etat(){ var n = maintenant(); return n > J5.finJour ? 'passe' : n >= J5.fin ? 'fini' : n >= J5.debut ? 'live' : 'avant'; }
 function j5JoursAvant(){ var a = new Date(maintenant()); a.setHours(0,0,0,0); var d = new Date(J5.debut); d.setHours(0,0,0,0); return Math.round((d - a) / 86400000); }
 function j5Jour(){ return j5JoursAvant() === 0; }
 function j5Pastille(){
   var st = j5Etat(), en = LANGUE === 'en'; if (st === 'passe') return null;
-  if (st === 'live') return ['j5', '#ff6a1f', '✊', '', en ? 'March live' : 'Manif en cours', en ? '5 Nov' : '5 nov.', 'ouvrirJ5()', true];
-  if (st === 'fini') return ['j5', '#16c784', '❤️', '', en ? 'Thank you' : 'Merci à tous', en ? '5 Nov' : '5 nov.', 'ouvrirJ5()'];
+  if (st === 'live') return ['j5', '#ff6a1f', '✊', '', en ? 'March live' : 'Manif en cours', en ? J5.dateEn : J5.date, 'ouvrirJ5()', true];
+  if (st === 'fini') return ['j5', '#16c784', '❤️', '', en ? 'Thank you' : 'Merci à tous', en ? J5.dateEn : J5.date, 'ouvrirJ5()'];
   var j = j5JoursAvant();
   if (j <= 0) return ['j5', '#ff6a1f', '✊', '', en ? 'D-Day' : 'Jour J', (en ? 'in ' : 'dans ') + txtResteCourt(J5.debut - maintenant()), 'ouvrirJ5()'];
-  return ['j5', '#ff6a1f', '✊', 'J-' + j, en ? 'Strike & march' : 'Grève & manif', (en ? 'Thu ' : 'jeu. ') + J5.heure, 'ouvrirJ5()'];
+  return ['j5', '#ff6a1f', '✊', 'J-' + j, en ? J5.nomEn : J5.nom, (en ? J5.courtEn : J5.court) + ' ' + J5.heure, 'ouvrirJ5()'];
 }
 function htmlCompteJ5(){
   var en = LANGUE === 'en', st = j5Etat();
@@ -6875,7 +6949,7 @@ function htmlCompteJ5(){
 }
 var SAC5 = [['💧','De l\'eau','une gourde'],['🧴','Sérum phy','pour les yeux'],['🔋','Tel chargé','+ batterie externe'],['🪪','Tes papiers','pièce d\'identité'],
   ['✍️','Un numéro écrit','d\'un proche, sur papier'],['🥪','De quoi grignoter','la journée est longue'],['🧥','Habits confortables','et de quoi te couvrir'],['👥','Ton groupe','+ un point de RDV']];
-function sacJ5(){ var v = lireLS('sac5') || ''; return v ? v.split(',').map(Number) : []; }
+function sacJ5(){ var v = lireLS(J5.sac) || ''; return v ? v.split(',').map(Number) : []; }
 function htmlSacJ5(){
   var ok = sacJ5(), n = ok.length;
   return '<div class="j5-st">🎒 '+(LANGUE === 'en' ? 'Pack your bag' : 'Prépare ton sac')+' <span id="j5-sac-n">'+n+'/'+SAC5.length+'</span></div>'
@@ -6886,30 +6960,35 @@ function htmlSacJ5(){
 function cocherSacJ5(i){
   var ok = sacJ5(), k = ok.indexOf(i), avant = ok.length;
   if (k >= 0) ok.splice(k, 1); else ok.push(i);
-  ecrireLS('sac5', ok.join(','));
+  ecrireLS(J5.sac, ok.join(','));
   var el = $('j5-sac'); if (el) el.innerHTML = htmlSacJ5();
   if (ok.length === SAC5.length && avant < SAC5.length) { confettis(); try { jouer('ding'); } catch(e){} }
   try { if (navigator.vibrate) navigator.vibrate(12); } catch(e){}
 }
 var j5Minuteur = null;
 function ouvrirJ5(){
-  var en = LANGUE === 'en';
+  var en = LANGUE === 'en', P = J5.parcours, Lm = longueurTrace(P.coords), cum = cumulsTrace(P.coords);
+  var etapes = P.etapes.map(function(e, k){
+    var bout = !k || e.arr;
+    return (k ? '<div class="j5-ligne"></div>' : '') + '<div class="j5-et"><span class="j5-pt'+(e.arr ? ' arr' : k ? ' mid' : '')+'">'+(bout ? '' : k + 1)+'</span><div><b>'+(e.h ? e.h + ' · ' : '')+esc(en ? e.tEn : e.t)+'</b>'
+      + '<small>'+esc(en ? e.sEn : e.s)+(k ? ' · <em>'+txtDistance(cum[e.i])+'</em>' : '')+'</small></div></div>';
+  }).join('');
   var h = '<div class="j5"><button class="fermer j5-x" onclick="fermer()" aria-label="Fermer">'+ic('fermer')+'</button>'
-    + '<div class="j5-haut"><div class="j5-rayons"></div><div class="j5-k">✊ '+(en ? 'THURSDAY 5 NOVEMBER · LYON' : 'JEUDI 5 NOVEMBRE · LYON')+'</div>'
-    + '<h2 class="j5-t">'+(en ? 'STRIKE<br><b>& MARCH</b>' : 'GRÈVE<br><b>& MANIF</b>')+'</h2>'
+    + '<div class="j5-haut"><div class="j5-rayons"></div><div class="j5-k">✊ '+(en ? J5.jourEn : J5.jour).toUpperCase()+' · LYON</div>'
+    + '<h2 class="j5-t">'+(en ? J5.titreEn : J5.titre)+'</h2>'
     + '<div class="j5-cd" id="j5-cd">'+htmlCompteJ5()+'</div>'
-    + (j5Etat() === 'avant' ? '<div class="j5-cd-l">'+(en ? 'before the start · intersyndicale' : 'avant le départ · intersyndicale')+'</div>' : '') + '</div>'
+    + (j5Etat() === 'avant' ? '<div class="j5-cd-l">'+(en ? 'before the start · ' : 'avant le départ · ')+esc(J5.depart)+'</div>' : '') + '</div>'
     + '<div class="j5-corps">'
-    + '<div class="j5-bloc"><div class="j5-st">📍 '+(en ? 'The route' : 'Le parcours')+'</div><div class="j5-tl">'
-    + '<div class="j5-et"><span class="j5-pt"></span><div><b>'+J5.heure+' · '+(en ? 'Start' : 'Départ')+'</b><small>'+J5.depart+' · '+J5.departQ+'</small></div></div>'
-    + '<div class="j5-ligne"></div>'
-    + '<div class="j5-et"><span class="j5-pt arr"></span><div><b>'+(en ? 'Finish' : 'Arrivée')+'</b><small>'+J5.arrivee+' · '+J5.arriveeQ+'</small></div></div></div>'
-    + '<div class="j5-note">'+(en ? 'The route can change: on the day, follow the live map.' : 'Le parcours peut changer : le jour J, suis la carte en direct.')+'</div>'
+    + '<div class="j5-bloc pm-bloc"><div class="j5-st">📍 '+(en ? 'The route' : 'Le parcours')+' <span>'+J5.heure+' · '+txtDistance(Lm)+'</span></div>'
+    + '<button class="pm-plan" onclick="voirParcoursJ5()" aria-label="'+(en ? 'See the route on the map' : 'Voir le parcours sur la carte')+'">'+miniPlanParcours(P)+'<span class="pm-zoom">🗺️ '+(en ? 'Open the map' : 'Ouvrir la carte')+'</span></button>'
+    + '<div class="pm-stats"><div><b>'+txtDistance(Lm)+'</b><span>'+(en ? 'to walk' : 'à parcourir')+'</span></div><div><b>~'+txtDuree(Lm, 2)+'</b><span>'+(en ? 'at march pace' : 'au pas du cortège')+'</span></div><div><b>'+J5.heure+'</b><span>'+(en ? 'start' : 'départ')+'</span></div></div>'
+    + '<div class="j5-tl pm-tl">'+etapes+'</div>'
+    + '<div class="j5-note">'+esc(en ? P.sourceEn : P.source)+' '+(en ? 'It can change: on the day, follow the live map.' : 'Il peut changer : le jour J, suis la carte en direct.')+'</div>'
     + '<button class="btn plein" onclick="voirParcoursJ5()">🗺️ '+(en ? 'See it on the map' : 'Voir sur la carte')+'</button></div>'
     + '<div class="j5-bloc" id="j5-sac">'+htmlSacJ5()+'</div>'
     + '<div class="rangee"><button class="btn plein" onclick="agendaJ5()">📅 '+(en ? 'Calendar' : 'Agenda')+'</button><button class="btn rose plein" onclick="afficheJ5()">📸 '+(en ? 'My poster' : 'Mon affiche')+'</button></div>'
     + '<div class="rangee"><button class="btn plein" onclick="ouvrirReflexes()">🛡️ '+(en ? 'Safety tips' : 'Les bons réflexes')+'</button></div>'
-    + (estAdmin() ? '<div class="rangee"><button class="btn plein" onclick="prep5Demande()">🛠️ Préparer la carte du 5 (admin)</button></div>' : '')
+    + (estAdmin() ? '<div class="rangee"><button class="btn plein" onclick="prep5Demande()">🛠️ Préparer la carte de la manif (admin)</button></div>' : '')
     + '<div class="appels"><a href="tel:112">112<span>'+(en ? 'Emergency' : 'Urgences')+'</span></a><a href="tel:15">15<span>SAMU</span></a><a href="sms:114">114<span>SMS</span></a></div>'
     + '</div></div>';
   ouvrir(h, 'j5');
@@ -6919,28 +6998,21 @@ function ouvrirJ5(){
     var c = $('j5-cd'); if (c) c.innerHTML = htmlCompteJ5();
   }, 1000);
 }
-var j5Apercu = null;
+// « Voir sur la carte » : le parcours (ou le tracé publié par l'équipe s'il y en a un autre) en plein écran
 function voirParcoursJ5(){
-  fermer();
-  var c = MANIF5.trace.coords;
-  if (j5Apercu) carte.removeLayer(j5Apercu);
-  j5Apercu = L.layerGroup([
-    L.polyline(c, { color:'#09090b', weight:12, opacity:.6, lineCap:'round', lineJoin:'round', interactive:false }),
-    L.polyline(c, { color:'#ff6a1f', weight:6, dashArray:'2 12', lineCap:'round', lineJoin:'round', interactive:false, className:'j5-trait' }),
-    L.marker(c[0], { interactive:false, icon:L.divIcon({ className:'', iconSize:[20,20], iconAnchor:[10,10], html:'<span class="j5-pt" style="display:block"></span>' }) }),
-    L.marker(c[c.length-1], { interactive:false, icon:L.divIcon({ className:'', iconSize:[20,20], iconAnchor:[10,10], html:'<span class="j5-pt arr" style="display:block"></span>' }) })
-  ]).addTo(carte);
-  carte.fitBounds(L.latLngBounds(c), { padding:[70, 70] });
-  toast(LANGUE === 'en' ? 'Planned route (it can change on the day)' : 'Parcours prévu (il peut changer le jour J)');
-  setTimeout(function(){ if (j5Apercu) { carte.removeLayer(j5Apercu); j5Apercu = null; } }, 20000);
+  fermer(); majParcoursManif(true);
+  var t = (etat.traces || []).filter(function(x){ return x.type === 'cortege' && !routeCorrespond(x); })[0];
+  carte.flyToBounds(L.latLngBounds(t ? t.coords : J5.parcours.coords), { padding:[70, 70], maxZoom:16, duration:1.1 });
+  toast(t ? (LANGUE === 'en' ? 'Route published by the team' : 'Parcours publié par l’équipe')
+          : (LANGUE === 'en' ? 'Planned route (it can change on the day)' : 'Parcours prévu (il peut changer le jour J)'));
 }
 function agendaJ5(){
   function f(ts){ return new Date(ts).toISOString().replace(/[-:]/g, '').replace(/\.\d+/, ''); }
-  var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Traboule//FR','BEGIN:VEVENT','UID:manif-5-novembre@traboule','DTSTAMP:'+f(Date.now()),
-    'DTSTART:'+f(J5.debut),'DTEND:'+f(J5.fin),'SUMMARY:Grève & manif · Lyon','LOCATION:'+J5.depart+' (Lyon 3e) → '+J5.arrivee,
-    'DESCRIPTION:Départ 10h30 de la Manufacture des Tabacs\\, arrivée place Bellecour. Carte en direct : '+(urlAppli||''),
+  var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Traboule//FR','BEGIN:VEVENT','UID:manif-'+J5.id+'@traboule','DTSTAMP:'+f(Date.now()),
+    'DTSTART:'+f(J5.debut),'DTEND:'+f(J5.fin),'SUMMARY:'+J5.nom+' · Lyon','LOCATION:'+J5.depart+' (Lyon 8e) → '+J5.arrivee+' (Lyon 7e)',
+    'DESCRIPTION:Départ '+J5.heure+' de la '+J5.depart+' (cours Albert-Thomas)\\, arrivée '+J5.arrivee.toLowerCase()+'. Parcours prévu : cours Gambetta\\, rue Garibaldi\\, avenue Berthelot. Carte en direct : '+(urlAppli||''),
     'BEGIN:VALARM','TRIGGER:-PT1H','ACTION:DISPLAY','DESCRIPTION:Manif dans 1 h','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
-  var a = document.createElement('a'); a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics); a.download = 'manif-5-novembre.ics';
+  var a = document.createElement('a'); a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics); a.download = 'manif-'+J5.id+'.ics';
   document.body.appendChild(a); a.click(); a.remove(); toast('Rappel 1 h avant inclus');
 }
 function confettis(){
@@ -6966,14 +7038,14 @@ function afficheJ5(){
     x.textAlign = 'center';
     if (logo) { x.save(); x.shadowColor = '#ff6a1f'; x.shadowBlur = 60; x.drawImage(logo, W/2 - 130, 150, 260, 260); x.restore(); }
     x.fillStyle = '#ffd0a8'; x.font = '400 54px ' + A; x.fillText('T R A B O U L E', W/2, 480);
-    x.fillStyle = '#fff'; x.font = '400 150px ' + A; x.fillText('JEUDI', W/2, 690);
+    x.fillStyle = '#fff'; x.font = '400 150px ' + A; x.fillText(J5.affJour, W/2, 690);
     var gr = x.createLinearGradient(140, 0, 940, 0); gr.addColorStop(0, '#ffb82e'); gr.addColorStop(.5, '#ff6a1f'); gr.addColorStop(1, '#ec2e1c');
-    x.save(); x.shadowColor = '#ff6a1f'; x.shadowBlur = 50; x.fillStyle = gr; x.font = '400 330px ' + A; x.fillText('5 NOV.', W/2, 1010); x.restore();
-    x.fillStyle = '#ffd0a8'; x.font = '800 66px Inter, sans-serif'; x.fillText('GRÈVE & MANIF', W/2, 1110);
+    x.save(); x.shadowColor = '#ff6a1f'; x.shadowBlur = 50; x.fillStyle = gr; x.font = '400 330px ' + A; x.fillText(J5.affDate, W/2, 1010); x.restore();
+    x.fillStyle = '#ffd0a8'; x.font = '800 66px Inter, sans-serif'; x.fillText(J5.affSous, W/2, 1110);
     x.fillStyle = 'rgba(0,0,0,.35)'; rond(x, 110, 1160, W - 220, 190, 40); x.fill();
     x.strokeStyle = 'rgba(255,255,255,.18)'; x.lineWidth = 3; rond(x, 110, 1160, W - 220, 190, 40); x.stroke();
-    x.fillStyle = '#fff'; x.font = '400 92px ' + A; x.fillText('10H30', W/2, 1262);
-    x.fillStyle = '#e9d6cb'; x.font = '600 40px Inter, sans-serif'; x.fillText('Manufacture des Tabacs → Bellecour', W/2, 1322);
+    x.fillStyle = '#fff'; x.font = '400 92px ' + A; x.fillText(J5.heure.toUpperCase(), W/2, 1262);
+    x.fillStyle = '#e9d6cb'; x.font = '600 40px Inter, sans-serif'; x.fillText(J5.depart + ' → ' + J5.arrivee.replace(/^Place /, ''), W/2, 1322);
     x.save(); x.shadowColor = '#ff6a1f'; x.shadowBlur = 40; x.fillStyle = '#fff'; x.font = '400 128px ' + A; x.fillText('JE SERAI LÀ ✊', W/2, 1505); x.restore();
     x.fillStyle = '#fff'; rond(x, 110, 1580, 260, 260, 30); x.fill();
     if (qr) x.drawImage(qr, 130, 1600, 220, 220);
@@ -6988,17 +7060,17 @@ var afficheBlob = null;
 function montrerAfficheJ5(blob, url){
   afficheBlob = blob;
   ouvrir(entete('📸 Ton affiche', 'À poster en story ou dans tes groupes pour faire venir du monde.')
-    + '<div class="j5-affiche"><img src="'+url+'" alt="Affiche Je serai là, jeudi 5 novembre"></div>'
+    + '<div class="j5-affiche"><img src="'+url+'" alt="Affiche Je serai là, '+J5.jour+'"></div>'
     + '<div class="rangee"><button class="btn plein" onclick="ouvrirJ5()">Retour</button><button class="btn rose plein" onclick="partagerAfficheJ5()">'+ic('partage')+'Partager</button></div>'
     + '<div class="sous" style="margin-top:8px">Sur iPhone, tu peux aussi appuyer longtemps sur l\'image puis « Enregistrer dans Photos ».</div>', 'affiche');
 }
 function partagerAfficheJ5(){
-  var texte = 'Jeudi 5 novembre, 10h30 : grève & manif, de la Manufacture des Tabacs à Bellecour. Je serai là ✊ Carte en direct : ' + (urlAppli || '');
+  var texte = J5.jour.replace(/^./, function(c){ return c.toUpperCase(); }) + ', ' + J5.heure + ' : manif, de la ' + J5.depart + ' à la ' + J5.arrivee.toLowerCase() + ' (cours Gambetta, rue Garibaldi, avenue Berthelot). Je serai là ✊ Carte en direct : ' + (urlAppli || '');
   try {
-    var f = new File([afficheBlob], 'traboule-5-novembre.jpg', { type:'image/jpeg' });
+    var f = new File([afficheBlob], 'traboule-' + J5.id + '.jpg', { type:'image/jpeg' });
     if (navigator.canShare && navigator.canShare({ files:[f] })) { navigator.share({ files:[f], text:texte }).catch(function(){}); return; }
   } catch(e){}
-  var a = document.createElement('a'); a.href = URL.createObjectURL(afficheBlob); a.download = 'traboule-5-novembre.jpg'; document.body.appendChild(a); a.click(); a.remove();
+  var a = document.createElement('a'); a.href = URL.createObjectURL(afficheBlob); a.download = 'traboule-' + J5.id + '.jpg'; document.body.appendChild(a); a.click(); a.remove();
   toast('Affiche enregistrée');
 }
 // Les grands moments : quand l'orga change l'état de la manif, tout le monde le voit en grand
@@ -7043,7 +7115,7 @@ function fermerMoment(){ var el = $('moment'); if (el) el.classList.remove('vu')
 (function(){
   if (!j5Jour()) return;
   document.body.classList.add('jour-j');
-  var d = $('sp-date'); if (d) d.textContent = '✊ Jour J · Grève & manif · ' + J5.heure;
+  var d = $('sp-date'); if (d) d.textContent = J5.splash;
 })();
 // ===================== V39 : ÉQUIPE & CODES PERSO =====================
 // Chaque membre a son propre code (créé ici, montré une seule fois). Le serveur ne garde qu'une empreinte du code.
@@ -8146,6 +8218,155 @@ copierBlocusJour = function(id){
   if (v && etabsJour(v).some(function(x){ return x.cat === 'ferme'; })) return copierEtabsJour(id);
   return copierBlocusJourAvantFerme(id);
 };
+// ===================== V71 : LE PARCOURS DE LA MANIF, BIEN TRACÉ =====================
+// Dégradé du départ (jaune-orange) à l'arrivée (rouge), lumière qui court dans le sens de la marche, flèches, repères au km,
+// badges départ / arrivée, étapes numérotées et noms des rues le long du tracé. Même rendu pour le tracé « cortège » de l'équipe.
+var GRAD_PM = ['#ffc23a', '#ff6a1f', '#ff2e63'];
+function mixHex(a, b, t){
+  var x = parseInt(a.slice(1), 16), y = parseInt(b.slice(1), 16), c = function(s){ var u = (x >> s) & 255, v = (y >> s) & 255; return Math.round(u + (v - u) * t); };
+  return '#' + ((1 << 24) + (c(16) << 16) + (c(8) << 8) + c(0)).toString(16).slice(1);
+}
+function couleurPm(f){ f = Math.max(0, Math.min(1, f)); return f < .5 ? mixHex(GRAD_PM[0], GRAD_PM[1], f * 2) : mixHex(GRAD_PM[1], GRAD_PM[2], (f - .5) * 2); }
+function cumulsTrace(c){ var r = [0]; for (var i = 1; i < c.length; i++) r.push(r[i-1] + distance(c[i-1], c[i])); return r; }
+// point et angle à une distance donnée le long du tracé
+function surTrace(c, cum, d){
+  for (var i = 1; i < c.length; i++) if (cum[i] >= d) { var f = (d - cum[i-1]) / Math.max(1e-6, cum[i] - cum[i-1]);
+    return { ll:[c[i-1][0] + (c[i][0] - c[i-1][0]) * f, c[i-1][1] + (c[i][1] - c[i-1][1]) * f], ang:angleEntre(c[i-1], c[i]), i:i }; }
+  return { ll:c[c.length-1], ang:angleEntre(c[c.length-2], c[c.length-1]), i:c.length-1 };
+}
+function dessinerParcoursBeau(c, calque, o){
+  o = o || {}; if (!c || c.length < 2) return;
+  var cum = cumulsTrace(c), Lt = cum[cum.length-1] || 1, en = LANGUE === 'en', i, anim = !eco && !document.body.classList.contains('leger');
+  var opt = function(x){ return Object.assign({ lineCap:'round', lineJoin:'round', interactive:false }, x); };
+  L.polyline(c, opt({ color:'#0b0b10', weight:17, opacity:.82 })).addTo(calque);
+  L.polyline(c, opt({ color:'#ff6a1f', weight:34, opacity:.17, className:'pc-halo' })).addTo(calque);
+  for (i = 1; i < c.length; i++) L.polyline([c[i-1], c[i]], opt({ color:couleurPm((cum[i-1] + cum[i]) / 2 / Lt), weight:8, opacity:1 })).addTo(calque);
+  L.polyline(c, opt({ color:'#fff', weight:2, opacity:.55, className:'pc-fil' })).addTo(calque);
+  if (anim) {
+    L.polyline(c, opt({ color:'#fff', weight:3.5, dashArray:'2 24', opacity:.8, className:'tr-flux' })).addTo(calque);
+    // la lumière qui court du départ à l'arrivée
+    [[16, .28, 'pc-comete large'], [6, .95, 'pc-comete']].forEach(function(s){
+      var l = L.polyline(c, opt({ color:'#fff7e0', weight:s[0], opacity:s[1], className:s[2], noClip:true })).addTo(calque);
+      var el = l.getElement && l.getElement(); if (el) el.setAttribute('pathLength', '1000');
+    });
+  }
+  L.polyline(c, { color:'#000', weight:30, opacity:0, lineCap:'round' }).on('click', function(){ if (o.clic) o.clic(); }).addTo(calque);
+  // flèches de sens tous les ~230 m, couleur du dégradé
+  for (var d = 140; d < Lt - 90; d += 230) { var p = surTrace(c, cum, d);
+    L.marker(p.ll, { interactive:false, keyboard:false, icon:flecheIcone(p.ang, couleurPm(d / Lt), 17) }).addTo(calque); }
+  // repères kilométriques
+  for (var k = 1000; k < Lt - 350; k += 1000) { var q = surTrace(c, cum, k);
+    L.marker(q.ll, { interactive:false, keyboard:false, icon:L.divIcon({ className:'', iconSize:[0, 0], html:'<div class="pc-km">'+(k / 1000)+' km</div>' }) }).addTo(calque); }
+  // noms des rues le long du tracé (lisibles : jamais à l'envers)
+  (o.rues || []).forEach(function(r){
+    var a = cum[r[1]], b = cum[Math.min(r[2], c.length-1)]; if (b - a < 180) return;
+    var m = surTrace(c, cum, (a + b) / 2), ang = -m.ang; if (ang > 90) ang -= 180; if (ang < -90) ang += 180;
+    L.marker(m.ll, { interactive:false, keyboard:false, icon:L.divIcon({ className:'', iconSize:[0, 0], html:'<div class="pc-rue" style="--a:'+ang.toFixed(1)+'deg">'+esc(r[0])+'</div>' }) }).addTo(calque);
+  });
+  // étapes intermédiaires numérotées
+  (o.etapes || []).forEach(function(e, n){ if (!n || e.arr || !c[e.i]) return;
+    L.marker(c[e.i], { keyboard:false, icon:L.divIcon({ className:'', iconSize:[26, 26], iconAnchor:[13, 13], html:'<div class="pc-et" style="--c:'+couleurPm(cum[e.i] / Lt)+'">'+(n + 1)+'</div>' }) })
+      .on('click', function(){ if (o.clic) o.clic(); }).addTo(calque);
+  });
+  // départ et arrivée
+  var dep = o.depart || { t:en ? 'START' : 'DÉPART', s:'' }, arr = o.arrivee || { t:en ? 'FINISH' : 'ARRIVÉE', s:'' };
+  // les bulles se mettent du côté libre : à l'opposé du sens de départ, dans le prolongement de l'arrivée
+  var vue = Math.min(250, Lt / 3), cd = Math.cos(angleEntre(c[0], surTrace(c, cum, vue).ll) * Math.PI / 180), ca = Math.cos(angleEntre(surTrace(c, cum, Lt - vue).ll, c[c.length-1]) * Math.PI / 180);
+  var cotD = cd < -.3 ? ' d' : cd > .3 ? ' g' : '', cotA = ca < -.3 ? ' g' : ca > .3 ? ' d' : '';
+  L.marker(c[0], { zIndexOffset:900, icon:L.divIcon({ className:'', iconSize:[24, 24], iconAnchor:[12, 12],
+    html:'<div class="pc-bout dep"><i></i><div class="pc-bul'+cotD+'"><b>'+esc(dep.t)+'</b>'+(dep.s ? '<small>'+esc(dep.s)+'</small>' : '')+'</div></div>' }) })
+    .on('click', function(){ if (o.clic) o.clic(); }).addTo(calque);
+  L.marker(c[c.length-1], { zIndexOffset:900, icon:L.divIcon({ className:'', iconSize:[30, 30], iconAnchor:[15, 15],
+    html:'<div class="pc-bout arr"><i>🏁</i><div class="pc-bul'+cotA+'"><b>'+esc(arr.t)+'</b>'+(arr.s ? '<small>'+esc(arr.s)+'</small>' : '')+'</div></div>' }) })
+    .on('click', function(){ if (o.clic) o.clic(); }).addTo(calque);
+}
+// Le tracé « cortège » de l'équipe est-il le parcours prévu (publié avec « Préparer la carte ») ?
+function routeCorrespond(t){
+  var P = J5.parcours && J5.parcours.coords, c = t && t.coords; if (!P || !c || c.length !== P.length) return false;
+  return distance(c[0], P[0]) < 40 && distance(c[c.length-1], P[P.length-1]) < 40;
+}
+function optsParcoursJ5(){
+  var en = LANGUE === 'en', P = J5.parcours, st = j5Etat();
+  return { rues:P.rues, etapes:P.etapes, clic:ouvrirJ5,
+    depart:{ t:(en ? 'START · ' : 'DÉPART · ') + (st === 'avant' && !j5Jour() ? (en ? J5.courtEn : J5.court).toUpperCase() + ' ' : '') + J5.heure.toUpperCase(), s:J5.depart },
+    arrivee:{ t:en ? 'FINISH' : 'ARRIVÉE', s:J5.arrivee } };
+}
+// Le parcours prévu est sur la carte jusqu'à la fin de la manif, sauf si l'équipe a publié un tracé de cortège
+var calqueParcoursM = L.layerGroup().addTo(carte), cleParcoursM = '';
+function majParcoursManif(force){
+  var P = J5.parcours, n = maintenant();
+  var montrer = !!P && n < J5.fin + 3600000 && filtre !== 'danger' && !(etat.traces || []).some(function(t){ return t.type === 'cortege' || t.type === 'prevu'; });
+  var cle = montrer ? ['on', eco, LANGUE, j5Etat(), j5Jour(), document.body.classList.contains('leger')].join(':') : 'off';
+  if (cle === cleParcoursM && !force) return;
+  cleParcoursM = cle; calqueParcoursM.clearLayers();
+  if (montrer) dessinerParcoursBeau(P.coords, calqueParcoursM, optsParcoursJ5());
+}
+var dessinerTraceAvantBeau = dessinerTrace;
+dessinerTrace = function(t, calque){
+  if (t.type !== 'cortege' && t.type !== 'prevu') return dessinerTraceAvantBeau(t, calque);
+  if (filtre === 'danger') return;
+  var officiel = routeCorrespond(t);
+  if (!officiel && (maintenant() - t.ts) > VIEUX_MIN * 60000) return dessinerTraceAvantBeau(t, calque);  // vieux tracé : rendu discret
+  dessinerParcoursBeau(t.coords, calque, officiel ? optsParcoursJ5() : { clic:function(){ ouvrirTrace(t.id); } });
+};
+var appliquerAvantParcours = appliquer;
+appliquer = function(){ var r = appliquerAvantParcours.apply(this, arguments); try { majParcoursManif(); } catch(e){} return r; };
+appliquer.cleTr = undefined;   // les tracés déjà affichés seront redessinés avec le nouveau rendu
+function majZoom15(){ document.body.classList.toggle('zoom-15', carte.getZoom() >= 15); }
+carte.on('zoomend', majZoom15); majZoom15();
+try { majParcoursManif(); } catch(e){}
+// Le mini-plan de la fiche : les grandes rues autour, les métros, et le parcours en dégradé
+var MINI_RUES = null;
+function miniPlanParcours(P){
+  var c = P.coords, la0 = 1e9, la1 = -1e9, lo0 = 1e9, lo1 = -1e9;
+  c.forEach(function(p){ la0 = Math.min(la0, p[0]); la1 = Math.max(la1, p[0]); lo0 = Math.min(lo0, p[1]); lo1 = Math.max(lo1, p[1]); });
+  var W = 340, H = 214, k = Math.cos((la0 + la1) / 2 * Math.PI / 180), cx = (lo0 + lo1) / 2 * k, cy = (la0 + la1) / 2;
+  var s = Math.min(W / ((lo1 - lo0) * k * 1.3), H / ((la1 - la0) * 1.5));
+  var X = function(p){ return (W / 2 + (p[1] * k - cx) * s).toFixed(1); }, Y = function(p){ return (H / 2 + 8 - (p[0] - cy) * s).toFixed(1); };
+  var bS = cy - H / 2 / s - .001, bN = cy + H / 2 / s + .001, bW = (cx - W / 2 / s) / k - .001, bE = (cx + W / 2 / s) / k + .001;
+  var dans = function(p){ return p[0] > bS && p[0] < bN && p[1] > bW && p[1] < bE; };
+  if (!MINI_RUES) { try { MINI_RUES = { r1:lignesDe(PLAN.couches.r1), r2:lignesDe(PLAN.couches.r2), tram:lignesDe(PLAN.couches.tram) }; } catch(e){ MINI_RUES = { r1:[], r2:[], tram:[] }; } }
+  var chemin = function(l){ return 'M' + l.map(function(p){ return X(p) + ' ' + Y(p); }).join('L'); };
+  var rues = function(cle){ return MINI_RUES[cle].filter(function(l){ return l.some(dans); }).map(chemin).join(''); };
+  var u = 'pm' + Math.random().toString(36).slice(2, 7), d = chemin(c), a = c[0], b = c[c.length-1];
+  var cum = cumulsTrace(c), Lt = cum[cum.length-1];
+  var h = '<svg class="pm-svg" viewBox="0 0 '+W+' '+H+'" aria-hidden="true"><defs>'
+    + '<linearGradient id="'+u+'g" gradientUnits="userSpaceOnUse" x1="'+X(a)+'" y1="'+Y(a)+'" x2="'+X(b)+'" y2="'+Y(b)+'"><stop offset="0" stop-color="'+GRAD_PM[0]+'"/><stop offset=".5" stop-color="'+GRAD_PM[1]+'"/><stop offset="1" stop-color="'+GRAD_PM[2]+'"/></linearGradient>'
+    + '<radialGradient id="'+u+'v" cx="50%" cy="50%" r="70%"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient></defs>'
+    + '<rect width="'+W+'" height="'+H+'" fill="#15151b"/>'
+    + '<path d="'+rues('r2')+'" fill="none" stroke="#ffffff" stroke-opacity=".09" stroke-width="1.3"/>'
+    + '<path d="'+rues('r1')+'" fill="none" stroke="#ffffff" stroke-opacity=".2" stroke-width="2.4" stroke-linecap="round"/>'
+    + '<path d="'+rues('tram')+'" fill="none" stroke="#c05080" stroke-opacity=".45" stroke-width="1"/>';
+  (PLAN.stations || []).filter(function(st){ return dans([st.la, st.lo]); }).forEach(function(st){
+    var x = X([st.la, st.lo]), y = Y([st.la, st.lo]), col = LIGNES[st.l[0]] || '#888';
+    h += '<circle cx="'+x+'" cy="'+y+'" r="5.5" fill="'+col+'" stroke="#15151b" stroke-width="2"/><text x="'+x+'" y="'+(+y + 2.6)+'" text-anchor="middle" font-size="7" font-weight="900" fill="#fff">M</text>'
+      ;
+  });
+  h += '<path d="'+d+'" fill="none" stroke="#000" stroke-opacity=".7" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>'
+    + '<path d="'+d+'" fill="none" stroke="url(#'+u+'g)" stroke-opacity=".3" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" class="pm-halo"/>'
+    + '<path d="'+d+'" fill="none" stroke="url(#'+u+'g)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>'
+    + '<path d="'+d+'" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="2 12" stroke-linecap="round" class="pm-flux"/>'
+    + '<path d="'+d+'" fill="none" stroke="#fff7e0" stroke-width="5" stroke-linecap="round" pathLength="1000" class="pm-comete"/>';
+  // noms des rues
+  (P.rues || []).forEach(function(r){
+    var a2 = cum[r[1]], b2 = cum[Math.min(r[2], c.length-1)]; if (b2 - a2 < 300) return;
+    var m = surTrace(c, cum, (a2 + b2) / 2), p0 = c[Math.max(0, m.i - 1)], p1 = c[m.i];
+    var ang = Math.atan2(+Y(p1) - +Y(p0), +X(p1) - +X(p0)) * 180 / Math.PI; if (ang > 90) ang -= 180; if (ang < -90) ang += 180;
+    var nx = -Math.sin(ang * Math.PI / 180), ny = Math.cos(ang * Math.PI / 180), mx = +X(m.ll), my = +Y(m.ll);
+    var sg = ((mx - W / 2) * nx + (my - H / 2 - 8) * ny) >= 0 ? 1 : -1;   // toujours du côté extérieur du parcours
+    var x = mx + nx * sg * 14, y = my + ny * sg * 14 + 3.5;
+    h += '<text class="pm-rue" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" transform="rotate('+ang.toFixed(1)+' '+x.toFixed(1)+' '+y.toFixed(1)+')">'+esc(r[0].toUpperCase())+'</text>';
+  });
+  // étapes, départ, arrivée
+  (P.etapes || []).forEach(function(e, n){ if (!n || e.arr) return; var x = X(c[e.i]), y = Y(c[e.i]);
+    h += '<circle cx="'+x+'" cy="'+y+'" r="8" fill="'+couleurPm(cum[e.i] / Lt)+'" stroke="#fff" stroke-width="2"/><text x="'+x+'" y="'+(+y + 3.3)+'" text-anchor="middle" font-size="9" font-weight="900" fill="#fff">'+(n + 1)+'</text>'; });
+  h += '<circle cx="'+X(a)+'" cy="'+Y(a)+'" r="12" fill="none" stroke="'+GRAD_PM[0]+'" stroke-width="2" class="pm-onde"/><circle cx="'+X(a)+'" cy="'+Y(a)+'" r="7" fill="#fff" stroke="'+GRAD_PM[0]+'" stroke-width="4"/>'
+    + '<text class="pm-bout" x="'+(+X(a) + 4)+'" y="'+(+Y(a) + 25)+'" text-anchor="end">'+(LANGUE === 'en' ? 'START' : 'DÉPART')+' '+J5.heure.toUpperCase()+'</text>'
+    + '<circle cx="'+X(b)+'" cy="'+Y(b)+'" r="9" fill="#fff" stroke="'+GRAD_PM[2]+'" stroke-width="4"/><text x="'+X(b)+'" y="'+(+Y(b) + 4)+'" text-anchor="middle" font-size="10">🏁</text>'
+    + '<text class="pm-bout" x="'+(+X(b) - 15)+'" y="'+(+Y(b) + 4)+'" text-anchor="end">'+(LANGUE === 'en' ? 'FINISH' : 'ARRIVÉE')+'</text>'
+    + '<rect width="'+W+'" height="'+H+'" fill="url(#'+u+'v)" pointer-events="none"/></svg>';
+  return h;
+}
 </script>
 </body>
 </html>
