@@ -3031,6 +3031,50 @@
   .mp-cmp b { display:block; font-size:15px; } .mp-cmp span { display:block; font-size:12.5px; color:var(--doux); margin-top:2px; }
   .mp-old { background:#ff3b4e14; border:1px solid #ff3b4e55; } .mp-old small { color:#ff8a95; } .mp-old s { color:#ff8a95; }
   .mp-new { background:#16c78414; border:1px solid #16c78466; } .mp-new small { color:#3ee0a0; }
+  /* ================= v73 : blocus « grosse mobilisation » ================= */
+  .evt-pin.bl2.fort { transform:scale(1.32); transform-origin:28px 40px; z-index:5; }
+  .blf-zone { position:absolute; left:28px; top:40px; width:190px; height:190px; margin:-95px 0 0 -95px; border-radius:50%; pointer-events:none; z-index:-1;
+    background:radial-gradient(closest-side, #ff8a0040, #ffd23f22 60%, transparent); animation:blf-respire 2.4s ease-in-out infinite; }
+  .blf-zone i { position:absolute; inset:14px; border-radius:50%;
+    background:repeating-conic-gradient(#ffd23f 0 10deg, #14110a 10deg 20deg);
+    -webkit-mask:radial-gradient(closest-side, transparent calc(100% - 7px), #000 calc(100% - 6px)); mask:radial-gradient(closest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+    opacity:.85; animation:blf-tourne 14s linear infinite; }
+  @keyframes blf-tourne { to { transform:rotate(360deg); } }
+  @keyframes blf-respire { 0%, 100% { transform:scale(.94); opacity:.8; } 50% { transform:scale(1.04); opacity:1; } }
+  .blf-ruban { position:absolute; left:50%; top:-21px; transform:translateX(-50%) rotate(-3deg); white-space:nowrap; font-family:Anton,Impact,sans-serif; font-size:9.5px; letter-spacing:.6px; line-height:1;
+    padding:3px 6px 2px; color:#14110a; background:#ffd23f; border:1.5px solid #14110a; border-radius:3px; box-shadow:0 0 0 1.5px #fff, 0 3px 8px #000a; animation:blf-ruban 2.6s ease-in-out infinite; }
+  @keyframes blf-ruban { 0%, 100% { transform:translateX(-50%) rotate(-3deg); } 50% { transform:translateX(-50%) rotate(2deg) translateY(-1px); } }
+  .bl2.fort .bl2-lampes i { background:#ff8a00; box-shadow:0 0 10px #ff8a00, 0 0 22px #ff6a00; animation:bl2-gyro .7s steps(1) infinite; }
+  .bl2.fort .bl2-lampes i + i { animation-delay:.35s; }
+  .bl2.fort .bl2-barre { box-shadow:0 0 0 2px #fff, 0 6px 14px rgba(0,0,0,.6), 0 0 30px rgba(255,170,40,.85); }
+  .bl2.fort .bl2-halo { border:3px solid #ff8a00; box-shadow:0 0 18px #ff8a00; animation:bl2-onde 1.8s ease-out infinite; }
+  .evt-pin.bl2.fort .evt-etiq { display:block; font-size:16px; }
+  /* pastille */
+  #compteurs .pastille.pb-fort { background:repeating-linear-gradient(-45deg, #ffd23f33 0 10px, #14110a66 10px 20px) !important; background-size:28px 28px !important;
+    border-color:#ffd23f !important; box-shadow:0 0 16px #ffd23f55; animation:bl-bande 1.4s linear infinite; }
+  #compteurs .pastille.pb-fort .pb-ic { animation:bl-secoue 1.2s ease-in-out infinite; }
+  /* fiche */
+  .evt-hero.blocus.fort { box-shadow:0 0 0 2px #ffd23f, 0 0 50px #ff8a0066; padding-top:58px; }
+  .blf-bande { position:absolute; left:-10px; right:-10px; top:10px; height:30px; overflow:hidden; transform:rotate(-2deg); z-index:2;
+    background:#ffd23f; border-top:3px solid #14110a; border-bottom:3px solid #14110a; box-shadow:0 4px 14px #0009; }
+  .blf-bande > div { display:flex; width:max-content; animation:blf-defile 16s linear infinite; }
+  .blf-bande span { display:flex; align-items:center; gap:12px; padding-right:12px; white-space:nowrap; font-family:Anton,Impact,sans-serif; font-size:15px; letter-spacing:1px; line-height:24px; color:#14110a; }
+  .blf-bande i { width:26px; height:14px; border-radius:2px; background:repeating-linear-gradient(-45deg, #14110a 0 5px, #ffd23f 5px 10px); }
+  @keyframes blf-defile { to { transform:translateX(-50%); } }
+  .blf-cta { display:flex; align-items:center; gap:12px; margin:0 0 12px; padding:14px; border-radius:20px; border:2px solid #ffd23f; background:linear-gradient(135deg, #2a2208, #16120a); box-shadow:0 0 24px #ffd23f22; }
+  .blf-cta-t { flex:1; min-width:0; } .blf-cta-t b { display:block; font-family:Anton,Impact,sans-serif; font-weight:400; font-size:24px; letter-spacing:.8px; color:#ffd23f; line-height:1.05; }
+  .blf-cta-t span { display:block; font-size:12.5px; color:#efe6c4; margin-top:3px; }
+  .blf-va { flex:none; padding:12px 14px; border-radius:16px; font-size:15px; font-weight:900; color:#14110a; background:#ffd23f; border:0; box-shadow:0 6px 18px #ffd23f55; animation:blf-appel 2s ease-in-out infinite; }
+  .blf-va.on { background:#16c784; color:#04140d; box-shadow:0 6px 18px #16c78455; animation:none; }
+  @keyframes blf-appel { 0%, 100% { transform:scale(1); } 50% { transform:scale(1.06); } }
+  /* aperçu admin */
+  .blf-apercu { display:flex; align-items:center; gap:12px; padding:22px 14px 14px 12px; margin:0 0 12px; border-radius:18px; background:#15130c; border:1px solid #ffd23f44; overflow:hidden; }
+  .blf-ap-pin { position:relative; width:84px; height:76px; flex:none; margin-top:14px; } .blf-ap-pin .evt-etiq, .blf-ap-pin .blf-zone { display:none !important; }
+  .blf-ap-pin .evt-pin.bl2.fort { margin-left:10px; }
+  .blf-apercu ul { margin:0; padding:0; list-style:none; display:grid; gap:6px; font-size:13px; font-weight:700; color:#efe6c4; }
+  .blf-int { border:1.5px solid #ffd23f66; background:#ffd23f12; }
+  body.leger .blf-zone, body.leger .blf-zone i, body.leger .blf-bande > div { animation:none; }
+  @media (prefers-reduced-motion: reduce) { .blf-zone, .blf-zone i, .blf-ruban, .blf-bande > div, .blf-va, #compteurs .pastille.pb-fort, #compteurs .pastille.pb-fort .pb-ic { animation:none !important; } }
 </style>
 </head>
 <body>
@@ -3725,6 +3769,7 @@ function majCompteurs(){
     return '<span class="pastille pb pb-'+k+(alerte ? ' alerte' : '')+(saute ? ' bump' : '')+'" style="--pc:'+coul+'" onclick="'+f+'"><i class="pb-ic">'+e+'</i>'
       + (n !== '' ? '<b class="pb-n">'+n+'</b>' : '') + '<span class="pb-t">'+t+(s ? '<small>'+s+'</small>' : '')+'</span></span>';
   }
+  var pf = typeof pastilleFort === 'function' ? pastilleFort() : null; if (pf) c.push(pb.apply(null, pf));
   var j5 = typeof j5Pastille === 'function' ? j5Pastille() : null; if (j5) c.push(pb.apply(null, j5));
   if (cfg.phase && PHASES[cfg.phase]) c.push(pb('phase', PHASES[cfg.phase].c, PHASES[cfg.phase].e, '', PHASES[cfg.phase].nom, cfg.phase==='avant' && cfg.rdvHeure ? 'RDV '+esc(cfg.rdvHeure) : '', 'ouvrirInfos()'));
   if (police) c.push(pb('police', '#ff3b4e', '🚓', police, 'police', vehic ? vehic+' véh.' : '', 'ouvrirListe(\'police\')'));
@@ -3733,7 +3778,7 @@ function majCompteurs(){
   if (medics) c.push(pb('medics', '#16c784', '⛑️', medics, 'medic'+(medics>1?'s':''), '', 'ouvrirAutour()'));
   if (attente) c.push(pb('blesses', '#ff3b4e', '🤕', attente, 'blessé'+(attente>1?'s':''), 'en attente', 'ouvrirMedics()', true));
   var pe = pastilleEvt(), v0 = evtsVisibles()[0];
-  if (pe && !(j5 && v0 && v0.cat === 'manif' && Math.abs(v0.debut - J5.debut) < 86400000)) c.push(pe);
+  if (pe && !(j5 && v0 && v0.cat === 'manif' && Math.abs(v0.debut - J5.debut) < 86400000) && !(pf && v0 && v0.fort)) c.push(pe);
   if (filtre !== 'tout') c.push(pb('filtre', '#ff6a1f', '🔎', '', 'Filtre', filtre==='danger'?'à éviter':'sûr', 'ouvrirLegende()'));
   majCompteurs.avant = now;
   $('compteurs').innerHTML = c.join('');
@@ -3778,6 +3823,7 @@ function resumeSplash(){
   var bl = ev.filter(function(v){ return v.cat === 'blocus'; }).length, l = [];
   if (pts.length) l.push(pts.length + (en ? ' report' : ' signalement') + (pts.length > 1 ? 's' : '') + (dg ? ' (' + dg + (en ? ' to avoid' : ' à éviter') + ')' : ''));
   if (md) l.push(md + ' medic' + (md > 1 ? 's' : ''));
+  var vf = typeof evtFort === 'function' ? evtFort() : null; if (vf) l.unshift('🔥 ' + (en ? 'Big mobilisation · ' : 'Grosse mobilisation · ') + nomBlocus(vf));
   if (bl) l.push(bl + ' blocus');
   var fe = ev.filter(function(v){ return v.cat === 'ferme'; }).length; if (fe) l.push(fe + (en ? ' closed' : ' fermé' + (fe > 1 ? 's' : '')));
   return l.length ? '✓ ' + l.join(' · ') : (en ? '✓ Nothing reported right now' : '✓ Rien de signalé pour l\'instant');
@@ -5981,7 +6027,7 @@ function nouvelEvt(){
 }
 function editerEvt(id){
   var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!v) return;
-  brouillonEvt = { id:v.id, cat:v.cat||'autre', emoji:v.emoji||'', titre:v.titre, jour:isoJour(v.debut), hDebut:isoHeure(v.debut), hFin:v.fin ? isoHeure(v.fin) : '', journee:!!v.journee, lieu:v.lieu||'', texte:v.texte||'', lat:v.lat, lng:v.lng, but:v.but||'', butTxt:v.butTxt||'' };
+  brouillonEvt = { id:v.id, cat:v.cat||'autre', emoji:v.emoji||'', titre:v.titre, jour:isoJour(v.debut), hDebut:isoHeure(v.debut), hFin:v.fin ? isoHeure(v.fin) : '', journee:!!v.journee, lieu:v.lieu||'', texte:v.texte||'', lat:v.lat, lng:v.lng, but:v.but||'', butTxt:v.butTxt||'', fort:!!v.fort };
   formulaireEvt();
 }
 function lireFormEvt(){ if (!$('ev-titre')) return; var b = brouillonEvt; if ($('ev-but')) b.butTxt = $('ev-but').value;
@@ -6028,6 +6074,7 @@ function sauverEvt(){
   var v = { id: b.id || ('e' + Date.now().toString(36)), cat:b.cat, emoji:C.e, titre:b.titre.trim().slice(0,60), debut:debut, lieu:b.lieu.trim().slice(0,60), texte:b.texte.trim().slice(0,400) };
   if (fin) v.fin = fin;
   if (b.journee) v.journee = 1;
+  if (b.fort && b.cat === 'blocus') v.fort = 1;
   if (b.cat === 'sauvage') { if (BUTS_SV[b.but]) v.but = b.but; if ((b.butTxt||'').trim()) v.butTxt = b.butTxt.trim().slice(0,50); }
   if (b.lat !== null && b.lat !== undefined) { v.lat = Math.round(b.lat*1e5)/1e5; v.lng = Math.round(b.lng*1e5)/1e5; }
   var l = evenements().filter(function(x){ return x.id !== v.id; }); l.push(v);
@@ -6846,14 +6893,14 @@ function afficheBlocus(id){
       x.fillStyle = '#16130a'; for (var s = -W; s < W; s += 70) { x.beginPath(); x.moveTo(s, -55); x.lineTo(s + 34, -55); x.lineTo(s - 6, 55); x.lineTo(s - 40, 55); x.closePath(); x.fill(); }
       x.fillStyle = J; x.fillRect(-W, -34, W*2, 68); x.fillStyle = '#16130a'; x.font = '400 50px ' + A; x.textAlign = 'center'; x.textBaseline = 'middle';
       var t = ''; for (var k = 0; k < 6; k++) t += texte + '   •   '; x.fillText(t, 0, 2); x.restore(); }
-    ruban(150, -.07, 'ON BLOQUE TOUT'); ruban(1420, .06, nom.length > 18 ? 'BLOCUS' : nom + ' EN BLOCUS');
+    ruban(150, -.07, v.fort ? 'GROSSE MOBILISATION' : 'ON BLOQUE TOUT'); ruban(1420, .06, nom.length > 18 ? 'BLOCUS' : nom + ' EN BLOCUS');
     x.textAlign = 'center'; x.textBaseline = 'alphabetic';
-    x.font = '170px "Apple Color Emoji","Noto Color Emoji",sans-serif'; x.fillText('🚧', W/2, 470);
+    x.font = '170px "Apple Color Emoji","Noto Color Emoji",sans-serif'; x.fillText(v.fort ? '🔥' : '🚧', W/2, 470);
     x.save(); x.shadowColor = J; x.shadowBlur = 60; x.fillStyle = J; x.font = '400 280px ' + A; x.fillText('BLOCUS', W/2, 790); x.restore();
     var fs = nom.length > 16 ? 96 : nom.length > 11 ? 120 : 150; x.fillStyle = '#fff'; x.font = '400 ' + fs + 'px ' + A; x.fillText(nom, W/2, 790 + fs + 30);
     x.fillStyle = 'rgba(0,0,0,.4)'; rond(x, 120, 1060, W - 240, 170, 36); x.fill(); x.strokeStyle = 'rgba(255,210,63,.45)'; x.lineWidth = 3; rond(x, 120, 1060, W - 240, 170, 36); x.stroke();
     var j = jourEvt(v.debut); x.fillStyle = J; x.font = '400 78px ' + A; x.fillText((j === 'Aujourd\'hui' ? 'AUJOURD\'HUI' : j === 'Demain' ? 'DEMAIN' : j.replace(/ \d{4}$/, '').toUpperCase()) + ' · ' + heure(v.debut).toUpperCase(), W/2, 1140);
-    x.fillStyle = '#efe6c4'; x.font = '800 40px Inter, sans-serif'; x.fillText(autres > 0 ? '+ ' + autres + ' autre' + (autres > 1 ? 's' : '') + ' lycée' + (autres > 1 ? 's' : '') + ' en blocus' : 'Rejoins le mouvement', W/2, 1200);
+    x.fillStyle = '#efe6c4'; x.font = '800 40px Inter, sans-serif'; x.fillText(v.fort ? 'Grosse mobilisation · tous à ' + nomBlocus(v) + ' ✊' : autres > 0 ? '+ ' + autres + ' autre' + (autres > 1 ? 's' : '') + ' lycée' + (autres > 1 ? 's' : '') + ' en blocus' : 'Rejoins le mouvement', W/2, 1200);
     x.fillStyle = '#fff'; rond(x, 120, 1580, 260, 260, 30); x.fill(); if (qr) x.drawImage(qr, 140, 1600, 220, 220);
     if (logo) x.drawImage(logo, 410, 1590, 74, 74);
     x.textAlign = 'left'; x.fillStyle = '#fff'; x.font = '400 56px ' + A; x.fillText('TRABOULE', 500, 1645);
@@ -8606,6 +8653,100 @@ function ouvrirMajPrepManif(){
     fait = true; planifierFenetre(13, 'prep-perimee', function(){ if (prepManifPerimee()) ouvrirMajPrepManif(); });
   })();
 })();
+// ===================== V73 : BLOCUS « GROSSE MOBILISATION » =====================
+// Un blocus mis en avant (champ fort:1 dans l'événement) : barrière géante, gyrophares, zone de chantier qui tourne,
+// ruban « grosse mobilisation », pastille en haut, fiche et affiche spéciales. Prêt pour Mérieux, vendredi 6 novembre.
+function estFort(v){ return v && v.cat === 'blocus' && !!v.fort; }
+function evtFort(){ return evtsVisibles().filter(estFort).sort(function(a, b){ return a.debut - b.debut; })[0]; }
+// sur la carte
+var iconeEvtAvantFort = iconeEvt;
+iconeEvt = function(v){
+  if (!estFort(v)) return iconeEvtAvantFort(v);
+  var d = new Date(v.debut), live = etatEvt(v) === 'live', en = LANGUE === 'en';
+  var quand = live ? '<i></i>' + (en ? 'LIVE' : 'EN COURS') : (jourEvt(v.debut) === 'Demain' ? (en ? 'TMRW ' : 'DEMAIN ') : JOURS_C[d.getDay()].toUpperCase() + ' ') + heure(v.debut).toUpperCase();
+  return L.divIcon({ className:'', iconSize:[56, 60], iconAnchor:[28, 40],
+    html:'<div class="evt-pin bl2 fort'+(live ? ' live' : '')+'"><div class="blf-zone"><i></i></div><div class="blf-ruban">🔥 '+(en ? 'BIG MOBILISATION' : 'GROSSE MOBILISATION')+'</div>'
+      + '<div class="bl2-halo"></div><div class="bl2-lampes"><i></i><i></i></div>'
+      + '<div class="bl2-barre"><b>BLOCUS</b></div><div class="bl2-pieds"><i></i><i></i></div>'
+      + '<div class="bl2-quand">'+quand+'</div><div class="evt-etiq">'+esc(String(v.titre).replace(/^Blocus\s+/i, ''))+'</div></div>' });
+};
+// la pastille en haut de l'écran
+function pastilleFort(){
+  var v = evtFort(); if (!v) return null;
+  var live = etatEvt(v) === 'live', en = LANGUE === 'en', j = jourEvt(v.debut);
+  var quand = live ? (en ? 'live now' : 'en cours') : (j === 'Aujourd\'hui' ? (en ? 'today ' : 'auj. ') : j === 'Demain' ? (en ? 'tmrw ' : 'demain ') : JOURS_C[new Date(v.debut).getDay()] + '. ') + heure(v.debut);
+  return ['fort', '#ffd23f', '🚧', '', (en ? 'Big mobilisation' : 'Grosse mobilisation'), esc(nomBlocus(v)) + ' · ' + quand, 'ouvrirEvt(\'' + v.id + '\')', live];
+}
+// la fiche : ruban de chantier qui défile, « Tous à … », « J'y vais »
+var ouvrirEvtAvantFort = ouvrirEvt;
+ouvrirEvt = function(id){
+  ouvrirEvtAvantFort(id);
+  var v = evenements().filter(function(x){ return x.id === id; })[0]; if (!estFort(v)) return;
+  var f = $('feuille'), hero = f.querySelector('.evt-hero.blocus'); if (!hero) return;
+  var en = LANGUE === 'en', nom = nomBlocus(v).toUpperCase(), t = '';
+  for (var k = 0; k < 6; k++) t += '<span>🔥 ' + (en ? 'BIG MOBILISATION' : 'GROSSE MOBILISATION') + '<i></i>' + (en ? 'EVERYONE TO ' : 'TOUS À ') + esc(nom) + '<i></i></span>';
+  hero.classList.add('fort');
+  hero.insertAdjacentHTML('afterbegin', '<div class="blf-bande"><div>' + t + t + '</div></div>');
+  var va = lireLS('jyvais-' + v.id) === '1';
+  var bloc = '<div class="blf-cta"><div class="blf-cta-t"><b>' + (en ? 'EVERYONE TO ' : 'TOUS À ') + esc(nom) + '</b><span>' + (en ? 'The more we are, the safer it is. Come in a group.' : 'Plus on est nombreux, plus on est en sécurité. Viens en groupe.') + '</span></div>'
+    + '<button class="blf-va' + (va ? ' on' : '') + '" id="blf-va" onclick="jyVaisFort(\'' + v.id + '\')">' + (va ? '✓ ' + (en ? 'I’m going' : 'J’y vais') : '✊ ' + (en ? 'I’m going' : 'J’y vais')) + '</button></div>';
+  hero.insertAdjacentHTML('afterend', bloc);
+};
+function jyVaisFort(id){
+  var k = 'jyvais-' + id, on = lireLS(k) === '1'; ecrireLS(k, on ? '' : '1');
+  var b = $('blf-va'), en = LANGUE === 'en'; if (b) { b.classList.toggle('on', !on); b.textContent = (!on ? '✓ ' : '✊ ') + (en ? 'I’m going' : 'J’y vais'); }
+  if (!on) { confettis(); try { jouer('blocus'); } catch(e){} try { if (navigator.vibrate) navigator.vibrate([60, 40, 60]); } catch(e){}
+    toast(en ? '✊ Bring your friends: share the poster' : '✊ Fais venir du monde : partage l’affiche'); }
+}
+
+// ----- Admin : publier la grosse mobilisation de Mérieux en un geste -----
+var FORT_PRET = { cle:'fort-merieux-0611', jour:'2026-11-06', ecole:'Lycée Docteur Charles Mérieux', titre:'Blocus Mérieux', lieu:'Lycée Docteur Charles Mérieux',
+  hDebut:'07:30', hFin:'', texte:'Grosse mobilisation vendredi matin devant le lycée Mérieux. Venez nombreux·ses, en groupe, et restez pacifiques.' };
+function fortExistant(){
+  var e = bsEcole(FORT_PRET.ecole); if (!e) return null;
+  return evenements().filter(function(v){ return v.cat === 'blocus' && isoJour(v.debut) === FORT_PRET.jour && v.lat !== undefined && distance([v.lat, v.lng], e.c) < 80; })[0] || null;
+}
+function ouvrirFortPret(){
+  if (!ECOLES) { chargerEcoles(); return setTimeout(function(){ if (ECOLES) ouvrirFortPret(); }, 1200); }
+  var ex = fortExistant(), deja = ex && ex.fort, jourTxt = jourEvt(new Date(FORT_PRET.jour + 'T12:00').getTime());
+  ouvrir(entete('🔥 Grosse mobilisation à Mérieux', jourTxt + ' · le blocus mis en avant pour tout le monde')
+    + '<div class="blf-apercu"><div class="blf-ap-pin">' + iconeEvt({ id:'apercu', cat:'blocus', fort:1, titre:FORT_PRET.titre, debut:new Date(FORT_PRET.jour + 'T' + FORT_PRET.hDebut).getTime() }).options.html + '</div>'
+    + '<ul><li>🚧 Barrière géante, gyrophares et zone de chantier sur la carte</li><li>📌 Pastille « Grosse mobilisation » en haut de l\'écran</li><li>📸 Fiche et affiche story « Tous à Mérieux »</li></ul></div>'
+    + (ex && !deja ? '<div class="sous" style="margin:0 2px 10px">Le blocus de Mérieux de ce jour-là est déjà publié : il sera mis en avant, sans doublon.</div>' : '')
+    + (deja ? '<div class="sous" style="margin:0 2px 10px;color:#3ee0a0">✓ Déjà publié et mis en avant. Tu peux changer l\'heure ou le mot de l\'orga.</div>' : '')
+    + '<div class="bs-ligne"><label>Début<input type="time" id="bf-h1" value="'+esc(ex ? isoHeure(ex.debut) : FORT_PRET.hDebut)+'"></label><label>Fin (facultatif)<input type="time" id="bf-h2" value="'+esc(ex && ex.fin ? isoHeure(ex.fin) : FORT_PRET.hFin)+'"></label></div>'
+    + '<label class="l">Le mot de l\'orga (tu peux le changer)</label><textarea id="bf-txt" maxlength="400">'+esc(ex && ex.texte ? ex.texte : FORT_PRET.texte)+'</textarea>'
+    + '<div class="rangee"><button class="btn plein" onclick="fermer()">Plus tard</button><button class="btn rose plein" id="bf-go" onclick="publierFortPret()">'+(deja ? 'Enregistrer' : '🔥 Publier')+'</button></div>', 'evt-form');
+}
+function publierFortPret(){
+  var e = bsEcole(FORT_PRET.ecole); if (!e) return toast('Lycée introuvable');
+  var h1 = $('bf-h1').value || FORT_PRET.hDebut, h2 = $('bf-h2').value, txt = $('bf-txt').value.trim().slice(0, 400);
+  var debut = new Date(FORT_PRET.jour + 'T' + h1).getTime(), fin = h2 ? new Date(FORT_PRET.jour + 'T' + h2).getTime() : 0; if (fin && fin <= debut) fin = 0;
+  var ex = fortExistant(), v = ex ? Object.assign({}, ex) : { id:'f' + Date.now().toString(36), cat:'blocus', emoji:'🚧', titre:FORT_PRET.titre, lieu:FORT_PRET.lieu, lat:Math.round(e.c[0]*1e5)/1e5, lng:Math.round(e.c[1]*1e5)/1e5 };
+  v.fort = 1; v.debut = debut; v.texte = txt; if (fin) v.fin = fin; else delete v.fin;
+  var l = evenements().filter(function(x){ return x.id !== v.id && !((x.cat === 'blocus' || x.cat === 'ferme') && etatEvt(x) === 'passe'); }); l.push(v);
+  $('bf-go').disabled = true; $('bf-go').textContent = '…';
+  enregistrerEvts(l, '🔥 Grosse mobilisation à Mérieux publiée').then(function(){ ecrireLS(FORT_PRET.cle, '1'); try { jouer('blocus'); } catch(e){} setTimeout(function(){ ouvrirEvt(v.id); }, 400); })
+    .catch(function(err){ if ($('bf-go')) { $('bf-go').disabled = false; $('bf-go').textContent = 'Réessayer'; } erreurEquipe(err); });
+}
+(function(){
+  if (lireLS(FORT_PRET.cle)) return;
+  var n = 0, ch = 0;
+  (function att(){
+    if (++n > 900 || Date.now() > new Date(FORT_PRET.jour + 'T12:00').getTime()) return;
+    if (!estAdmin() || !etat.derniereMaj) return setTimeout(att, 1000);
+    if (!ECOLES) { if (!ch++) chargerEcoles(); return setTimeout(att, 700); }
+    var ex = fortExistant(); if (ex && ex.fort) { ecrireLS(FORT_PRET.cle, '1'); return; }
+    planifierFenetre(12, 'fort-pret', function(){ if (lireLS(FORT_PRET.cle)) return; ecrireLS(FORT_PRET.cle, '1'); ouvrirFortPret(); });
+  })();
+})();
+// le formulaire d'événement : case « grosse mobilisation » pour les prochaines fois
+var formulaireEvtAvantFort = formulaireEvt;
+formulaireEvt = function(){
+  formulaireEvtAvantFort();
+  var b = brouillonEvt, t = $('ev-titre'); if (!b || !t || b.cat !== 'blocus' || $('ev-fort')) return;
+  t.previousElementSibling.insertAdjacentHTML('beforebegin', '<label class="interrupteur blf-int"><span>🔥 Grosse mobilisation (mise en avant pour tout le monde)</span><input type="checkbox" id="ev-fort" '+(b.fort ? 'checked' : '')+' onchange="brouillonEvt.fort=this.checked"></label>');
+};
 </script>
 </body>
 </html>
